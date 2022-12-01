@@ -1,0 +1,24 @@
+{
+  "name": "@alioth/dev",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/node/plugin.js",
+  "module": "dist/node/plugin.mjs",
+  "types": "dist/node/plugin.d.ts",
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tsup": "^6.2.3"
+  },
+  "dependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "vite": "^3.2.3",
+    "es-module-lexer": "^1.0.5",
+    "fs-extra": "^10.1.0",
+    "sirv": "^2.0.2"
+  }
+}

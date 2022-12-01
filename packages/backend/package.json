@@ -1,0 +1,26 @@
+{
+  "name": "@alioth/backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/shelljs": "^0.8.11",
+    "axios": "^0.27.2",
+    "colors": "^1.4.0",
+    "es-module-lexer": "^1.0.5",
+    "magic-string": "^0.26.7",
+    "shelljs": "^0.8.5",
+    "vite": "^3.2.0"
+  },
+  "devDependencies": {
+    "tsup": "^6.2.3"
+  }
+}
