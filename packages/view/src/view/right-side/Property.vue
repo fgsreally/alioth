@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getComponent } from '@alioth/engine '
+import { getComponent } from '@alioth/engine'
 import { instance } from '@/engine/init'
 import { ctx } from '@/engine/service'
 const comp = (getComponent(instance.clickBlock.key) as any).comp

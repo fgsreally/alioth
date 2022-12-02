@@ -1,8 +1,7 @@
 import { resolve } from 'path'
 import { init } from 'es-module-lexer'
-
+import fse from 'fs-extra'
 import type { Plugin, ViteDevServer } from 'vite'
-import { normalizePath } from 'vite'
 import sirv from 'sirv'
 
 import type { YuHengConfig } from './types'
@@ -17,49 +16,63 @@ export function YuHeng(config: YuHengConfig = {}): Plugin {
   if (!config.componentDir)
     config.componentDir = './src/components'
 
+const ctxFilePath=getPath('yuheng/context.js')
+
+fse.ensureFile(ctxFilePath)
+
   function utilsInject() {
     return `function getVueKey(str){
-      console.log(str.split('/').reverse()[0])
 return str.split('/').reverse()[0]
   }`
   }
 
-  function configFileImport() {
-    return config.configFile ? `import hook from "${config.configFile}"` : ''
+  // function configFileImport() {
+  //   return config.configFile ? `import hook from "${config.configFile}"` : ''
+  // }
+  function sideEffectImport() {
+    return config.sideEffects?.reduce((arr, cur) => {
+      return `${arr}import '${cur}'\n`
+    }, '') || ''
   }
-  function unocssImport() {
-    return 'import "uno.css"'
-  }
-  function configFileInject() {
-    return config.configFile ? 'hook({registerComponent,registerModule});' : ''
-  }
+  // function configFileInject() {
+  //   return config.configFile ? 'hook({registerComponent,registerModule});' : ''
+  // }
   function yuhengImport() {
     return `import yuheng, {registerComponent,registerModule,addContext,delComponent} from "@alioth/view"\n
      import "@alioth/view/style.css"
     `
   }
-
   function HMRInject() {
     return `if (import.meta.hot) {
-     if(import.meta.hot.data.components) {
-      for(let i in import.meta.hot.data.components){
-        delComponent(getVueKey(i))
-       }
-    }
- 
+  
+
     for(let i in components){
-      registerComponent('service',getVueKey(i),components[i].default)
+      registerComponent('local',getVueKey(i),components[i].default)
      }
 
-     yuheng()
 
-    for(let i in context){
-      addContext(i,context[i])
+     if (!import.meta.hot.data.components) {
+      yuheng()
+
+     }else{
+      for(let i in import.meta.hot.data.components){
+        if(!(i in components)){
+          delComponent(getVueKey(i))
+        
+        }
+      }
+     }
+
+    for(let i in context["/yuheng/context.js"]){
+      
+      addContext(i,context["/yuheng/context.js"][i])
      }
 
      import.meta.hot.accept((newModule) => {
-    console.log(newModule,'self')
     })
+
+
+
   import.meta.hot.accept(["/yuheng/context.js"],(newModule) => {
     console.log(newModule[0],'out');
 
@@ -67,11 +80,15 @@ return str.split('/').reverse()[0]
       addContext(i,newModule[0][i])
      }
     })
+
+    import.meta.hot.data.components=components
+
+
 }`
   }
 
   function contextImport() {
-    return `const context= import.meta.glob("/yuheng/context.js",{eager:true});console.log(context)
+    return `const context= import.meta.glob("/yuheng/context.js",{eager:true});
     `
   }
   function componentImport() {
@@ -96,6 +113,7 @@ return str.split('/').reverse()[0]
         if (req.method === 'POST') {
           req.on('data', (chunk) => {
             const sourcePage = JSON.parse(chunk.toString())
+            console.log(sourcePage)
             updatePageCode(getPath(config.root as string), sourcePage)
           })
           res.end('1')
@@ -105,7 +123,8 @@ return str.split('/').reverse()[0]
         if (req.method === 'POST') {
           req.on('data', (chunk) => {
             const dependences = JSON.parse(chunk.toString())
-            resolveAutoFile(getPath('./yuheng.auto.ts'), dependences)
+
+            resolveAutoFile(ctxFilePath, dependences)
           })
           res.end('1')
         }
@@ -120,16 +139,14 @@ return str.split('/').reverse()[0]
       if (id === '\0' + 'virtual:yuheng') {
         return `
         ${yuhengImport()}
-        ${unocssImport()}
-          ${configFileImport()}
+        ${sideEffectImport()}
+         
           ${contextImport()}
           ${componentImport()}
           ${utilsInject()}
-        ${configFileInject()}
+      
          ${HMRInject()}
-       
-          
-
+    
          `
       }
     },

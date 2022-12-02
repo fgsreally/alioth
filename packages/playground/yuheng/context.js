@@ -1,3 +1,1 @@
-export {a}
-
-export let b=1
+export {a,b,}

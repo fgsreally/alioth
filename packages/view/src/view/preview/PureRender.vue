@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { watch } from 'vue'
-import { Engine, getComponent } from '@alioth/engine '
+import { Engine, getComponent } from '@alioth/engine'
 import { RenderBlock } from '@/components/Render'
 import { setState } from '@/engine/filter'
 import { usePageState } from '@/store/page'

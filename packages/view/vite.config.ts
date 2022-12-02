@@ -17,7 +17,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: Object.keys(dependencies).concat(['monaco-editor/esm/vs/language/html/html.worker']),
+      external: Object.keys(dependencies).concat(['monaco-editor/esm/vs/language/typescript/ts.worker?worker', 'monaco-editor/esm/vs/language/html/html.worker?worker']),
     },
     lib: {
       entry: 'src/entry.ts',

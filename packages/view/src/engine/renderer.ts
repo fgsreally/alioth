@@ -144,6 +144,7 @@ export class YuhengRenderer extends Renderer<any, any> {
     this.block.mutations.forEach(
       (item: { key: string | undefined; handler: string | undefined }) => {
         if (item.key && item.handler) {
+          console.log(item.key, ...Object.keys(context), ...Object.values(context), services[item.handler], state);
           // eslint-disable-next-line no-new-func
           (this._vnode as any).props[`on${item.key}`] = new Function(
             ...Object.keys(context),

@@ -6,6 +6,7 @@
   "module": "dist/node/plugin.mjs",
   "types": "dist/node/plugin.d.ts",
   "scripts": {
+    "dev":"tsup --watch",
     "build": "tsup"
   },
   "keywords": [],

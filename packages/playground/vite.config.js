@@ -1,24 +1,26 @@
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import { YuHeng } from "@yu_heng/dev";
-import { resolve } from "path";
-import Unocss from "unocss/vite";
-import Components from "unplugin-vue-components/vite";
-import AutoImport from "unplugin-auto-import/vite";
-import { presetAttributify, presetUno } from "unocss";
-import inspect from "vite-plugin-inspect";
+import { resolve } from 'path'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import { YuHeng } from '@alioth/dev'
+import Unocss from 'unocss/vite'
+import Components from 'unplugin-vue-components/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import { presetAttributify, presetUno } from 'unocss'
+import inspect from 'vite-plugin-inspect'
 // https://vitejs.dev/config/
 export default defineConfig({
   define: {
-    "process.env": process.env,
+    'process.env': process.env, 'Buffer': ['buffer', 'Buffer'],
   },
   plugins: [
     vue(),
     inspect(),
-    YuHeng(),
+    YuHeng({
+      sideEffects: ['uno.css'],
+    }),
     AutoImport({
-      dirs: ["src/services/*"],
-      imports: ["vue"],
+      dirs: ['src/services/*'],
+      imports: ['vue'],
     }),
     Components({}),
     Unocss({
@@ -34,9 +36,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "index.html"),
-        nested: resolve(__dirname, "preview/index.html"),
+        main: resolve(__dirname, 'index.html'),
+        nested: resolve(__dirname, 'preview/index.html'),
       },
     },
   },
-});
+})

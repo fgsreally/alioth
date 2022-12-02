@@ -30,19 +30,19 @@ export function getEditorStore(key: string) {
   return editorStore[key]
 }
 
-function isValid(key: string) {
-  return !(getComponent(key) || getModule(key))
-}
+// function isValid(key: string) {
+//   return !(getComponent(key) || getModule(key))
+// }
 
 export function registerModule(
   category: string,
   key: string,
   module: any,
 ) {
-  if (!isValid(key)) {
-    ElMessage.error(`已存在${key}`)
-    return
-  }
+  // if (!isValid(key)) {
+  //   ElMessage.error(`已存在${key}`)
+  //   return
+  // }
 
   const RegisterCenter = getEditorStore(category)
 

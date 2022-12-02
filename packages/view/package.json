@@ -18,15 +18,14 @@
     }
   },
   "dependencies": {
+    "@alioth/engine": "workspace:*",
     "@babel/parser": "^7.20.3",
     "@babel/traverse": "^7.20.1",
     "@unocss/autocomplete": "^0.46.5",
     "@unocss/core": "^0.46.5",
     "@unocss/preset-uno": "^0.46.5",
     "@vueuse/core": "^9.3.0",
-    "@alioth/engine": "workspace:*",
     "ast-walker-scope": "^0.3.0",
-    "axios": "^0.27.2",
     "element-plus": "^2.2.18",
     "lodash-es": "^4.17.21",
     "magic-string": "^0.26.7",

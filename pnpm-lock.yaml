@@ -111,7 +111,6 @@ importers:
       '@vitejs/plugin-vue': ^3.2.0
       '@vueuse/core': ^9.3.0
       ast-walker-scope: ^0.3.0
-      axios: ^0.27.2
       element-plus: ^2.2.18
       lodash-es: ^4.17.21
       magic-string: ^0.26.7
@@ -138,7 +137,6 @@ importers:
       '@unocss/preset-uno': registry.npmmirror.com/@unocss/preset-uno/0.46.5
       '@vueuse/core': registry.npmmirror.com/@vueuse/core/9.5.0_vue@3.2.44
       ast-walker-scope: registry.npmmirror.com/ast-walker-scope/0.3.0
-      axios: registry.npmmirror.com/axios/0.27.2
       element-plus: registry.npmmirror.com/element-plus/2.2.20_vue@3.2.44
       lodash-es: registry.npmmirror.com/lodash-es/4.17.21
       magic-string: registry.npmmirror.com/magic-string/0.26.7

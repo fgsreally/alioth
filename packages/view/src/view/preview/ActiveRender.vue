@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getComponent } from '@alioth/engine '
+import { getComponent } from '@alioth/engine'
 import { PreviewBlock } from '@/components/Render'
 import { instance } from '@/engine/init'
 </script>

@@ -33,14 +33,15 @@ export function createEditorConfig<
     moduleList,
 
     cancel: (key: string) => {
-      const moduleOrComponent = allModulesList.get(key)
-      if (moduleOrComponent.type === 'component') {
-        componentList.delete(key)
-        allComponentsList.delete(key)
-      }
-      else {
+      const module = allModulesList.get(key)
+      const comp = allComponentsList.get(key)
+      if (module) {
         moduleList.delete(key)
         allModulesList.delete(key)
+      }
+      if (comp) {
+        componentList.delete(key)
+        allComponentsList.delete(key)
       }
     },
     register: (module: RegisterComponent | RegisterModule) => {
