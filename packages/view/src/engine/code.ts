@@ -1,16 +1,16 @@
 import {
   COMPUTE_RE,
-  codeGenerator,
   getComponent,
   sourceGenerator,
 } from '@alioth/engine'
 import prettier from 'prettier'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import parser from 'prettier/esm/parser-html.mjs'
 import type { BlockType } from '@/engine/init'
-import { Container, instance } from '@/engine/init'
+import { instance } from '@/engine/init'
 import { ctx as serviceCtx } from '@/engine/service'
 import { ctx as stateCtx } from '@/engine/filter'
-// @ts-expect-error
 export class YuHengCodeGenerator extends sourceGenerator<any, any> {
 
 }

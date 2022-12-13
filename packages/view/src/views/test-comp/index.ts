@@ -6,5 +6,4 @@ export function init() {
   registerComponent('lib', 'test1', A)
   registerComponent('lib', 'test2', B)
   registerComponent('local', 'dialog', [ElDialog, C])
-  setTimeout(() => delComponent('test1'), 3000)
 }

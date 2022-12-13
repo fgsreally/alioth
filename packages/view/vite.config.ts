@@ -31,9 +31,11 @@ export default defineConfig({
 
     AutoImport({
       imports: ['vue', 'vue-router'],
+      dirs: ['./src/engine'],
       resolvers: [ElementPlusResolver()],
     }),
     Components({
+      dirs: ['./src/components', './src/views'],
       resolvers: [ElementPlusResolver()],
     }),
   ],

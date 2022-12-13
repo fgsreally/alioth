@@ -38,6 +38,7 @@ body {
   pointer-events: auto;
   width: fit-content;
   user-select: none;
+  z-index: 10;
 }
 
 .slotBlock_edit {

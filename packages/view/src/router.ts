@@ -1,15 +1,15 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Editor from './view/Editor.vue'
+import Editor from './views/Editor.vue'
 
 const routes = [
   { path: '/', component: Editor },
   {
     path: '/pure',
-    component: () => import('./view/preview/ActiveRender.vue'),
+    component: () => import('./views/preview/ActiveRender.vue'),
   },
   {
     path: '/pure/:pageRoute',
-    component: () => import('./view/preview/pureRender.vue'),
+    component: () => import('./views/preview/pureRender.vue'),
   },
 ]
 export const router = createRouter({

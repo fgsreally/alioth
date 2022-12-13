@@ -4,4 +4,5 @@ export interface YuHengConfig {
   configFile?: string //
   contextFile?: string
   sideEffects?: string[]
+  dts?: string
 }

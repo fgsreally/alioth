@@ -47,7 +47,7 @@ export interface Container {
 }
 
 const data = Object.assign(
-  YUHENG_CONFIG.container,
+
   {
     width: 640,
     height: 600,
@@ -66,7 +66,7 @@ const data = Object.assign(
     wLimit: [375, 2000],
     hLimit: [600, 4000],
   },
-  YUHENG_CONFIG.container,
+  YUHENG_CONFIG.Container,
 )
 
 export const instance = new Engine<

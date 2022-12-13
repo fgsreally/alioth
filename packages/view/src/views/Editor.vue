@@ -21,6 +21,7 @@ import { PreviewBlock } from '@/components/Render'
 import { usePageState } from '@/store/page'
 import { updatePageCode } from '@/utils/request'
 import { getCode } from '@/engine/code'
+import Modal from '@/views/right-side/index.vue'
 const drawer = ref(false)
 const isShowTree = ref(false)
 const activeTab = ref('LocalComponent')
@@ -108,7 +109,7 @@ provide('container', container)
     <el-main>
       <el-scrollbar style="height: 95vh; width: 100%">
         <div class="editor-container">
-          <StyleController />
+          <!-- <StyleController /> -->
           <div
             ref="container"
             class="editor-container-canvas-content"
@@ -127,7 +128,9 @@ provide('container', container)
         </div>
       </el-scrollbar>
     </el-main>
-    <Transition appear>
+
+    <Modal />
+    <!-- <Transition appear>
       <div v-show="!instance.container.isFull" class="editor__aside right">
         <State />
         <Props v-if="instance.clickBlock" />
@@ -136,7 +139,7 @@ provide('container', container)
         <Vslot v-if="instance.clickBlock" />
         <Property v-if="instance.clickBlock" />
       </div>
-    </Transition>
+    </Transition> -->
 
     <el-drawer v-model="drawer" title="右侧Service">
       <Api />
@@ -158,7 +161,7 @@ provide('container', container)
   background-color: #d4a4fb;
   &.right {
     overflow-x: hidden;
-    width: 350px;
+    width: 440px;
     position: absolute;
     right: 0;
     height: 100%;

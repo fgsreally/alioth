@@ -1,12 +1,22 @@
 {
-  "name": "renderer",
+  "name": "@alioth/renderer",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsup --watch",
+    "build": "tsup"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^3.2.45"
+  },
+  "devDependencies": {
+    "tsup": "^6.2.3",
+    "typescript": "^4.6.4"
+  }
 }

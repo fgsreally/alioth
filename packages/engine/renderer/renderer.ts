@@ -48,13 +48,13 @@ export class Renderer<
   ) {
     let slotRenderer: { [key in string]: Function } = {};
     slotSet.forEach((templateName) => {
-      slotRenderer[templateName] = () =>
+      slotRenderer[templateName] = (slotProps:any) =>
         this.block.blocks.map((block: BlockType) => {
           try {
             if (block.slot === templateName) {
               return (allComponentsList as any)
                 .get(block.key)
-                [renderType](block);
+                [renderType](block,slotProps);
             }
           } catch (e) {
             console.error(

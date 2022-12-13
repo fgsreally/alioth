@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { YuHeng } from '@alioth/dev'
+import { Alioth, Base, sfc } from '@alioth/dev'
 import Unocss from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -14,10 +14,11 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    inspect(),
-    YuHeng({
-      sideEffects: ['uno.css'],
+    sfc(),
+    Alioth({
+      sideEffects: ['/.alioth/config.ts'],
     }),
+    Base(),
     AutoImport({
       dirs: ['src/services/*'],
       imports: ['vue'],
@@ -26,10 +27,10 @@ export default defineConfig({
     Unocss({
       presets: [
         presetAttributify({
-          /* preset options */
+
         }),
         presetUno(),
-        // ...custom presets
+
       ],
     }),
   ],

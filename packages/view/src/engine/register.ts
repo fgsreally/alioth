@@ -9,10 +9,8 @@ import {
 import type { Component, VNode } from 'vue'
 import { h } from 'vue'
 import { cloneDeep, lowerFirst } from 'lodash-es'
-import { useServiceState } from './../store/service'
 import type { BlockType } from './init'
-import { YuHengCodeGenerator } from '@/engine/code'
-import { YuhengRenderer } from '@/engine/renderer'
+
 import { filter, ctx as stateCtx } from '@/engine/filter'
 import { parseComputed } from '@/utils/parser'
 import { getBreakPointClass, toUnoClass } from '@/utils/style'
@@ -81,7 +79,7 @@ export class YuhengRegister implements RegisterComponent {
   }
 
   preview() {
-    const renderer = new (YUHENG_CONFIG.renderer || YuhengRenderer)({}, this.mapComp)
+    const renderer = new (YUHENG_CONFIG.Renderer)({}, this.mapComp)
     const node = renderer
       .main()
       .useClass('block_preview')
@@ -91,7 +89,7 @@ export class YuhengRegister implements RegisterComponent {
   }
 
   edit(Block: BlockType) {
-    const renderer = new (YUHENG_CONFIG.renderer || YuhengRenderer)(Block, this.mapComp)
+    const renderer = new (YUHENG_CONFIG.Renderer)(Block, this.mapComp)
 
     let node
     if (!Array.isArray(this.comp)) {
@@ -123,7 +121,7 @@ export class YuhengRegister implements RegisterComponent {
   }
 
   render(Block: any) {
-    const renderer = new (YUHENG_CONFIG.renderer || YuhengRenderer)(Block, this.realComp)
+    const renderer = new (YUHENG_CONFIG.Renderer)(Block, this.realComp)
 
     if (!Array.isArray(this.comp)) {
       return (
@@ -155,7 +153,7 @@ export class YuhengRegister implements RegisterComponent {
   }
 
   code(Block: BlockType) {
-    const generator = new YuHengCodeGenerator(Block)
+    const generator = new (YUHENG_CONFIG.Code)(Block)
 
     const propsData = cloneDeep(Block.propsData)
 
@@ -177,14 +175,8 @@ export function registerComponent(
   comp: Component | [Component, Component],
   // propsData = {}
 ) {
-  // if (!isValid(key)) {
-  //   ElMessage.error(`已存在${key}`)
-  //   return
-  // }
-
   const RegisterCenter = getEditorStore(category)
-  // const RegisterCenter = category === 'lib' ? libStore : serviceStore
-  RegisterCenter.register(new (YUHENG_CONFIG.register || YuhengRegister)(category, key, key, comp, allComponentsList, {}) as any)
+  RegisterCenter.register(new (YUHENG_CONFIG.Register)(category, key, key, comp, allComponentsList, {}) as any)
 }
 
 export function delModule(key: string) {

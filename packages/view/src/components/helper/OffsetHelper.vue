@@ -57,9 +57,9 @@ const offsetComputed = computed(() => {
   align-items: center;
   position: absolute;
   transform: translate(-100%, -100%);
-  border-style: solid;
-  border-color: #8ec5fc;
-  border-bottom: 3px;
-  border-right: 3px;
+  // border-style: solid;
+  // border-color: #8ec5fc;
+  border-bottom: 3px solid #8ec5fc;
+  border-right: 3px solid #8ec5fc;
 }
 </style>

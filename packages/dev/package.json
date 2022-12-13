@@ -2,24 +2,33 @@
   "name": "@alioth/dev",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/node/plugin.js",
-  "module": "dist/node/plugin.mjs",
-  "types": "dist/node/plugin.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "dev":"tsup --watch",
+    "dev": "tsup --watch",
     "build": "tsup"
   },
+  "files": [
+    "dist",
+    "assets"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/gradient-string": "^1.1.2",
     "tsup": "^6.2.3"
   },
   "dependencies": {
-    "@types/fs-extra": "^9.0.13",
-    "vite": "^3.2.3",
+    "colors": "^1.4.0",
     "es-module-lexer": "^1.0.5",
     "fs-extra": "^10.1.0",
-    "sirv": "^2.0.2"
+    "gradient-string": "^2.0.2",
+    "sirv": "^2.0.2",
+    "typescript": "^4.6.4",
+    "unplugin-vue-sfcmore": "^1.0.0",
+    "vite": "^3.2.3"
   }
 }

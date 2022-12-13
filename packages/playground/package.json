@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@alioth/dev": "workspace:^1.0.0",
+    "@alioth/renderer": "workspace:^1.0.0",
     "@alioth/view": "workspace:^0.0.0",
     "pinia": "^2.0.23",
     "vue": "^3.2.41"

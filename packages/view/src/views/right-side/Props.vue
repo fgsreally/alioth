@@ -24,7 +24,7 @@ function update(ret: any) {
         is-func
         prefix="return "
         :value="codeStr"
-        :width="350"
+        :width="500"
         :height="100"
         @update="update"
       />

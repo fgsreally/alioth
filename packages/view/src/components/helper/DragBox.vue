@@ -1,38 +1,17 @@
-<template>
-  <div>
-    <OffsetHelper v-show="isActive"></OffsetHelper>
-    <ActionHelper v-show="isActive"></ActionHelper>
-    <div class="dragBox" @mousedown.capture.self.prevent="startMove">
-      <slot></slot>
-
-      <i class="w size-controller" v-show="isActive">{{ sizeComputed.w }}</i>
-      <i class="h size-controller" v-show="isActive">{{ sizeComputed.h }}</i>
-
-      <div
-        v-show="isActive"
-        v-for="(item, i) in moveBlocks"
-        :class="item + ' moveblock'"
-        :key="i"
-        @mousedown.stop="(e) => transform(e, item)"
-      ></div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { useDrag } from "@alioth/engine ";
-import { instance } from "@/engine/init";
-import { useContainerStore } from "@/store/container";
-import { pxToBlockSize, toPx } from "@/utils/style";
-import OffsetHelper from "./OffsetHelper.vue";
-import ActionHelper from "./ActionHelper.vue";
-import { emitEvent } from "@/utils/emitter";
-const moveBlocks = ["tl", "tr", "bl", "br"];
-const visible = ref(false);
-const { block } = defineProps<{ block: Object }>();
+import { useDrag } from '@alioth/engine '
+import OffsetHelper from './OffsetHelper.vue'
+import ActionHelper from './ActionHelper.vue'
+import { instance } from '@/engine/init'
+import { useContainerStore } from '@/store/container'
+import { pxToBlockSize, toPx } from '@/utils/style'
+import { emitEvent } from '@/utils/emitter'
+const { block } = defineProps<{ block: Object }>()
+const moveBlocks = ['tl', 'tr', 'bl', 'br']
+const visible = ref(false)
 const isActive = computed(
-  () => (block as any).uuid === instance.clickBlock?.uuid
-);
+  () => (block as any).uuid === instance.clickBlock?.uuid,
+)
 const sizeComputed = computed(() => {
   return {
     w: `${instance.clickBlock?.w.value.toFixed(0)}${
@@ -41,66 +20,87 @@ const sizeComputed = computed(() => {
     h: `${instance.clickBlock?.h.value.toFixed(0)}${
       instance.clickBlock?.h.size
     }`,
-  };
-});
+  }
+})
 async function startMove(e: MouseEvent) {
-  let x = e.clientX;
-  let y = e.clientY;
+  const x = e.clientX
+  const y = e.clientY
 
-  let initX = toPx(instance.clickBlock, "left");
-  let initY = toPx(instance.clickBlock, "top");
+  const initX = toPx(instance.clickBlock, 'left')
+  const initY = toPx(instance.clickBlock, 'top')
 
-  emitEvent("dragstart");
+  emitEvent('dragstart')
   useDrag({
     move: (e) => {
-      pxToBlockSize(instance.clickBlock, "left", initX + e.clientX - x);
-      pxToBlockSize(instance.clickBlock, "top", initY + e.clientY - y);
+      pxToBlockSize(instance.clickBlock, 'left', initX + e.clientX - x)
+      pxToBlockSize(instance.clickBlock, 'top', initY + e.clientY - y)
     },
     up: (e) => {
       if (Math.abs(e.clientX - x) > 5 || Math.abs(e.clientY - y) > 5)
-        emitEvent("dragend");
+        emitEvent('dragend')
     },
-  });
+  })
 }
 function transform(evt: MouseEvent, item: string) {
-  emitEvent("transform-start");
-  let x = evt.clientX;
-  let y = evt.clientY;
-  let w = toPx(instance.clickBlock, "w");
-  let h = toPx(instance.clickBlock, "h");
-  let initX = toPx(instance.clickBlock, "left");
-  let initY = toPx(instance.clickBlock, "top");
+  emitEvent('transform-start')
+  const x = evt.clientX
+  const y = evt.clientY
+  const w = toPx(instance.clickBlock, 'w')
+  const h = toPx(instance.clickBlock, 'h')
+  const initX = toPx(instance.clickBlock, 'left')
+  const initY = toPx(instance.clickBlock, 'top')
   useDrag({
     move: (e) => {
-      let offsetY = e.clientY - y;
-      let offsetX = e.clientX - x;
-      if (item.includes("t")) {
-        pxToBlockSize(instance.clickBlock, "top", initY + offsetY);
+      const offsetY = e.clientY - y
+      const offsetX = e.clientX - x
+      if (item.includes('t')) {
+        pxToBlockSize(instance.clickBlock, 'top', initY + offsetY)
 
-        pxToBlockSize(instance.clickBlock, "h", h - offsetY);
+        pxToBlockSize(instance.clickBlock, 'h', h - offsetY)
       }
-      if (item.includes("l")) {
-        pxToBlockSize(instance.clickBlock, "left", initX + offsetX);
+      if (item.includes('l')) {
+        pxToBlockSize(instance.clickBlock, 'left', initX + offsetX)
 
-        pxToBlockSize(instance.clickBlock, "w", w - offsetX);
+        pxToBlockSize(instance.clickBlock, 'w', w - offsetX)
       }
-      if (item.includes("r")) {
-        pxToBlockSize(instance.clickBlock, "w", w + offsetX);
-      }
-      if (item.includes("b")) {
-        pxToBlockSize(instance.clickBlock, "h", h + offsetY);
-      }
+      if (item.includes('r'))
+        pxToBlockSize(instance.clickBlock, 'w', w + offsetX)
+
+      if (item.includes('b'))
+        pxToBlockSize(instance.clickBlock, 'h', h + offsetY)
     },
     up: (e) => {
-      emitEvent("transform-end");
+      emitEvent('transform-end')
     },
-  });
+  })
 }
 </script>
 
+<template>
+  <div>
+    <OffsetHelper v-show="isActive" />
+    <ActionHelper v-show="isActive" />
+    <div class="dragBox" @mousedown.capture.self.prevent="startMove">
+      <slot />
+
+      <i v-show="isActive" class="w size-controller">{{ sizeComputed.w }}</i>
+      <i v-show="isActive" class="h size-controller">{{ sizeComputed.h }}</i>
+
+      <div
+        v-for="(item, i) in moveBlocks"
+        v-show="isActive"
+        :key="i"
+        :class="`${item} moveblock`"
+        @mousedown.stop="(e) => transform(e, item)"
+      />
+    </div>
+  </div>
+</template>
+
 <style scoped lang="scss">
 .dragBox {
-  user-select: none;
+  user-select: none;  z-index:10;
+
   & > .moveblock {
     position: absolute;
     width: 16px;

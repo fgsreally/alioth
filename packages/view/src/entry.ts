@@ -4,11 +4,15 @@ import App from './App.vue'
 import './style/common.scss'
 import { router } from './router'
 import { YUHENG_CONFIG } from './config'
+import { instance } from '@/engine/init'
 const store = createPinia()
 
 export default function yuheng() {
-  // init && init({ registerComponent, registerModule });
-  createApp(App).use(store).use(router).mount('#app')
+  const app = createApp(App)
+  app.config.globalProperties.$instance = instance
+  app.config.globalProperties.$alioth = YUHENG_CONFIG
+
+  app.use(store).use(router).mount('#app')
 }
 
 export {
@@ -21,7 +25,4 @@ export {
 export * from '@/engine'
 export { addContext } from '@/engine/service'
 
-type AliothConfig = typeof YUHENG_CONFIG
-export function setConfig<CONFIG_KEY extends keyof AliothConfig>(key: CONFIG_KEY, value: AliothConfig[CONFIG_KEY]) {
-  YUHENG_CONFIG[key] = value
-}
+export * from './config'

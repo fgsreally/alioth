@@ -1,3 +1,4 @@
+<!-- eslint-disable new-cap -->
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, ref, watch } from 'vue'
 import * as monaco from 'monaco-editor'
@@ -7,7 +8,6 @@ import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import onedark from '../assets/atomDark.json'
 // import darktheme from "theme-vitesse/themes/vitesse-dark.json";
 // import lightTheme from "theme-vitesse/themes/vitesse-light.json";
-// @ts-expect-error
 self.MonacoEnvironment = {
   getWorker(_: string, label: string) {
     if (label === 'html')
@@ -38,6 +38,32 @@ export default defineComponent({
     let editor: monaco.editor.IStandaloneCodeEditor
     monaco.editor.defineTheme('atom-one-dark', onedark as any)
     monaco.editor.setTheme('atom-one-dark')
+
+    monaco.languages.registerCompletionItemProvider('javascript', {
+      provideCompletionItems(model, position) {
+        const word = model.getWordUntilPosition(position)
+        const range = {
+          startLineNumber: position.lineNumber,
+          endLineNumber: position.lineNumber,
+          startColumn: word.startColumn,
+          endColumn: word.endColumn,
+        }
+        return {
+          suggestions: [
+            {
+              label: 'fgs_used', // 用户键入list2d_basic的任意前缀即可触发自动补全，选择该项即可触发添加代码片段
+              kind: monaco.languages.CompletionItemKind.Snippet,
+              documentation: '2D-list with built-in basic type elements',
+              // eslint-disable-next-line no-template-curly-in-string
+              insertText: '[[${1:0}]*${3:cols} for _ in range(${2:rows})]', // ${i:j}，其中i表示按tab切换的顺序编号，j表示默认串
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              range,
+            },
+          ],
+        }
+      },
+    })
+
     expose({
       content,
       update: (v: string) => {
@@ -72,6 +98,7 @@ export default defineComponent({
 
         if (props.isFunc) {
           try {
+            // eslint-disable-next-line no-new-func
             const ret = new Function(content.value)()
             update(ret)
           }

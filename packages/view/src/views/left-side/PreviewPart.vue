@@ -18,7 +18,7 @@ const container = inject('container')
 
 const { dragstart, dragend } = useMenuDragger(container as any, {
   drop: ({ e, module }: any) => {
-    (YUHENG_CONFIG.addBlock || addBlock)(module, e)
+    (YUHENG_CONFIG.addBlock)(module, e)
     emitEvent('import-end')
   },
 })
