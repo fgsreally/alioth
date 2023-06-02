@@ -1,0 +1,47 @@
+{
+  "name": "alioth-dev",
+  "version": "1.0.0",
+  "description": "",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./helper": {
+      "import": "./dist/helper/index.mjs",
+      "require": "./dist/helper/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "helper": [
+        "dist/helper/index.d.ts"
+      ]
+    }
+  },
+  "main": "./dist/index.js",
+  "module":"./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "launch-editor-middleware": "^2.6.0",
+    "tsup": "^6.5.0",
+    "typedoc": "^0.23.24",
+    "unplugin-vue-sfcmore": "^1.1.6",
+    "vite": "^4.1.1",
+    "vue-component-meta": "^1.0.24"
+  },
+  "devDependencies": {
+    "vue": "^3.3.2"
+  }
+}

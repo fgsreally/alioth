@@ -1,0 +1,25 @@
+{
+  "files": [],
+  "compilerOptions": {
+    "types": [
+      "@vue-macros/reactivity-transform/macros-global"
+    ]
+  },
+  "vueCompilerOptions": {
+    "plugins": [
+      "@vue-macros/volar/short-vmodel"
+    ],
+    // prefix
+    "shortVmodel": {
+      "prefix": "$"
+    }
+  },
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
+}

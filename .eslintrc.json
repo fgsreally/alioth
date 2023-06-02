@@ -1,0 +1,9 @@
+{
+  "extends": "@antfu/eslint-config",
+  "rules":{
+    "vue/no-dupe-keys":"off",
+      "vue/no-mutating-props": ["error", {
+      "shallowOnly": true
+    }]
+  }
+}

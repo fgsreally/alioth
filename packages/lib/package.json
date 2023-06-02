@@ -1,0 +1,56 @@
+{
+  "name": "alioth-lib",
+  "version": "1.0.0",
+  "description": "",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+
+      "require": "./dist/index.js"
+    },
+  
+    "./model": {
+      "import": "./dist/model/index.mjs",
+      "require": "./dist/model/index.js",
+      "types": "./dist/model/index.d.ts"
+
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "model": [
+        "dist/model/index.d.ts"
+      ]  
+  
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@types/lodash-es": "^4.17.7",
+    "alasql": "^3.1.0",
+    "eventemitter3": "^5.0.0",
+    "lodash-es": "^4.17.21",
+    "nanoid": "^4.0.0",
+    "phecda-vue": "latest",
+    "vue": "^3.2.47"
+  },
+  "devDependencies": {
+    "tsup": "^6.5.0",
+    "unbuild": "^1.1.1"
+  }
+}
