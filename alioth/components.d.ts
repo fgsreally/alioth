@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     Dialog: typeof import('./src/components/base/Dialog.vue')['default']
     DragBox: typeof import('./src/components/wrappers/DragBox.vue')['default']
     DragHelper: typeof import('./src/components/base/DragHelper.vue')['default']
+    Editable: typeof import('./src/components/base/Editable.vue')['default']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
@@ -43,6 +44,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('./src/components/base/Select.vue')['default']
+    TabInput: typeof import('./src/components/base/TabInput.vue')['default']
     Tooltip: typeof import('./src/components/base/Tooltip.vue')['default']
   }
 }

@@ -50,14 +50,14 @@ export default defineConfig({
           'l-filter', { 'backdrop-filter': 'blur(10px) saturate(190%) contrast(70%) brightness(80%)' },
         ],
         [
-          'l-shadow', { 'box-shadow': 'rgba(0, 0, 0, 0.2) 0px 4px 24px' },
+          'l-shadow', { 'box-shadow': '0px 0px 12px rgba(0, 0, 0, 0.12)' },
         ],
       ],
       shortcuts: {
         'l-flex': 'flex flex-col grow-1 shrink-1 min-w-min content-center justify-center flex-wrap',
         // shortcuts to multiple utilities
         'l-layer': 'l-filter  bg-s-container l-shadow l-shadow l-flex bg-s-container',
-        'l-card': 'l-layer  rd-2 overflow-hidden l-border border-1   max-h-min  will-change-transform color-font-s',
+        'l-card': 'l-layer  rd-2 overflow-hidden l-border border-1   max-h-min  will-change-transform color-font-s p-5',
         'l-btn': 'select-none inline-flex shrink-0 rd min-w-[32px]  h-[32px] content-center justify-center flex-wrap border-1 divide-solid  whitespace-nowrap',
         'l-btn-p': 'color-font-p bg-p hover:bg-on-p l-shadow l-btn border-p',
         'l-btn-n': ' text-left hover:bg-on-s bg-transparent border-transparent l-btn color-font-n hover:color-font-s',

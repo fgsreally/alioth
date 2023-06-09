@@ -1,6 +1,9 @@
 import { DocState as State } from 'alioth-lib/model'
 import type { NodeAttrs } from 'alioth-lib'
+import { Global, Tag } from 'phecda-vue'
 
+@Global
+@Tag('doc')
 export class DocState<T extends NodeAttrs> extends State<T> {
   constructor() {
     super()

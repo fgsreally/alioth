@@ -52,20 +52,20 @@ function startMove(e: MouseEvent) {
         top: `${style.y}px`, left: `${style.x}px`,
       }" style="position: fixed;z-index: 10;user-select: none;will-change:auto" @mousedown="startMove"
     >
-      <el-card shadow="always" class="l-card">
+      <div shadow="always" class="l-card">
         <p class="drag-wrapper__label">
           {{ label }}
         </p>
         <slot />
-      </el-card>
+      </div>
     </div>
-    <el-button
+    <!-- <el-button
       v-else :disabled="false" :style="arrowPosition"
       style="position: absolute;z-index: 10;user-select: none;will-change:auto;border-radius: 50%;width:50px;height: 50px;"
     >
       <el-icon>
         <component :is="arrowIcon[transition]" />
       </el-icon>
-    </el-button>
+    </el-button> -->
   </Transition>
 </template>

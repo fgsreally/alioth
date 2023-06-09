@@ -19,11 +19,6 @@ function dragend() {
 
 <template>
   <section class="preview-section">
-    <div>
-      <button l-btn-n>
-        <span>11</span>
-      </button>
-    </div>
     <el-scrollbar style="height: 500px">
       <el-badge
         v-for="(module, i) in compList"

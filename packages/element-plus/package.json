@@ -2,7 +2,6 @@
   "name": "alioth-preset-elementplus",
   "version": "1.0.0",
   "description": "",
- 
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -12,18 +11,22 @@
     "dev": "tsup --watch",
     "build": "tsup"
   },
- 
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@types/lodash-es": "^4.17.7",
+    "alioth-dev": "workspace:^",
     "element-plus": "^2.2.29",
     "lodash-es": "^4.17.21",
     "phecda-vue": "latest",
     "vue": "^3.2.47"
   },
   "devDependencies": {
-  
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vue-macros/reactivity-transform": "^0.3.7",
+    "unplugin-auto-import": "^0.13.0",
+    "unplugin-vue-components": "^0.24.1",
+    "vite": "^4.3.9"
   }
 }

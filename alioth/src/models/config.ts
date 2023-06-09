@@ -1,7 +1,8 @@
-import { Init, Watcher } from 'phecda-vue'
+import { Global, Init, Tag, Watcher } from 'phecda-vue'
 import type { Component } from 'vue'
 import { dynamicLoad } from '@/utils/dynamicImport'
 import componentMap from '@/components/base'
+
 interface Zone {
   component: string
   label: string
@@ -13,7 +14,8 @@ interface Zone {
   transition: string
   props: any
 }
-
+@Global
+@Tag('config')
 export class ConfigState {
   hostUrl!: string
   componentMap = markRaw(
