@@ -2,21 +2,7 @@
   "name": "unocss-preset-alioth",
   "version": "1.0.0",
   "description": "",
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts",
 
-      "require": "./dist/index.js"
-    },
-  
-    "./model": {
-      "import": "./dist/model/index.mjs",
-      "require": "./dist/model/index.js",
-      "types": "./dist/model/index.d.ts"
-
-    }
-  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -26,17 +12,7 @@
     "dev": "tsup --watch",
     "build": "tsup"
   },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "dist/index.d.ts"
-      ],
-      "model": [
-        "dist/model/index.d.ts"
-      ]  
-  
-    }
-  },
+ 
   "keywords": [],
   "author": "",
   "license": "MIT",

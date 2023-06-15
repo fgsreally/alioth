@@ -40,6 +40,9 @@ importers:
       '@types/lodash-es':
         specifier: ^4.17.7
         version: 4.17.7
+      '@unocss/preset-icons':
+        specifier: ^0.53.1
+        version: 0.53.1
       '@vue-macros/reactivity-transform':
         specifier: ^0.3.7
         version: 0.3.7(vue@3.3.2)
@@ -147,6 +150,9 @@ importers:
       alioth-dev:
         specifier: workspace:^
         version: link:../dev
+      alioth-lib:
+        specifier: workspace:^
+        version: link:../lib
       element-plus:
         specifier: ^2.2.29
         version: 2.2.29(vue@3.3.2)
@@ -206,6 +212,16 @@ importers:
       unbuild:
         specifier: ^1.1.1
         version: 1.1.1
+
+  packages/share:
+    dependencies:
+      vite:
+        specifier: ^4.3.9
+        version: 4.3.9(@types/node@18.16.8)
+    devDependencies:
+      tsup:
+        specifier: ^6.5.0
+        version: 6.5.0(typescript@4.9.4)
 
   packages/unocss:
     dependencies:
@@ -1690,6 +1706,10 @@ packages:
   /@unocss/core@0.52.3:
     resolution: {integrity: sha512-AdpksuSj1+jAjF7Ek1Ubtt+pE/bi4EmVqz/sx7PTgp9RUyBX1457kDlSWJPFOvEEkKL8VLtwXB46hD2oPAp36Q==}
 
+  /@unocss/core@0.53.1:
+    resolution: {integrity: sha512-6CUaOMeQyoPIgMuSboX9yGywiCumhoYTPk6uMFhgD3vZmIRCZMwN9RFDLB+s2+NOlnBU6aQsJLONcUapZb/49g==}
+    dev: false
+
   /@unocss/extractor-arbitrary-variants@0.52.3:
     resolution: {integrity: sha512-dEDQ9mfwlS/aC420iRO6wUT1p0z2WBH5nupTdVgrU9Wjtff+NmLaas78skN+GPE5FCPXgKTJJsaDX6+etc/hrw==}
     dependencies:
@@ -1728,6 +1748,16 @@ packages:
     dependencies:
       '@iconify/utils': 2.1.5
       '@unocss/core': 0.52.3
+      ofetch: 1.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@unocss/preset-icons@0.53.1:
+    resolution: {integrity: sha512-itL92ZSoplYjJA22TjMQnlJVOheFL8KWy9yPvXpNc4LA+eAhfCLXK2f5DoBNE5ehg3xGRvc8nhI0lP5xKJURWQ==}
+    dependencies:
+      '@iconify/utils': 2.1.5
+      '@unocss/core': 0.53.1
       ofetch: 1.0.1
     transitivePeerDependencies:
       - supports-color
@@ -7018,7 +7048,6 @@ packages:
       rollup: 3.23.0
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
 
   /vitest@0.26.3:
     resolution: {integrity: sha512-FmHxU9aUCxTi23keF3vxb/Qp0lYXaaJ+jRLGOUmMS3qVTOJvgGE+f1VArupA6pEhaG2Ans4X+zV9dqM5WISMbg==}

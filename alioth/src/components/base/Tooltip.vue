@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {
   Tooltip,
+  TooltipArrow,
+  TooltipArrowTip,
   TooltipContent,
   TooltipPositioner,
   TooltipTrigger,
@@ -12,12 +14,15 @@ const { message } = defineProps<{
 </script>
 
 <template>
-  <Tooltip>
+  <Tooltip :interactive="true">
     <TooltipTrigger>
       <slot />
     </TooltipTrigger>
 
     <TooltipPositioner>
+      <TooltipArrow>
+        <TooltipArrowTip />
+      </TooltipArrow>
       <TooltipContent>{{ message }}</TooltipContent>
     </TooltipPositioner>
   </Tooltip>

@@ -2,10 +2,11 @@
 import { useRouter } from 'vue-router'
 import { useLayer } from '@/composables/layer'
 import Container from '@/components/modals/Container.vue'
-import Dialog from '@/components/base/Dialog.vue'
+import Tooltip from '@/components/base/Tooltip.vue'
 const router = useRouter()
-const btn = [{
+const headerConfig = [{
   label: '实时预览',
+  class: 'i-lucide:eye',
   handler() {
     router.push('/preview')
   },
@@ -27,16 +28,18 @@ const btn = [{
 </script>
 
 <template>
-  <ElHeader class="l-flex">
+  <section w-full h-12 border-b-solid border-font-t flex flex-items-center justify-between p-x-8>
     <div>
-      <button v-for="(item, i) in btn" :key="i" class="l-btn-s mx-2" @click="item.handler">
-        {{
-          item.label
-        }}
-      </button>
-      <!-- <input type="text" placeholder="input"> -->
+      <h2 color-blue>
+        Alioth
+      </h2>
     </div>
-  </ElHeader>
+    <div flex flex-items-center justify-center>
+      <Tooltip v-for="(item, i) in headerConfig" :key="i" :message="item.label">
+        <div class=" color-font-n cursor-pointer  hover:color-blue " :class="item.class" @click="item.handler" />
+      </Tooltip>
+    </div>
+  </section>
 </template>
 
 <style scoped>

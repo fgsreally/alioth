@@ -11,6 +11,7 @@ import {
 import PreviewPart from './sidebar/PreviewPart.vue'
 import EditRender from './preview/EditRender.vue'
 import Tab from './Tab.vue'
+import Header from './header/Header.vue'
 import { initialize } from '@/engine/init'
 // import { responseScreen } from '@/utils/response'
 import { DocState } from '@/models/doc'
@@ -25,6 +26,7 @@ initialize()
 </script>
 
 <template>
+  <Header />
   <section class="editor__box ">
     <Transition appear name="left">
       <div v-show="!container.attrs.isFull" class="editor__aside left  border-ol b-r-2 b-r-solid">
@@ -44,18 +46,41 @@ initialize()
             />
           </TabContent>
         </Tabs>
-        <!-- <el-tabs v-model="activeTab" @tab-click="clickTab">
-          <el-tab-pane v-for="(item, i) in previewConfig" :key="i" :label="item!.label" :name="item.key">
-            <PreviewPart
-              :comp-list="Array.from(getEditorStore(item.key).widgetMap).map((item:any) => item[1])"
-              :type="item.type"
-            />
-          </el-tab-pane>
-        </el-tabs> -->
       </div>
     </Transition>
     <section class="editor_box">
-      <div m-t-10>
+      <div m-t-10 text="sm" font="600" relative>
+        <div flex w-full h-8 color-font-t>
+          <div
+            v-for="(item) in docs" :key="item.id"
+            max-w-20
+            font="500"
+            p-x-2
+            l-flex
+            cursor-pointer
+            border-1
+            border-solid
+            border-font-t
+            :class="{
+              'border-b-none border-t-[rgba(96,165,250)] color-font-s': item.id === activeId,
+
+            }"
+            @click="active(item.id)"
+          >
+            {{ item.title }}
+          </div>
+
+          <div
+            i-lucide-plus-square
+            absolute
+            color-font-s
+            hover:color-blue
+            cursor-pointer
+            top="10px"
+            left="-30px"
+            @click="add('未命名')"
+          />
+        </div>
         <iframeBox :width="container.attrs.width" :height="container.attrs.height">
           <EditRender />
         </iframeBox>
@@ -87,5 +112,15 @@ initialize()
     z-index: 2;
     background-color: rgb(33, 35, 46);
   }
+}
+.active::after{
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10%;
+  height: 10px;
+  background-color: red;
 }
 </style>

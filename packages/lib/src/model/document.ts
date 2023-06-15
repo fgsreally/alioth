@@ -37,7 +37,7 @@ export class DocState<T extends NodeAttrs> extends EventEmitter {
   }
 
   get title() {
-    return this.find(this.activeId)?.title!
+    return this.find(this.activeId)!.title
   }
 
   get container() {

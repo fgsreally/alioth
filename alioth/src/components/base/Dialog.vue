@@ -14,9 +14,7 @@ defineProps<{ title: string }>()
 const { modelValue } = defineModels<{
   modelValue: boolean
 }>()
-watch(modelValue, (n) => {
-  console.log(n)
-})
+
 </script>
 
 <template>

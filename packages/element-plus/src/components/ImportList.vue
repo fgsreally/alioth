@@ -15,7 +15,7 @@ const props = defineProps<{ project: string }>()
 const { records } = useV(ImportState)
 
 const tableData = computed(() => {
-  return Object.entries(records.value).map(([k,v]:any)=>({key:k,...v}))
+  return Object.entries(records.value).map(([k, v]: any) => ({ key: k, ...v }))
 })
 function dragstart(i: number) {
   const { key } = tableData.value[i]
@@ -23,10 +23,7 @@ function dragstart(i: number) {
 }
 
 function dragend() {
-  emitter.emit('dragend')
-}
-function openEditor(url: string) {
-  fetch(url)
+  emitter.emit('dragend', null)
 }
 </script>
 
@@ -35,14 +32,14 @@ function openEditor(url: string) {
     <el-table-column prop="key" label="函数名" width="180">
       <template #default="scope">
         <div
-              draggable="true"
-              @dragstart.stop="(e) => {
-                dragstart(scope.$index)
-              }"
-              @dragend="dragend"
-            >
-              {{ scope.row.key }}
-            </div>
+          draggable="true"
+          @dragstart.stop="(e) => {
+            dragstart(scope.$index)
+          }"
+          @dragend="dragend"
+        >
+          {{ scope.row.key }}
+        </div>
       </template>
     </el-table-column>
     <el-table-column prop="description" label="描述" width="180">

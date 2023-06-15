@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import ReactivityTransform from '@vue-macros/reactivity-transform/vite'
 
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import presetIcons from '@unocss/preset-icons'
 
 import Vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/vite'
@@ -96,6 +97,7 @@ export default defineConfig({
 
       presets: [
         presetAttributify(),
+        presetIcons(),
         presetUno(),
       ],
     }),

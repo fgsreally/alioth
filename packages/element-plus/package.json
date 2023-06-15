@@ -17,6 +17,7 @@
   "dependencies": {
     "@types/lodash-es": "^4.17.7",
     "alioth-dev": "workspace:^",
+    "alioth-lib": "workspace:^",
     "element-plus": "^2.2.29",
     "lodash-es": "^4.17.21",
     "phecda-vue": "latest",

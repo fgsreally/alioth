@@ -1,21 +1,12 @@
 <script lang="ts" setup>
 import { emitter, useV } from 'phecda-vue'
 import { ImportState } from 'alioth-lib/model'
-const props = defineProps<{ project: string }>()
-// const { getProjectList, getTsComment } = useV(ConnectState)
-
-// const tableData = computed(() => {
-//   return getProjectList(project)
-// })
-// function getComment(i: number) {
-//   const { entry, name } = tableData.value[i]
-//   return getTsComment(project, entry, name)
-// }
+defineProps<{ project: string }>()
 
 const { records } = useV(ImportState)
 
 const tableData = computed(() => {
-  return Object.entries(records.value).map(([k,v]:any)=>({key:k,...v}))
+  return Object.entries(records.value).map(([k, v]: any) => ({ key: k, ...v }))
 })
 function dragstart(i: number) {
   const { key } = tableData.value[i]
@@ -23,7 +14,7 @@ function dragstart(i: number) {
 }
 
 function dragend() {
-  emitter.emit('dragend')
+  emitter.emit('dragend', null)
 }
 function openEditor(url: string) {
   fetch(url)
@@ -31,27 +22,20 @@ function openEditor(url: string) {
 </script>
 
 <template>
-  <el-table :data="tableData" style="width: 100%" @mousedown.stop>
-    <el-table-column prop="key" label="函数名" width="180">
-      <template #default="scope">
-        <div
-              draggable="true"
-              @dragstart.stop="(e) => {
-                dragstart(scope.$index)
-              }"
-              @dragend="dragend"
-            >
-              {{ scope.row.key }}
-            </div>
-      </template>
-    </el-table-column>
-    <el-table-column prop="description" label="描述" width="180">
-      <!-- <template #default="scope">
-        <p @click="openEditor(scope.row.url)">
-          {{ scope.row.entry }}
-        </p>
-        <a :href="scope.row.url"> {{ scope.row.entry }}</a>
-      </template> -->
-    </el-table-column>
-  </el-table>
+  <section>
+    <div v-for="(item, i) in tableData" :key="i" w="160px">
+      <div
+        w="1/2" h-8 draggable="true"
+        @dragstart.stop="(e) => {
+          dragstart(i)
+        }"
+        @dragend="dragend"
+      >
+        {{ item.key }}
+      </div>
+      <div w="1/2" h-8>
+        {{ item.description }}
+      </div>
+    </div>
+  </section>
 </template>
