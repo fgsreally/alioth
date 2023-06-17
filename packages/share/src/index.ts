@@ -1,5 +1,5 @@
-import type { Plugin } from 'vite'
-export default function (): Plugin {
+import type { PluginOption } from 'vite'
+export default function (): PluginOption {
   return {
     name: 'alioth-external',
     enforce: 'pre',

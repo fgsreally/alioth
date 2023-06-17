@@ -1,26 +1,18 @@
+<!-- eslint-disable vue/valid-attribute-name -->
 <script setup lang="ts">
-import { ref } from 'vue'
-import {
-  Editable,
-  EditableArea,
-  EditableCancelTrigger,
-  EditableControl,
-  EditableEditTrigger,
-  EditableInput,
-  EditableLabel,
-  EditablePreview,
-  EditableSubmitTrigger,
-} from '@ark-ui/vue'
-
-const editableRef = ref()
+const { modelValue } = defineModels<{
+  modelValue: string
+}>()
+const isEditable = ref(false)
 </script>
 
 <template>
-  <Editable placeholder="Placeholder">
-    <EditableLabel>Label</EditableLabel>
-    <EditableArea>
-      <EditableInput />
-      <EditablePreview />
-    </EditableArea>
-  </Editable>
+  <input v-if="isEditable" v-model="modelValue" type="text" relative z-20 @change="isEditable = false" @blur="isEditable = false">
+  <p v-else @dblclick="isEditable = true">
+    {{ modelValue }}
+  </p>
 </template>
+
+<style scoped>
+
+</style>

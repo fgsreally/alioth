@@ -13,6 +13,8 @@ const headerConfig = [{
 },
 
 {
+  class: 'i-lucide:eye',
+
   label: '容器配置',
   handler() {
     useLayer(Container, {}, { title: '容器配置' })
@@ -30,14 +32,12 @@ const headerConfig = [{
 <template>
   <section w-full h-12 border-b-solid border-font-t flex flex-items-center justify-between p-x-8>
     <div>
-      <h2 color-blue>
+      <h2 color-p>
         Alioth
       </h2>
     </div>
-    <div flex flex-items-center justify-center>
-      <Tooltip v-for="(item, i) in headerConfig" :key="i" :message="item.label">
-        <div class=" color-font-n cursor-pointer  hover:color-blue " :class="item.class" @click="item.handler" />
-      </Tooltip>
+    <div flex flex-items-center justify-center m-r-10>
+      <div v-for="(item, i) in headerConfig" :key="i" class=" color-font-n cursor-pointer m-x-1 hover:color-blue " :class="item.class" @click="item.handler" />
     </div>
   </section>
 </template>

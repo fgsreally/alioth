@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { emitter, useV } from 'phecda-vue'
 import { ImportState } from 'alioth-lib/model'
-const props = defineProps<{ project: string }>()
+ defineProps<{ project: string }>()
 // const { getProjectList, getTsComment } = useV(ConnectState)
 
 // const tableData = computed(() => {

@@ -10,8 +10,8 @@ import {
 } from '@ark-ui/vue'
 import PreviewPart from './sidebar/PreviewPart.vue'
 import EditRender from './preview/EditRender.vue'
-import Tab from './Tab.vue'
 import Header from './header/Header.vue'
+import Editable from '@/components/base/Editable.vue'
 import { initialize } from '@/engine/init'
 // import { responseScreen } from '@/utils/response'
 import { DocState } from '@/models/doc'
@@ -55,26 +55,26 @@ initialize()
             v-for="(item) in docs" :key="item.id"
             max-w-20
             font="500"
-            p-x-2
             l-flex
             cursor-pointer
             border-1
             border-solid
             border-font-t
             :class="{
-              'border-b-none border-t-[rgba(96,165,250)] color-font-s': item.id === activeId,
+              'border-b-none border-p color-on-p': item.id === activeId,
 
             }"
+
             @click="active(item.id)"
           >
-            {{ item.title }}
+            <Editable v-model="item.title" class="m-x-2" />
           </div>
 
           <div
             i-lucide-plus-square
             absolute
-            color-font-s
-            hover:color-blue
+            color-font-t
+            hover:color-p
             cursor-pointer
             top="10px"
             left="-30px"

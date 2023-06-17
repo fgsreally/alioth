@@ -16,9 +16,6 @@ function dragstart(i: number) {
 function dragend() {
   emitter.emit('dragend', null)
 }
-function openEditor(url: string) {
-  fetch(url)
-}
 </script>
 
 <template>

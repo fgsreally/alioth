@@ -44,6 +44,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('./src/components/base/Select.vue')['default']
+    Slider: typeof import('./src/components/base/Slider.vue')['default']
     TabInput: typeof import('./src/components/base/TabInput.vue')['default']
     Tooltip: typeof import('./src/components/base/Tooltip.vue')['default']
   }

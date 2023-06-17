@@ -3,7 +3,7 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: content-box;
   --el-border-color:rgba(82, 82, 111, 0.44);
   --el-fill-color-light:rgb(43, 44, 68);
   --el-bg-color:rgba(82, 82, 111, 0.44);
@@ -232,6 +232,7 @@ button {
 }
 
 input {
+  min-width:150px;
   writing-mode: horizontal-tb !important;
   text-rendering: auto;
   color: fieldtext;
@@ -282,7 +283,7 @@ input {
     padding: 10px 14px 9px;
   }
   &:focus{
-    border:1px solid #b468fc94 ;
+    border:1px solid rgb(102, 107, 226) ;
   }
 }
 
