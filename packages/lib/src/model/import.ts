@@ -1,4 +1,3 @@
-import { Init } from 'phecda-vue'
 import { setState as s } from './connect'
 export interface ImportRecord { description: string }
 export class ImportState {
@@ -7,10 +6,6 @@ export class ImportState {
   }
 
   records: Record<string, ImportRecord> = {}
-  @Init
-  init() {
-    window.$alioth_register = this.register.bind(this)
-  }
 
   register(key: string, value: any, record: ImportRecord) {
     this.setState(key, value)

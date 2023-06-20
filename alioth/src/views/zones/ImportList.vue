@@ -6,6 +6,8 @@ defineProps<{ project: string }>()
 const { records } = useV(ImportState)
 
 const tableData = computed(() => {
+  console.log(records.value)
+
   return Object.entries(records.value).map(([k, v]: any) => ({ key: k, ...v }))
 })
 function dragstart(i: number) {

@@ -114,6 +114,28 @@ importers:
         specifier: ^1.6.4
         version: 1.6.4(typescript@5.0.4)
 
+  example:
+    dependencies:
+      alioth-dev:
+        specifier: workspace:^
+        version: link:../packages/dev
+      vue:
+        specifier: ^3.2.47
+        version: 3.3.2
+    devDependencies:
+      '@vitejs/plugin-vue':
+        specifier: ^4.1.0
+        version: 4.2.3(vite@4.3.9)(vue@3.3.2)
+      typescript:
+        specifier: ^5.0.2
+        version: 5.0.4
+      vite:
+        specifier: ^4.3.9
+        version: 4.3.9(@types/node@18.16.8)
+      vue-tsc:
+        specifier: ^1.4.2
+        version: 1.6.4(typescript@5.0.4)
+
   packages/dev:
     dependencies:
       colors:

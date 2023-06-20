@@ -1,18 +1,14 @@
 import { useV } from 'phecda-vue'
-import { ConfigState } from '@/models/config'
 import { createConnector } from 'alioth-lib'
+import { ConfigState } from '@/models/config'
 export const { connect, configMap, dynamicImport, getExposed, urlMap } = createConnector()
-
-
 
 export async function dynamicLoad(url: string) {
   try {
-
     const { addZone } = useV(ConfigState)
     const { project, entry } = await connect(url)
-    for (let n of Object.keys(entry))
+    for (const n of Object.keys(entry))
       dynamicImport(project, n)
-
 
     addZone({
       component: 'ImportList',
