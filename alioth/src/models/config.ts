@@ -1,8 +1,10 @@
-import { Global, Init, Tag, Watcher } from 'phecda-vue'
+import { Global, Init, Tag } from 'phecda-vue'
 import type { Component } from 'vue'
-import { dynamicLoad } from '@/utils/dynamicImport'
+import { useRouter } from 'vue-router'
 import componentMap from '@/components/base'
-
+import { useLayer } from '@/composables/layer'
+import Container from '@/components/modals/Container.vue'
+const router = useRouter()
 interface Zone {
   component: string
   label: string
@@ -17,7 +19,6 @@ interface Zone {
 @Global
 @Tag('config')
 export class ConfigState {
-  hostUrl!: string
   componentMap = markRaw(
     componentMap,
   ) as Record<string, Component>
@@ -36,7 +37,26 @@ export class ConfigState {
     },
   ]
 
-  zones: Zone[] = [
+  public headers = [
+    {
+      label: '实时预览',
+      class: 'i-lucide:eye',
+      handler() {
+        router.push('/preview')
+      },
+    },
+
+    {
+      class: 'i-lucide:eye',
+
+      label: '容器配置',
+      handler() {
+        useLayer(Container, {}, { title: '容器配置' })
+      },
+    },
+  ]
+
+  public zones: Zone[] = [
     // {
     //   component: 'Props',
     //   label: '组件props',
@@ -101,39 +121,12 @@ export class ConfigState {
   }
 
   @Init
-  init() {
+  async init() {
     window.$alioth_addZone = (arg: Zone) => {
       this.addZone(arg)
     }
     window.$alioth_addView = (key: string, component: Component) => {
       this.componentMap[key] = component
     }
-
-    const query = location.href.split('?')[1]
-    if (query) {
-      const host = decodeURIComponent(query)
-      dynamicLoad(host)
-      this.hostUrl = host
-    }
-  }
-
-  @Watcher('code-change')
-  hmr(content: string) {
-    if (this.hostUrl) {
-      fetch(this.hostUrl, {
-        method: 'POST',
-        body: content,
-      })
-    }
   }
 }
-
-// export function applyHost() {
-//   const query = location.href.split('?')[1]
-//   if (query) {
-//     const state = useR(ConfigState)
-//     const host = decodeURIComponent(query)
-//     dynamicLoad(host)
-//     state.hostUrl = host
-//   }
-// }

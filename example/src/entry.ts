@@ -5,3 +5,5 @@ export function change() {
 export function change2() {
   console.log(true)
 }
+
+export const a = 30

@@ -35,7 +35,7 @@ export function Alioth(options: AliothOptions): PluginOption {
 
         printUrls()
         console.log(
-          `  ${colors.green('➜')} ${colors.bold('Alioth')}:${colors.blue(` http://127.0.0.1:5173/?${encodeURIComponent(host)}`)}`,
+          `  ${colors.green('➜')} ${colors.bold('Alioth')}:${colors.blue(` http://127.0.0.1:5173?url=${encodeURIComponent(host)}`)}`,
         )
       }
 
@@ -71,7 +71,6 @@ interface AliothOptions {
 function injectHMR() {
   return `\nif (import.meta.hot) {
     import.meta.hot.accept((newModule) => {
-      console.log('hmr')
       if(window.$alioth_update)window.$alioth_update(import.meta.url,newModule)
     })
   }`

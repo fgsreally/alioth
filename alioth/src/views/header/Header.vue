@@ -1,32 +1,8 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-import { useLayer } from '@/composables/layer'
-import Container from '@/components/modals/Container.vue'
-import Tooltip from '@/components/base/Tooltip.vue'
-const router = useRouter()
-const headerConfig = [{
-  label: '实时预览',
-  class: 'i-lucide:eye',
-  handler() {
-    router.push('/preview')
-  },
-},
+import { useV } from 'phecda-vue'
+import { ConfigState } from '@/models/config'
 
-{
-  class: 'i-lucide:eye',
-
-  label: '容器配置',
-  handler() {
-    useLayer(Container, {}, { title: '容器配置' })
-  },
-},
-// {
-//   label: '可用功能',
-//   handler() {
-//     $Dragger()
-//   },
-// }
-]
+const { headers } = useV(ConfigState)
 </script>
 
 <template>
@@ -37,7 +13,7 @@ const headerConfig = [{
       </h2>
     </div>
     <div flex flex-items-center justify-center m-r-10>
-      <div v-for="(item, i) in headerConfig" :key="i" class=" color-font-n cursor-pointer m-x-1 hover:color-blue " :class="item.class" @click="item.handler" />
+      <div v-for="(item, i) in headers" :key="i" class=" color-font-n cursor-pointer m-x-1 hover:color-blue " :class="item.class" @click="item.handler" />
     </div>
   </section>
 </template>

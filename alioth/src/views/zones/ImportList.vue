@@ -1,18 +1,17 @@
 <script lang="ts" setup>
-import { emitter, useV } from 'phecda-vue'
-import { ImportState } from 'alioth-lib/model'
-defineProps<{ project: string }>()
+import { emitter, useR } from 'phecda-vue'
+import { ConnectState } from '@/models/connect'
+const { project = 'alioth' } = defineProps<{ project: string }>()
 
-const { records } = useV(ImportState)
+const { allExposed } = useR(ConnectState)
 
-const tableData = computed(() => {
-  console.log(records.value)
-
-  return Object.entries(records.value).map(([k, v]: any) => ({ key: k, ...v }))
+const tableData = $computed(() => {
+  if (!allExposed[project])
+    return []
+  return allExposed[project].exposed
 })
 function dragstart(i: number) {
-  const { key } = tableData.value[i]
-  emitter.emit('dragstart', key)
+  emitter.emit('dragstart', `{{${tableData[i]}}}`)
 }
 
 function dragend() {
@@ -24,17 +23,22 @@ function dragend() {
   <section>
     <div v-for="(item, i) in tableData" :key="i" w="160px">
       <div
-        w="1/2" h-8 draggable="true"
+        h-8 w-full draggable="true"
+        l-flex
+        border-1
+        border-solid
+        border-font-t
+        @mousedown.stop=""
         @dragstart.stop="(e) => {
           dragstart(i)
         }"
         @dragend="dragend"
       >
-        {{ item.key }}
+        {{ item }}
       </div>
-      <div w="1/2" h-8>
+      <!-- <div w="1/2" h-8>
         {{ item.description }}
-      </div>
+      </div> -->
     </div>
   </section>
 </template>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useR, useV } from 'phecda-vue'
+import { componentMap } from './index'
 import { DocState } from '@/models/doc'
 
 import { ConfigState } from '@/models/config'
-import { componentMap } from './index'
 const { activeDoc } = useV(DocState)
 const route = useRoute()
 const state = useR(ConfigState)

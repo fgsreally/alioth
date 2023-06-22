@@ -1,8 +1,8 @@
 import { useO } from 'phecda-vue'
-import { ImportState } from './import'
+import { ConnectState } from './connect'
 import { ConfigState } from './config'
 
 export function initState() {
-  useO(ImportState)
+  useO(ConnectState)
   useO(ConfigState)
 }
