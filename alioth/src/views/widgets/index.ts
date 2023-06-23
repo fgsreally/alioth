@@ -4,6 +4,9 @@ import C from './C.vue'
 import D from './D.vue'
 import { registerWidget } from '@/engine/register'
 export function init() {
+
+  window.$alioth_registerWidget=registerWidget
+
   // registerWidget('lib', 'test1', 'test1', A)
   registerWidget('lib', 'test2', markRaw(B), {
     props: {

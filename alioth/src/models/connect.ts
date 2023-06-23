@@ -36,7 +36,7 @@ export class ConnectState {
           transition: 'bottom',
         })
         for (const entry in entries)
-          this.updateModule(entries[entry], (await dynamicImport(project, entry)).module)
+          this.updateModule(entries[entry], (await dynamicImport(project, entry))!.module)
       }
     }
   }
