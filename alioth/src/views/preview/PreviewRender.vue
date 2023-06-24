@@ -7,10 +7,12 @@ const { container } = $(useV(DocState))
 </script>
 
 <template>
-  <section w="80%" h="80%">
-    <RenderBlock
-      v-for="(item) in container.children" :key="item.id" :node="item" type="render"
-      :value="getWidget(item.attrs.key)"
-    />
+  <section w="80vw" h="80vh">
+    <div style="background-color: red;" relative w="fit">
+      <RenderBlock
+        v-for="(item) in container.children" :key="item.id" :node="item" type="render"
+        :value="getWidget(item.attrs.key)"
+      />
+    </div>
   </section>
 </template>

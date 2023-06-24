@@ -8,8 +8,8 @@ import {
   render,
 
 } from 'vue'
+import type { SchemaToObj } from 'phecda-vue'
 import type { VirtualNode } from './document'
-import { SchemaToObj } from 'phecda-vue'
 
 export type CompList<RegisterBlock> = Map<string, RegisterBlock>
 
@@ -38,7 +38,7 @@ export class BaseRenderer<
   // stack: { funcName: string; property: any }[];
   renderType: string
   // slotVNode: { [key in string]: Function };
-  constructor(protected node: BlockType, protected comp: Component,protected filter: <Schema>(obj: Schema) => SchemaToObj<Schema>,) {}
+  constructor(protected node: BlockType, protected comp: Component, protected filter: <Schema>(obj: Schema) => SchemaToObj<Schema>) {}
   exec() {
     return this._vnode
   }
@@ -83,7 +83,7 @@ export class BaseRenderer<
     return this
   }
 
-  main(propsData?:any) {
+  main(propsData?: any) {
     this._vnode = h(
       this.comp as DefineComponent,
       {
@@ -138,7 +138,7 @@ export class BaseRenderer<
     return this
   }
 
-  addStyle(style: CSSStyleDeclaration) {
+  addStyle(style: Partial<CSSStyleDeclaration>) {
     if (!this._vnode)
       return this
 
@@ -150,7 +150,7 @@ export class BaseRenderer<
     return this
   }
 
-  useStyle(style: CSSStyleDeclaration) {
+  useStyle(style: Partial<CSSStyleDeclaration>) {
     (this._vnode as any).props.style = style
     return this
   }
@@ -159,7 +159,6 @@ export class BaseRenderer<
     (this._vnode as any).props.id = id
     return this
   }
-
 
   box() {
     this._vnode = h('div', { default: () => [this._vnode] })

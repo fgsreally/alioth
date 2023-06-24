@@ -34,6 +34,7 @@ export function createCommand<Command extends defaultCommand>(options: {
   redo?: boolean
   undo?: boolean
 } = {}) {
+  let initialized = false
   const state: commandState<Command> = {
     isActive: true,
     current: -1,
@@ -44,6 +45,11 @@ export function createCommand<Command extends defaultCommand>(options: {
   }
 
   const registry = (command: Command) => {
+    if(initialized&&command.init){
+
+       state.destroyArray.push(command.init()),
+
+    }
     state.commandArray.push(command)
     state.commands[command.name] = () => {
       // 命令名字对应执行函数
@@ -134,6 +140,9 @@ export function createCommand<Command extends defaultCommand>(options: {
   // 初始化
 
   function initialize() {
+    if (initialized)
+      return
+    initialized = true
     state.commandArray.forEach(
       command => command.init && state.destroyArray.push(command.init()),
     )
@@ -143,5 +152,5 @@ export function createCommand<Command extends defaultCommand>(options: {
     state.isActive && state.destroyArray.forEach(fn => fn && fn())
   }
 
-  return { state, registry, initialize, destroy } // initialize after all registry
+  return { state, registry, initialize, destroy }
 }

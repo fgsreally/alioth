@@ -39,8 +39,6 @@ export class Register extends BaseRegister<typeof renderer> {
     const renderer = this.createRenderer(node)
     let vnode
     if (!this.meta.isFixed) {
-      console.log(allWidgetMap, node)
-
       vnode = renderer
         // .useFilter(State.filter)
         .slot(['default', 'header'], allWidgetMap, 'edit')
@@ -76,14 +74,20 @@ export class Register extends BaseRegister<typeof renderer> {
         // .useFilter(State.filter)
         .slot(['default'], allWidgetMap, 'render')
         .main()
-
-        .addClass(
-          (node.parent === activeDoc.value.root ? 'absolute' : 'relative ')
-          + toUnoClass(node, 'left')
-          + toUnoClass(node, 'top')
-          + toUnoClass(node, 'w')
-          + toUnoClass(node, 'h'),
-        ).addClass(getBreakPointClass(node))
+        .addStyle({
+          top: `${node.attrs.top.value}${node.attrs.top.size}`,
+          left: `${node.attrs.left.value}${node.attrs.left.size}`,
+          width: `${node.attrs.w.value}${node.attrs.w.size}`,
+          height: `${node.attrs.h.value}${node.attrs.h.size}`,
+          position: 'absolute',
+        })
+        // .addClass(
+        //   (node.parent === activeDoc.value.root ? 'absolute' : 'relative ')
+        //   + toUnoClass(node, 'left')
+        //   + toUnoClass(node, 'top')
+        //   + toUnoClass(node, 'w')
+        //   + toUnoClass(node, 'h'),
+        // ).addClass(getBreakPointClass(node))
         // .useOffset()
         // .renderAction(ctx.context, ctx.services)
         .exec() as VNode
