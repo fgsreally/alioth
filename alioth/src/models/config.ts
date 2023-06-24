@@ -1,10 +1,9 @@
 import { Global, Init, Tag } from 'phecda-vue'
 import type { Component } from 'vue'
-import { useRouter } from 'vue-router'
 import componentMap from '@/components/base'
 import { useLayer } from '@/composables/layer'
 import Container from '@/components/modals/Container.vue'
-const router = useRouter()
+import PreviewRenderVue from '@/views/preview/PreviewRender.vue'
 interface Zone {
   component: string
   label: string
@@ -42,7 +41,7 @@ export class ConfigState {
       label: '实时预览',
       class: 'i-lucide:eye',
       handler() {
-        router.push('/preview')
+        useLayer(PreviewRenderVue, {}, { title: '预览页面' })
       },
     },
 
@@ -57,16 +56,7 @@ export class ConfigState {
   ]
 
   public zones: Zone[] = [
-    // {
-    //   component: 'Props',
-    //   label: '组件props',
-    //   name: 'props',
-    //   isActive: ({ instance }) => !!instance?.activeNode,
-    //   x: 300,
-    //   y: 200,
-    //   transition: 'left',
-    //   props: {},
-    // },
+
     {
       component: 'Uno',
       label: '样式',
@@ -100,17 +90,6 @@ export class ConfigState {
       x: 600,
       y: 600,
       transition: 'bottom',
-      props: {},
-    },
-    {
-      component: 'Tree',
-      label: 'model tree',
-      name: 'tree',
-      fix: true,
-      isActive: () => true,
-      x: 1100,
-      y: 50,
-      transition: 'right',
       props: {},
     },
 

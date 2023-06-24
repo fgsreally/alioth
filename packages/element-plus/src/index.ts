@@ -1,14 +1,8 @@
 import { $V, $Z } from 'alioth-dev/helper'
-import ImportList from './components/ImportList.vue'
 import Property from './components/Property.vue'
-import Page from './components/Page.vue'
-import Route from './components/Route.vue'
 import Tree from './components/Tree.vue'
 
-$V('ImportList', ImportList)
 $V('Property', Property)
-$V('Page', Page)
-$V('Route', Route)
 $V('Tree', Tree)
 
 $Z({

@@ -5,8 +5,7 @@ import { createFormData, useV } from 'phecda-vue'
 import { DragState } from 'alioth-lib/model'
 
 import { watch } from 'vue'
-import { DocState } from '@/models/doc'
-const { activeNode } = useV(DocState)
+const { activeNode } = useV(window.__PHECDA__.doc)
 const { add, del } = useV(DragState)
 let args = $ref<{ data: any; config: any }>({} as any)
 

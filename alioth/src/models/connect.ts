@@ -1,7 +1,6 @@
 import { Init, createFilter } from 'phecda-vue'
 import type { AllExpoesd } from 'alioth-lib'
-import { createConnector } from 'alioth-lib'
-import { setState } from 'alioth-lib/model'
+import { createConnector, setState } from 'alioth-lib'
 import { ConfigState } from './config'
 import { getQuery } from '@/utils/url'
 

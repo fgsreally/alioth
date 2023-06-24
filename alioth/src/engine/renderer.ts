@@ -1,6 +1,6 @@
 // import { cloneDeep, isSymbol } from 'lodash-es'
 import type { node } from 'alioth-lib'
-import { BaseRenderer } from 'alioth-lib'
+import { BaseRenderer, filter } from 'alioth-lib'
 
 import type { Component, DefineComponent, VNode } from 'vue'
 import { h } from 'vue'
@@ -9,7 +9,6 @@ import { useV } from 'phecda-vue'
 import DragBox from '../components/wrappers/DragBox.vue'
 import type { NodeSchema } from './schema'
 import { DocState } from '@/models/doc'
-import { filter } from 'alioth-lib/model'
 
 import { toPx } from '@/utils/style'
 enum VUEOPTS {
@@ -17,7 +16,7 @@ enum VUEOPTS {
   IF = 'vIf',
 }
 
-const { activeDoc,activeNode ,isActive} = useV(DocState)
+const { activeDoc, activeNode, isActive } = useV(DocState)
 
 export class renderer extends BaseRenderer<node<NodeSchema>> {
   propsData: any
@@ -69,8 +68,6 @@ export class renderer extends BaseRenderer<node<NodeSchema>> {
     return this
   }
 
-
-
   response(width: number, height: number) {
     if (!this._vnode)
       return this;
@@ -101,7 +98,7 @@ export class renderer extends BaseRenderer<node<NodeSchema>> {
     //   return this
     const vnode: any = (this._vnode = h(
       this.comp as DefineComponent,
-      Object.assign({ _node: this.node },this.filter(cloneDeep(this.node.attrs.propsData))),
+      Object.assign({ _node: this.node }, this.filter(cloneDeep(this.node.attrs.propsData))),
       this._vnode || undefined,
     ))
 
@@ -123,10 +120,9 @@ export class renderer extends BaseRenderer<node<NodeSchema>> {
   editAction(canSelect: boolean) {
     if (!this._vnode)
       return this;
-      (this._vnode as any).props.onMousedownCapture = () => {
-        activeDoc.value.select(this.node)
-
-      }
+    (this._vnode as any).props.onMousedownCapture = () => {
+      activeDoc.value.select(this.node)
+    }
     (this._vnode as any).props.onDragoverCapture = () => {
       activeDoc.value.select(this.node, 'hoverNode')
     };

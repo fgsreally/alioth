@@ -4,8 +4,6 @@ import { createFilter } from 'phecda-vue'
 
 // export const { connect, dynamicImport, urlMap } = createConnector()
 
-export const { filter, data, setState } = createFilter({})
-
 // /**
 //  * 可能连接多个项目，每个项目是一个vite devserver，每个项目又会暴露多个出口，每个出口又会export 很多方法，这里把所有暴露的方法依照“项目_入口_方法”的方式进行注册
 //  * 没有包含注册vue组件的部分

@@ -2,6 +2,7 @@ import {
   BaseRegister,
   allWidgetMap,
   createNameSpace,
+  filter,
   getEditorStore,
   getWidget,
 } from 'alioth-lib'
@@ -10,7 +11,7 @@ import type { VirtualNode } from 'alioth-lib'
 import type { Component, VNode } from 'vue'
 import { h } from 'vue'
 import { useV } from 'phecda-vue'
-import { filter } from 'alioth-lib/model'
+
 import { renderer } from './renderer'
 import { getBreakPointClass, toUnoClass } from '@/utils/style'
 import { DocState } from '@/models/doc'
@@ -106,7 +107,5 @@ export function registerWidget(
   comp: Component,
   meta?: any,
 ) {
-  console.log(category)
-
   getEditorStore(category).register?.(new Register(category, key, comp, meta))
 }

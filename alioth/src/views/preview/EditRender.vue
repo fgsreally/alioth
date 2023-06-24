@@ -12,7 +12,7 @@ const { activeDoc, container } = $(useV<typeof DocState<NodeSchema | RootSchema>
 function addBlock(module: any, e: MouseEvent) {
   emitter.emit('block-action', null)
 
-  const { key, label, propsData } = module
+  const { key, label } = module
   const { hover, root } = activeDoc
   const parent = hover || root
   const block = activeDoc.createNode(key, {
