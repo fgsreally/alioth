@@ -1,5 +1,5 @@
 import type { Component } from 'vue'
-
+import type { DefaultCommand } from 'alioth-lib'
 // register widget
 export function $RW(category: string, key: string | symbol, component: Component, meta?: any) {
   window.$alioth_registerWidget?.(category, key, component, meta)
@@ -33,4 +33,10 @@ export function $Z(zone: {
   props: any
 }) {
   window.$alioth_addZone?.(zone)
+}
+
+// register Comand
+export function $C(...commands: DefaultCommand) {
+  if (window.$alioth_registerCommand)
+    commands.forEach(window.$alioth_registerCommand)
 }

@@ -1,4 +1,4 @@
-interface defaultCommand {
+export interface DefaultCommand {
   /** 命令名 */
 
   name: string
@@ -30,7 +30,7 @@ interface commandState<Command> {
 }
 
 // 创建指令，主要用于快捷键
-export function createCommand<Command extends defaultCommand>(options: {
+export function createCommand<Command extends DefaultCommand>(options: {
   redo?: boolean
   undo?: boolean
 } = {}) {
