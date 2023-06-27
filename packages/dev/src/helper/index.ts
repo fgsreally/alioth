@@ -15,10 +15,10 @@ export function $R(key: string, value: any, meta: any) {
   window.$alioth_register(key, value, meta)
 }
 
-// add view component
-export function $V(key: string, component: Component) {
-  window.$alioth_addView?.(key, component)
-}
+// // add view component
+// export function $V(key: string, component: Component) {
+//   window.$alioth_addView?.(key, component)
+// }
 
 // add zone
 export function $Z(zone: {
@@ -32,7 +32,8 @@ export function $Z(zone: {
   transition: string
   props: any
 }) {
-  window.$alioth_addZone?.(zone)
+  if (import.meta.hot)
+    window.$alioth_addZone?.(zone)
 }
 
 // register Comand
