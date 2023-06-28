@@ -30,12 +30,10 @@ watch(() => activeNode.value, (n, o) => {
 </script>
 
 <template>
-  <el-scrollbar max-height="300px" style="width: 500px;">
-    <pane-form
-      :data="args.data" :config="args.config"
-      :on-update="(key:string, v:any) => activeNode?.setAttribute(`propsData.${key}`, v)"
-    />
-  </el-scrollbar>
+  <pane-form
+    :data="args.data" :config="args.config"
+    :on-update="(key:string, v:any) => activeNode?.setAttribute(`propsData.${key}`, v)"
+  />
 </template>
 
 <style scoped>

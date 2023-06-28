@@ -14,6 +14,7 @@ declare global {
         $alioth_registerWidget: any
         $alioth_addView: any
         $alioth_addZone: any
+        $alioth_addHeader:any
         $alioth_registerCommand:any
     }
 }

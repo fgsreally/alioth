@@ -29,7 +29,7 @@ initialize()
   <Header />
   <section class="editor__box ">
     <Transition appear name="left">
-      <div v-show="!container.attrs.isFull" class="editor__aside left  border-ol b-r-2 b-r-solid">
+      <div v-show="!container.attrs.isFull" class="editor__aside left  border-ol b-r-2 b-r-solid ">
         <Tabs :default-value="previewConfig[0].key">
           <TabList>
             <TabTrigger v-for="(item, i) in previewConfig" :key="i" :value="item.key">

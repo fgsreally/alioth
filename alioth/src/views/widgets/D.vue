@@ -4,9 +4,7 @@ const data = reactive({})
 </script>
 
 <template>
-  <div class="w-10 h-10">
-    <PaneForm :config="config || {}" :data="data" />
-  </div>
+  <div class="w-10 h-10" />
 </template>
 
 <style scoped>

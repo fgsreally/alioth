@@ -18,34 +18,26 @@ function dragend() {
 </script>
 
 <template>
-  <section class="preview-section">
-    <el-scrollbar style="height: 500px">
-      <el-badge
-        v-for="(module, i) in compList"
-        :key="i"
-        :value="module.key"
-        type="primary"
-        class="preview-section__badge"
-      >
-        <div
-          class="preview-section__box"
-          draggable
-          @dragend="dragend"
-          @dragstart.stop="
-            (e) => {
-              dragstart(module);
-            }
-          "
-        >
-          <RenderBlock
-            :value="module"
-            :type="type"
+  <section class="w-full overflow-y-scroll h-[85vh] ">
+    <div
+      v-for="(module, i) in compList"
+      :key="i"
+      class="preview-section__box"
+      draggable
+      @dragend="dragend"
+      @dragstart.stop="
+        (e) => {
+          dragstart(module);
+        }
+      "
+    >
+      <RenderBlock
+        :value="module"
+        :type="type"
 
-            class="preview-section__block"
-          />
-        </div>
-      </el-badge>
-    </el-scrollbar>
+        class="preview-section__block"
+      />
+    </div>
   </section>
 </template>
 

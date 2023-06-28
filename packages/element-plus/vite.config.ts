@@ -1,5 +1,5 @@
 import { URL, fileURLToPath } from 'node:url'
-
+import { External } from 'alioth-lib'
 import { defineConfig } from 'vite'
 import ReactivityTransform from '@vue-macros/reactivity-transform/vite'
 
@@ -36,9 +36,7 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
 
     }),
-    // Icons(),
-
-
+    External(),
 
   ],
   resolve: {

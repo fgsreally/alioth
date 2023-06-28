@@ -45,11 +45,10 @@ export function createCommand<Command extends DefaultCommand>(options: {
   }
 
   const registry = (command: Command) => {
-    if(initialized&&command.init){
+    if (initialized && command.init)
 
-       state.destroyArray.push(command.init()),
+      state.destroyArray.push(command.init())
 
-    }
     state.commandArray.push(command)
     state.commands[command.name] = () => {
       // 命令名字对应执行函数

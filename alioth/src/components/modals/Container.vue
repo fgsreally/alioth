@@ -6,7 +6,8 @@ const { container } = useV(DocState)
 </script>
 
 <template>
-  <el-form min-w-100 l-flex>
+  <div />
+<!-- <el-form min-w-100 l-flex>
     <el-form-item label="页面宽度" justify-end>
       <el-input-number
         v-model="container.attrs.width"
@@ -45,5 +46,5 @@ const { container } = useV(DocState)
     <el-form-item label="栅格颜色">
       <el-color-picker v-model="container.attrs.gridColor" />
     </el-form-item>
-  </el-form>
+  </el-form> -->
 </template>

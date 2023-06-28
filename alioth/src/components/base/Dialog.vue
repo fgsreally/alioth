@@ -14,7 +14,6 @@ defineProps<{ title: string }>()
 const { modelValue } = defineModels<{
   modelValue: boolean
 }>()
-
 </script>
 
 <template>

@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import { useDrag } from 'alioth-lib'
-import { ArrowLeftBold, ArrowRightBold } from '@element-plus/icons-vue'
 const { x, y, isActive, fix } = defineProps<{ x: number; y: number; isActive: boolean; fix: boolean; label: string }>()
 const style = reactive({ x, y })
 
 const arrowIcon = {
-  left: ArrowRightBold,
-  right: ArrowLeftBold,
+  left: 'i-lucide:arrow-left',
+  right: 'i-lucide:arrow-right',
 
 }
 

@@ -4,10 +4,10 @@
   margin: 0;
   padding: 0;
   box-sizing: content-box;
-  --el-border-color:rgba(82, 82, 111, 0.44);
-  --el-fill-color-light:rgb(43, 44, 68);
-  --el-bg-color:rgba(82, 82, 111, 0.44);
-  --el-color-primary:#8b17f9;
+  --el-border-color: rgba(82, 82, 111, 0.44);
+  --el-fill-color-light: rgb(43, 44, 68);
+  --el-bg-color: rgba(82, 82, 111, 0.44);
+  --el-color-primary: #8b17f9;
 }
 
 body {
@@ -20,13 +20,9 @@ body {
   font-family: "Helvetica Neue";
 }
 
-
-
 .el-badge__content {
   z-index: 10;
 }
-
-
 
 .block_edit {
   position: absolute;
@@ -73,16 +69,15 @@ p.preview-section-item {
 }
 
 #al-root {
-  &  .el-tabs__item{
-
+  & .el-tabs__item {
   }
-  & .el-tabs__header{
-    --el-border-color-light:rgba(82, 82, 111, 0.44);
+  & .el-tabs__header {
+    --el-border-color-light: rgba(82, 82, 111, 0.44);
   }
   & .el-input__wrapper {
-    --el-input-hover-border-color:#e0c3fc;
-  --el-input-border-color:rgba(82, 82, 111, 0.44);
-  --el-input-focus-border-color:#c187f6e2;
+    --el-input-hover-border-color: #e0c3fc;
+    --el-input-border-color: rgba(82, 82, 111, 0.44);
+    --el-input-focus-border-color: #c187f6e2;
     background-color: transparent !important;
 
     border-bottom: 1px solid rgba(82, 82, 111, 0.25);
@@ -95,7 +90,7 @@ p.preview-section-item {
     height: 36px;
     input {
       writing-mode: horizontal-tb !important;
-    
+
       text-rendering: auto;
       color: fieldtext;
       letter-spacing: normal;
@@ -114,11 +109,14 @@ p.preview-section-item {
       padding: 1px 2px;
       border-width: 2px;
       border-style: inset;
-      border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+      border-color: -internal-light-dark(
+        rgb(118, 118, 118),
+        rgb(133, 133, 133)
+      );
       border-image: initial;
     }
 
-  & input[type="text"] {
+    & input[type="text"] {
       padding: 10px 14px 9px;
       grid-area: 1 / 1 / auto / auto;
       margin: 0px;
@@ -132,7 +130,7 @@ p.preview-section-item {
       outline: none;
       width: 100%;
     }
-&::after {
+    &::after {
       content: attr(data-placeholder);
       box-sizing: border-box;
       width: auto;
@@ -143,12 +141,9 @@ p.preview-section-item {
       white-space: nowrap;
       padding: 10px 14px 9px;
     }
-    
- 
- 
   }
   & .el-button {
-   @apply bg-on-s;
+    @apply bg-on-s;
   }
 }
 
@@ -160,17 +155,18 @@ button {
   color: white;
 }
 
-.l-flex::-webkit-scrollbar{
+.l-flex::-webkit-scrollbar {
   width: 12px;
 }
-.l-flex::-webkit-scrollbar-thumb{
+.l-flex::-webkit-scrollbar-thumb {
   background-color: #313248;
-  border-radius:12px;
+  border-radius: 12px;
   border: 3px solid transparent;
   background-clip: content-box;
 }
-.l-flex::-webkit-scrollbar-track{
-  background-color: transparent;}
+.l-flex::-webkit-scrollbar-track {
+  background-color: transparent;
+}
 
 .al-editor__iframe-wrapper {
   @apply l-card px-4 py-8;
@@ -193,46 +189,45 @@ button {
   }
 }
 
-
-.l-btn-s{
-  background-color: rgba(43,44,68,1);
+.l-btn-s {
+  background-color: rgba(43, 44, 68, 1);
   display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    line-height: 1;
-    height: 32px;
-    white-space: nowrap;
-    cursor: pointer;
-    color: #606266;
-    text-align: center;
-    box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  height: 32px;
+  white-space: nowrap;
+  cursor: pointer;
+  color: #606266;
+  text-align: center;
+  box-sizing: border-box;
+  outline: 0;
+  transition: 0.1s;
+  font-weight: 500;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  border: 1px solid rgba(82, 82, 111, 0.44);
+  padding: 8px 15px;
+  border-radius: 4px;
+  &:hover {
+    border-color: #8b17f9;
+    color: #8b17f9;
     outline: 0;
-    transition: .1s;
-    font-weight: 500;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    vertical-align: middle;
-    -webkit-appearance: none;
-    border: 1px solid rgba(82, 82, 111, 0.44);
-    padding:8px 15px;
-    border-radius:4px;
-    &:hover{
-      border-color: #8b17f9;
-      color:#8b17f9;
-      outline: 0;
-    }
-    &:focus{
-      border-color: #8b17f9;
-      color:#8b17f9;
-      outline: 0;
-      border-width:2px;
-    }
+  }
+  &:focus {
+    border-color: #8b17f9;
+    color: #8b17f9;
+    outline: 0;
+    border-width: 2px;
+  }
 }
 
 input {
-  min-width:150px;
+  min-width: 150px;
   writing-mode: horizontal-tb !important;
   text-rendering: auto;
   color: fieldtext;
@@ -255,11 +250,11 @@ input {
   border-image: initial;
 }
 
- input[type="text"] {
+input[type="text"] {
   padding: 10px 14px 9px;
   grid-area: 1 / 1 / auto / auto;
   margin: 0px;
-   border: none;
+  border: none;
   background-color: rgb(44, 45, 60);
   appearance: none;
   font-size: inherit;
@@ -269,7 +264,7 @@ input {
   outline: none;
   width: 100%;
   border-radius: 4px;
-  border:1px solid transparent ;
+  border: 1px solid transparent;
 
   &::after {
     content: attr(data-placeholder);
@@ -282,8 +277,21 @@ input {
     white-space: nowrap;
     padding: 10px 14px 9px;
   }
-  &:focus{
-    border:1px solid rgb(102, 107, 226) ;
+  &:focus {
+    border: 1px solid rgb(102, 107, 226);
   }
 }
 
+// common.less
+*::-webkit-scrollbar {
+  @apply bg-black;
+  width: 10px;
+  border-radius: 5px;
+  // height: 10px; // 高度写不写，都不影响，因为会根据内容的长度自动计算
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-font-n;
+
+  border-radius: 5px;
+}

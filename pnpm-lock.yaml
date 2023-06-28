@@ -28,9 +28,6 @@ importers:
       '@ark-ui/vue':
         specifier: ^0.4.0
         version: 0.4.0(vue@3.3.2)
-      '@element-plus/icons-vue':
-        specifier: ^2.1.0
-        version: 2.1.0(vue@3.3.2)
       '@iconify-json/gg':
         specifier: ^1.1.4
         version: 1.1.4
@@ -52,9 +49,6 @@ importers:
       alioth-lib:
         specifier: workspace:^
         version: link:../packages/lib
-      element-plus:
-        specifier: ^2.2.29
-        version: 2.2.29(vue@3.3.2)
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -64,6 +58,9 @@ importers:
       unocss:
         specifier: ^0.52.3
         version: 0.52.3(postcss@8.4.23)(vite@4.3.5)
+      unocss-preset-alioth:
+        specifier: workspace:^
+        version: link:../packages/unocss
       unplugin-auto-import:
         specifier: ^0.13.0
         version: 0.13.0(@vueuse/core@10.1.2)
@@ -177,7 +174,7 @@ importers:
         version: 4.17.21
       phecda-vue:
         specifier: latest
-        version: 1.5.5
+        version: 1.5.6
       vue:
         specifier: ^3.2.47
         version: 3.3.2
@@ -261,7 +258,7 @@ importers:
         version: 4.0.0
       phecda-vue:
         specifier: latest
-        version: 1.5.5
+        version: 1.5.6
       vue:
         specifier: ^3.2.47
         version: 3.3.2
@@ -5742,10 +5739,6 @@ packages:
     resolution: {integrity: sha512-a7E9UCxeSirf4IFbxsKCkAQy7v8UCqw9E1pOMRpCjbKZpUCbe1Ci0JoXAnDxbeS+7+L76jFQO+m+YTAK2mnocg==}
     dev: false
 
-  /phecda-core@1.4.1:
-    resolution: {integrity: sha512-XPz9E4dH4YAEnIbfAmJbjrkxwc/N4L2hOP4XQ2WzprkH/8HIt0440M9nx0kgomXUkIt+urigioHQiKJoxlJKLQ==}
-    dev: false
-
   /phecda-core@1.5.0:
     resolution: {integrity: sha512-j5sqna46UVWhT9ByYZtIVUbxWSrdSuoxNTi2DlIjKFEby83qQkUuj2X0FN7oup35Y0V7LdR+JagL4CmMz2q8WQ==}
     dev: false
@@ -5755,14 +5748,6 @@ packages:
     dependencies:
       mitt: 3.0.0
       phecda-core: 1.4.0
-      vue: 3.3.2
-    dev: false
-
-  /phecda-vue@1.5.5:
-    resolution: {integrity: sha512-/OCJW89RmG0aEsfMhCp5Lx3lwwB5Dvhh0GsZre2bLLwlCWS5qbwCnRNkJZpsrFHZxnkuJxBfBhLkKPb1DLTANg==}
-    dependencies:
-      mitt: 3.0.0
-      phecda-core: 1.4.1
       vue: 3.3.2
     dev: false
 

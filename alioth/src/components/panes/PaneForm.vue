@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { createForm, useO } from 'phecda-vue'
 import { ConfigState } from '@/models/config'
 
@@ -22,4 +22,9 @@ const CustomForm = createForm(componentMap, ElForm, ElFormItem, {
     :model="data"
     label-width="120px"
   />
+</template> -->
+<template>
+  <div w-10 h-100 bg-red>
+    11
+  </div>
 </template>

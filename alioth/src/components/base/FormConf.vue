@@ -23,7 +23,7 @@ function addForm() {
 <template>
   <pane-form v-for="(item, i) in modelValue" :key="i" :data="i" :config="item" />
   {{ modelValue }}
-  <el-input v-model="cur.name" />
+  <!-- <el-input v-model="cur.name" />
   <el-select v-model="cur.config">
     <el-option
       v-for="(item, i) in options"
@@ -33,7 +33,7 @@ function addForm() {
     />
   </el-select>  <el-button @click="addForm">
     添加
-  </el-button>
+  </el-button> -->
 </template>
 
 <style scoped>

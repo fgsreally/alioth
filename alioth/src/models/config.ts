@@ -2,8 +2,15 @@ import { Global, Init, Tag } from 'phecda-vue'
 import type { Component } from 'vue'
 import componentMap from '@/components/base'
 import { useLayer } from '@/composables/layer'
-import Container from '@/components/modals/Container.vue'
 import PreviewRenderVue from '@/views/preview/PreviewRender.vue'
+import { Register } from '@/engine/register'
+import { renderer } from '@/engine/renderer'
+
+interface Header {
+  class: string
+  label: string
+  handler: (param: { useLayer: typeof useLayer }) => void
+}
 interface Zone {
   component: string
   label: string
@@ -22,6 +29,9 @@ export class ConfigState {
     componentMap,
   ) as Record<string, Component>
 
+  register = Register
+  render = renderer
+
   public previewConfig = [
     {
       key: 'local',
@@ -36,7 +46,7 @@ export class ConfigState {
     },
   ]
 
-  public headers = [
+  public headers: Header[] = [
     {
       label: '实时预览',
       class: 'i-lucide:eye',
@@ -45,14 +55,6 @@ export class ConfigState {
       },
     },
 
-    {
-      class: 'i-lucide:eye',
-
-      label: '容器配置',
-      handler() {
-        useLayer(Container, {}, { title: '容器配置' })
-      },
-    },
   ]
 
   public zones: Zone[] = [
@@ -95,14 +97,22 @@ export class ConfigState {
 
   ]
 
-  addZone(fb: Zone) {
-    this.zones.push(fb)
+  addZone(zone: Zone) {
+    this.zones.push(zone)
+  }
+
+  addHeader(header: Header) {
+    this.headers.push(header)
   }
 
   @Init
   async init() {
     window.$alioth_addZone = (arg: Zone) => {
       this.addZone(arg)
+    }
+
+    window.$alioth_addHeader = (arg: Header) => {
+      this.addHeader(arg)
     }
     window.$alioth_addView = (key: string, component: Component) => {
       this.componentMap[key] = component

@@ -7,8 +7,8 @@ const { container } = $(useV(DocState))
 </script>
 
 <template>
-  <section w="80vw" h="80vh">
-    <div style="background-color: red;" relative w="fit">
+  <section w="80vw" h="80vh" >
+    <div >
       <RenderBlock
         v-for="(item) in container.children" :key="item.id" :node="item" type="render"
         :value="getWidget(item.attrs.key)"

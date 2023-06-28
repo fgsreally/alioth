@@ -1,15 +1,15 @@
 import type { PluginOption } from 'vite'
-export function External(): PluginOption {
+export function External(externals: Record<string, string> = {}): PluginOption {
   return {
     name: 'alioth-external',
     enforce: 'pre',
     config() {
       return {
         resolve: {
-          alias: {
-            'vue': '',
-            'phecda-vue': '',
-          },
+          alias: Object.assign({
+            vue: '',
+            // 'phecda-vue': '',
+          }, externals),
         },
       }
     },
