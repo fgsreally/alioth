@@ -1,13 +1,12 @@
-import { $H, $V, $Z } from 'alioth-dev/helper'
+import { $H, $R, $V, $Z } from 'alioth-dev/helper'
 import Property from './zones/Property.vue'
 import Tree from './zones/Tree.vue'
 import Container from './modals/Container.vue'
+$V('Input', ElInput)
 $V('Property', Property)
 $V('Tree', Tree)
-$V('Container', Container)
 $H({
   class: 'i-lucide:eye',
-
   label: '容器配置',
   handler({ useLayer }) {
     useLayer(Container, {}, { title: '容器配置' })
