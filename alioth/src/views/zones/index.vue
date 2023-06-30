@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { useV } from 'phecda-vue'
-import { componentMap } from './index'
 import { DocState } from '@/models/doc'
 
 import { ConfigState } from '@/models/config'
 const { activeDoc } = useV(DocState)
 const route = useRoute()
-const { zones } = useV(ConfigState)
+const { zones, componentMap } = useV(ConfigState)
 </script>
 
 <template>

@@ -5,7 +5,7 @@ import ReactivityTransform from '@vue-macros/reactivity-transform/vite'
 
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import presetIcons from '@unocss/preset-icons'
-
+import { External } from 'alioth-dev'
 import Vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/vite'
 import UnoCSS from 'unocss/vite'
@@ -40,7 +40,7 @@ export default defineConfig({
 
     }),
     // Icons(),
-
+    External(),
     UnoCSS({
       rules: [
         ['l-border', {
@@ -106,7 +106,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      'vue': 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.esm-browser.min.js',
+      // 'vue': 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.esm-browser.min.js',
     },
   },
 })

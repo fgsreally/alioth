@@ -13,9 +13,6 @@ importers:
       eslint:
         specifier: ^8.31.0
         version: 8.31.0
-      http-server:
-        specifier: ^14.1.1
-        version: 14.1.1
       turbo:
         specifier: ^1.7.0
         version: 1.7.0
@@ -49,6 +46,9 @@ importers:
       '@vueuse/core':
         specifier: ^10.1.2
         version: 10.1.2(vue@3.3.2)
+      alioth-dev:
+        specifier: workspace:^
+        version: link:../packages/dev
       alioth-lib:
         specifier: workspace:^
         version: link:../packages/lib
@@ -160,9 +160,6 @@ importers:
 
   packages/element-plus:
     dependencies:
-      '@types/lodash-es':
-        specifier: ^4.17.7
-        version: 4.17.7
       alioth-dev:
         specifier: workspace:^
         version: link:../dev
@@ -182,12 +179,18 @@ importers:
         specifier: ^3.2.47
         version: 3.3.2
     devDependencies:
+      '@types/lodash-es':
+        specifier: ^4.17.7
+        version: 4.17.7
       '@vitejs/plugin-vue':
         specifier: ^4.2.3
         version: 4.2.3(vite@4.3.9)(vue@3.3.2)
       '@vue-macros/reactivity-transform':
         specifier: ^0.3.7
         version: 0.3.7(vue@3.3.2)
+      http-server:
+        specifier: ^14.1.1
+        version: 14.1.1
       unplugin-auto-import:
         specifier: ^0.13.0
         version: 0.13.0(@vueuse/core@10.1.2)
@@ -1501,11 +1504,9 @@ packages:
     resolution: {integrity: sha512-z0ptr6UI10VlU6l5MYhGwS4mC8DZyYer2mCoyysZtSF7p26zOX8UpbrV0YpNYLGS8K4PUFIyEr62IMFFjveSiQ==}
     dependencies:
       '@types/lodash': 4.14.194
-    dev: false
 
   /@types/lodash@4.14.194:
     resolution: {integrity: sha512-r22s9tAS7imvBt2lyHC9B8AGwWnXaYb1tY09oyLkXDs4vArpYJzw09nj8MLx5VfciBPGIb+ZwG0ssYnEPJxn/g==}
-    dev: false
 
   /@types/mdast@3.0.11:
     resolution: {integrity: sha512-Y/uImid8aAwrEA24/1tcRZwpxX3pIFTSilcNDKSPn+Y2iDywSEachzRuvgAYYLR3wpGXAsMbv5lvKLDZLeYPAw==}

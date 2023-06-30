@@ -1,10 +1,13 @@
 import { Global, Init, Tag } from 'phecda-vue'
 import type { Component } from 'vue'
-import componentMap from '@/components/base'
+import { getWidget } from 'alioth-lib'
+import { componentMap } from '@/views/zones'
 import { useLayer } from '@/composables/layer'
 import PreviewRenderVue from '@/views/preview/PreviewRender.vue'
-import { Register } from '@/engine/register'
+import { Register, registerWidget } from '@/engine/register'
 import { renderer } from '@/engine/renderer'
+import { getQuery } from '@/utils/url'
+import { presets } from '@/config'
 
 interface Header {
   class: string
@@ -25,10 +28,8 @@ interface Zone {
 @Global
 @Tag('config')
 export class ConfigState {
-  componentMap = markRaw(
-    componentMap,
-  ) as Record<string, Component>
-
+  componentMap = componentMap as Record<string, Component>
+  getWidget = getWidget
   register = Register
   render = renderer
 
@@ -58,7 +59,18 @@ export class ConfigState {
   ]
 
   public zones: Zone[] = [
+    {
+      component: 'ImportList',
+      label: '引入',
+      name: 'importFunc',
+      props: {
 
+      },
+      isActive: () => true,
+      x: 0,
+      y: 580,
+      transition: 'bottom',
+    },
     {
       component: 'Uno',
       label: '样式',
@@ -69,18 +81,18 @@ export class ConfigState {
       transition: 'right',
       props: {},
     },
-    {
-      component: 'Property',
-      label: '组件property',
-      name: 'Property',
-      isActive: ({ instance }) => {
-        return !!instance?.activeNode
-      },
-      x: 600,
-      y: 600,
-      transition: 'left',
-      props: {},
-    },
+    // {
+    //   component: 'Property',
+    //   label: '组件property',
+    //   name: 'Property',
+    //   isActive: ({ instance }) => {
+    //     return !!instance?.activeNode
+    //   },
+    //   x: 600,
+    //   y: 600,
+    //   transition: 'left',
+    //   props: {},
+    // },
     {
       component: 'Events',
       label: '组件events',
@@ -114,6 +126,25 @@ export class ConfigState {
     window.$alioth_addHeader = (arg: Header) => {
       this.addHeader(arg)
     }
+
+    const preset = getQuery('preset')
+
+    if (preset && preset in presets) {
+      presets[preset].forEach((url) => {
+        if (url.endsWith('.css')) {
+          const css = document.createElement('link')
+          css.href = url
+          css.rel = 'stylesheet'
+          css.type = 'text/css'
+          document.head.appendChild(css)
+        }
+        else {
+          import(/** @vite-ignore */url)
+        }
+      })
+    }
+    window.$alioth_registerWidget = registerWidget
+
     window.$alioth_addView = (key: string, component: Component) => {
       this.componentMap[key] = component
     }

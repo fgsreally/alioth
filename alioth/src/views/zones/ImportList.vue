@@ -1,17 +1,11 @@
 <script lang="ts" setup>
 import { emitter, useR } from 'phecda-vue'
 import { ConnectState } from '@/models/connect'
-const { project = 'alioth' } = defineProps<{ project: string }>()
 
-const { allExposed } = useR(ConnectState)
-
-const tableData = $computed(() => {
-  if (!allExposed[project])
-    return []
-  return allExposed[project].exposed
-})
+const { info } = useR(ConnectState)
+console.log(info)
 function dragstart(i: number) {
-  emitter.emit('dragstart', `{{${tableData[i]}}}`)
+  emitter.emit('dragstart', `{{${i}}}`)
 }
 
 function dragend() {
@@ -21,7 +15,7 @@ function dragend() {
 
 <template>
   <section>
-    <div v-for="(item, i) in tableData" :key="i" w="160px">
+    <div v-for="(item, i) in info" :key="i" w="160px">
       <div
         h-8 w-full draggable="true"
         l-flex
@@ -34,7 +28,7 @@ function dragend() {
         }"
         @dragend="dragend"
       >
-        {{ item }}
+        {{ i }}
       </div>
       <!-- <div w="1/2" h-8>
         {{ item.description }}

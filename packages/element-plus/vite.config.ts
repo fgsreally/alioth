@@ -1,5 +1,5 @@
 import { URL, fileURLToPath } from 'node:url'
-import { External } from 'alioth-lib'
+import { External } from 'alioth-dev'
 import { defineConfig } from 'vite'
 import ReactivityTransform from '@vue-macros/reactivity-transform/vite'
 
@@ -18,8 +18,8 @@ export default defineConfig({
   // },
   build: {
     lib: {
-      entry: ['view.ts', 'widget'],
-      name: 'index',
+      entry: ['src/widget.ts', 'src/view.ts'],
+      formats: ['es'],
     },
   },
 
@@ -33,7 +33,7 @@ export default defineConfig({
       },
     }),
     AutoImport({
-      imports: ['vue', 'vue-router'],
+      imports: ['vue'],
       dirs: [],
       resolvers: [ElementPlusResolver()],
     }),
@@ -44,8 +44,10 @@ export default defineConfig({
 
     }),
     External(),
-
   ],
+  define: {
+    'process.env.NODE_ENV': '\'production\'',
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
