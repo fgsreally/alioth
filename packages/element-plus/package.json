@@ -16,6 +16,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@vueuse/core": "^10.1.2",
     "alioth-dev": "workspace:^",
     "alioth-lib": "workspace:^",
     "element-plus": "^2.2.29",

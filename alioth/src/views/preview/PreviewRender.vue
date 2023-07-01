@@ -7,8 +7,15 @@ const { container } = $(useV(DocState))
 </script>
 
 <template>
-  <section w="80vw" h="80vh" >
-    <div >
+  <section min-w="80vw" min-h="80vh" l-flex>
+    <div
+      :style="{
+        position: 'relative',
+        backgroundColor: container.attrs.backgroundColor,
+        width: `${container.attrs.width}px`,
+        height: `${container.attrs.height}px`,
+      }"
+    >
       <RenderBlock
         v-for="(item) in container.children" :key="item.id" :node="item" type="render"
         :value="getWidget(item.attrs.key)"

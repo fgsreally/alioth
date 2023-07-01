@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import ReactivityTransform from '@vue-macros/reactivity-transform/vite'
 
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import UnoCSS from 'unocss/vite'
 
 import Vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/vite'
@@ -25,6 +26,7 @@ export default defineConfig({
 
   plugins: [
     ReactivityTransform(),
+
     VueMacros({
       setupBlock: true,
       plugins: {

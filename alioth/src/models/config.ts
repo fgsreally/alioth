@@ -60,6 +60,36 @@ export class ConfigState {
 
   public zones: Zone[] = [
     {
+      component: 'Property',
+      label: '组件property',
+      name: 'Property',
+      isActive: ({ instance }) => {
+        return !!instance?.activeNode
+      },
+      props: {
+        type: 'props',
+      },
+      x: 600,
+      y: 600,
+      transition: 'left',
+
+    },
+    {
+      component: 'Property',
+      label: '事件',
+      name: 'Event',
+      isActive: ({ instance }) => {
+        return !!instance?.activeNode
+      },
+      props: {
+        type: 'events',
+      },
+      x: 600,
+      y: 600,
+      transition: 'left',
+
+    },
+    {
       component: 'ImportList',
       label: '引入',
       name: 'importFunc',

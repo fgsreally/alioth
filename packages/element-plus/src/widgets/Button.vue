@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <el-button v-bind="$attrs">
+  <el-button>
     {{ text }}
   </el-button>
 </template>

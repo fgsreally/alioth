@@ -55,9 +55,9 @@ export default defineConfig({
         ],
       ],
       shortcuts: {
-        'l-flex': 'flex flex-col grow-1 shrink-1 min-w-min content-center justify-center flex-wrap',
+        'l-flex': 'flex grow-1 shrink-1 min-w-min flex-items-center justify-center flex-wrap',
         // shortcuts to multiple utilities
-        'l-layer': 'l-filter  bg-s-container l-shadow l-shadow l-flex bg-s-container',
+        'l-layer': 'l-filter  bg-s-container l-shadow l-shadow  bg-s-container',
         'l-card': 'l-layer  rd-2 overflow-hidden l-border border-1   max-h-min  will-change-transform color-font-s p-5',
         'l-btn': 'select-none inline-flex shrink-0 rd min-w-[32px]  h-[32px] content-center justify-center flex-wrap border-1 divide-solid  whitespace-nowrap',
         'l-btn-p': 'color-font-p bg-p hover:bg-on-p l-shadow l-btn border-p',

@@ -1,5 +1,7 @@
-<!-- <script setup lang="ts">
+<script setup lang="ts">
 import { createForm, useO } from 'phecda-vue'
+import FormItem from './FormItem.vue'
+import Form from './Form.vue'
 import { ConfigState } from '@/models/config'
 
 const { config, data, onUpdate } = defineProps<{
@@ -10,7 +12,7 @@ const { config, data, onUpdate } = defineProps<{
 
 const { componentMap } = useO(ConfigState)
 
-const CustomForm = createForm(componentMap, ElForm, ElFormItem, {
+const CustomForm = createForm(componentMap, Form, FormItem, {
   onUpdate,
 })
 </script>
@@ -22,9 +24,4 @@ const CustomForm = createForm(componentMap, ElForm, ElFormItem, {
     :model="data"
     label-width="120px"
   />
-</template> -->
-<template>
-  <div w-10 h-100 bg-red>
-    11
-  </div>
 </template>

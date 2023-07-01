@@ -1,14 +1,16 @@
 import { $H, $R, $V, $Z } from 'alioth-dev/helper'
-import Property from './zones/Property.vue'
+import { createLayer } from 'phecda-vue'
 import Tree from './zones/Tree.vue'
 import Container from './modals/Container.vue'
+import Select from './widgets/Select.vue'
+const useLayer = createLayer(ElDialog, {})
 $V('Input', ElInput)
-$V('Property', Property)
+$V('Select', Select)
 $V('Tree', Tree)
 $H({
   class: 'i-lucide:eye',
   label: '容器配置',
-  handler({ useLayer }) {
+  handler() {
     useLayer(Container, {}, { title: '容器配置' })
   },
 })
@@ -21,18 +23,5 @@ $Z({
   x: 1100,
   y: 50,
   transition: 'right',
-  props: {},
-})
-
-$Z({
-  component: 'Property',
-  label: '组件property',
-  name: 'Property',
-  isActive: ({ instance }) => {
-    return !!instance?.activeNode
-  },
-  x: 600,
-  y: 600,
-  transition: 'left',
   props: {},
 })

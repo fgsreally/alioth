@@ -96,6 +96,8 @@ export class renderer extends BaseRenderer<node<NodeSchema>> {
   main() {
     // if (!this._vnode)
     //   return this
+
+    console.log(this.filter(cloneDeep(this.node.attrs.propsData)))
     const vnode: any = (this._vnode = h(
       this.comp as DefineComponent,
       Object.assign({ _node: this.node }, this.filter(cloneDeep(this.node.attrs.propsData))),

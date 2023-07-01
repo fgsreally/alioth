@@ -5,8 +5,8 @@ const { container } = useV(window.__PHECDA__.doc)
 </script>
 
 <template>
-<el-form min-w-100 l-flex>
-    <el-form-item label="页面宽度" justify-end>
+  <el-form style="padding: 4px 8px; margin: 0 auto;width:fit-content">
+    <el-form-item label="页面宽度">
       <el-input-number
         v-model="container.attrs.width"
         :min="container.attrs.wLimit[0]"

@@ -17,11 +17,11 @@ const { modelValue } = defineModels<{
 </script>
 
 <template>
-  <Dialog v-slot="{ isOpen }" v-model:open="modelValue">
+  <Dialog v-slot="{ isOpen }" v-model:open="modelValue" :close-on-outside-click="false">
     <Teleport v-if="isOpen" to="body">
       <DialogBackdrop fixed top-0 left-0 w-screen h-screen flex content-center justify-center flex-wrap z-100>
         <DialogContainer>
-          <DialogContent border-b-1 border-b-solid border-ol h-fit l-card p-4>
+          <DialogContent border-b-1 border-b-solid border-ol h-fit l-card l-flex flex-col p-4>
             <DialogTitle>
               {{ title }}
             </DialogTitle>
@@ -29,7 +29,7 @@ const { modelValue } = defineModels<{
               <slot />
             </DialogDescription>
             <DialogCloseTrigger>
-              <button class="l-btn-p">
+              <button l-btn-p w-full>
                 Close
               </button>
             </DialogCloseTrigger>

@@ -6,15 +6,17 @@ import { DragState } from 'alioth-lib/model'
 
 import { watch } from 'vue'
 import { DocState } from '@/models/doc'
-const { activeNode } = useV(DocState)
+
+const { type } = defineProps<{ type: 'props' | 'events' }>()
+const { activeNode } = $(useV(DocState))
 const { add, del } = useV(DragState)
 let args = $ref<{ data: any; config: any }>({} as any)
 
-watch(() => activeNode.value, (n, o) => {
+watch(() => activeNode, (n, o) => {
   if (!n)
     return
-  const { meta: { props } } = getWidget(n.key)!
-  const { data, config } = createFormData(props, n.attrs.propsData)
+  const params = getWidget(n.key)!.meta[type]
+  const { data, config } = createFormData(params, n.attrs.propsData)
   for (const i in config) {
     config[i]._mount = ({ el }: any) => {
       add(el, (v: any) => {

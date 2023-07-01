@@ -7,18 +7,18 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-    redirect:'/editor'
+      redirect: '/editor',
     },
     {
       path: '/editor',
       name: 'Editor',
-      component: Editor
-    },    {
+      component: Editor,
+    }, {
       path: '/preview',
       name: 'preview',
-      component: PreviewRender
-    }
-  ]
+      component: PreviewRender,
+    },
+  ],
 })
 
 export default router

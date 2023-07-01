@@ -15,6 +15,12 @@ export function init() {
 
       },
     },
+    events: {
+      onClick: {
+        _component: 'Input',
+        _formItem: { label: '绑定事件' },
+      },
+    },
     meta: {
       props: [{
         name: 'modelValue',

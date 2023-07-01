@@ -12,7 +12,6 @@ let args = $ref<{ data: any; config: any }>({} as any)
 watch(() => activeNode.value, (n, o) => {
   if (!n)
     return
-  console.log(getWidget(n.key))
   const { meta: { props } } = getWidget(n.key)!
   const { data, config } = createFormData(props, n.attrs.propsData)
   for (const i in config) {
@@ -35,6 +34,7 @@ watch(() => activeNode.value, (n, o) => {
       :data="args.data" :config="args.config"
       :on-update="(key:string, v:any) => activeNode?.setAttribute(`propsData.${key}`, v)"
     />
+    {{ activeNode.attrs.propsData }}
   </el-scrollbar>
 </template>
 

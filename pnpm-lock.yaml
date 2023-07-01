@@ -160,6 +160,9 @@ importers:
 
   packages/element-plus:
     dependencies:
+      '@vueuse/core':
+        specifier: ^10.1.2
+        version: 10.1.2(vue@3.3.2)
       alioth-dev:
         specifier: workspace:^
         version: link:../dev
@@ -174,7 +177,7 @@ importers:
         version: 4.17.21
       phecda-vue:
         specifier: latest
-        version: 1.5.6
+        version: 1.5.7
       vue:
         specifier: ^3.2.47
         version: 3.3.2
@@ -5855,6 +5858,14 @@ packages:
 
   /phecda-vue@1.5.6:
     resolution: {integrity: sha512-SLWFWy09PZkz/q/fS6VbrsqmqCiHOFICX8RMmT+1fJ3TANBkr98ymKdLEbPqsVs38qfLcxr7MZdwGLIbWCe5tQ==}
+    dependencies:
+      mitt: 3.0.0
+      phecda-core: 1.5.0
+      vue: 3.3.2
+    dev: false
+
+  /phecda-vue@1.5.7:
+    resolution: {integrity: sha512-t49x8z9VhvPjZJyYFEVawjdDe+XqgAMeguRlj96vplgr8YlS9fQ9PhI/VJAaKcs63t/6X7PtvgH+G74JGwg07g==}
     dependencies:
       mitt: 3.0.0
       phecda-core: 1.5.0
