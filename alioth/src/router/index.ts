@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Editor from '../views/Editor.vue'
-import PreviewRender from '@/views/preview/PreviewRender.vue'
+import Preview from '@/views/Preview.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,7 +16,7 @@ const router = createRouter({
     }, {
       path: '/preview',
       name: 'preview',
-      component: PreviewRender,
+      component: Preview,
     },
   ],
 })

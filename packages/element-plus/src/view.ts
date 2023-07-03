@@ -3,6 +3,7 @@ import { createLayer } from 'phecda-vue'
 import Tree from './zones/Tree.vue'
 import Container from './modals/Container.vue'
 import Select from './widgets/Select.vue'
+import './style.scss'
 const useLayer = createLayer(ElDialog, {})
 $V('Input', ElInput)
 $V('Select', Select)

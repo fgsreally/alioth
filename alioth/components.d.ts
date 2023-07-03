@@ -49,5 +49,6 @@ declare module '@vue/runtime-core' {
     Slider: typeof import('./src/components/base/Slider.vue')['default']
     TabInput: typeof import('./src/components/base/TabInput.vue')['default']
     Tooltip: typeof import('./src/components/base/Tooltip.vue')['default']
+    Upload: typeof import('./src/components/base/Upload.vue')['default']
   }
 }

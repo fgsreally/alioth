@@ -1,11 +1,11 @@
-import { Global, Init, Tag } from 'phecda-vue'
+import { Global, Init, Tag, useV } from 'phecda-vue'
 import type { Component } from 'vue'
 import { getWidget } from 'alioth-lib'
+import { DocState } from './doc'
 import { componentMap } from '@/views/zones'
 import { useLayer } from '@/composables/layer'
 import PreviewRenderVue from '@/views/preview/PreviewRender.vue'
-import { Register, registerWidget } from '@/engine/register'
-import { renderer } from '@/engine/renderer'
+
 import { getQuery } from '@/utils/url'
 import { presets } from '@/config'
 
@@ -30,8 +30,6 @@ interface Zone {
 export class ConfigState {
   componentMap = componentMap as Record<string, Component>
   getWidget = getWidget
-  register = Register
-  render = renderer
 
   public previewConfig = [
     {
@@ -55,7 +53,14 @@ export class ConfigState {
         useLayer(PreviewRenderVue, {}, { title: '预览页面' })
       },
     },
-
+    {
+      label: '下载',
+      class: 'i-lucide:eye',
+      handler() {
+        const { download } = useV(DocState)
+        download('test.json')
+      },
+    },
   ]
 
   public zones: Zone[] = [
@@ -127,7 +132,7 @@ export class ConfigState {
       component: 'Events',
       label: '组件events',
       name: 'events',
-      isActive: ({ instance }) => {
+      isActive: () => {
         // return !!instance?.activeNode
         return false
       },
@@ -156,7 +161,9 @@ export class ConfigState {
     window.$alioth_addHeader = (arg: Header) => {
       this.addHeader(arg)
     }
-
+    window.$alioth_addView = (key: string, component: Component) => {
+      this.componentMap[key] = component
+    }
     const preset = getQuery('preset')
 
     if (preset && preset in presets) {
@@ -172,11 +179,6 @@ export class ConfigState {
           import(/** @vite-ignore */url)
         }
       })
-    }
-    window.$alioth_registerWidget = registerWidget
-
-    window.$alioth_addView = (key: string, component: Component) => {
-      this.componentMap[key] = component
     }
   }
 }

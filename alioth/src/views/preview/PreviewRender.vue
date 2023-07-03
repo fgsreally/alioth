@@ -7,7 +7,7 @@ const { container } = $(useV(DocState))
 </script>
 
 <template>
-  <section min-w="80vw" min-h="80vh" l-flex>
+  <section min-w="80vw" min-h="80vh" l-flex border-1 border-solid border-font-t>
     <div
       :style="{
         position: 'relative',

@@ -1,12 +1,8 @@
-import { Init, createFilter } from 'phecda-vue'
-import type { AllExpoesd } from 'alioth-lib'
-import { createConnector, setState } from 'alioth-lib'
-import { ConfigState } from './config'
+import { Init } from 'phecda-vue'
+import { createConnector, interval } from 'alioth-lib'
 import { getQuery } from '@/utils/url'
 
 export const { connect, dynamicImport, urlMap, projectMap } = createConnector()
-
-// export const { filter, data, setState } = createFilter({})
 
 export class ConnectState {
   info: Record<string, any> = {}
@@ -43,11 +39,7 @@ export class ConnectState {
   }
 
   updateModule(key: string, value: any, meta: any) {
-    setState(key, null)
-
-    setState(key, value)
-
-    delete this.info[key]
+    interval.setState(key, value)
 
     this.info[key] = meta
   }

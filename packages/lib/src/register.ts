@@ -9,7 +9,7 @@ export type RegisterKey = string | symbol
 export interface RegisterType extends BaseRegister<any> {
 
 }
-
+export let curRegister: RegisterType
 export const allWidgetMap = reactive(new Map()) as Map<RegisterKey, RegisterType>
 
 export function getWidget<

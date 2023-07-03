@@ -51,7 +51,7 @@ function startMove(e: MouseEvent) {
         top: `${style.y}px`, left: `${style.x}px`,
       }" style="position: fixed;z-index: 10;user-select: none;will-change:auto" @mousedown="startMove"
     >
-      <div shadow="always" class="l-card">
+      <div class="l-card">
         <p class="drag-wrapper__label">
           {{ label }}
         </p>

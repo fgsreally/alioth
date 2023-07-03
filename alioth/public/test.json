@@ -1,0 +1,66 @@
+[
+  {
+    "id": "0SOoVKkpNrKIOWaDLjr2H",
+    "title": "未定义",
+    "data": {
+      "id": "OW27IL5UZ49eR7w0NCIZ3",
+      "attributes": {
+        "width": 640,
+        "height": 600,
+        "fontSize": 16,
+        "backgroundColor": "rgb(102, 107, 226)",
+        "gridColor": "#ff00006b",
+        "gridNum": 10,
+        "gridGap": 20,
+        "margin": 0,
+        "radius": 0,
+        "isContainer": true,
+        "isFull": false,
+        "isGrid": true,
+        "mode": "normal",
+        "wLimit": [375, 2000],
+        "hLimit": [600, 4000]
+      },
+      "key": "template",
+      "children": [
+        {
+          "id": "NHrrTJygPwRw8nuZn-Ye9",
+          "attributes": {
+            "slot": "default",
+            "key": "Button",
+            "propsData": {
+              "config": {},
+              "onClick": "{{change}}",
+              "text": "点击变为10",
+              "type": "primary"
+            },
+            "class": [],
+            "level": 1,
+            "top": { "value": 69, "size": "px" },
+            "left": { "value": 133, "size": "px" },
+            "w": { "value": 150.79998779296875, "size": "px" },
+            "h": { "value": 36.63749694824219, "size": "px" }
+          },
+          "key": "Button",
+          "children": []
+        },
+        {
+          "id": "A_2c3U2cp8ZSnuI6zjhGV",
+          "attributes": {
+            "slot": "default",
+            "key": "test2",
+            "propsData": { "config": {}, "modelValue": "{{a}}" },
+            "class": [],
+            "level": 1,
+            "top": { "value": 209, "size": "px" },
+            "left": { "value": 247, "size": "px" },
+            "w": { "value": 100, "size": "px" },
+            "h": { "value": 100, "size": "px" }
+          },
+          "key": "test2",
+          "children": []
+        }
+      ]
+    }
+  }
+]

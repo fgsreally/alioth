@@ -1,25 +1,19 @@
 import {
   BaseRegister,
   allWidgetMap,
-  createNameSpace,
-  filter,
-  getEditorStore,
-  getWidget,
+  interval,
+
 } from 'alioth-lib'
 import type { VirtualNode } from 'alioth-lib'
 
-import type { Component, VNode } from 'vue'
+import type { VNode } from 'vue'
 import { h } from 'vue'
-import { useV } from 'phecda-vue'
 
 import { renderer } from './renderer'
-import { getBreakPointClass, toUnoClass } from '@/utils/style'
-import { DocState } from '@/models/doc'
-
-const { activeDoc } = useV(DocState)
+import { getBreakPointClass } from '@/utils/style'
 
 export class Register extends BaseRegister<typeof renderer> {
-  filter = filter
+  filter = interval.filter
   renderer = renderer
   text() {
     return h('p', this.key)
@@ -102,14 +96,4 @@ export class Register extends BaseRegister<typeof renderer> {
   code(VirtualNode: BlockType) {
 
   }
-}
-
-export function registerWidget(
-  category: string,
-  key: string | symbol,
-
-  comp: Component,
-  meta?: any,
-) {
-  getEditorStore(category).register?.(new Register(category, key, comp, meta))
 }

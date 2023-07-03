@@ -101,17 +101,17 @@ export class VirtualDocument<A extends NodeAttrs> {
     const HC = this.HC
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
-    function traverse(VirtualNode: any) {
-      const node = new VirtualNode(VirtualNode.key)
+    function traverse(data: any) {
+      const node = new VirtualNode(data.key)
 
       node.HC = HC
       node.doc = that
-      node.id = VirtualNode.id
-      node.attributes = VirtualNode.attributes
-      VirtualNode.children.forEach((item: any, i: number) => {
-        const VirtualNode = traverse(item)
-        VirtualNode.parent = node
-        node.children[i] = VirtualNode
+      node.id = data.id
+      node.attributes = data.attributes
+      data.children.forEach((item: any, i: number) => {
+        const child = traverse(item)
+        child.parent = node
+        node.children[i] = child
       })
       return node
     }

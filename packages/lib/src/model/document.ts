@@ -84,6 +84,19 @@ export class DocState<T extends NodeAttrs> extends EventEmitter {
     return this.docs.find(item => item.id === id)
   }
 
+  download(fileName: string) {
+    const blob = new Blob([JSON.stringify(this.docs.map(({ doc, id, title }) => {
+      return {
+        id, title, data: doc.root,
+      }
+    }))])
+    const saveLink = document.createElement('a')
+    saveLink.href = URL.createObjectURL(blob)
+    saveLink.download = fileName
+    saveLink.click()
+    URL.revokeObjectURL(saveLink.href)
+  }
+
   remove(id: string) {
     if (this.docs.length > 1) {
       this.docs.splice(this.docs.findIndex(item => item.id === id), 1)[0].doc.unmount()

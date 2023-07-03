@@ -1,6 +1,6 @@
 // import { cloneDeep, isSymbol } from 'lodash-es'
 import type { node } from 'alioth-lib'
-import { BaseRenderer, filter } from 'alioth-lib'
+import { BaseRenderer, interval } from 'alioth-lib'
 
 import type { Component, DefineComponent, VNode } from 'vue'
 import { h } from 'vue'
@@ -11,6 +11,7 @@ import type { NodeSchema } from './schema'
 import { DocState } from '@/models/doc'
 
 import { toPx } from '@/utils/style'
+
 enum VUEOPTS {
   MODEL = 'vModel',
   IF = 'vIf',
@@ -20,10 +21,6 @@ const { activeDoc, activeNode, isActive } = useV(DocState)
 
 export class renderer extends BaseRenderer<node<NodeSchema>> {
   propsData: any
-  // constructor(node: node<NodeSchema>, comp: Component) {
-  //   super(node, comp)
-  //   this.propsData = filter(cloneDeep(this.node.attrs.propsData || {}))
-  // }
 
   getSize() {
     if (!this._vnode)
@@ -97,24 +94,11 @@ export class renderer extends BaseRenderer<node<NodeSchema>> {
     // if (!this._vnode)
     //   return this
 
-    console.log(this.filter(cloneDeep(this.node.attrs.propsData)))
-    const vnode: any = (this._vnode = h(
+    (this._vnode = h(
       this.comp as DefineComponent,
-      Object.assign({ _node: this.node }, this.filter(cloneDeep(this.node.attrs.propsData))),
+      Object.assign({ _node: this.node }, interval.filter(cloneDeep(this.node.attrs.propsData))),
       this._vnode || undefined,
     ))
-
-    // if (!this.node.isReady) {
-    //   nextTick(() => {
-    //     this.node.slots = vnode.component.subTree.dynamicChildren.filter((i: any) => i.patchFlag === -2 && i.key.startsWith('_')).map((i: any) => i.key.slice(1))
-    //     // if (isSymbol(vnode.component.subTree.type))
-    //     //   this.node.isMultiple = true
-
-    //     this.node.isReady = true
-    //   })
-    // }
-    // if (this.node.isMultiple)
-    //   this._vnode = h('div', {}, this._vnode)
 
     return this
   }
@@ -146,12 +130,6 @@ export class renderer extends BaseRenderer<node<NodeSchema>> {
     if (!this._vnode)
       return this
 
-    // if (this.node[VUEOPTS.MODEL]) {
-    //   (this._vnode as any).props[`modelValue`] =
-    //     state[this.node[VUEOPTS.MODEL]];
-    //   (this._vnode as any).props[`onUpdate:modelValue`] = (v: any) =>
-    //     (state[this.node[VUEOPTS.MODEL]] = v);
-    // }
     this.node.mutations.forEach(
       (item: { key: string | undefined; handler: string | undefined }) => {
         if (item.key && item.handler) {
@@ -166,20 +144,6 @@ export class renderer extends BaseRenderer<node<NodeSchema>> {
     )
     return this
   }
-
-  // vModel(state: any) {
-  //   if (!this._vnode)
-  //     return this
-
-  //   if (this.node[VUEOPTS.MODEL]) {
-  //     (this._vnode as any).props.modelValue
-  //       = state[this.node[VUEOPTS.MODEL]];
-  //     (this._vnode as any).props['onUpdate:modelValue'] = (v: any) =>
-  //       (state[this.node[VUEOPTS.MODEL]] = v)
-  //   }
-
-  //   return this
-  // }
 
   vif(state: any) {
     if (filter({ data: this.node[VUEOPTS.IF] }).data)

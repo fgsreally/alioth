@@ -12,9 +12,10 @@ import PreviewPart from './sidebar/PreviewPart.vue'
 import EditRender from './preview/EditRender.vue'
 import Header from './header/Header.vue'
 import Editable from '@/components/base/Editable.vue'
-import { initialize } from '@/engine/init'
 // import { responseScreen } from '@/utils/response'
 import { DocState } from '@/models/doc'
+import Zones from '@/views/zones/index.vue'
+
 import { ConfigState } from '@/models/config'
 import type { RootSchema } from '@/engine/schema'
 const { container } = $(useV<typeof DocState<RootSchema>>(DocState))
@@ -22,10 +23,10 @@ const { remove, docs, add, active, activeId } = $(useV(DocState))
 // responseScreen()
 
 const { previewConfig } = useV(ConfigState)
-initialize()
 </script>
 
 <template>
+  <Zones />
   <Header />
   <section class="editor__box ">
     <Transition appear name="left">

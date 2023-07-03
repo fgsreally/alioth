@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Zones from '@/views/zones/index.vue'
 </script>
 
 <template>
@@ -8,5 +7,4 @@ import Zones from '@/views/zones/index.vue'
     <component :is="Component" />
     <!-- </keep-alive> -->
   </router-view>
-  <Zones />
 </template>
