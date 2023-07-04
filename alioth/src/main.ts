@@ -6,10 +6,8 @@ import '@/style/common.scss'
 import { init } from './views/widgets'
 import { initState } from './models'
 import 'uno.css'
+const app = createApp(App).use(createPhecda('alioth') as any).use(router)
 initState()
-
 init()
-const app = createApp(App).use(createPhecda('alioth') as any)
-app.use(router)
 
 app.mount('#al-root')

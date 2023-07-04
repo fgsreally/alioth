@@ -2,7 +2,7 @@
 import { getWidget } from 'alioth-lib'
 import { createFormData, useV } from 'phecda-vue'
 
-import { DragState } from 'alioth-lib/model'
+import { DragState } from '@/models/drag'
 
 import { watch } from 'vue'
 import { DocState } from '@/models/doc'

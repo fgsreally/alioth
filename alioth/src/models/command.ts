@@ -11,7 +11,7 @@ export class CommandState {
     const { activeDoc, on, off } = useV(DocState)
     window.$alioth_registerCommand = registry
     registry({
-      name: 'doc-action',
+      name: 'docAction',
       pushQueue: true,
       init() { // 初始化操作默认就会执行
         const action = () => {

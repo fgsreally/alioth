@@ -9,7 +9,7 @@ export type RegisterKey = string | symbol
 export interface RegisterType extends BaseRegister<any> {
 
 }
-export let curRegister: RegisterType
+
 export const allWidgetMap = reactive(new Map()) as Map<RegisterKey, RegisterType>
 
 export function getWidget<
@@ -58,23 +58,17 @@ export function getEditorStore<registerWidget extends BaseRegister<any>>(key: st
 }
 
 export abstract class BaseRegister<R extends typeof BaseRenderer<VirtualNode<any>>, M = any> {
-  allWidgetMap = allWidgetMap
-  abstract renderer: R
+  abstract Renderer: R
   abstract filter: <Schema>(obj: Schema) => SchemaToObj<Schema>
   constructor(
     public category: string,
     public key: RegisterKey,
-
     public comp: Component,
     public meta: M = {} as any,
   ) {
   }
 
-  // text() {
-  //   return h('p', this.key)
-  // }
-
   createRenderer(node?: VirtualNode<any>) {
-    return new this.renderer(node!, this.comp, this.filter)
+    return new this.Renderer(node!, this.comp, this.filter)
   }
 }

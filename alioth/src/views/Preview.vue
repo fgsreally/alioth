@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VirtualDocument, getWidget, loadJS, loadJSON } from 'alioth-lib'
+import { VirtualDocument, getWidget, interval, loadDoc } from 'alioth-lib'
 import { useV } from 'phecda-vue'
 import { RenderBlock } from '@/components/renderBlock'
 const state = reactive({
@@ -9,9 +9,8 @@ const state = reactive({
 const isLoading = ref(false)
 const doc = new VirtualDocument()
 async function add() {
-  const data = await loadJSON(state.data)
-  console.log(data)
-  doc.load(data[0].data)
+  await loadDoc(state.data)
+  doc.load(interval.docData[0].data)
   isLoading.value = true
 }
 </script>
@@ -33,7 +32,6 @@ async function add() {
     </div>
   </div>
   <div v-else>
-    预设<input v-model="state.preset">
     数据<input v-model="state.data">
 
     <button @click="add">

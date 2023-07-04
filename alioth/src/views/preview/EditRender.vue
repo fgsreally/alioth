@@ -10,6 +10,7 @@ import type { NodeSchema, RootSchema } from '@/engine/schema'
 import { DocState } from '@/models/doc'
 const { activeDoc, container } = $(useV<typeof DocState<NodeSchema | RootSchema>>(DocState))
 function addBlock(module: any, e: MouseEvent) {
+  console.log('block')
   emitter.emit('block-action', null)
 
   const { key, label } = module

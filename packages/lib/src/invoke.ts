@@ -10,7 +10,6 @@ export async function init() {
   function registerWidget(
     category: string,
     key: string | symbol,
-
     comp: Component,
     meta?: any,
   ) {
@@ -36,5 +35,17 @@ export async function loadDoc(url: string) {
 }
 
 export function loadPreset(urls: string[]) {
-  return Promise.all(urls.map(url => import(/* @vite-ignore */url)))
+  return Promise.all(urls.map(async (url) => {
+    if (url.endsWith('.css')) {
+      const css = document.createElement('link')
+      css.href = url
+      css.rel = 'stylesheet'
+      css.type = 'text/css'
+      document.head.appendChild(css)
+      return Promise.resolve()
+    }
+    else {
+      return import(/** @vite-ignore */url)
+    }
+  }))
 }

@@ -11,12 +11,7 @@ export class DocState<T extends NodeAttrs> extends EventEmitter {
 
   @Init
   init() {
-    // window.addEventListener('beforeunload', () => {
-    //   localStorage.setItem('alioth_doc_state', JSON.stringify(this.docs.map((item) => {
-    //     item.doc = item.doc.snapshot() as any
-    //     return item
-    //   })))
-    // })
+  
     const lastRecord = localStorage.getItem('alioth_doc_state') && false
     if (lastRecord) {
       this.docs = JSON.parse(lastRecord).map((item: any) => {

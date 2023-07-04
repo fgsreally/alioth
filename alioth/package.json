@@ -20,6 +20,7 @@
     "@vueuse/core": "^10.1.2",
     "alioth-dev": "workspace:^",
     "alioth-lib": "workspace:^",
+    "eventemitter3": "^5.0.0",
     "lodash-es": "^4.17.21",
     "phecda-vue": "^1.5.3",
     "unocss": "^0.52.3",
