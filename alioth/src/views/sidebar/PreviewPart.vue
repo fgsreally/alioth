@@ -9,7 +9,6 @@ const { compList, type } = defineProps<{
 }>()
 
 function dragstart(module: any) {
-  console.log(module)
   emitter.emit('dragstart', module)
 }
 
