@@ -3,11 +3,13 @@ import { createLayer } from 'phecda-vue'
 import Tree from './zones/Tree.vue'
 import Container from './modals/Container.vue'
 import Select from './widgets/Select.vue'
+import List from './components/List.vue'
 import './style.scss'
 const useLayer = createLayer(ElDialog, {})
 $V('Input', ElInput)
 $V('Select', Select)
 $V('Tree', Tree)
+$V('List', List)
 $H({
   class: 'i-lucide:eye',
   label: '容器配置',

@@ -1,5 +1,15 @@
 import { $R, $RW } from 'alioth-dev/helper'
 import Button from './widgets/Button.vue'
+import Checkbox from './widgets/Checkbox.vue'
+
+$RW('lib', 'Checkbox', Checkbox, {
+  props: {
+    options: {
+      _component: 'List',
+    },
+  },
+})
+
 $RW('lib', 'Button', Button, {
   events: {
     onClick: {
@@ -38,3 +48,5 @@ $R('change', () => {
   a.value = 10
   console.log('change')
 }, { description: 'hahah' })
+
+$R('list', reactive([]), {})

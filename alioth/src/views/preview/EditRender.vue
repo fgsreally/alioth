@@ -10,19 +10,17 @@ import type { NodeSchema, RootSchema } from '@/engine/schema'
 import { DocState } from '@/models/doc'
 const { activeDoc, container } = $(useV<typeof DocState<NodeSchema | RootSchema>>(DocState))
 function addBlock(module: any, e: MouseEvent) {
-  console.log('block')
   emitter.emit('block-action', null)
 
-  const { key, label } = module
+  const { key, label, meta } = module
   const { hover, root } = activeDoc
   const parent = hover || root
   const block = activeDoc.createNode(key, {
     slot: 'default',
     key,
     label,
-    propsData: {
-      config: {},
-    },
+    propsData: Object.assign({
+    }, meta?.init?.propsData || {}),
     class: [],
     level: parent === root ? 1 : parent.attrs.level + 1,
     top: { value: parent === root ? e.offsetY : 0, size: 'px' },
