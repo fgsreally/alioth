@@ -18,11 +18,11 @@ function dragend() {
 </script>
 
 <template>
-  <section class="w-full overflow-y-scroll h-[85vh] ">
+  <section class="w-full overflow-y-scroll m-4 max-h-[85vh] preview-section__box" :class="type">
     <div
       v-for="(module, i) in compList"
       :key="i"
-      class="preview-section__box"
+
       draggable
       @dragend="dragend"
       @dragstart.stop="
@@ -41,26 +41,20 @@ function dragend() {
   </section>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .preview-section {
   width: 100%;
 }
 .preview-section__block {
   pointer-events: none;
 }
+.preview-section__box{
+  &.text{
+    display: grid;
+  grid-template-columns: 1fr 1fr; /* 两列等宽 */
+  grid-gap: 10px; /* 列间距 */
+  }
 
-.preview-section__box {
-  /* overflow: hidden; */
-  margin-left: 12px;
-  width: 100px;
-  height: 50px;
-  border: 3px solid;
-  border-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%) 1;
-  display: flex;
-  user-select: all;
-  /* background-color: white; */
-  justify-content: center;
-  align-items: center;
 }
 .preview-section__badge {
   margin-top: 10px;

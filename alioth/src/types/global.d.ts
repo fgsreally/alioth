@@ -1,13 +1,13 @@
-import type { CommandState } from "@/models/command"
-import type { ConfigState } from "@/models/config"
-import { DocState } from "@/models/doc"
+import type { CommandModel } from "@/models/command"
+import type { ConfigModel } from "@/models/config"
+import { DocModel } from "@/models/doc"
 
 declare global {
     interface Window {
         __PHECDA__:{
-            doc:DocState
-            config:ConfigState
-            command:CommandState
+            doc:DocModel
+            config:ConfigModel
+            command:CommandModel
         }
         $alioth_update: any
         $alioth_register: any

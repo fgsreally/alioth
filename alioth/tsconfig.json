@@ -2,7 +2,10 @@
   "compilerOptions": {
     "types": [
       "@vue-macros/reactivity-transform/macros-global"
-    ]
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "vueCompilerOptions": {
     "plugins": [

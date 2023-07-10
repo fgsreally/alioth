@@ -8,7 +8,6 @@ import {
   render,
 
 } from 'vue'
-import type { SchemaToObj } from 'phecda-vue'
 import type { VirtualNode } from './document'
 
 export type CompList<RegisterBlock> = Map<string, RegisterBlock>
@@ -38,7 +37,7 @@ export class BaseRenderer<
   // stack: { funcName: string; property: any }[];
   renderType: string
   // slotVNode: { [key in string]: Function };
-  constructor(protected node: BlockType, protected comp: Component, protected filter: <Schema>(obj: Schema) => SchemaToObj<Schema>) {}
+  constructor(protected node: BlockType, protected comp: Component) {}
   exec() {
     return this._vnode
   }

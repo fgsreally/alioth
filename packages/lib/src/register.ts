@@ -1,7 +1,6 @@
 import type { Component } from 'vue'
 import { markRaw, reactive } from 'vue'
 
-import type { SchemaToObj } from 'phecda-vue'
 import type { VirtualNode } from './document'
 import type { BaseRenderer } from './render'
 
@@ -59,7 +58,6 @@ export function getEditorStore<registerWidget extends BaseRegister<any>>(key: st
 
 export abstract class BaseRegister<R extends typeof BaseRenderer<VirtualNode<any>>, M = any> {
   abstract Renderer: R
-  abstract filter: <Schema>(obj: Schema) => SchemaToObj<Schema>
   constructor(
     public category: string,
     public key: RegisterKey,
@@ -69,6 +67,6 @@ export abstract class BaseRegister<R extends typeof BaseRenderer<VirtualNode<any
   }
 
   createRenderer(node?: VirtualNode<any>) {
-    return new this.Renderer(node!, this.comp, this.filter)
+    return new this.Renderer(node!, this.comp)
   }
 }

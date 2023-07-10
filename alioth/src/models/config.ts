@@ -1,16 +1,18 @@
 import { Global, Init, Tag, useV } from 'phecda-vue'
 import type { Component } from 'vue'
 import { getWidget } from 'alioth-lib'
-import { DocState } from './doc'
+import { DocModel } from './doc'
 import { componentMap } from '@/views/zones'
 import { useLayer } from '@/composables/layer'
 import PreviewRenderVue from '@/views/preview/PreviewRender.vue'
-
+import IconEye from '~icons/lucide/eye'
+ 
+import IconDownload from '~icons/lucide/download'
 import { getQuery } from '@/utils/url'
 import { presets } from '@/config'
 
 interface Header {
-  class: string
+  component: Component
   label: string
   handler: (param: { useLayer: typeof useLayer }) => void
 }
@@ -27,7 +29,7 @@ interface Zone {
 }
 @Global
 @Tag('config')
-export class ConfigState {
+export class ConfigModel {
   componentMap = componentMap as Record<string, Component>
   getWidget = getWidget
 
@@ -43,21 +45,26 @@ export class ConfigState {
       type: 'text',
       label: '库组件',
     },
+    {
+      key: 'element-plus',
+      type: 'text',
+      label: 'element-plus',
+    },
   ]
 
   public headers: Header[] = [
     {
       label: '实时预览',
-      class: 'i-lucide:eye',
+      component:IconEye,
       handler() {
         useLayer(PreviewRenderVue, {}, { title: '预览页面' })
       },
     },
     {
       label: '下载',
-      class: 'i-lucide:eye',
+      component:IconDownload,
       handler() {
-        const { download } = useV(DocState)
+        const { download } = useV(DocModel)
         download('test.json')
       },
     },

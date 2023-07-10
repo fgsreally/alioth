@@ -4,12 +4,14 @@ const emits = defineEmits(['a'])
 </script>
 
 <template>
-  <div class="al-test" @click="emits('a', 1)">
-    {{ props.modelValue }}
-    <slot name="header">
-      header
-    </slot>
-    <slot />
+  <div w-fit h-fit>
+    <div class="al-test" @click="emits('a', 1)">
+      {{ props.modelValue }}
+      <slot name="header">
+        header
+      </slot>
+      <slot />
+    </div>
   </div>
 </template>
 

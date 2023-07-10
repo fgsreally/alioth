@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useV } from 'phecda-vue'
-import { DocState } from '@/models/doc'
+import { DocModel } from '@/models/doc'
 
-const { container } = useV(DocState)
+const { container } = useV(DocModel)
 </script>
 
 <template>

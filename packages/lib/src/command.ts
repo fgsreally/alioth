@@ -18,7 +18,7 @@ export interface DefaultCommand {
   pushQueue?: boolean
 }
 
-interface commandState<Command> {
+interface CommandModel<Command> {
   isActive: boolean
   // 索引、指针
   current: number
@@ -35,7 +35,7 @@ export function createCommand<Command extends DefaultCommand>(options: {
   undo?: boolean
 } = {}) {
   let initialized = false
-  const state: commandState<Command> = {
+  const state: CommandModel<Command> = {
     isActive: true,
     current: -1,
     queue: [],

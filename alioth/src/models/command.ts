@@ -1,15 +1,18 @@
 import { createCommand } from 'alioth-lib'
 import { Global, Init, Tag, useV } from 'phecda-vue'
-import { DocState } from './doc'
-export const { registry, initialize, state } = createCommand({ undo: true, redo: true })
+import { DocModel } from './doc'
+const { registry, initialize, state } = createCommand({ undo: true, redo: true })
 
 @Global
 @Tag('command')
-export class CommandState {
+export class CommandModel {
+  public state = state as any
+
+  public registry = registry
   @Init
   init() {
-    const { activeDoc, on, off } = useV(DocState)
-    window.$alioth_registerCommand = registry
+    const { activeDoc, on, off } = useV(DocModel)
+    // window.$alioth_registerCommand = registry
     registry({
       name: 'docAction',
       pushQueue: true,

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { emitter, useR } from 'phecda-vue'
-import { ConnectState } from '@/models/connect'
+import { ConnectModel } from '@/models/connect'
 
-const { info } = useR(ConnectState)
+const { info } = useR(ConnectModel)
 function dragstart(i: number) {
   emitter.emit('dragstart', `{{${i}}}`)
 }

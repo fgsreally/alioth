@@ -1,8 +1,8 @@
 import { useR, useV } from 'phecda-vue'
 import type { VirtualNode } from 'alioth-lib'
-import { DocState } from '@/models/doc'
+import { DocModel } from '@/models/doc'
 
-const { activeDoc } = useV(DocState)
+const { activeDoc } = useV(DocModel)
 export function changeStyleVar(name: string, value: any) {
   document.documentElement.style.setProperty(`--${name}`, value)
 }
@@ -11,7 +11,7 @@ export function changeStyleValue(name: string, value: string) {
   document.documentElement.style[name as any] = value
 }
 
-const state={}
+const state = {}
 export function toPx(VirtualNode: any, key: string): number {
   const property: { size: string; value: number } = VirtualNode.attrs[key]
   switch (property.size) {
@@ -72,7 +72,7 @@ export function pxToBlockSize(
   key: 'left' | 'top' | 'w' | 'h',
   px: number,
 ) {
- return  pxToSize(
+  return pxToSize(
     px,
     (node.attrs[key] as any).size,
     getParentValue(node, 'w'),

@@ -4,14 +4,13 @@ import EventEmitter from 'eventemitter3'
 import { VirtualDocument } from '../document'
 import type { NodeAttrs } from '../document'
 import { ALIOTH_EVENT } from '../common'
-export class DocState<T extends NodeAttrs> extends EventEmitter {
+export class DocModel<T extends NodeAttrs> extends EventEmitter {
   activeId: string
   containerAttrs: Record<string, any>
   docs: { doc: VirtualDocument<T>; id: string; title: string }[] = []
 
   @Init
   init() {
-  
     const lastRecord = localStorage.getItem('alioth_doc_state') && false
     if (lastRecord) {
       this.docs = JSON.parse(lastRecord).map((item: any) => {

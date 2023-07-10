@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { createFormData, useV } from 'phecda-vue'
 
-import { DragState } from 'alioth-lib/model'
+import { DragModel } from 'alioth-lib/model'
 
 import { watch } from 'vue'
 const { activeNode } = useV(window.__PHECDA__.doc)
 const { getWidget } = useV(window.__PHECDA__.config)
-const { add, del } = useV(DragState)
+const { add, del } = useV(DragModel)
 let args = $ref<{ data: any; config: any }>({} as any)
 
 watch(() => activeNode.value, (n, o) => {

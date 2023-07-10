@@ -1,12 +1,11 @@
 import type { VirtualNode } from 'alioth-lib'
 import { useV } from 'phecda-vue'
-import { DragState } from '@/models/drag'
-import { DocState } from '@/models/doc'
-
+import { DragModel } from '@/models/drag'
+import { DocModel } from '@/models/doc'
 
 export function useDragBoundary() {
-  const { add } = useV(DragState)
-  const { activeDoc } = useV(DocState)
+  const { add } = useV(DragModel)
+  const { activeDoc } = useV(DocModel)
 
   const doms = reactive<{ [key: string]: { ref: HTMLElement } }>({})
 
@@ -27,7 +26,7 @@ export function useDragBoundary() {
 
 export function useDragSingle(cb: Function) {
   const dom = ref<HTMLElement>(null as any)
-  const { add, del } = useV(DragState)
+  const { add, del } = useV(DragModel)
 
   onMounted(() => {
     console.log(dom.value)

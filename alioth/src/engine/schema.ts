@@ -2,6 +2,7 @@ export interface NodeSchema {
   slot: string
   key: string
   label: string
+  index:string
   propsData: any
   class: string[]
   level: number

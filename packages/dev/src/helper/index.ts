@@ -41,7 +41,7 @@ export function $C(...commands: DefaultCommand[]) {
     commands.forEach(window.$alioth_registerCommand)
 }
 
-export function $H(...headers: { class: string; label: string;handler: (params: { useLayer: any }) => void }[]) {
+export function $H(...headers: { component: Component; label: string;handler: (params: { useLayer: any }) => void }[]) {
   if (window.$alioth_addHeader)
     headers.forEach(window.$alioth_addHeader)
 }

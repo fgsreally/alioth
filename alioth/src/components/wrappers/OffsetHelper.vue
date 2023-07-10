@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useV } from 'phecda-vue'
-import { DocState } from '@/models/doc'
+import { DocModel } from '@/models/doc'
 
 import { toPx } from '@/utils/style'
-const { activeDoc } = useV(DocState)
+const { activeDoc } = useV(DocModel)
 
 const offsetComputed = computed(() => {
   return {

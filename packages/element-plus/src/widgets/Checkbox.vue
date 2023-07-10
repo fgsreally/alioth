@@ -1,21 +1,23 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
-  isButton: boolean
-  options: string[]
-}>(), {
-  isButton: true,
-})
-
+defineProps<{ label: string }>()
 // const { modelValue } = defineModels<{
 //   modelValue: string
 // }>()
 </script>
 
 <template>
-  <el-checkbox v-if="!isButton" v-bind="$attrs" />
-  <el-checkbox-group v-else v-bind="$attrs">
-    <el-checkbox-button v-for="(item, i) in options" :key="i" :label="item">
-      {{ item }}
-    </el-checkbox-button>
-  </el-checkbox-group>
+  <el-checkbox v-bind="$attrs" :label="label" />
 </template>
+
+<info lang='json'>
+   {
+  "init": {
+    "propsData": {
+      "modelValue": false
+    }
+  },
+  "props": {
+
+  }
+}
+</info>

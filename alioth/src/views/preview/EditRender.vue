@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getWidget } from 'alioth-lib'
+import { getWidget, interval } from 'alioth-lib'
 import { emitter, useR, useV } from 'phecda-vue'
 // import { debounce } from 'lodash-es'
 import { RenderBlock } from '@/components/renderBlock'
@@ -7,25 +7,27 @@ import { RenderBlock } from '@/components/renderBlock'
 import { useDragSingle } from '@/composables/drag'
 // import { createReplaceBlock } from '@/utils/replacement'
 import type { NodeSchema, RootSchema } from '@/engine/schema'
-import { DocState } from '@/models/doc'
-const { activeDoc, container } = $(useV<typeof DocState<NodeSchema | RootSchema>>(DocState))
+import { DocModel } from '@/models/doc'
+import { createIndex } from '@/utils/handleIndex'
+const { activeDoc, container } = $(useV<typeof DocModel<NodeSchema | RootSchema>>(DocModel))
 function addBlock(module: any, e: MouseEvent) {
   emitter.emit('block-action', null)
 
   const { key, label, meta } = module
   const { hover, root } = activeDoc
+  const index = createIndex(key)
   const parent = hover || root
-  const block = activeDoc.createNode(key, {
+  const block = activeDoc.createNode(key, Object.assign({
     slot: 'default',
     key,
+    index,
     label,
-    propsData: Object.assign({
-    }, meta?.init?.propsData || {}),
-    class: [],
+    propsData: {},
     level: parent === root ? 1 : parent.attrs.level + 1,
     top: { value: parent === root ? e.offsetY : 0, size: 'px' },
     left: { value: parent === root ? e.offsetX : 0, size: 'px' },
-  })
+  }, meta?.init || {}))
+  interval.setState(index, block.attrs.propsData)
   parent.insert(block)
 }
 
@@ -50,7 +52,7 @@ const containerCanvas = useDragSingle(addBlock)
     >
       <RenderBlock
         v-for="(item) in container.children" :key="item.id" :node="item" type="edit"
-        :value="(getWidget as any)(item.attrs.key)"
+        :value="getWidget(item.attrs.key)"
       />
     </div>
   </div>
@@ -60,3 +62,4 @@ const containerCanvas = useDragSingle(addBlock)
 <style lang="scss">
 @import '@/style/editor.scss';
 </style>
+@/utils/handleIndex

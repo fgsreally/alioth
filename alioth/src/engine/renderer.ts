@@ -1,3 +1,4 @@
+/* eslint-disable no-new-func */
 // import { cloneDeep, isSymbol } from 'lodash-es'
 import type { node } from 'alioth-lib'
 import { BaseRenderer, interval } from 'alioth-lib'
@@ -5,19 +6,15 @@ import { BaseRenderer, interval } from 'alioth-lib'
 import type { Component, DefineComponent, VNode } from 'vue'
 import { h } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { useV } from 'phecda-vue'
+import { emitter, useV } from 'phecda-vue'
 import DragBox from '../components/wrappers/DragBox.vue'
 import type { NodeSchema } from './schema'
-import { DocState } from '@/models/doc'
+import { DocModel } from '@/models/doc'
 
 import { toPx } from '@/utils/style'
+import { ERROR_EVENT } from '@/config'
 
-enum VUEOPTS {
-  MODEL = 'vModel',
-  IF = 'vIf',
-}
-
-const { activeDoc, activeNode, isActive } = useV(DocState)
+const { activeDoc } = useV(DocModel)
 
 export class renderer extends BaseRenderer<node<NodeSchema>> {
   propsData: any
@@ -26,14 +23,15 @@ export class renderer extends BaseRenderer<node<NodeSchema>> {
     if (!this._vnode)
       return this;
 
-    (this._vnode as any).props.onVnodeMounted = (args: {
+    (this._vnode as any).props.onVnodeMounted = async (args: {
       component: any
       el: any
     }) => {
       const dom = args.el
       if (dom instanceof HTMLElement) {
-        this.node.attrs.w = { value: dom.offsetWidth, size: 'px' }
-        this.node.attrs.h = { value: dom.offsetHeight, size: 'px' }
+        const { offsetWidth, offsetHeight } = dom
+        this.node.attrs.w = { value: offsetWidth || 30, size: 'px' }
+        this.node.attrs.h = { value: offsetHeight || 30, size: 'px' }
       }
     }
     return this
@@ -90,20 +88,38 @@ export class renderer extends BaseRenderer<node<NodeSchema>> {
     return this
   }
 
-  main() {
+  main({ type, schema }: {
+    type: string
+    schema: any
+  }) {
     // if (!this._vnode)
     //   return this
 
+    const ret = interval.filter(cloneDeep(this.node.attrs.propsData))
+
+    if ('modelValue' in this.node.attrs.propsData)
+      ret['onUpdate:modelValue'] = (v: any) => ret.modelValue = v
+    if (schema) {
+      for (const i in schema) {
+        const fn = new Function(i, `return ${schema[i]}`)
+        if (!fn(ret[i])) {
+          emitter.emit('custom_error', {
+            type: ERROR_EVENT.PROPS,
+          })
+        }
+      }
+    }
+
     (this._vnode = h(
       this.comp as DefineComponent,
-      Object.assign({ _node: this.node }, interval.filter(cloneDeep(this.node.attrs.propsData))),
+      Object.assign({ a_node: this.node, a_type: type }, ret),
       this._vnode || undefined,
     ))
 
     return this
   }
 
-  editAction(canSelect: boolean) {
+  editAction() {
     if (!this._vnode)
       return this;
     (this._vnode as any).props.onMousedownCapture = () => {
@@ -126,29 +142,29 @@ export class renderer extends BaseRenderer<node<NodeSchema>> {
     return this
   }
 
-  renderAction(state: any, context: any, services: viewServices) {
-    if (!this._vnode)
-      return this
+  // renderAction(state: any, context: any, services: viewServices) {
+  //   if (!this._vnode)
+  //     return this
 
-    this.node.mutations.forEach(
-      (item: { key: string | undefined; handler: string | undefined }) => {
-        if (item.key && item.handler) {
-          // eslint-disable-next-line no-new-func
-          (this._vnode as any).props[`on${item.key}`] = new Function(
-            ...Object.keys(context),
-            'state',
-            `return ${services[item.handler]}`,
-          )(...Object.values(context), state)
-        }
-      },
-    )
-    return this
-  }
+  //   this.node.mutations.forEach(
+  //     (item: { key: string | undefined; handler: string | undefined }) => {
+  //       if (item.key && item.handler) {
+  //         // eslint-disable-next-line no-new-func
+  //         (this._vnode as any).props[`on${item.key}`] = new Function(
+  //           ...Object.keys(context),
+  //           'state',
+  //           `return ${services[item.handler]}`,
+  //         )(...Object.values(context), state)
+  //       }
+  //     },
+  //   )
+  //   return this
+  // }
 
-  vif(state: any) {
-    if (filter({ data: this.node[VUEOPTS.IF] }).data)
-      this._vnode = null
+  // vif(state: any) {
+  //   if (filter({ data: this.node[VUEOPTS.IF] }).data)
+  //     this._vnode = null
 
-    return this
-  }
+  //   return this
+  // }
 }

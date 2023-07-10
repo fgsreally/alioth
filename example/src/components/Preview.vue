@@ -2,8 +2,8 @@
 import { getWidget } from 'alioth-lib'
 import { useV } from 'phecda-vue'
 import { RenderBlock } from '@/components/renderBlock'
-import { DocState } from '@/models/doc'
-const { container } = $(useV(DocState))
+import { DocModel } from '@/models/doc'
+const { container } = $(useV(DocModel))
 </script>
 
 <template>

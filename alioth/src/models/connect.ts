@@ -4,7 +4,7 @@ import { getQuery } from '@/utils/url'
 
 export const { connect, dynamicImport, urlMap, projectMap } = createConnector()
 
-export class ConnectState {
+export class ConnectModel {
   /**
    * @extend
    */
@@ -12,14 +12,13 @@ export class ConnectState {
 
   @Init
   async init() {
- window.$alioth_register=this.updateModule.bind(this)
+    window.$alioth_register = this.updateModule.bind(this)
     const url = decodeURIComponent(getQuery('url') || '')
     if (url) {
       await connect(url)
       for (const [project, entries] of projectMap.entries()) {
         for (const entry in entries)
           await dynamicImport(project, entry)
-      
       }
     }
   }
@@ -29,6 +28,4 @@ export class ConnectState {
 
     this.info[key] = meta
   }
-
-  
 }

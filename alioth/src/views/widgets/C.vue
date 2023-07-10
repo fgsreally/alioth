@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { useV } from 'phecda-vue'
-import { DocState } from '@/models/doc'
+import { DocModel } from '@/models/doc'
 
 const { name, _block } = defineProps<{ name: string; _block: object }>()
-const { activeDoc } = useV(DocState)
+const { activeDoc } = useV(DocModel)
 </script>
 
 <template>

@@ -1,4 +1,4 @@
-import { Watcher,Global,Tag } from 'phecda-vue'
+import { Global, Tag, Watcher } from 'phecda-vue'
 
 const dragenter = (e: DragEvent) => {
   (e.dataTransfer as any).dropEffect = 'move'
@@ -11,7 +11,7 @@ const dragleave = (e: DragEvent) => {
 }
 @Global
 @Tag('drag')
-export class DragState {
+export class DragModel {
   moduleMap: Map<HTMLElement, Function> = new Map()
   data: Record<string, any> = {}
   listenController: AbortController

@@ -2,7 +2,7 @@ import { URL, fileURLToPath } from 'node:url'
 
 import { defineConfig } from 'vite'
 import ReactivityTransform from '@vue-macros/reactivity-transform/vite'
-
+import Icons from 'unplugin-icons/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import presetIcons from '@unocss/preset-icons'
 import { External } from 'alioth-dev'
@@ -28,6 +28,8 @@ export default defineConfig({
         }),
       },
     }),
+    Icons(),
+
     AutoImport({
       imports: ['vue', 'vue-router'],
       dirs: [],

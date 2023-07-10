@@ -2,14 +2,14 @@
 import { getWidget } from 'alioth-lib'
 import { createFormData, useV } from 'phecda-vue'
 
-import { DragState } from '@/models/drag'
+import { DragModel } from '@/models/drag'
 
 import { watch } from 'vue'
-import { DocState } from '@/models/doc'
+import { DocModel } from '@/models/doc'
 
 const { type } = defineProps<{ type: 'props' | 'events' }>()
-const { activeNode } = $(useV(DocState))
-const { add, del } = useV(DragState)
+const { activeNode } = $(useV(DocModel))
+const { add, del } = useV(DragModel)
 let args = $ref<{ data: any; config: any }>({} as any)
 
 watch(() => activeNode, (n, o) => {

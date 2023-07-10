@@ -10,7 +10,7 @@ const dragleave = (e: DragEvent) => {
   (e.dataTransfer as any).dropEffect = 'none'
 }
 
-export class DragState {
+export class DragModel {
   moduleMap: Map<HTMLElement, Function> = new Map()
   data: Record<string, any> = {}
   listenController: AbortController

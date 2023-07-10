@@ -21,7 +21,9 @@
     "alioth-lib": "workspace:^",
     "element-plus": "^2.2.29",
     "lodash-es": "^4.17.21",
-    "phecda-vue": "latest",
+    "phecda-vue": "^1.6.0",
+    "@iconify-json/lucide": "^1.1.96",
+
     "vue": "^3.2.47"
   },
   "devDependencies": {
@@ -29,8 +31,11 @@
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue-macros/reactivity-transform": "^0.3.7",
     "http-server": "^14.1.1",
+    "rollup-plugin-visualizer": "^5.9.2",
     "unplugin-auto-import": "^0.13.0",
+    "unplugin-icons": "^0.16.3",
     "unplugin-vue-components": "^0.24.1",
+    "unplugin-vue-sfcmore": "^2.1.1",
     "vite": "^4.3.9"
   }
 }

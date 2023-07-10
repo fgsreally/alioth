@@ -4,7 +4,7 @@ import EventEmitter from 'eventemitter3'
 import { ALIOTH_EVENT, VirtualDocument } from 'alioth-lib'
 @Global
 @Tag('doc')
-export class DocState<T extends NodeAttrs> extends EventEmitter {
+export class DocModel<T extends NodeAttrs> extends EventEmitter {
   containerAttrs = {
     width: 640,
     height: 600,
@@ -31,18 +31,18 @@ export class DocState<T extends NodeAttrs> extends EventEmitter {
   init() {
     this.active(this.add())
 
-    // window.addEventListener('beforeunload', () => {
-    //   localStorage.setItem('alioth_doc_state', this.docToStr())
-    // })
-    // const lastRecord = localStorage.getItem('alioth_doc_state') && false
-    // if (lastRecord) {
-    //   this.docs = this.strToDoc(lastRecord)
-    //   this.active(this.docs[0]?.id || this.add())
-    // }
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('alioth_doc_state', this.docToStr())
+    })
+    const lastRecord = localStorage.getItem('alioth_doc_state') && false
+    if (lastRecord) {
+      this.docs = this.strToDoc(lastRecord)
+      this.active(this.docs[0]?.id || this.add())
+    }
 
-    // else {
-    //   this.active(this.add())
-    // }
+    else {
+      this.active(this.add())
+    }
   }
 
   get activeDoc() {
@@ -125,9 +125,10 @@ export class DocState<T extends NodeAttrs> extends EventEmitter {
 
   remove(id: string) {
     if (this.docs.length > 1) {
-      this.docs.splice(this.docs.findIndex(item => item.id === id), 1)[0].doc.unmount()
-      if (!this.activeDoc)
-        this.activeId = this.docs[0].id
+      const index = this.docs.findIndex(item => item.id === id)
+
+      this.activeId = this.docs[index === 0 ? 1 : index - 1].id
+      this.docs.splice(index, 1)[0].doc.unmount()
     }
   }
 }

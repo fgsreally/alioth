@@ -2,7 +2,7 @@
 import { createForm, useO } from 'phecda-vue'
 import FormItem from './FormItem.vue'
 import Form from './Form.vue'
-import { ConfigState } from '@/models/config'
+import { ConfigModel } from '@/models/config'
 
 const { config, data, onUpdate } = defineProps<{
   config: object
@@ -10,7 +10,7 @@ const { config, data, onUpdate } = defineProps<{
   onUpdate?: (key: string) => void
 }>()
 
-const { componentMap } = useO(ConfigState)
+const { componentMap } = useO(ConfigModel)
 
 const CustomForm = createForm(componentMap, Form, FormItem, {
   onUpdate,

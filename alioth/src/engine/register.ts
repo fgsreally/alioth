@@ -9,14 +9,14 @@ import type { VNode } from 'vue'
 import { h } from 'vue'
 
 import { renderer } from './renderer'
-import { getBreakPointClass } from '@/utils/style'
 
 export class Register extends BaseRegister<typeof renderer> {
   Renderer = renderer
-  filter = interval.filter
   widgetMap = interval.widgetMap
   text() {
-    return h('p', this.key)
+    return h('p', {
+      class: 'preview-text',
+    }, this.key)
   }
 
   preview() {
@@ -33,26 +33,29 @@ export class Register extends BaseRegister<typeof renderer> {
     const renderer = this.createRenderer(node)
 
     return renderer
-      // .useFilter(State.filter)
       .slot(['default', 'header'], this.widgetMap, 'edit')
-      .main()
+      .main({
+        type: 'edit',
+        schema: this.meta.schema,
+      })
       .getSize()
       .addClass('innerBlock_edit')
-      .addClass(getBreakPointClass(node))
+      // .addClass(getBreakPointClass(node))
       .useSize()
       .draggable()
       .addClass('block_edit')
-      .useOffset(this.meta.select)
-
-      .editAction(this.meta.select)
+      .useOffset()
+      .editAction()
       .exec()
   }
 
   render(node: any) {
     return this.createRenderer(node)
-      // .useFilter(State.filter)
       .slot(['default'], this.widgetMap, 'render')
-      .main()
+      .main({
+        type: 'render',
+        // schema: this.meta.schema,
+      })
       .addStyle({
         top: `${node.attrs.top.value}${node.attrs.top.size}`,
         left: `${node.attrs.left.value}${node.attrs.left.size}`,
@@ -64,7 +67,7 @@ export class Register extends BaseRegister<typeof renderer> {
       .exec() as VNode
   }
 
-  code(VirtualNode: BlockType) {
+  code() {
 
   }
 }

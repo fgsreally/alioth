@@ -4,13 +4,14 @@ import { defineConfig } from 'vite'
 import ReactivityTransform from '@vue-macros/reactivity-transform/vite'
 
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import UnoCSS from 'unocss/vite'
 
 import Vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/vite'
 import Components from 'unplugin-vue-components/vite'
-import transformerDirectives from '@unocss/transformer-directives'
 import AutoImport from 'unplugin-auto-import/vite'
+import { sfc } from 'unplugin-vue-sfcmore/vite'
+import { visualizer } from 'rollup-plugin-visualizer'
+import Icons from 'unplugin-icons/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -18,15 +19,18 @@ export default defineConfig({
   //   __DEV__: true,
   // },
   build: {
+    sourcemap: true,
     lib: {
-      entry: ['src/widget.ts', 'src/view.ts'],
+      entry: './src/index.ts',
       formats: ['es'],
+      fileName: 'index',
     },
   },
 
   plugins: [
+    Icons(),
     ReactivityTransform(),
-
+    visualizer(),
     VueMacros({
       setupBlock: true,
       plugins: {
@@ -36,16 +40,21 @@ export default defineConfig({
     }),
     AutoImport({
       imports: ['vue'],
-      dirs: [],
+
       resolvers: [ElementPlusResolver()],
     }),
     Components({
-      dirs: ['./src/components'],
+      dirs: ['./src/**'],
       directoryAsNamespace: false,
       resolvers: [ElementPlusResolver()],
 
     }),
     External(),
+    sfc({
+      write: true,
+      meta: false,
+      async: false,
+    }),
   ],
   define: {
     'process.env.NODE_ENV': '\'production\'',

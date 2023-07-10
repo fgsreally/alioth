@@ -13,16 +13,16 @@ import EditRender from './preview/EditRender.vue'
 import Header from './header/Header.vue'
 import Editable from '@/components/base/Editable.vue'
 // import { responseScreen } from '@/utils/response'
-import { DocState } from '@/models/doc'
+import { DocModel } from '@/models/doc'
 import Zones from '@/views/zones/index.vue'
-
-import { ConfigState } from '@/models/config'
+import IconClose from '~icons/gg/close'
+import { ConfigModel } from '@/models/config'
 import type { RootSchema } from '@/engine/schema'
-const { container } = $(useV<typeof DocState<RootSchema>>(DocState))
-const { remove, docs, add, active, activeId } = $(useV(DocState))
+const { container } = $(useV<typeof DocModel<RootSchema>>(DocModel))
+const { remove, docs, add, active, activeId } = $(useV(DocModel))
 // responseScreen()
 
-const { previewConfig } = useV(ConfigState)
+const { previewConfig } = useV(ConfigModel)
 </script>
 
 <template>
@@ -61,6 +61,7 @@ const { previewConfig } = useV(ConfigState)
             border-1
             border-solid
             border-font-t
+            relative
             :class="{
               'border-b-none border-p color-on-p': item.id === activeId,
 
@@ -69,6 +70,17 @@ const { previewConfig } = useV(ConfigState)
             @click="active(item.id)"
           >
             <Editable v-model="item.title" class="m-x-2" />
+            <IconClose
+              v-if="item.id === activeId && docs.length > 1"
+              absolute
+              right-1
+              w-3
+              h-3
+              rd-2
+              hover:bg-on-b
+              color-p
+              @click.stop="remove(item.id)"
+            />
           </div>
 
           <div

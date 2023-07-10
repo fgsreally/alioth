@@ -5,11 +5,46 @@ defineProps<{
 </script>
 
 <template>
-  <el-button>
-    {{ text }}
-  </el-button>
+  <div style="width: 50px;height: 30px;">
+    <el-button v-bind="$attrs">
+      {{ text }}
+    </el-button>
+  </div>
 </template>
 
-<style scoped>
+<props lang="ts">
+return {
+  "events": {
+    "onClick": {
+      "_component": "Input",
+      "_formItem": { "label": "点击" }
 
-</style>
+    }
+  },
+  "schema":{
+    "text":"text !== '4'"
+  },
+  "props": {
+    "text": {
+      "_component": "Input",
+      "_formItem": { "label": "文本" }
+
+    },
+    "type": {
+      "_component": "Select",
+      "_formItem": { "label": "类型" },
+      "placeholder": "类型",
+      "options": [
+        {
+          "label": "primary",
+          "value": "primary"
+        },
+        {
+          "label": "danger",
+          "value": "danger"
+        }
+      ]
+    }
+  }
+}
+</props>
