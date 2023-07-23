@@ -13,6 +13,7 @@ export class ConnectModel {
   @Init
   async init() {
     window.$alioth_register = this.updateModule.bind(this)
+
     const url = decodeURIComponent(getQuery('url') || '')
     if (url) {
       await connect(url)

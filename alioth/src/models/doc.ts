@@ -104,7 +104,7 @@ export class DocModel<T extends NodeAttrs> extends EventEmitter {
   }
 
   strToDoc(str: string) {
-    return JSON.parse(str).map(({ id, title, data }) => {
+    return JSON.parse(str).map(({ id, title, data }: any) => {
       const doc = new VirtualDocument()
       doc.load(data)
       return {

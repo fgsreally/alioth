@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { VirtualDocument, getWidget, interval, loadDoc } from 'alioth-lib'
-import { useV } from 'phecda-vue'
 import { RenderBlock } from '@/components/renderBlock'
 const state = reactive({
   preset: '',
