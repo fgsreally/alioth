@@ -25,3 +25,6 @@ dist-ssr
 
 .vscode
 .turbo
+
+.env.production
+.env

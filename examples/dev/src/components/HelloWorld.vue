@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-defineProps<{ msg: string }>()
+defineProps<{ msg: number }>()
 
 const count = ref(1)
 console.log(count.value, 5)
@@ -9,7 +9,7 @@ console.log(count.value, 5)
 
 <template>
   <div style="width: 100px;height: 100px;background-color: red;">
-    {{ count }}xxzz
+    {{ msg }}xxzz
   </div>
 </template>
 

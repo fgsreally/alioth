@@ -6,11 +6,7 @@ import { h } from 'vue'
 export class renderer extends BaseRenderer<any> {
   main({ type }: {
     type: string
-    schema: any
   }) {
-    // if (!this._vnode)
-    //   return this
-
     const ret = interval.filter(this.node.attrs.propsData)
 
     if ('modelValue' in this.node.attrs.propsData)

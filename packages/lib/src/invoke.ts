@@ -20,6 +20,7 @@ export async function init() {
   window.$alioth_registerWidget = registerWidget
   window.$alioth_setRegister = setRegister
   window.$alioth_interval = interval
+  window.$alioth_register = interval.setState.bind(interval)
 
   isLoad = true
 }

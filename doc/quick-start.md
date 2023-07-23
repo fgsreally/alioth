@@ -15,16 +15,17 @@ npm i alioth-dev
 ```ts
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { Alioth } from 'alioth-dev'
+import { Alioth, External } from 'alioth-dev'
 
 export default defineConfig({
   plugins: [
     vue(),
+    External(),
     Alioth({
       project: 'project name',
       preset: ['element-plus'], // 也可以是你创建的preset的 url
       entry: {
-        entry: './src/entry.ts', // 入口文件
+        a: './src/a.ts', // 入口文件
       },
     }),
   ],
@@ -74,10 +75,11 @@ export function change() {
   console.log(true)
 }
 // registerWidget，注册物料
-$RW('lib' /** 这个组件算哪个库的 */, 'a' /** 唯一标识 */, HelloWorld, {
+$RW('lib' /** 分区 */, 'a' /** 唯一标识 */, HelloWorld, {
   props: {
     /**
-     * 玉衡默认的配置器（使用了phecda-vue)，会使用Input对应的视图组件，然后对应的是物料中的msg，如果你自定义了，不使用默认的，这里按照自己* 的想法写就好
+     * 玉衡默认的配置器（使用了phecda-vue)，会使用Input对应的视图组件，然后对应的是物料中的msg，
+     * 如果你自定义了，不使用默认的，这里按照自己的想法写就好
      */
     msg: {
       _component: 'Input',
@@ -90,7 +92,7 @@ const a=ref('helloworld的数据')
 // register 注册js,可以是数据，可以是函数，可以是任何东西
 $R('a', a, {})
 $R('change', () => {
-  a.value+ = '.'
+  a.value + = '.'
   console.log('change')
 }, { })
 ```
