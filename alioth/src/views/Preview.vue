@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { VirtualDocument, getWidget, interval, loadDoc } from 'alioth-lib'
-import { RenderBlock } from '@/components/renderBlock'
+import { RenderBlock } from '@/components/base/renderBlock'
 const state = reactive({
   preset: '',
   data: '',
@@ -42,3 +42,4 @@ async function add() {
 <style scoped>
 
 </style>
+@/components/base/renderBlock

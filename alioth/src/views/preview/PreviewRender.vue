@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getWidget } from 'alioth-lib'
 import { useV } from 'phecda-vue'
-import { RenderBlock } from '@/components/renderBlock'
+import { RenderBlock } from '@/components/base/renderBlock'
 import { DocModel } from '@/models/doc'
 const { container } = $(useV(DocModel))
 </script>
@@ -23,3 +23,4 @@ const { container } = $(useV(DocModel))
     </div>
   </section>
 </template>
+@/components/base/renderBlock

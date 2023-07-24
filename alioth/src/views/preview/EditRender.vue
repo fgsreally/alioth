@@ -2,7 +2,7 @@
 import { getWidget, interval } from 'alioth-lib'
 import { emitter, useR, useV } from 'phecda-vue'
 // import { debounce } from 'lodash-es'
-import { RenderBlock } from '@/components/renderBlock'
+import { RenderBlock } from '@/components/base/renderBlock'
 
 import { useDragSingle } from '@/composables/drag'
 // import { createReplaceBlock } from '@/utils/replacement'
@@ -63,3 +63,4 @@ const containerCanvas = useDragSingle(addBlock)
 @import '@/style/editor.scss';
 </style>
 @/utils/handleIndex
+@/components/base/renderBlock

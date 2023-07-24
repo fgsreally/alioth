@@ -17,6 +17,7 @@ createApp(App).mount('#app')
 ```
 
 ## 组件
+具体的组件中，加载上述的两部分
 
 <script setup lang="ts">
 import { VirtualDocument, createRenderComponent, getWidget, interval, loadDoc, loadPreset } from 'alioth-lib'
