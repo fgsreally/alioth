@@ -32,7 +32,7 @@ export function setRegister<R extends typeof BaseRegister<any, any>>(Register: R
 export async function loadDoc(url: string) {
   const ret = await fetch(url)
 
-  interval.docData = await ret.json()
+  return await ret.json()
 }
 
 export function loadPreset(urls: string[]) {

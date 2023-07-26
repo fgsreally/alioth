@@ -1,32 +1,31 @@
 <script setup lang="ts">
-import { VirtualDocument, createRenderComponent, getWidget, interval, loadDoc, loadPreset } from 'alioth-lib'
-import { onMounted, ref } from 'vue'
-const RenderBlock = createRenderComponent()
+import { DocumentModel, createRenderComponent, getWidget, loadDoc, loadPreset } from 'alioth-lib'
+import { onMounted, reactive, ref } from 'vue'
+const RenderBlock = createRenderComponent<any, any>()
 
 const presetUrls: string[] = ['http://127.0.0.1:8080/b.js', 'http://127.0.0.1:8080/style.css']
 const docUrl = 'http://127.0.0.1:8080/test.json'
 const isLoading = ref(true)
-const doc = new VirtualDocument()
+const instance = reactive(new DocumentModel())
 onMounted(async () => {
   await loadPreset(presetUrls)
-  await loadDoc(docUrl)
-  doc.load(interval.docData[1].data)
+  instance.load(await loadDoc(docUrl))
   isLoading.value = false
 })
 </script>
 
 <template>
-  <div v-if="!isLoading">
+  <div v-if="instance.isActive">
     <div
       :style="{
         position: 'relative',
-        backgroundColor: doc.root.attrs.backgroundColor,
-        width: `${doc.root.attrs.width}px`,
-        height: `${doc.root.attrs.height}px`,
+        backgroundColor: instance.container.attrs.backgroundColor,
+        width: `${instance.container.attrs.width}px`,
+        height: `${instance.container.attrs.height}px`,
       }"
     >
       <RenderBlock
-        v-for="(item) in doc.root.children" :key="item.id" :node="item" type="render"
+        v-for="(item) in instance.container.children" :key="item.id" :node="item" type="render"
         :value="getWidget(item.attrs.key)"
       />
     </div>

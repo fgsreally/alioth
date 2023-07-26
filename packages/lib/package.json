@@ -23,9 +23,6 @@
     "*": {
       "*": [
         "dist/index.d.ts"
-      ],
-      "model": [
-        "dist/model/index.d.ts"
       ]
     }
   },
