@@ -2,9 +2,8 @@ import A from './A.vue'
 import B from './B.vue'
 import C from './C.vue'
 import D from './D.vue'
-export function init() {
-  if (!import.meta.env.DEV)
-    return
+export function addWiget() {
+
   const registerWidget = window.$alioth_registerWidget
   registerWidget('lib', 'test2', markRaw(B), {
     props: {

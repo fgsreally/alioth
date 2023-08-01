@@ -1,13 +1,10 @@
 import {
   BaseRegister,
   interval,
-
 } from 'alioth-lib'
 import type { VirtualNode } from 'alioth-lib'
-
 import type { VNode } from 'vue'
 import { h } from 'vue'
-
 import { renderer } from './renderer'
 
 export class Register extends BaseRegister<typeof renderer> {

@@ -35,7 +35,6 @@ const containerCanvas = useDragSingle(addBlock)
 </script>
 
 <template>
-  <!-- <el-scrollbar style="height: 95vh; width: 100%"> -->
   <div class="editor__container">
     <div
       ref="containerCanvas" class="editor__canvas" :class="container.attrs.isGrid ? 'gridHelper' : ''" :style="`--radius:${container.attrs.radius / 2};--fontSize:${container.attrs.fontSize};
@@ -56,11 +55,8 @@ const containerCanvas = useDragSingle(addBlock)
       />
     </div>
   </div>
-  <!-- </el-scrollbar> -->
 </template>
 
 <style lang="scss">
 @import '@/style/editor.scss';
 </style>
-@/utils/handleIndex
-@/components/base/renderBlock

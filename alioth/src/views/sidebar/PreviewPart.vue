@@ -2,7 +2,6 @@
 import type { defaultRegisterComponent } from 'alioth-lib'
 import { emitter, useV } from 'phecda-vue'
 import { RenderBlock } from '@/components/base/renderBlock'
-// import CompMetaTable from '@/components/wrappers/CompMetaTable.vue'
 const { compList, type } = defineProps<{
   compList: Array<defaultRegisterComponent>
   type: string
@@ -61,4 +60,3 @@ function dragend() {
   user-select: none;
 }
 </style>
-@/components/base/renderBlock

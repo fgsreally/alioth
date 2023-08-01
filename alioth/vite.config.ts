@@ -5,7 +5,7 @@ import ReactivityTransform from '@vue-macros/reactivity-transform/vite'
 import Icons from 'unplugin-icons/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import presetIcons from '@unocss/preset-icons'
-import { External } from 'alioth-dev'
+import { DynamicImportmap, ExternalMap } from 'alioth-dev'
 import Vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/vite'
 import UnoCSS from 'unocss/vite'
@@ -42,8 +42,12 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
 
     }),
+    DynamicImportmap({
+      'vue': '/vue.mjs',
+      'phecda-vue': '/phecda-vue.mjs',
+    }),
     // Icons(),
-    External(),
+    ExternalMap(),
     UnoCSS({
       rules: [
         ['l-border', {

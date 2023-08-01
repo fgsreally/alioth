@@ -1,5 +1,5 @@
 import { createCommand } from 'alioth-lib'
-import { Global, Init, Tag, useV } from 'phecda-vue'
+import { Global, Init, Tag, useR, useV } from 'phecda-vue'
 import { DocModel } from './doc'
 const { registry, initialize, state } = createCommand({ undo: true, redo: true })
 
@@ -11,7 +11,7 @@ export class CommandModel {
   public registry = registry
   @Init
   init() {
-    const { activeDoc, on, off } = useV(DocModel)
+    const { activeDoc, emitter } = useR(DocModel)
     // window.$alioth_registerCommand = registry
     registry({
       name: 'docAction',
@@ -20,19 +20,19 @@ export class CommandModel {
         const action = () => {
           state.commands.docAction()
         }
-        on('doc-action', action)
+        emitter.on('doc-action', action)
         return () => {
-          off('doc-action', action)
+          emitter.off('doc-action', action)
         }
       },
 
       execute() {
         return {
           undo() {
-            activeDoc.value.HC?.undo()
+            activeDoc.HC?.undo()
           },
           redo() {
-            activeDoc.value.HC?.redo()
+            activeDoc.HC?.redo()
           },
         }
       },
