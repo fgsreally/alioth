@@ -6,7 +6,6 @@ import { componentMap } from '@/views/zones'
 import { useLayer } from '@/composables/layer'
 import PreviewRenderVue from '@/views/preview/PreviewRender.vue'
 import IconEye from '~icons/lucide/eye'
- 
 import IconDownload from '~icons/lucide/download'
 import { getQuery } from '@/utils/url'
 import { presets } from '@/config'
@@ -33,36 +32,37 @@ export class ConfigModel {
   componentMap = componentMap as Record<string, Component>
   getWidget = getWidget
 
-  public previewConfig = [
-    {
-      key: 'local',
-      type: 'preview',
-      label: '本地组件',
+  // public previewConfig = [
+  //   {
+  //     key: 'local',
+  //     type: 'preview',
+  //     label: '本地组件',
 
-    },
-    {
-      key: 'lib',
-      type: 'text',
-      label: '库组件',
-    },
-    {
-      key: 'element-plus',
-      type: 'text',
-      label: 'element-plus',
-    },
-  ]
+  //   },
+  //   {
+  //     key: 'lib',
+  //     type: 'text',
+  //     label: '库组件',
+  //   },
+  //   {
+  //     key: 'element-plus',
+  //     type: 'text',
+  //     label: 'element-plus',
+  //   },
+  // ]
 
   public headers: Header[] = [
     {
       label: '实时预览',
-      component:IconEye,
+      component: IconEye,
       handler() {
         useLayer(PreviewRenderVue, {}, { title: '预览页面' })
       },
     },
+
     {
       label: '下载',
-      component:IconDownload,
+      component: IconDownload,
       handler() {
         const { download } = useV(DocModel)
         download('test.json')
@@ -171,21 +171,19 @@ export class ConfigModel {
     window.$alioth_addView = (key: string, component: Component) => {
       this.componentMap[key] = component
     }
-    const preset = getQuery('preset')
+    const presets: string[] = JSON.parse(getQuery('presets') || '[]')
 
-    if (preset && preset in presets) {
-      presets[preset].forEach((url) => {
-        if (url.endsWith('.css')) {
-          const css = document.createElement('link')
-          css.href = url
-          css.rel = 'stylesheet'
-          css.type = 'text/css'
-          document.head.appendChild(css)
-        }
-        else {
-          import(/** @vite-ignore */url)
-        }
-      })
-    }
+    presets.forEach((url) => {
+      if (url.endsWith('.css')) {
+        const css = document.createElement('link')
+        css.href = url
+        css.rel = 'stylesheet'
+        css.type = 'text/css'
+        document.head.appendChild(css)
+      }
+      else {
+        import(/** @vite-ignore */url)
+      }
+    })
   }
 }

@@ -1,5 +1,5 @@
 import type { Component } from 'vue'
-import { type BaseRegister, getEditorStore } from './register'
+import { type BaseRegister, getNamespace } from './register'
 import { interval } from './interval'
 
 let isLoad = false
@@ -15,7 +15,7 @@ export async function init() {
   ) {
     // @ts-expect-error is not a abstract
     // eslint-disable-next-line new-cap
-    getEditorStore(category).register?.(new interval.register(category, key, comp, meta))
+    getNamespace(category).register?.(new interval.register(category, key, comp, meta))
   }
   window.$alioth_registerWidget = registerWidget
   window.$alioth_setRegister = setRegister

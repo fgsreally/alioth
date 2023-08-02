@@ -1,7 +1,8 @@
 {
-  "name": "alioth-preset-elementplus",
+  "name": "alioth-presets",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -16,20 +17,20 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@iconify-json/lucide": "^1.1.96",
     "@vueuse/core": "^10.1.2",
     "alioth-dev": "workspace:^",
     "alioth-lib": "workspace:^",
     "element-plus": "^2.2.29",
     "lodash-es": "^4.17.21",
     "phecda-vue": "^1.6.0",
-    "@iconify-json/lucide": "^1.1.96",
-
     "vue": "^3.2.47"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.7",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue-macros/reactivity-transform": "^0.3.7",
+    "@vue/tsconfig": "^0.4.0",
     "http-server": "^14.1.1",
     "rollup-plugin-visualizer": "^5.9.2",
     "unplugin-auto-import": "^0.13.0",

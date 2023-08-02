@@ -1,22 +1,20 @@
 /* eslint-disable no-new-func */
 // import { cloneDeep, isSymbol } from 'lodash-es'
-import type { node } from 'alioth-lib'
+import type { VirtualNode } from 'alioth-lib'
 import { BaseRenderer, interval } from 'alioth-lib'
-
-import type { Component, DefineComponent, VNode } from 'vue'
+import type { DefineComponent, VNode } from 'vue'
 import { h } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { emitter, useV } from 'phecda-vue'
 import DragBox from '../components/wrappers/DragBox.vue'
 import type { NodeSchema } from './schema'
 import { DocModel } from '@/models/doc'
-
 import { toPx } from '@/utils/style'
 import { ERROR_EVENT } from '@/config'
 
 const { activeDoc } = useV(DocModel)
 
-export class renderer extends BaseRenderer<node<NodeSchema>> {
+export class renderer extends BaseRenderer<VirtualNode<NodeSchema>> {
   propsData: any
 
   getSize() {
@@ -135,36 +133,10 @@ export class renderer extends BaseRenderer<node<NodeSchema>> {
       activeDoc.value.select(this.node, 'hoverNode')
     }
 
-    (this._vnode as any).props.onMouseleave = (e) => {
+    (this._vnode as any).props.onMouseleave = () => {
       activeDoc.value.cancel('hoverNode')
     }
 
     return this
   }
-
-  // renderAction(state: any, context: any, services: viewServices) {
-  //   if (!this._vnode)
-  //     return this
-
-  //   this.node.mutations.forEach(
-  //     (item: { key: string | undefined; handler: string | undefined }) => {
-  //       if (item.key && item.handler) {
-  //         // eslint-disable-next-line no-new-func
-  //         (this._vnode as any).props[`on${item.key}`] = new Function(
-  //           ...Object.keys(context),
-  //           'state',
-  //           `return ${services[item.handler]}`,
-  //         )(...Object.values(context), state)
-  //       }
-  //     },
-  //   )
-  //   return this
-  // }
-
-  // vif(state: any) {
-  //   if (filter({ data: this.node[VUEOPTS.IF] }).data)
-  //     this._vnode = null
-
-  //   return this
-  // }
 }

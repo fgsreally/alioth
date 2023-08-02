@@ -1,5 +1,5 @@
 import { URL, fileURLToPath } from 'node:url'
-import { External } from 'alioth-dev'
+import { ExternalMap } from 'alioth-dev'
 import { defineConfig } from 'vite'
 import ReactivityTransform from '@vue-macros/reactivity-transform/vite'
 
@@ -15,15 +15,17 @@ import Icons from 'unplugin-icons/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // define: {
-  //   __DEV__: true,
-  // },
+
   build: {
-    sourcemap: true,
+    outDir: '../../alioth/public',
+    emptyOutDir: false,
+    sourcemap: false,
     lib: {
-      entry: './src/index.ts',
+      entry: ['./src/element-plus/view.ts', './src/element-plus/widget.ts'],
       formats: ['es'],
-      fileName: 'index',
+      fileName: (_, entry) => {
+        return `${entry}.js`
+      },
     },
   },
 
@@ -40,7 +42,6 @@ export default defineConfig({
     }),
     AutoImport({
       imports: ['vue'],
-
       resolvers: [ElementPlusResolver()],
     }),
     Components({
@@ -49,7 +50,7 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
 
     }),
-    External(),
+    ExternalMap({ }),
     sfc({
       write: true,
       meta: false,

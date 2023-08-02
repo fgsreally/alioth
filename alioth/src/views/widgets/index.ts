@@ -3,9 +3,8 @@ import B from './B.vue'
 import C from './C.vue'
 import D from './D.vue'
 export function addWiget() {
-
   const registerWidget = window.$alioth_registerWidget
-  registerWidget('lib', 'test2', markRaw(B), {
+  registerWidget('text', 'test2', markRaw(B), {
     props: {
       modelValue: {
         _component: 'Input',
@@ -33,7 +32,7 @@ export function addWiget() {
     },
   })
 
-  registerWidget('helper', 'border', markRaw(C), {
+  registerWidget('text', 'border', markRaw(C), {
     select: false,
 
     meta: {
@@ -44,7 +43,7 @@ export function addWiget() {
     },
   })
 
-  registerWidget('lib', 'test3', D, {
+  registerWidget('text', 'test3', D, {
     props: {
       config: {
         _component: 'FormConf',

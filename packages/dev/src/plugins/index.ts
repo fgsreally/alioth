@@ -1,24 +1,56 @@
 /* eslint-disable no-console */
-import { resolve } from 'path'
-import { normalizePath } from 'vite'
 import type { PluginOption } from 'vite'
 import colors from 'colors'
 
-export function Alioth(options: AliothOptions): PluginOption {
-  const entryFiles = Object.values(options.entry).map(item => normalizePath(resolve(process.cwd(), item)))
-  return [{
-    name: 'alioth',
-    apply: 'serve',
+interface ConnectorOpts {
+  project: string
+  externals?: Record<string, string>
+  presets?: string[]
+  website: string
+  entry: Record<string, string>
+}
 
-    config() {
-      return {
-        resolve: {
-          alias: {
-            vue: 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.esm-browser.min.js',
+interface ExternalMapOpts {
+  externals?: Record<string, string | undefined>
+  importmap?: boolean
+}
+export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
+  const { externals = {}, importmap = true } = options
+  const dep = Object.assign({
+    'vue': 'http://localhost:4010/vue.mjs',
+    'phecda-vue': 'http://localhost:4010/phecda-vue.mjs',
+  }, externals)
+  let isDev: boolean
+  return {
+    name: 'alioth-external-map',
+    enforce: 'pre',
+
+    config(_, { command }) {
+      isDev = command === 'serve'
+      if (isDev || !importmap) {
+        return {
+          resolve: {
+            alias: dep as any,
           },
-        },
+        }
       }
     },
+    resolveId(source) {
+      if (source in dep) {
+        if ((!isDev) && importmap)
+          return { id: source, external: true }
+      }
+    },
+  }
+}
+
+export function Connector(options: ConnectorOpts): PluginOption {
+  const { project, website, externals = {}, entry, presets = [] } = options
+  // const entryFiles = Object.values(options.entry).map(item => normalizePath(resolve(process.cwd(), item)))
+  return {
+    name: 'alioth-connector',
+    apply: 'serve',
+
     configureServer(server) {
       const {
 
@@ -35,7 +67,7 @@ export function Alioth(options: AliothOptions): PluginOption {
 
         printUrls()
         console.log(
-          `  ${colors.green('➜')} ${colors.bold('Alioth')}:${colors.blue(` http://127.0.0.1:5173?url=${encodeURIComponent(host)}`)}`,
+          `  ${colors.green('➜')} ${colors.bold('Alioth')}:${colors.blue(`${website ?? 'http://localhost:4010'}?url=${encodeURIComponent(host)}&externals=${encodeURIComponent(JSON.stringify(externals))}&presets=${encodeURIComponent(JSON.stringify(presets))}`)}`,
         )
       }
 
@@ -46,32 +78,55 @@ export function Alioth(options: AliothOptions): PluginOption {
         res.setHeader('Access-Control-Allow-Methods', '*')
         if (req?.url === '/alioth' && req.method === 'GET')
 
-          res.end(JSON.stringify({ entry: options.entry, project: options.project }))
+          res.end(JSON.stringify({ entry, project }))
 
         else next()
       })
     },
-    transform(code, id) {
-      if (entryFiles.includes(id))
+    // transform(code, id) {
+    //   if (entryFiles.includes(id))
 
-        return code + injectHMR()
-    },
-  },
-    // typedocMD(),
+    //     return code + injectHMR()
+    // },
+  }
+}
 
-  // vueMeta(),
+export function Alioth(options: ConnectorOpts & ExternalMapOpts) {
+  return [
+    Connector(options),
+    ExternalMap(options),
   ]
 }
 
-interface AliothOptions {
-  project: string
-  entry: Record<string, string>
-}
+// function injectHMR() {
+//   return `\nif (import.meta.hot) {
+//     import.meta.hot.accept((newModule) => {
+//       if(window.$alioth_update)window.$alioth_update(import.meta.url,newModule)
+//     })
+//   }`
+// }
 
-function injectHMR() {
-  return `\nif (import.meta.hot) {
-    import.meta.hot.accept((newModule) => {
-      if(window.$alioth_update)window.$alioth_update(import.meta.url,newModule)
-    })
-  }`
+export function DynamicImportmap(imports: Record<string, string > = {}): PluginOption {
+  return {
+    name: 'alioth-dynamic-importmap',
+    enforce: 'post',
+    // apply: 'build',
+    transformIndexHtml(html) {
+      return {
+        html,
+        tags: [
+          {
+            tag: 'script',
+            injectTo: 'head-prepend',
+            children: `function getQuery(key) {
+              return new URLSearchParams(location.href.split('?')[1] || '').get(key)
+             }
+            const script = document.createElement('script');script.type = 'importmap';const imports = getQuery('externals');script.innerHTML = JSON.stringify(Object.assign(${JSON.stringify(
+              { imports },
+            )}, imports?JSON.parse(decodeURIComponent(imports)):{}));document.head.append(script);`,
+          },
+        ],
+      }
+    },
+  }
 }

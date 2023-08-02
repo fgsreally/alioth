@@ -17,10 +17,13 @@ import AutoImport from 'unplugin-auto-import/vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   define: {
-    __DEV__: true,
+    // 'process.env': {
+    //   NODE_ENV: 'production',
+    // },
   },
 
   plugins: [
+    ExternalMap(),
     ReactivityTransform(),
     VueMacros({
       setupBlock: true,
@@ -47,7 +50,6 @@ export default defineConfig({
       'phecda-vue': '/phecda-vue.mjs',
     }),
     // Icons(),
-    ExternalMap(),
     UnoCSS({
       rules: [
         ['l-border', {

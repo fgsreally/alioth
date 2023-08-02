@@ -14,7 +14,7 @@ function cloneStyleNode(): Node[] {
 
   const links = document.getElementsByTagName('link')
   for (let i = 0; i < links.length; i++) {
-    if (links[i].type === 'text/css')
+    if (links[i].rel === 'stylesheet')
       arr.push(links[i].cloneNode())
   }
   return arr

@@ -23,7 +23,6 @@ export function createRenderComponent<N extends NodeAttrs, R extends BaseRegiste
     setup(props) {
       return () => {
         // @ts-expect-error it will work after creating register
-
         return props.value[props.type](props.node)
       }
     },

@@ -30,14 +30,14 @@ export interface defaultDecorator {
 }
 
 export class BaseRenderer<
-    BlockType extends VirtualNode<any>,
+    NodeType extends VirtualNode<any>,
   > {
   protected _vnode: VNode | VNode[] | null = null
 
   // stack: { funcName: string; property: any }[];
   renderType: string
   // slotVNode: { [key in string]: Function };
-  constructor(protected node: BlockType, protected comp: Component) {}
+  constructor(protected node: NodeType, protected comp: Component) {}
   exec() {
     return this._vnode
   }
@@ -112,8 +112,8 @@ export class BaseRenderer<
   }
 
   useDragger(
-    dragEnter: (e: DragEvent, VirtualNode: BlockType) => void,
-    dragOver: (e: DragEvent, VirtualNode: BlockType) => void,
+    dragEnter: (e: DragEvent, VirtualNode: NodeType) => void,
+    dragOver: (e: DragEvent, VirtualNode: NodeType) => void,
   ) {
     (this._vnode as any).props.ondragenter = (e: DragEvent) =>
       dragEnter(e, this.node);

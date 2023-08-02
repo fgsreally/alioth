@@ -1,5 +1,6 @@
+<!-- eslint-disable vue/no-extra-parens -->
 <script setup lang="ts">
-import { getEditorStore, iframeBox } from 'alioth-lib'
+import { NameSpaceStore, iframeBox } from 'alioth-lib'
 import { useV } from 'phecda-vue'
 import {
   TabContent,
@@ -15,12 +16,9 @@ import Editable from '@/components/base/Editable.vue'
 import { DocModel } from '@/models/doc'
 import Zones from '@/views/zones/index.vue'
 import IconClose from '~icons/gg/close'
-import { ConfigModel } from '@/models/config'
 import type { RootSchema } from '@/engine/schema'
 const { container } = $(useV<typeof DocModel<RootSchema>>(DocModel))
 const { remove, docs, add, active, activeId } = $(useV(DocModel))
-
-const { previewConfig } = useV(ConfigModel)
 </script>
 
 <template>
@@ -29,19 +27,19 @@ const { previewConfig } = useV(ConfigModel)
   <section class="editor__box ">
     <Transition appear name="left">
       <div v-show="!container.attrs.isFull" class="editor__aside left  border-ol b-r-2 b-r-solid ">
-        <Tabs :default-value="previewConfig[0].key">
+        <Tabs :default-value="Object.keys(NameSpaceStore)[0]">
           <TabList>
-            <TabTrigger v-for="(item, i) in previewConfig" :key="i" :value="item.key">
+            <TabTrigger v-for="(_, i) in NameSpaceStore" :key="i" :value="(i as string)">
               <button l-btn-n>
-                {{ item.key }}
+                {{ i }}
               </button>
             </TabTrigger>
             <TabIndicator class="bg-p h-1" />
           </TabList>
-          <TabContent v-for="(item, i) in previewConfig" :key="i" :value="item.key">
+          <TabContent v-for="(item, i) in NameSpaceStore" :key="i" :value="(i as string)">
             <PreviewPart
-              :comp-list="Array.from(getEditorStore(item.key).widgetMap).map((item:any) => item[1])"
-              :type="item.type"
+              :comp-list="Array.from(item.widgetMap).map((item:any) => item[1])"
+              type="text"
             />
           </TabContent>
         </Tabs>
@@ -101,7 +99,6 @@ const { previewConfig } = useV(ConfigModel)
 </template>
 
 <style lang="scss" scoped>
-
 .editor__aside {
   &.right {
     overflow-x: hidden;

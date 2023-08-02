@@ -10,22 +10,22 @@ export interface RegisterType extends BaseRegister<any> {
 }
 
 export const allWidgetMap = reactive(new Map()) as Map<RegisterKey, RegisterType>
+export const NameSpaceStore = reactive<{ [key: string]: ReturnType<typeof createNameSpace> }>({})
 
 export function getWidget<
   registerWidget extends BaseRegister<any>,
 >(key?: string) {
   if (key)
-    return allWidgetMap.has(key) ? markRaw((allWidgetMap as Map<string, registerWidget>).get(key) as registerWidget) : null
+    return allWidgetMap.has(key) ? markRaw((allWidgetMap as Map<string, registerWidget>).get(key)!) : null
 }
 
 export function createNameSpace<
   registerWidget extends BaseRegister<any>,
->(err?: Function) {
+>(err?: (...args: any) => void) {
   // 分区注册
   const widgetMap: Map<RegisterKey, registerWidget> = reactive(new Map())
   return {
     widgetMap,
-
     cancel: (key: RegisterKey) => {
       const comp = allWidgetMap.get(key)
       if (comp) {
@@ -48,9 +48,7 @@ export function createNameSpace<
   }
 }
 
-const NameSpaceStore: { [key: string]: ReturnType<typeof createNameSpace> } = {}
-
-export function getEditorStore<registerWidget extends BaseRegister<any>>(key: string) {
+export function getNamespace<registerWidget extends BaseRegister<any>>(key: string) {
   if (!NameSpaceStore[key])
     NameSpaceStore[key] = createNameSpace()
   return NameSpaceStore[key] as unknown as ReturnType<typeof createNameSpace<registerWidget>>

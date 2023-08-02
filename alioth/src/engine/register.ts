@@ -16,16 +16,6 @@ export class Register extends BaseRegister<typeof renderer> {
     }, this.key)
   }
 
-  preview() {
-    const renderer = this.createRenderer()
-    const VirtualNode = renderer
-      .main()
-      .useClass('block_preview')
-      .response(200, 500)
-      .exec()
-    return VirtualNode as VNode
-  }
-
   edit(node: VirtualNode<any>) {
     const renderer = this.createRenderer(node)
 
@@ -37,7 +27,6 @@ export class Register extends BaseRegister<typeof renderer> {
       })
       .getSize()
       .addClass('innerBlock_edit')
-      // .addClass(getBreakPointClass(node))
       .useSize()
       .draggable()
       .addClass('block_edit')
