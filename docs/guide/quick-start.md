@@ -1,15 +1,15 @@
 # 快快快快开始
 
-1. 创建项目
+## 1. 创建项目
    随意，只要是个`vite+vue3`项目就行
 
-2. 安装依赖
+## 2. 安装依赖
 
 ```shell
 npm i alioth-dev
 ```
 
-3. 添加插件
+## 3. 添加插件
    在`vite.config.ts/js`中，添加插件
 
 ```ts
@@ -20,7 +20,6 @@ import { Alioth, ExternalMap } from 'alioth-dev'
 export default defineConfig({
   plugins: [
     vue(),
-    ExternalMap(),
     Alioth({
       project: 'project name',
       preset: ['element-plus'], // 也可以是你创建的preset的 url
@@ -32,7 +31,7 @@ export default defineConfig({
 })
 ```
 
-4. 启动项目
+## 4. 启动项目
 
 ```shell
 npm run dev
@@ -40,7 +39,7 @@ npm run dev
 
 看到控制台输出的链接，点击它就好
 
-5. 添加物料/功能
+## 5. 添加物料/功能
 先随便写个组件
 
 ```vue
@@ -101,9 +100,12 @@ $R('change', () => {
 > 请不要担心体积的问题，这些函数只是提供类型的帮助而已
 
 
-6. 界面中操作
+## 6. 界面中操作
 假设功能如下：点击'变化'按钮，helloworld组件中的文字添加一个句号
 
 
-7. 预览
+## 7. 预览
 可以直接点击右上预览，也可以右上点击导出json，点开控制台第二个链接，上传这个json，查看预览效果，
+
+
+> 生产环境部署[详见](./deploy.md)

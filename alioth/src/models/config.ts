@@ -8,7 +8,7 @@ import PreviewRenderVue from '@/views/preview/PreviewRender.vue'
 import IconEye from '~icons/lucide/eye'
 import IconDownload from '~icons/lucide/download'
 import { getQuery } from '@/utils/url'
-import { presets } from '@/config'
+// import { presets } from '@/config'
 
 interface Header {
   component: Component

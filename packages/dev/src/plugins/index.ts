@@ -67,7 +67,10 @@ export function Connector(options: ConnectorOpts): PluginOption {
 
         printUrls()
         console.log(
-          `  ${colors.green('➜')} ${colors.bold('Alioth')}:${colors.blue(`${website ?? 'http://localhost:4010'}?url=${encodeURIComponent(host)}&externals=${encodeURIComponent(JSON.stringify(externals))}&presets=${encodeURIComponent(JSON.stringify(presets))}`)}`,
+          `  ${colors.green('➜')}  ${colors.bold('Alioth-Dev')} :${colors.blue(`${website ?? 'http://localhost:4010'}?url=${encodeURIComponent(host)}&externals=${encodeURIComponent(JSON.stringify(externals))}&presets=${encodeURIComponent(JSON.stringify(presets))}`)}`,
+        )
+        console.log(
+          `  ${colors.green('➜')}  ${colors.bold('Alioth-Prod')} :${colors.blue(`${website ?? 'http://localhost:4010'}/preview?url=${encodeURIComponent(host)}&externals=${encodeURIComponent(JSON.stringify(externals))}&presets=${encodeURIComponent(JSON.stringify(presets))}`)}`,
         )
       }
 

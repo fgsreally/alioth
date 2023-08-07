@@ -1,3 +1,4 @@
+# alioth-helper
 ```ts
 // 所有的meta，就相当于描述信息
 // 注册物料组件
@@ -23,7 +24,7 @@ declare function $Z(zone: {
 declare function $C(...commands: DefaultCommand[]): void
 // 注册头部功能，会出现右上角图标，点击调用对应功能
 declare function $H(...headers: {
-  component: string// 视图组件
+  component: string// icon组件
   label: string// 标签
   handler: (params: {
     useLayer: any

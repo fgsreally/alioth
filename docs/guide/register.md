@@ -1,7 +1,7 @@
 # 注册器
 ## 开发环境
 ### register
-先看一下开发平台默认的`register`,我将一步一步解释
+先看一下平台默认的`register`,我将一步一步解释
 ```ts
 export class Register extends BaseRegister<typeof renderer> {
   Renderer = renderer// 为了更好的管理代码，这里有一个Renderer的class，它负责提供各种各样的功能，
@@ -9,7 +9,7 @@ export class Register extends BaseRegister<typeof renderer> {
   text() { // 这里我声明了一个text的渲染方法，它会渲染一个p标签，里面就会有对应物料的key,这就是左侧物料区的渲染方式
     return h('p', {
       class: 'preview-text',
-    }, this.key)
+    }, this.key)// 返回vnode
   }
 
   edit(node: VirtualNode<any>) { // 这里我声明了一个edit的渲染方法，对应编辑器中的渲染方式
@@ -28,7 +28,7 @@ export class Register extends BaseRegister<typeof renderer> {
       .addClass('block_edit')
       .useOffset()
       .editAction()
-      .exec()
+      .exec()// 返回vnode
   }
 
   render(node: any) {
@@ -46,7 +46,7 @@ export class Register extends BaseRegister<typeof renderer> {
         position: 'absolute',
       })
 
-      .exec() as VNode
+      .exec() as VNode// 返回vnode
   }
 
 }
@@ -114,3 +114,6 @@ export class renderer extends BaseRenderer<node<NodeSchema>> {
   }
 }
 ```
+
+## 总结
+在`renderer`层面，写一些操作`vnode`的方法，在`register`层面，链式调用方法并返回`vnode`
