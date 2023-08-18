@@ -1,3 +1,3 @@
-export function commonChannel() {
+export class BaseChannel {
 
 }

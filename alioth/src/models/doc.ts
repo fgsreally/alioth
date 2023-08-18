@@ -1,7 +1,7 @@
 import type { NodeAttrs } from 'alioth-lib'
 import { Global, Init, Tag } from 'phecda-vue'
 import EventEmitter from 'eventemitter3'
-import { ALIOTH_EVENT, DocumentModel, VirtualDocument } from 'alioth-lib'
+import { Controller, DocumentModel, VirtualDocument, observe } from 'alioth-lib'
 @Global
 @Tag('doc')
 export class DocModel<T extends NodeAttrs> extends DocumentModel<T> {
@@ -44,19 +44,22 @@ export class DocModel<T extends NodeAttrs> extends DocumentModel<T> {
 
   add(title = '未定义') {
     const id = String(this.id++)
-    const doc = new VirtualDocument('template', this.containerAttrs)
-    this.docs.push({
+    const doc = new VirtualDocument(this.containerAttrs)
+    const c = new Controller({
+
+    })
+    doc.bindController(markRaw(c))
+    const length = this.docs.push({
       doc,
       id,
       title,
     })
-    const emit = () => {
-      this.emitter.emit('doc-action')
-    }
 
-    doc.HC.emitter.on(ALIOTH_EVENT.PROPERTY_CHANGE, emit)
-    doc.HC.emitter.on(ALIOTH_EVENT.REMOVE_NODE, emit)
-    doc.HC.emitter.on(ALIOTH_EVENT.APPEND_NODE, emit)
+    observe(this.docs[length - 1].doc)
+
+    // doc.HC.emitter.on(ALIOTH_EVENT.PROPERTY_CHANGE, emit)
+    // doc.HC.emitter.on(ALIOTH_EVENT.REMOVE_NODE, emit)
+    // doc.HC.emitter.on(ALIOTH_EVENT.APPEND_NODE, emit)
 
     return id
   }
@@ -74,7 +77,7 @@ export class DocModel<T extends NodeAttrs> extends DocumentModel<T> {
       const index = this.docs.findIndex(item => item.id === id)
 
       this.activeId = this.docs[index === 0 ? 1 : index - 1].id
-      this.docs.splice(index, 1)[0].doc.unmount()
+      // this.docs.splice(index, 1)[0].doc.unmount()
     }
   }
 

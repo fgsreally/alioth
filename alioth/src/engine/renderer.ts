@@ -52,11 +52,11 @@ export class renderer extends BaseRenderer<VirtualNode<NodeSchema>> {
     if (!this._vnode)
       return this
 
-    if (this.node.attrs.w) {
-      (this._vnode as any).props.style = `width:${toPx(
-        this.node,
-        'w',
-      )}px;height:${toPx(this.node, 'h')}px`
+    if (this.node.attrs.width) {
+      this.addStyle({
+        width: `${this.node.attrs.width}px`,
+        height: `${this.node.attrs.height}px`,
+      })
     }
     return this
   }
@@ -79,10 +79,7 @@ export class renderer extends BaseRenderer<VirtualNode<NodeSchema>> {
     if (!this._vnode || !this.node.attrs.top)
       return this;
 
-    (this._vnode as any).props.style = `top:${toPx(
-      this.node,
-      'top',
-    )}px;left:${toPx(this.node, 'left')}px`
+    (this._vnode as any).props.style = `top:${this.node.attrs.top}px;left:${this.node.attrs.left}px`
     return this
   }
 

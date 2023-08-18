@@ -17,7 +17,7 @@ import { DocModel } from '@/models/doc'
 import Zones from '@/views/zones/index.vue'
 import IconClose from '~icons/gg/close'
 import type { RootSchema } from '@/engine/schema'
-const { container } = $(useV<typeof DocModel<RootSchema>>(DocModel))
+const { container, activeDoc } = $(useV<typeof DocModel<RootSchema>>(DocModel))
 const { remove, docs, add, active, activeId } = $(useV(DocModel))
 </script>
 
@@ -45,7 +45,11 @@ const { remove, docs, add, active, activeId } = $(useV(DocModel))
         </Tabs>
       </div>
     </Transition>
+
     <section class="editor_box">
+      <button color-white @click="activeDoc.controller.undo()">
+        undo
+      </button>
       <div m-t-10 text="sm" font="600" relative>
         <div flex w-full h-8 color-font-t>
           <div

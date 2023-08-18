@@ -14,18 +14,18 @@ function addBlock(module: any, e: MouseEvent) {
   emitter.emit('block-action', null)
 
   const { key, label, meta } = module
-  const { hover, root } = activeDoc
+  const { hoverNode, root } = activeDoc
   const index = createIndex(key)
-  const parent = hover || root
-  const block = activeDoc.createNode(key, Object.assign({
+  const parent = hoverNode || root
+  const block = activeDoc.createNode(Object.assign({
     slot: 'default',
     key,
     index,
     label,
     propsData: {},
     level: parent === root ? 1 : parent.attrs.level + 1,
-    top: { value: parent === root ? e.offsetY : 0, size: 'px' },
-    left: { value: parent === root ? e.offsetX : 0, size: 'px' },
+    top: parent === root ? e.offsetY : 0,
+    left: parent === root ? e.offsetX : 0,
   }, meta?.init || {}))
   interval.setState(index, block.attrs.propsData)
   parent.insert(block)

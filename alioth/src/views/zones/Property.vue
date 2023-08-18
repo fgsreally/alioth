@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import type { VirtualNode } from 'alioth-lib'
 import { getWidget } from 'alioth-lib'
 import { createFormData, useV } from 'phecda-vue'
 
+import { watch } from 'vue'
 import { DragModel } from '@/models/drag'
 
-import { watch } from 'vue'
 import { DocModel } from '@/models/doc'
 
 const { type } = defineProps<{ type: 'props' | 'events' }>()
@@ -12,15 +13,22 @@ const { activeNode } = $(useV(DocModel))
 const { add, del } = useV(DragModel)
 let args = $ref<{ data: any; config: any }>({} as any)
 
+function setProps(node: VirtualNode, key: string, value: any) {
+  node.attrs.propsData[key] = value
+  node.setAttribute('propsData', node.attrs.propsData)
+}
+
 watch(() => activeNode, (n, o) => {
   if (!n)
     return
-  const params = getWidget(n.key)!.meta[type]
+  const params = getWidget(n.attrs.key)!.meta[type]
   const { data, config } = createFormData(params, n.attrs.propsData)
+  console.log(n.attrs.propsData)
   for (const i in config) {
     config[i]._mount = ({ el }: any) => {
       add(el, (v: any) => {
-        n.setAttribute(`propsData.${i}`, v)
+        setProps(n, { [i]: v })
+        // n.setAttribute(`propsData.${i}`, v)
       })
     }
     config[i]._unmount = ({ el }: any) => {
@@ -34,7 +42,7 @@ watch(() => activeNode, (n, o) => {
 <template>
   <pane-form
     :data="args.data" :config="args.config"
-    :on-update="(key:string, v:any) => activeNode?.setAttribute(`propsData.${key}`, v)"
+    :on-update="(key:string, v:any) => setProps(activeNode, key, v)"
   />
 </template>
 

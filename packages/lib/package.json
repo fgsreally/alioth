@@ -8,7 +8,6 @@
       "types": "./dist/index.d.ts",
       "require": "./dist/index.js"
     }
- 
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -37,10 +36,12 @@
     "nanoid": "^4.0.0",
     "phecda-vue": "latest",
     "vite": "^4.3.9",
-    "vue": "^3.2.47"
+    "vue": "^3.2.47",
+    "yjs": "^13.6.7"
   },
   "devDependencies": {
     "tsup": "^6.5.0",
-    "unbuild": "^1.1.1"
+    "unbuild": "^1.1.1",
+    "vitest": "^0.34.1"
   }
 }

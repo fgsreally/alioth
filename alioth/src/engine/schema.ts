@@ -2,13 +2,13 @@ export interface NodeSchema {
   slot: string
   key: string
   label: string
-  index:string
+  index: string
   propsData: any
   class: string[]
   level: number
   vIf: string
-  top: { value: number; size: 'px' }
-  left: { value: number; size: 'px' }
+  top: number
+  left: number
 }
 
 export interface RootSchema {

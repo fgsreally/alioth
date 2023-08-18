@@ -1,10 +1,10 @@
-import { debounce } from 'lodash-es'
+import { debounce, omit } from 'lodash-es'
 import { reactive, watch } from 'vue'
-import { ALIOTH_EVENT } from '../common'
+import { Map as YMap } from 'yjs'
+import type { ALIOTH_EVENT } from '../common'
 import type { NodeAttrs } from './node'
 import { VirtualNode } from './node'
-import { HistoryController } from './history'
-
+import type { Controller } from './controller'
 interface BridgeEvent {
   [ALIOTH_EVENT.CREATE_BLOCK]: { id: string; key: string; value: NodeAttrs }
   [ALIOTH_EVENT.APPEND_NODE]: { id: string; VirtualNode: string; index: number }
@@ -15,14 +15,25 @@ interface BridgeEvent {
 export class VirtualDocument<A extends NodeAttrs> {
   data: { root: VirtualNode<A>; activeNode?: VirtualNode<A>; hoverNode?: VirtualNode<A> }
   blockMap: Map<string, VirtualNode<A>> = new Map()
-  HC = new HistoryController()
-  constructor(key = 'template', initAttrs?: A) {
-    const VirtualNode = this.createNode(key, initAttrs)
-    this.data = reactive({ root: VirtualNode }) as any
+  controller: Controller
+  root: VirtualNode<A>
+  activeNode?: VirtualNode<A>
+  hoverNode?: VirtualNode<A>
+  constructor(initAttrs?: A) {
+    this.root = this.createNode(initAttrs, 'root')
+  }
+
+  get container() {
+    return this.root
+  }
+
+  bindController(controller: Controller) {
+    this.controller = controller
+    this.root.bindDoc(this)
   }
 
   // 从所有block中找
-  findById(id: string) {
+  get(id: string) {
     return this.blockMap.get(id)
   }
 
@@ -34,80 +45,69 @@ export class VirtualDocument<A extends NodeAttrs> {
     })
   }
 
-  createNode(key: string, initAttrs?: NodeAttrs, id?: string) {
-    const node = new VirtualNode<A>(key, initAttrs)
-    node.HC = this.HC
-    node.doc = this
+  transact(cb: () => void) {
+    this.controller?.ydoc.transact(cb)
+  }
+
+  createNode(initAttrs?: A, id?: string) {
+    const node = new VirtualNode<A>(initAttrs)
 
     id && (node.id = id)
+
+    node.bindDoc(this)
+
     this.blockMap.set(node.id, node)
 
-    this.HC.emitter.emit(ALIOTH_EVENT.CREATE_BLOCK, { id: node.id, key, value: initAttrs })
     return node
   }
 
-  redo() {
-    this.HC.redo()
+  _createNode(initAttrs?: A, id?: string) {
+    const node = new VirtualNode<A>(initAttrs)
+
+    id && (node.id = id)
+
+    node.doc = this
+
+    this.blockMap.set(node.id, node)
+
+    return node
   }
 
-  undo() {
-    this.HC.undo()
-  }
-
-  on<N extends keyof BridgeEvent>(event: N, fn: (arg: BridgeEvent[N]) => void) {
-    this.HC.emitter.on(event, fn)
-  }
-
-  emit<N extends keyof BridgeEvent>(event: N, arg: BridgeEvent[N]) {
-    const { key, value, id, index, VirtualNode } = arg as any
-    switch (event) {
-      case ALIOTH_EVENT.CREATE_BLOCK:
-        this.createNode(key, value, id)
-        break
-      case ALIOTH_EVENT.APPEND_NODE:
-        this.findById(id)!._insert(this.findById(VirtualNode)!, index)
-        break
-
-      case ALIOTH_EVENT.REMOVE_NODE:
-        this.findById(id)!._remove(index)
-        break
-      case ALIOTH_EVENT.PROPERTY_CHANGE:
-        this.findById(id)!._setAttribute(key, value)
-        break
+  removeNode(node: VirtualNode<NodeAttrs>) {
+    if (node.parent) {
+      node.parent.remove(node.index!)
+      this.blockMap.delete(node.id)
     }
   }
 
-  get root() {
-    return this.data.root as VirtualNode<A>
-  }
-
-  get activeNode() {
-    return this.data.activeNode
-  }
-
-  get hover() {
-    return this.data.hoverNode
+  _removeNode(node: VirtualNode<NodeAttrs>) {
+    if (node.parent) {
+      node.parent._remove(node.index!)
+      this.blockMap.delete(node.id)
+    }
+    else {
+      this.blockMap.delete(node.id)
+    }
   }
 
   select(node: VirtualNode<A>, type: 'activeNode' | 'hoverNode' = 'activeNode') {
-    return this.data[type] = node
+    return this[type] = node
   }
 
   cancel(type: 'activeNode' | 'hoverNode' = 'activeNode') {
-    return this.data[type] = undefined
+    return this[type] = undefined
   }
 
   load(data: any) {
-    const HC = this.HC
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
     function traverse(data: any) {
       const node = new VirtualNode(data.key)
 
-      node.HC = HC
-      node.doc = that
+      node.bindDoc(that)
+
       node.id = data.id
-      node.attributes = data.attributes
+      node.attrs = data.attrs
       data.children.forEach((item: any, i: number) => {
         const child = traverse(item)
         child.parent = node
@@ -115,25 +115,71 @@ export class VirtualDocument<A extends NodeAttrs> {
       })
       return node
     }
-    this.HC.clear()
-    this.data.root = traverse(data)
+    this.root = traverse(data)
     return this
-  }
-
-  snapshot() {
-    this.HC.clear()
-    return JSON.stringify(this.data.root)
   }
 
   bind(property: keyof VirtualNode<A>, timeout = 500) {
     const update = debounce((value: any) => {
       this.activeNode!.setAttribute(property, value)
     }, timeout)
-    watch(() => this.activeNode!.attributes[property], (n: any) => update(n))
-    return this.activeNode!.attributes[property]
+    watch(() => this.activeNode!.attrs[property], (n: any) => update(n))
+    return this.activeNode!.attrs[property]
   }
+}
 
-  unmount() {
-    this.HC.emitter.removeAllListeners()
-  }
+export function observe(doc: VirtualDocument<any>) {
+  doc.controller.map.observeDeep((events, t) => {
+    events.forEach((event) => {
+      if ((!t.local) || t.origin) {
+        if (event.changes.keys.size === 0) {
+          event.changes.added.forEach((item: any) => {
+            const id = item.content.getContent()[0]
+            const node = doc.get(id)!
+            if (item.left) {
+              const left = doc.get(item.left.content.getContent()[0])!
+              left.parent!._insert(node, left.index!)
+            }
+            else {
+              const parent = doc.get(item.parent.parent.get('id'))
+              parent!._insert(node, 0)
+            }
+          })
+          // only work when undo
+
+          event.changes.deleted.forEach((item) => {
+            const id = item.content.getContent()[0]
+            const node = doc.get(id)!
+            node && node.parent?._remove(node.index!)
+          })
+        }
+        else {
+          event.changes.keys.forEach((item, i) => {
+            const obj = event.target.get(i)
+
+            switch (item.action) {
+              case 'add':
+                if (obj instanceof YMap)
+                  doc._createNode(omit(event.target.get(i).toJSON(), ['children']), i)
+
+                else doc.get(event.path[0] as string)?._setAttribute(i, obj)
+                break
+              case 'delete':
+                if (item.oldValue instanceof YMap)
+                  doc._removeNode(doc.get(i)!)
+                else
+
+                  doc.get(event.path[0] as string)?._setAttribute(i, obj)
+
+                break
+              case 'update':
+                doc.get(event.path[0] as string)?._setAttribute(i, obj)
+            }
+
+          // console.log(item.action, i, event.target.get(i))
+          })
+        }
+      }
+    })
+  })
 }
