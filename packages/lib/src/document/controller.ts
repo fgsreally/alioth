@@ -5,12 +5,12 @@ export class Controller<MapType = any> {
   manager: UndoManager
   map: YMap<MapType>
   constructor(public options: ConstructorParameters<typeof UndoManager>[1] = {}) {
-
+    this.map = this.ydoc.getMap('nodes')
+    this.manager = new UndoManager(this.map, this.options)
   }
 
-  active(id: string) {
-    this.map = this.ydoc.getMap(id)
-    this.manager = new UndoManager(this.map, this.options)
+  toJSON() {
+    return this.map.toJSON()
   }
 
   undo() {
@@ -23,10 +23,8 @@ export class Controller<MapType = any> {
 
   create(id: string, data: any) {
     this.ydoc.transact(() => {
-      const map = new YMap(Object.entries({ ...data, id }))
-      const arr = new YArray()
+      const map = new YMap(Object.entries({ ...data, id, children: new YArray() }))
 
-      map.set('children', arr)
       this.map.set(id, map as any)
     })
   }

@@ -1,8 +1,8 @@
 import { debounce, omit } from 'lodash-es'
-import { watch } from 'vue'
 import type { Transaction, YEvent } from 'yjs'
 import { Map as YMap } from 'yjs'
 import { emitter } from 'phecda-vue'
+import { nanoid } from 'nanoid'
 import type { NodeAttrs } from './node'
 import { VirtualNode } from './node'
 import type { Controller } from './controller'
@@ -14,8 +14,8 @@ export class VirtualDocument<A extends NodeAttrs> {
   activeNode?: VirtualNode<A>
   hoverNode?: VirtualNode<A>
   emitter = emitter
-  id: string
-  constructor(initAttrs?: A) {
+
+  constructor(initAttrs?: A, public id = 0) {
     this.root = this.createNode(initAttrs, 'root')
   }
 
@@ -23,15 +23,14 @@ export class VirtualDocument<A extends NodeAttrs> {
     return this.root
   }
 
-  bindController(controller: Controller) {
-    this.controller = controller
-    controller.active(this.id)
-    this.root.bindDoc(this)
-  }
-
   // 从所有block中找
   get(id: string) {
     return this.blockMap.get(id)
+  }
+
+  bind(controller: Controller) {
+    this.controller = controller
+    this.root.bind(this)
   }
 
   // 回收不在document中的block，垃圾回收
@@ -42,16 +41,16 @@ export class VirtualDocument<A extends NodeAttrs> {
     })
   }
 
-  transact(cb: () => void) {
-    this.controller?.ydoc.transact(cb)
-  }
+  // transact(cb: () => void) {
+  //   this.controller?.ydoc.transact(cb)
+  // }
 
   createNode(initAttrs?: A, id?: string) {
     const node = new VirtualNode<A>(initAttrs)
 
     id && (node.id = id)
 
-    node.bindDoc(this)
+    node.bind(this)
 
     this.blockMap.set(node.id, node)
 
@@ -101,7 +100,7 @@ export class VirtualDocument<A extends NodeAttrs> {
     function traverse(data: any) {
       const node = new VirtualNode(data.key)
 
-      node.bindDoc(that)
+      node.bind(that)
 
       node.id = data.id
       node.attrs = data.attrs
@@ -115,17 +114,9 @@ export class VirtualDocument<A extends NodeAttrs> {
     this.root = traverse(data)
     return this
   }
-
-  bind(property: keyof VirtualNode<A>, timeout = 500) {
-    const update = debounce((value: any) => {
-      this.activeNode!.setAttribute(property, value)
-    }, timeout)
-    watch(() => this.activeNode!.attrs[property], (n: any) => update(n))
-    return this.activeNode!.attrs[property]
-  }
 }
 
-export function observe(doc: VirtualDocument<any>) {
+export function observeDoc(doc: VirtualDocument<any>) {
   const fn: (arg0: YEvent<any>[], arg1: Transaction) => void = (events, t) => {
     events.forEach((event) => {
       if ((!t.local) || t.origin) { // from remote or undoManager

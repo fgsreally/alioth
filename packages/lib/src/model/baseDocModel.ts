@@ -1,26 +1,18 @@
 import { interval } from '../interval'
-import { VirtualDocument } from './document'
-import type { NodeAttrs } from './node'
+import { VirtualDocument } from '../document'
+import type { NodeAttrs } from '../document'
 
-export abstract class DocumentModel<T extends NodeAttrs> {
+export abstract class BaseDocModel<T extends NodeAttrs> {
+  abstract containerAttrs: NodeAttrs
   activeId: string
-  id = 0
-  docs: { doc: VirtualDocument<T>; id: string; title: string }[] = []
+  docs: VirtualDocument<T>[] = []
 
   constructor() {
     interval.setState('$doc', this)
   }
 
-  abstract beforeActive(): void
-
-  abstract afterActive(): void
-
   get activeDoc() {
-    return this.find(this.activeId)?.doc as unknown as VirtualDocument<T>
-  }
-
-  get title() {
-    return this.find(this.activeId)!.title
+    return this.find(this.activeId) as unknown as VirtualDocument<T>
   }
 
   get container() {
@@ -32,16 +24,29 @@ export abstract class DocumentModel<T extends NodeAttrs> {
   }
 
   get activeNode() {
-    return this.find(this.activeId)!.doc?.activeNode
+    return this.find(this.activeId)?.activeNode
   }
 
   active(id: string) {
     if (this.activeId === id)
       return
-    if (this.docs.some(item => item.id === id)) {
-      this.beforeActive?.()
+    if (this.docs.some(item => item.id === id))
       this.activeId = id
-      this.afterActive?.()
+  }
+
+  add() {
+    const doc = new VirtualDocument(this.containerAttrs)
+
+    this.docs.push(doc)
+    return doc
+  }
+
+  remove(id: string) {
+    if (this.docs.length > 1) {
+      const index = this.docs.findIndex(item => item.id === id)
+
+      this.docs.splice(index, 1)
+      this.activeId = this.docs[(index > 0) ? index - 1 : index].id
     }
   }
 

@@ -1,9 +1,10 @@
-import type { NodeAttrs } from 'alioth-lib'
+import type { NodeAttrs, VirtualDocument } from 'alioth-lib'
 import { Global, Init, Tag } from 'phecda-vue'
-import { Controller, DocumentModel, VirtualDocument, observe } from 'alioth-lib'
+import { BridgeDocModel } from 'alioth-lib'
+import { WebsocketProvider } from 'y-websocket'
 @Global
 @Tag('doc')
-export class DocModel<T extends NodeAttrs> extends DocumentModel<T> {
+export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
   containerAttrs = {
     width: 640,
     height: 600,
@@ -22,21 +23,39 @@ export class DocModel<T extends NodeAttrs> extends DocumentModel<T> {
     hLimit: [600, 4000],
   }
 
-  afterActive() {
-    const doc = this.activeDoc
-    if (this.activeId)
-      (doc as any).unobserve = observe(this.docs[this.index(this.activeId)].doc)
+  bridge(): void {
+    const wsProvider = new WebsocketProvider('ws://localhost:1234', 'documents', this.ydoc)
+    this.yarr.observe((e, t) => {
+      if ((!t.local) || t.origin) { // from remote or undoManager
+        console.log(e.changes.keys)
+        if (e.changes.keys.size === 0) {
+          // only work when undo
+          e.changes.added.forEach((item) => {
+            this._add().id = item.content.getContent()[0]
+          })
+          e.changes.deleted.forEach((item) => {
+            const id = item.content.getContent()[0]
+            this.remove(id)!
+          })
+        }
+      }
+    })
   }
 
-  beforeActive() {
-    const doc = this.activeDoc
-    if (doc)
-      (doc as any).unobserve?.()
+  bridgeDoc(doc: VirtualDocument<any>): void {
+    // const ws=getQuery()
+    const ydoc = doc.controller.ydoc
+    const wsProvider = new WebsocketProvider('ws://localhost:1234', doc.id, ydoc)
+
+    wsProvider.on('status', (event) => {
+      console.log(event.status) // logs "connected" or "disconnected"
+    })
   }
 
   @Init
   init() {
     // this.active(this.add())
+    // this.bridge()
 
     window.addEventListener('beforeunload', () => {
       localStorage.setItem('alioth_doc_state', this.docToStr())
@@ -44,28 +63,12 @@ export class DocModel<T extends NodeAttrs> extends DocumentModel<T> {
     const lastRecord = localStorage.getItem('alioth_doc_state') && false
     if (lastRecord) {
       this.load(lastRecord)
-      this.active(this.docs[0]?.id || this.add())
+      this.active(this.docs[0]?.id || this.add().id)
     }
 
     else {
-      this.active(this.add())
+      this.active(this.add().id)
     }
-  }
-
-  add(title = '未定义') {
-    const id = String(this.id++)
-    const doc = new VirtualDocument<any>(this.containerAttrs)
-    const c = new Controller({
-
-    })
-    doc.bindController(markRaw(c))
-    this.docs.push({
-      doc,
-      id,
-      title,
-    })
-
-    return id
   }
 
   docToStr() {
@@ -74,15 +77,6 @@ export class DocModel<T extends NodeAttrs> extends DocumentModel<T> {
         id, title, data: doc.root,
       }
     }))
-  }
-
-  remove(id: string) {
-    if (this.docs.length > 1) {
-      const index = this.docs.findIndex(item => item.id === id)
-
-      this.activeId = this.docs[index === 0 ? 1 : index - 1].id
-      // this.docs.splice(index, 1)[0].doc.unmount()
-    }
   }
 
   download(fileName: string) {

@@ -1,5 +1,4 @@
 import { nanoid } from 'nanoid'
-import type { DebouncedFunc } from 'lodash-es'
 
 import type { VirtualDocument } from './document'
 // import type { HistoryController } from './history'
@@ -20,7 +19,7 @@ export class VirtualNode<A extends NodeAttrs> {
     this.attrs = initAttrs || {}
   }
 
-  bindDoc(doc: VirtualDocument<A>) {
+  bind(doc: VirtualDocument<A>) {
     this.doc = doc
     if (this.doc.controller)
       this.doc.controller.create(this.id, this.attrs)
