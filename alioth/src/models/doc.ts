@@ -1,11 +1,9 @@
 import type { NodeAttrs } from 'alioth-lib'
 import { Global, Init, Tag } from 'phecda-vue'
-import EventEmitter from 'eventemitter3'
 import { Controller, DocumentModel, VirtualDocument, observe } from 'alioth-lib'
 @Global
 @Tag('doc')
 export class DocModel<T extends NodeAttrs> extends DocumentModel<T> {
-  emitter = new EventEmitter()
   containerAttrs = {
     width: 640,
     height: 600,
@@ -24,9 +22,21 @@ export class DocModel<T extends NodeAttrs> extends DocumentModel<T> {
     hLimit: [600, 4000],
   }
 
+  afterActive() {
+    const doc = this.activeDoc
+    if (this.activeId)
+      (doc as any).unobserve = observe(this.docs[this.index(this.activeId)].doc)
+  }
+
+  beforeActive() {
+    const doc = this.activeDoc
+    if (doc)
+      (doc as any).unobserve?.()
+  }
+
   @Init
   init() {
-    this.active(this.add())
+    // this.active(this.add())
 
     window.addEventListener('beforeunload', () => {
       localStorage.setItem('alioth_doc_state', this.docToStr())
@@ -49,17 +59,11 @@ export class DocModel<T extends NodeAttrs> extends DocumentModel<T> {
 
     })
     doc.bindController(markRaw(c))
-    const length = this.docs.push({
+    this.docs.push({
       doc,
       id,
       title,
     })
-
-    observe(this.docs[length - 1].doc)
-
-    // doc.HC.emitter.on(ALIOTH_EVENT.PROPERTY_CHANGE, emit)
-    // doc.HC.emitter.on(ALIOTH_EVENT.REMOVE_NODE, emit)
-    // doc.HC.emitter.on(ALIOTH_EVENT.APPEND_NODE, emit)
 
     return id
   }

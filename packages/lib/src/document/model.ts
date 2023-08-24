@@ -2,8 +2,8 @@ import { interval } from '../interval'
 import { VirtualDocument } from './document'
 import type { NodeAttrs } from './node'
 
-export class DocumentModel<T extends NodeAttrs> {
-  activeId = '0'
+export abstract class DocumentModel<T extends NodeAttrs> {
+  activeId: string
   id = 0
   docs: { doc: VirtualDocument<T>; id: string; title: string }[] = []
 
@@ -11,8 +11,12 @@ export class DocumentModel<T extends NodeAttrs> {
     interval.setState('$doc', this)
   }
 
+  abstract beforeActive(): void
+
+  abstract afterActive(): void
+
   get activeDoc() {
-    return this.find(this.activeId)!.doc!
+    return this.find(this.activeId)?.doc as unknown as VirtualDocument<T>
   }
 
   get title() {
@@ -34,12 +38,19 @@ export class DocumentModel<T extends NodeAttrs> {
   active(id: string) {
     if (this.activeId === id)
       return
-    if (this.docs.some(item => item.id === id))
+    if (this.docs.some(item => item.id === id)) {
+      this.beforeActive?.()
       this.activeId = id
+      this.afterActive?.()
+    }
   }
 
   find(id: string) {
     return this.docs.find(item => item.id === id)
+  }
+
+  index(id: string) {
+    return this.docs.findIndex(item => id === item.id)
   }
 
   load(data: any) {

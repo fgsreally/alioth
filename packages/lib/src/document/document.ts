@@ -1,17 +1,11 @@
 import { debounce, omit } from 'lodash-es'
-import { reactive, watch } from 'vue'
+import { watch } from 'vue'
+import type { Transaction, YEvent } from 'yjs'
 import { Map as YMap } from 'yjs'
-import type { ALIOTH_EVENT } from '../common'
+import { emitter } from 'phecda-vue'
 import type { NodeAttrs } from './node'
 import { VirtualNode } from './node'
 import type { Controller } from './controller'
-interface BridgeEvent {
-  [ALIOTH_EVENT.CREATE_BLOCK]: { id: string; key: string; value: NodeAttrs }
-  [ALIOTH_EVENT.APPEND_NODE]: { id: string; VirtualNode: string; index: number }
-  [ALIOTH_EVENT.PROPERTY_CHANGE]: { id: string; key: string; value: any }
-  [ALIOTH_EVENT.REMOVE_NODE]: { id: string; index: number }
-
-}
 export class VirtualDocument<A extends NodeAttrs> {
   data: { root: VirtualNode<A>; activeNode?: VirtualNode<A>; hoverNode?: VirtualNode<A> }
   blockMap: Map<string, VirtualNode<A>> = new Map()
@@ -19,6 +13,7 @@ export class VirtualDocument<A extends NodeAttrs> {
   root: VirtualNode<A>
   activeNode?: VirtualNode<A>
   hoverNode?: VirtualNode<A>
+  emitter = emitter
   constructor(initAttrs?: A) {
     this.root = this.createNode(initAttrs, 'root')
   }
@@ -129,9 +124,9 @@ export class VirtualDocument<A extends NodeAttrs> {
 }
 
 export function observe(doc: VirtualDocument<any>) {
-  doc.controller.map.observeDeep((events, t) => {
+  const fn: (arg0: YEvent<any>[], arg1: Transaction) => void = (events, t) => {
     events.forEach((event) => {
-      if ((!t.local) || t.origin) {
+      if ((!t.local) || t.origin) { // from remote or undoManager
         if (event.changes.keys.size === 0) {
           event.changes.added.forEach((item: any) => {
             const id = item.content.getContent()[0]
@@ -173,13 +168,20 @@ export function observe(doc: VirtualDocument<any>) {
 
                 break
               case 'update':
+
                 doc.get(event.path[0] as string)?._setAttribute(i, obj)
             }
-
-          // console.log(item.action, i, event.target.get(i))
           })
         }
       }
+      else {
+        // @ts-expect-error need phecda events type w
+        doc?.emitter.emit('alioth:node-action', event)
+      }
     })
-  })
+  }
+  doc.controller.map.observeDeep(fn)
+  return () => {
+    doc.controller.map.unobserveDeep(fn)
+  }
 }

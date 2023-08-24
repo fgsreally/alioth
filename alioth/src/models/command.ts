@@ -1,5 +1,5 @@
 import { createCommand } from 'alioth-lib'
-import { Global, Init, Tag, useR, useV } from 'phecda-vue'
+import { Global, Init, Tag, emitter, useR } from 'phecda-vue'
 import { DocModel } from './doc'
 const { registry, initialize, state } = createCommand({ undo: true, redo: true })
 
@@ -11,28 +11,28 @@ export class CommandModel {
   public registry = registry
   @Init
   init() {
-    const { activeDoc, emitter } = useR(DocModel)
+    const { activeDoc } = useR(DocModel)
     // window.$alioth_registerCommand = registry
     registry({
-      name: 'docAction',
+      name: 'nodeAction',
       pushQueue: true,
       init() { // 初始化操作默认就会执行
         const action = () => {
-          state.commands.docAction()
+          state.commands.nodeAction()
         }
-        emitter.on('doc-action', action)
+        emitter.on('alioth:node-action', action)
         return () => {
-          emitter.off('doc-action', action)
+          emitter.off('alioth:node-action', action)
         }
       },
 
       execute() {
         return {
           undo() {
-            activeDoc.HC?.undo()
+            activeDoc.controller.undo()
           },
           redo() {
-            activeDoc.HC?.redo()
+            activeDoc.controller.redo()
           },
         }
       },
