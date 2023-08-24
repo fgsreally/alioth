@@ -87,6 +87,18 @@ export class ConfigModel {
 
     },
     {
+      component: 'Terminal',
+      label: '中断',
+      name: 'terminal',
+      isActive: () => true,
+      props: {
+      },
+      x: 100,
+      y: 300,
+      transition: 'left',
+
+    },
+    {
       component: 'Property',
       label: '事件',
       name: 'Event',

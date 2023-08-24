@@ -12,6 +12,7 @@
     "src/**/__tests__/*"
   ],
   "compilerOptions": {
+    "allowJs": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization":false,
     "composite": true,

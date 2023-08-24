@@ -5,7 +5,11 @@ export class Controller<MapType = any> {
   manager: UndoManager
   map: YMap<MapType>
   constructor(public options: ConstructorParameters<typeof UndoManager>[1] = {}) {
-    this.map = this.ydoc.getMap('nodes')
+
+  }
+
+  active(id: string) {
+    this.map = this.ydoc.getMap(id)
     this.manager = new UndoManager(this.map, this.options)
   }
 

@@ -14,6 +14,7 @@ export class VirtualDocument<A extends NodeAttrs> {
   activeNode?: VirtualNode<A>
   hoverNode?: VirtualNode<A>
   emitter = emitter
+  id: string
   constructor(initAttrs?: A) {
     this.root = this.createNode(initAttrs, 'root')
   }
@@ -24,6 +25,7 @@ export class VirtualDocument<A extends NodeAttrs> {
 
   bindController(controller: Controller) {
     this.controller = controller
+    controller.active(this.id)
     this.root.bindDoc(this)
   }
 

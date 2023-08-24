@@ -23,7 +23,7 @@ export default defineConfig({
   },
 
   plugins: [
-    ExternalMap(),
+    // ExternalMap(),
     ReactivityTransform(),
     VueMacros({
       setupBlock: true,

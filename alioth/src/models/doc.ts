@@ -54,7 +54,7 @@ export class DocModel<T extends NodeAttrs> extends DocumentModel<T> {
 
   add(title = '未定义') {
     const id = String(this.id++)
-    const doc = new VirtualDocument(this.containerAttrs)
+    const doc = new VirtualDocument<any>(this.containerAttrs)
     const c = new Controller({
 
     })
