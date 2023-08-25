@@ -1,6 +1,6 @@
 import type { NodeAttrs, VirtualDocument } from 'alioth-lib'
 import { Global, Init, Tag } from 'phecda-vue'
-import { BridgeDocModel } from 'alioth-lib'
+import { BridgeDocModel, observeDoc } from 'alioth-lib'
 import { WebsocketProvider } from 'y-websocket'
 @Global
 @Tag('doc')
@@ -27,7 +27,6 @@ export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
     const wsProvider = new WebsocketProvider('ws://localhost:1234', 'documents', this.ydoc)
     this.yarr.observe((e, t) => {
       if ((!t.local) || t.origin) { // from remote or undoManager
-        console.log(e.changes.keys)
         if (e.changes.keys.size === 0) {
           // only work when undo
           e.changes.added.forEach((item) => {
@@ -48,7 +47,8 @@ export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
     const wsProvider = new WebsocketProvider('ws://localhost:1234', doc.id, ydoc)
 
     wsProvider.on('status', (event) => {
-      console.log(event.status) // logs "connected" or "disconnected"
+      if (event.status === 'connected')
+        observeDoc(this.find(doc.id))
     })
   }
 

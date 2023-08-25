@@ -8,7 +8,8 @@
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
+    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
+    "server":"y-websocket-server"
   },
   "dependencies": {
     "@ark-ui/vue": "^0.4.0",
