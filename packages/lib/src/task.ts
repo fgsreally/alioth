@@ -30,7 +30,7 @@ interface CommandModel<Command> {
 }
 
 // 创建指令，主要用于快捷键
-export function createCommand<Command extends DefaultCommand>(options: {
+export function createTaskStack<Command extends DefaultCommand>(options: {
   redo?: boolean
   undo?: boolean
 } = {}) {
@@ -44,7 +44,7 @@ export function createCommand<Command extends DefaultCommand>(options: {
     destroyArray: [],
   }
 
-  const registry = (command: Command) => {
+  const register = (command: Command) => {
     if (initialized && command.init)
 
       state.destroyArray.push(command.init())
@@ -70,7 +70,7 @@ export function createCommand<Command extends DefaultCommand>(options: {
   }
   // 注册我们需要的命令
   if (options.redo) {
-    registry({
+    register({
       name: 'redo',
       keyboard: 'ctrl+y',
       execute() {
@@ -84,7 +84,7 @@ export function createCommand<Command extends DefaultCommand>(options: {
   }
 
   if (options.undo) {
-    registry({
+    register({
       name: 'undo',
       keyboard: 'ctrl+z',
       execute() {
@@ -151,5 +151,5 @@ export function createCommand<Command extends DefaultCommand>(options: {
     state.isActive && state.destroyArray.forEach(fn => fn && fn())
   }
 
-  return { state, registry, initialize, destroy }
+  return { state, register, initialize, destroy }
 }

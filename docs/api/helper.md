@@ -23,7 +23,7 @@ declare function $Z(zone: {
 
 declare function $C(...commands: DefaultCommand[]): void
 // 注册头部功能，会出现右上角图标，点击调用对应功能
-declare function $H(...headers: {
+declare function $RH(...headers: {
   component: string// icon组件
   label: string// 标签
   handler: (params: {

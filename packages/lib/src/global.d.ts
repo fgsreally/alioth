@@ -9,7 +9,7 @@ declare global {
         $alioth_addView: any
         $alioth_addZone: any
         $alioth_addHeader:any
-        $alioth_registerCommand:any
+        $alioth_registerTask:any
     }
 }
 export {}

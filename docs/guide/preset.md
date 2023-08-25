@@ -4,7 +4,7 @@
 ## 预设的内容
 预设里面需要干什么？我以`element-plus`的预设为例
 ```ts
-import { $H, $V, $Z } from 'alioth-dev/helper'
+import { $RH, $V, $Z } from 'alioth-dev/helper'
 // ..
 
 $V('Checkbox', Checkbox)
@@ -12,7 +12,7 @@ $V('Input', ElInput)
 $V('Select', Select)
 $V('Tree', Tree)
 $V('List', List)
-$H({
+$RH({
 // ..
 })
 $Z({

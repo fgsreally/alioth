@@ -4,12 +4,7 @@ import type { DefaultCommand } from 'alioth-lib'
 export function $RW(category: string, key: string | symbol, component: Component, meta?: any) {
   window.$alioth_registerWidget?.(category, key, component, meta)
 }
-// // register remote widget
-// export async function $RRW(category: string, key: string | symbol, url: string,) {
-//     const module = await import(url)
-//     const meta = await module.addon()
-//     window.$alioth_registerWidget?.(category, key, module.default, meta)
-// }
+
 // register method and state
 export function $R(key: string, value: any, meta: any) {
   window.$alioth_register(key, value, meta)
@@ -35,13 +30,13 @@ export function $Z(zone: {
   window.$alioth_addZone?.(zone)
 }
 
-// register Comand
-export function $C(...commands: DefaultCommand[]) {
-  if (window.$alioth_registerCommand)
-    commands.forEach(window.$alioth_registerCommand)
+// register task
+export function $RT(...tasks: DefaultCommand[]) {
+  if (window.$alioth_registerTask)
+    tasks.forEach(window.$alioth_registerTask)
 }
-
-export function $H(...headers: { component: Component; label: string;handler: (params: { useLayer: any }) => void }[]) {
+// register header
+export function $RH(...headers: { component: Component; label: string;handler: (params: { useLayer: any }) => void }[]) {
   if (window.$alioth_addHeader)
     headers.forEach(window.$alioth_addHeader)
 }

@@ -4,7 +4,7 @@ import { ConnectModel } from './connect'
 import { ConfigModel } from './config'
 import { DragModel } from './drag'
 import { DocModel } from './doc'
-import { CommandModel } from './command'
+import { TaskModel } from './task'
 import { ErrorModel } from './error'
 import { Register } from '@/engine/register'
 export function initState() {
@@ -14,6 +14,6 @@ export function initState() {
   useO(ConfigModel)
   useO(DragModel)
   useO(DocModel)
-  useO(CommandModel)
+  useO(TaskModel)
   useO(ErrorModel)
 }

@@ -1,4 +1,4 @@
-export * from './command'
+export * from './task'
 export * from './connect'
 export * from './iframe'
 export * from './document'

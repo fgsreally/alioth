@@ -1,4 +1,4 @@
-import { $H, $V, $Z } from 'alioth-dev/helper'
+import { $RH, $V, $Z } from 'alioth-dev/helper'
 import { createLayer } from 'phecda-vue'
 import Tree from './zones/Tree.vue'
 import Container from './modals/Container.vue'
@@ -15,7 +15,7 @@ $V('Input', ElInput)
 $V('Select', Select)
 $V('Tree', Tree)
 $V('List', List)
-$H({
+$RH({
   component: IconContainer,
   label: '容器配置',
   handler() {

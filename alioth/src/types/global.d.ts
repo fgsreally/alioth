@@ -1,4 +1,4 @@
-import type { CommandModel } from "@/models/command"
+import type { CommandModel } from "@/models/task"
 import type { ConfigModel } from "@/models/config"
 import { DocModel } from "@/models/doc"
 
@@ -15,7 +15,7 @@ declare global {
         $alioth_addView: any
         $alioth_addZone: any
         $alioth_addHeader:any
-        $alioth_registerCommand:any
+        $alioth_registerTask:any
     }
 }
 export { }

@@ -25,9 +25,10 @@ export abstract class BridgeDocModel<T extends NodeAttrs> extends BaseDocModel<T
     super.add()
     // 保持响应式
     const doc = this.docs[this.docs.length - 1]
+
     const c = new Controller()
     doc.bind(markRaw(c))
-    observeDoc(doc)
+
     this.bridgeDoc(doc)
     return doc
   }
