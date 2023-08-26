@@ -5,7 +5,6 @@ import { CommandModel } from '@/models/command'
 
 const { input, commands } = useV(CommandModel)
 async function onExecCmd(key, command, success, error) {
-  console.log(command)
   // @ts-expect-error resolve any params
   const ret = await input(...command.split(' '))
   success({

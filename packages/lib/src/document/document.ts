@@ -15,7 +15,7 @@ export class VirtualDocument<A extends NodeAttrs> {
   hoverNode?: VirtualNode<A>
   emitter = emitter
 
-  constructor(initAttrs?: A, public id = nanoid()) {
+  constructor(initAttrs?: A, public id = '0') {
     this.root = this.createNode(initAttrs, 'root')
   }
 
@@ -114,8 +114,7 @@ export class VirtualDocument<A extends NodeAttrs> {
 
 export function observeDoc(doc: VirtualDocument<any>) {
   const fn: (arg0: YEvent<any>[], arg1: Transaction) => void = (events, t) => {
-    let isInitialized = false// init sync
-    const initTasks: (() => void)[] = []
+    let tasks: (() => void)[] = []
     events.forEach((event) => {
       if ((!t.local) || t.origin instanceof UndoManager) { // from remote or undoManager
         if (event.changes.keys.size === 0) {
@@ -144,19 +143,25 @@ export function observeDoc(doc: VirtualDocument<any>) {
             const obj = event.target.get(i)
             switch (item.action) {
               case 'add':
-                if (obj instanceof YMap)
-                  doc._createNode(omit(event.target.get(i).toJSON(), ['children']), i)
-
-                else doc.get(event.path[0] as string)?._setAttribute(i, obj)
-                if (!isInitialized) {
+                if (obj instanceof YMap) {
                   const attrs = obj.toJSON()
 
-                  attrs.children.length && initTasks.push(() => {
-                    attrs.children.forEach((k: string, i: number) => {
-                      doc.get(attrs.id)!._insert(doc.get(k)!, i)
+                  doc._createNode(omit(attrs, ['children']), i)
+                  if (attrs.children.length) {
+                    console.log('add')
+
+                    tasks.push(() => {
+                      console.log('add task')
+
+                      attrs.children.forEach((k: string, i: number) => {
+                        doc.get(attrs.id)!._insert(doc.get(k)!, i)
+                      })
                     })
-                  })
+                  }
                 }
+
+                else { doc.get(event.path[0] as string)?._setAttribute(i, obj) }
+
                 break
               case 'delete':
                 if (item.oldValue instanceof YMap)
@@ -167,23 +172,25 @@ export function observeDoc(doc: VirtualDocument<any>) {
 
                 break
               case 'update':
-                if (!isInitialized) {
+                if (obj instanceof YMap) {
                   const attrs = obj.toJSON()
-                  initTasks.push(() => {
-                    attrs.children.forEach((k: string, i: number) => {
-                      doc.get(attrs.id)!._insert(doc.get(k)!, i)
+                  console.log('update')
+                  if (attrs.children.length) {
+                    tasks.push(() => {
+                      console.log('update task')
+
+                      attrs.children.forEach((k: string, i: number) => {
+                        doc.get(attrs.id)!._insert(doc.get(k)!, i)
+                      })
                     })
-                  })
+                  }
                 }
                 else { doc.get(event.path[0] as string)?._setAttribute(i, obj) }
             }
           })
-          if (!isInitialized) {
-            isInitialized = true
-            for (let i = 0; i < initTasks.length + 1; i++)
-              initTasks.shift()!()
-          }
         }
+        tasks.forEach(task => task())
+        tasks = []
       }
       else {
         // @ts-expect-error need phecda events type w

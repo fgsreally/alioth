@@ -47,6 +47,7 @@ export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
     const wsProvider = new WebsocketProvider('ws://localhost:1234', doc.id, ydoc)
     observeDoc(this.find(doc.id)!)
     wsProvider.on('status', (event) => {
+      console.log(event.status)
       // if (event.status === 'connected')
       //   observeDoc(this.find(doc.id))
     })
