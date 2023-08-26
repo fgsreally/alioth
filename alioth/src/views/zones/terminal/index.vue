@@ -3,10 +3,15 @@ import { useV } from 'phecda-vue'
 import { Terminal, api as TerminalApi, Ask as TerminalAsk, Flash as TerminalFlash } from 'vue-web-terminal'
 import { CommandModel } from '@/models/command'
 
-const cmds = []
-const { input } = useV(CommandModel)
-async function onExecCmd(key) {
-  const ret = await input(key)
+const { input, commands } = useV(CommandModel)
+async function onExecCmd(key, command, success, error) {
+  console.log(command)
+  // @ts-expect-error resolve any params
+  const ret = await input(...command.split(' '))
+  success({
+    type: typeof ret === 'object' ? 'json' : 'normal',
+    content: ret,
+  })
 }
 const codemirrorOptions = {
   tabSize: 4,
@@ -45,7 +50,7 @@ const initLog = [
       name="alioth"
       :init-log="initLog"
 
-      :command-store="cmds"
+      :command-store="commands"
       :warn-log-count-limit="200"
       :show-header="false"
       @exec-cmd="onExecCmd"

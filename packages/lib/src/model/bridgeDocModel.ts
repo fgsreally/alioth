@@ -1,6 +1,6 @@
 import { markRaw } from 'vue'
 import { Doc } from 'yjs'
-import { Controller, observeDoc } from '../document'
+import { Controller } from '../document'
 import type { NodeAttrs, VirtualDocument } from '../document'
 import { BaseDocModel } from './baseDocModel'
 
