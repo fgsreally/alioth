@@ -25,7 +25,7 @@ const { remove, docs, add, active, activeId } = $(useV(DocModel))
   <Zones />
   <Header />
   <section class="editor__box ">
-    <Transition appear name="left">
+    <Transition v-if="activeDoc" appear name="left">
       <div v-show="!container.attrs.isFull" class="editor__aside left  border-ol b-r-2 b-r-solid ">
         <Tabs :default-value="Object.keys(NameSpaceStore)[0]">
           <TabList>
@@ -37,10 +37,7 @@ const { remove, docs, add, active, activeId } = $(useV(DocModel))
             <TabIndicator class="bg-p h-1" />
           </TabList>
           <TabContent v-for="(item, i) in NameSpaceStore" :key="i" :value="(i as string)">
-            <PreviewPart
-              :comp-list="Array.from(item.widgetMap).map((item:any) => item[1])"
-              type="text"
-            />
+            <PreviewPart :comp-list="Array.from(item.widgetMap).map((item: any) => item[1])" type="text" />
           </TabContent>
         </Tabs>
       </div>
@@ -50,50 +47,29 @@ const { remove, docs, add, active, activeId } = $(useV(DocModel))
       <div m-t-10 text="sm" font="600" relative>
         <div flex w-full h-8 color-font-t>
           <div
-            v-for="(item) in docs" :key="item.id"
-            max-w-20
-            font="500"
-            l-flex
-            cursor-pointer
-            border-1
-            border-solid
-            border-font-t
-            relative
-            :class="{
+            v-for="(item) in docs" :key="item.id" max-w-20 font="500" l-flex cursor-pointer border-1 border-solid
+            border-font-t relative :class="{
               'border-b-none border-p color-on-p': item.id === activeId,
 
-            }"
-
-            @click="active(item.id)"
+            }" @click="active(item.id)"
           >
-            <Editable v-model="item.title" class="m-x-2" />
+            <Editable v-model="item.id" class="m-x-2" />
             <IconClose
-              v-if="item.id === activeId && docs.length > 1"
-              absolute
-              right-1
-              w-3
-              h-3
-              rd-2
-              hover:bg-on-b
-              color-p
+              v-if="item.id === activeId && docs.length > 1" absolute right-1 w-3 h-3 rd-2 hover:bg-on-b color-p
               @click.stop="remove(item.id)"
             />
           </div>
 
           <div
-            i-lucide-plus-square
-            absolute
-            color-font-t
-            hover:color-p
-            cursor-pointer
-            top="10px"
-            left="-30px"
+            i-lucide-plus-square absolute color-font-t hover:color-p cursor-pointer top="10px" left="-30px"
             @click="add('未命名')"
           />
         </div>
-        <iframeBox :width="container.attrs.width" :height="container.attrs.height">
-          <EditRender />
-        </iframeBox>
+        <div v-if="activeDoc">
+          <iframeBox :width="container.attrs.width" :height="container.attrs.height">
+            <EditRender />
+          </iframeBox>
+        </div>
       </div>
     </section>
   </section>
@@ -109,6 +85,7 @@ const { remove, docs, add, active, activeId } = $(useV(DocModel))
     height: 100%;
     z-index: 2;
   }
+
   &.left {
     overflow-x: hidden;
     width: 300px;
@@ -119,7 +96,8 @@ const { remove, docs, add, active, activeId } = $(useV(DocModel))
     background-color: rgb(33, 35, 46);
   }
 }
-.active::after{
+
+.active::after {
   content: '';
   display: block;
   position: absolute;

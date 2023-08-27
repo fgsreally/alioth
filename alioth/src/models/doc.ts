@@ -30,7 +30,7 @@ export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
         if (e.changes.keys.size === 0) {
           // only work when undo
           e.changes.added.forEach((item) => {
-            this._add().id = item.content.getContent()[0]
+            this._add(item.content.getContent()[0])
           })
           e.changes.deleted.forEach((item) => {
             const id = item.content.getContent()[0]
@@ -56,20 +56,20 @@ export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
   @Init
   init() {
     // this.active(this.add())
-    // this.bridge()
+    this.bridge()
 
     window.addEventListener('beforeunload', () => {
       localStorage.setItem('alioth_doc_state', this.docToStr())
     })
     const lastRecord = localStorage.getItem('alioth_doc_state') && false
-    if (lastRecord) {
-      this.load(lastRecord)
-      this.active(this.docs[0]?.id || this.add().id)
-    }
+    // if (lastRecord) {
+    //   this.load(lastRecord)
+    //   this.active(this.docs[0]?.id || this.add().id)
+    // }
 
-    else {
-      this.active(this.add().id)
-    }
+    // else {
+    //   this.active(this.add().id)
+    // }
   }
 
   docToStr() {

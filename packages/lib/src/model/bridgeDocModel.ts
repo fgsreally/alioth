@@ -21,8 +21,8 @@ export abstract class BridgeDocModel<T extends NodeAttrs> extends BaseDocModel<T
     return doc
   }
 
-  protected _add() {
-    super.add()
+  protected _add(id?: string) {
+    super.add(id)
     // 保持响应式
     const doc = this.docs[this.docs.length - 1]
 

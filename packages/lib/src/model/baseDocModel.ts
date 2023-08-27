@@ -16,7 +16,7 @@ export abstract class BaseDocModel<T extends NodeAttrs> {
   }
 
   get container() {
-    return this.activeDoc.root
+    return this.activeDoc?.root
   }
 
   get isActive() {
@@ -34,8 +34,8 @@ export abstract class BaseDocModel<T extends NodeAttrs> {
       this.activeId = id
   }
 
-  add() {
-    const doc = new VirtualDocument(this.containerAttrs)
+  add(id?: string) {
+    const doc = new VirtualDocument(this.containerAttrs, id)
 
     this.docs.push(doc)
     return doc

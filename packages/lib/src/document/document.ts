@@ -15,7 +15,7 @@ export class VirtualDocument<A extends NodeAttrs> {
   hoverNode?: VirtualNode<A>
   emitter = emitter
 
-  constructor(initAttrs?: A, public id = '0') {
+  constructor(initAttrs?: A, public id = nanoid()) {
     this.root = this.createNode(initAttrs, 'root')
   }
 
@@ -116,7 +116,8 @@ export function observeDoc(doc: VirtualDocument<any>) {
   const fn: (arg0: YEvent<any>[], arg1: Transaction) => void = (events, t) => {
     let tasks: (() => void)[] = []
     events.forEach((event) => {
-      if ((!t.local) || t.origin instanceof UndoManager) { // from remote or undoManager
+      if ((!t.local) || t.origin instanceof UndoManager) {
+      // from remote or undoManager
         if (event.changes.keys.size === 0) {
           event.changes.added.forEach((item: any) => {
             const id = item.content.getContent()[0]
@@ -148,11 +149,7 @@ export function observeDoc(doc: VirtualDocument<any>) {
 
                   doc._createNode(omit(attrs, ['children']), i)
                   if (attrs.children.length) {
-                    console.log('add')
-
                     tasks.push(() => {
-                      console.log('add task')
-
                       attrs.children.forEach((k: string, i: number) => {
                         doc.get(attrs.id)!._insert(doc.get(k)!, i)
                       })
@@ -174,11 +171,8 @@ export function observeDoc(doc: VirtualDocument<any>) {
               case 'update':
                 if (obj instanceof YMap) {
                   const attrs = obj.toJSON()
-                  console.log('update')
                   if (attrs.children.length) {
                     tasks.push(() => {
-                      console.log('update task')
-
                       attrs.children.forEach((k: string, i: number) => {
                         doc.get(attrs.id)!._insert(doc.get(k)!, i)
                       })
