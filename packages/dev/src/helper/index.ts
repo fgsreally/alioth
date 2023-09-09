@@ -1,5 +1,5 @@
 import type { Component } from 'vue'
-import type { DefaultCommand } from 'alioth-lib'
+import type { DefaultEvent } from 'alioth-lib'
 // register widget
 export function $RW(category: string, key: string | symbol, component: Component, meta?: any) {
   window.$alioth_registerWidget?.(category, key, component, meta)
@@ -30,10 +30,10 @@ export function $Z(zone: {
   window.$alioth_addZone?.(zone)
 }
 
-// register task
-export function $RT(...tasks: DefaultCommand[]) {
-  if (window.$alioth_registerTask)
-    tasks.forEach(window.$alioth_registerTask)
+// register event
+export function $RE(...events: DefaultEvent[]) {
+  if (window.$alioth_registerEvent)
+    events.forEach(window.$alioth_registerEvent)
 }
 // register header
 export function $RH(...headers: { component: Component; label: string;handler: (params: { useLayer: any }) => void }[]) {

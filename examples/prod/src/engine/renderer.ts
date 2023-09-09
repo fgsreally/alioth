@@ -17,7 +17,11 @@ export class renderer extends BaseRenderer<any> {
       Object.assign({ a_node: this.node, a_type: type }, ret),
       this._vnode || undefined,
     )
-
+    this._vnode = h(
+      'div',
+      {},
+      this._vnode || undefined,
+    )
     return this
   }
 }

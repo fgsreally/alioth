@@ -1,20 +1,16 @@
 <script setup lang="ts">
-import { DocumentModel, allWidgetMap, createRenderComponent, getWidget, loadDoc, loadPreset } from 'alioth-lib'
+import { BaseDocModel, allWidgetMap, createRenderComponent, getWidget, load, loadDependence } from 'alioth-lib'
 import { onMounted, reactive, ref } from 'vue'
 const RenderBlock = createRenderComponent<any, any>()
 
-const presetUrls: string[] = ['http://127.0.0.1:8080/b.js', 'http://127.0.0.1:8080/style.css']
 const docUrl = 'http://127.0.0.1:8080/test.json'
 const isLoading = ref(true)
-const instance = reactive(new DocumentModel())
+const instance = reactive(new BaseDocModel())
 onMounted(async () => {
-  await loadPreset(presetUrls)
-  const ret = await loadDoc(docUrl)
-  console.log(ret)
-  instance.load(ret)
+  await Promise.all(['http://127.0.0.1:8080/b.js', 'http://127.0.0.1:8080/style.css'].map(loadDependence))
+  await load(instance as any, 'http://127.0.0.1:8080/test.json')
   isLoading.value = false
-  instance.active(ret[1].id)
-  console.log(allWidgetMap)
+  instance.active(instance.docs[0].id)
 })
 </script>
 
@@ -23,9 +19,9 @@ onMounted(async () => {
     <div
       :style="{
         position: 'relative',
-        backgroundColor: instance.container.attrs.backgroundColor,
-        width: `${instance.container.attrs.width}px`,
-        height: `${instance.container.attrs.height}px`,
+        backgroundColor: instance.activeDoc.root.attrs.backgroundColor,
+        width: `${instance.activeDoc.root.attrs.width}px`,
+        height: `${instance.activeDoc.root.attrs.height}px`,
       }"
     >
       <RenderBlock

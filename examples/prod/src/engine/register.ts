@@ -22,8 +22,8 @@ export class Register extends BaseRegister<typeof renderer> {
       .addStyle({
         top: `${node.attrs.top}px`,
         left: `${node.attrs.left}px`,
-        width: `${node.attrs.w.value}${node.attrs.w.size}`,
-        height: `${node.attrs.h.value}${node.attrs.h.size}`,
+        width: `${node.attrs.width}px`,
+        height: `${node.attrs.height}px`,
         position: 'absolute',
       })
 

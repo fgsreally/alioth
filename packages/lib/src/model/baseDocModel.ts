@@ -2,8 +2,8 @@ import { interval } from '../interval'
 import { VirtualDocument } from '../document'
 import type { NodeAttrs } from '../document'
 
-export abstract class BaseDocModel<T extends NodeAttrs> {
-  abstract containerAttrs: NodeAttrs
+export class BaseDocModel<T extends NodeAttrs> {
+  containerAttrs: NodeAttrs
   activeId: string
   docs: VirtualDocument<T>[] = []
 
@@ -61,13 +61,11 @@ export abstract class BaseDocModel<T extends NodeAttrs> {
   load(data: any) {
     data = typeof data === 'string' ? JSON.parse(data) : data
 
-    this.docs = data.map(({ id, title, data }: any) => {
+    this.docs = data.map(({ id, data }: any) => {
       const doc = new VirtualDocument()
+      doc.id = id
       doc.load(data)
-      return {
-        id, title, doc,
-
-      }
+      return doc
     })
     return this.docs
   }

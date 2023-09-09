@@ -6,6 +6,7 @@ interface ConnectorOpts {
   project: string
   externals?: Record<string, string>
   presets?: string[]
+  dependences?: string[]
   website: string
   entry: Record<string, string>
 }
@@ -45,7 +46,7 @@ export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
 }
 
 export function Connector(options: ConnectorOpts): PluginOption {
-  const { project, website, externals = {}, entry, presets = [] } = options
+  const { project, website, externals = {}, entry, presets = [], dependences = [] } = options
   // const entryFiles = Object.values(options.entry).map(item => normalizePath(resolve(process.cwd(), item)))
   return {
     name: 'alioth-connector',
@@ -66,11 +67,18 @@ export function Connector(options: ConnectorOpts): PluginOption {
           || `${https ? 'https' : 'http'}://localhost:${port || '5173'}`
 
         printUrls()
+        const query = generateQuery({
+          url: host,
+          externals: JSON.stringify(externals),
+          presets: JSON.stringify(presets),
+          dependences: JSON.stringify(dependences),
+
+        })
         console.log(
-          `  ${colors.green('➜')}  ${colors.bold('Alioth-Dev')} :${colors.blue(`${website ?? 'http://localhost:4010'}?url=${encodeURIComponent(host)}&externals=${encodeURIComponent(JSON.stringify(externals))}&presets=${encodeURIComponent(JSON.stringify(presets))}`)}`,
+          `  ${colors.green('➜')}  ${colors.bold('Alioth-Dev')} :${colors.blue(`${website ?? 'http://localhost:4010'}?${query}`)}`,
         )
         console.log(
-          `  ${colors.green('➜')}  ${colors.bold('Alioth-Prod')} :${colors.blue(`${website ?? 'http://localhost:4010'}/preview?url=${encodeURIComponent(host)}&externals=${encodeURIComponent(JSON.stringify(externals))}&presets=${encodeURIComponent(JSON.stringify(presets))}`)}`,
+          `  ${colors.green('➜')}  ${colors.bold('Alioth-Prod')} :${colors.blue(`${website ?? 'http://localhost:4010'}/preview?${query}`)}`,
         )
       }
 
@@ -132,4 +140,10 @@ export function DynamicImportmap(imports: Record<string, string > = {}): PluginO
       }
     },
   }
+}
+
+function generateQuery(obj: Record<string, string>) {
+  return Object.entries(obj).map(([key, value]) => {
+    return `${key}=${encodeURIComponent(value)}`
+  }).join('&')
 }

@@ -17,7 +17,7 @@ import Icons from 'unplugin-icons/vite'
 export default defineConfig({
 
   build: {
-    outDir: '../../alioth/public',
+    outDir: '../../app/public',
     emptyOutDir: false,
     sourcemap: false,
     lib: {

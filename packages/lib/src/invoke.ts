@@ -1,6 +1,7 @@
 import type { Component } from 'vue'
 import { type BaseRegister, getNamespace } from './register'
 import { interval } from './interval'
+import type { BaseDocModel } from './model'
 
 let isLoad = false
 
@@ -29,24 +30,28 @@ export function setRegister<R extends typeof BaseRegister<any, any>>(Register: R
   interval.register = Register
 }
 
-export async function loadDoc(url: string) {
+export async function load(docModel: BaseDocModel<any>, url: string) {
   const ret = await fetch(url)
+  const res = await ret.json()
+  docModel.load(res.docs)
 
-  return await ret.json()
+  await Promise.all(res.presets.map(loadDependence))
+  return res
 }
 
-export function loadPreset(urls: string[]) {
-  return Promise.all(urls.map(async (url) => {
-    if (url.endsWith('.css')) {
-      const css = document.createElement('link')
-      css.href = url
-      css.rel = 'stylesheet'
-      css.type = 'text/css'
-      document.head.appendChild(css)
-      return Promise.resolve()
-    }
-    else {
-      return import(/** @vite-ignore */url)
-    }
-  }))
+export function loadDependence(url: string) {
+  if (url.endsWith('.css')) {
+    const css = document.createElement('link')
+    css.href = url
+    css.rel = 'stylesheet'
+    css.type = 'text/css'
+    document.head.appendChild(css)
+    return new Promise((resolve, reject) => {
+      css.onload = resolve
+      css.onerror = reject
+    })
+  }
+  else {
+    return import(/** @vite-ignore */url)
+  }
 }

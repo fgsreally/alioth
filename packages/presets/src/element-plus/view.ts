@@ -27,7 +27,7 @@ $Z({
   label: 'model tree',
   name: 'tree',
   fix: true,
-  isActive: () => true,
+  isActive: ({ instance }) => !!instance,
   x: 1100,
   y: 50,
   transition: 'right',

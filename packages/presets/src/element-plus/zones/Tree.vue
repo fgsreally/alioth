@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useV } from 'phecda-vue'
 
+// @ts-expect-error phecda global
 const { container, activeDoc } = $(useV(window.__PHECDA__.doc))
 function nodeClick(node: any) {
   activeDoc.select(node)
@@ -10,8 +11,8 @@ function nodeClick(node: any) {
 <template>
   <el-scrollbar>
     <el-tree
-      class="tree" :data="container.children" draggable default-expand-all node-key="id"
-      :props="{ children: 'children', label: 'key' }"
+      class="tree" :data="container.children" default-expand-all node-key="id"
+      :props="{ children: 'children', label: (data:any) => data.attrs.key }"
       @node-click="nodeClick"
     />
   </el-scrollbar>

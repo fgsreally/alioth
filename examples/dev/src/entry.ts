@@ -1,5 +1,6 @@
-import { $R, $RW } from 'alioth-dev/helper'
+import { $R, $RE, $RW } from 'alioth-dev/helper'
 import { ref } from 'vue'
+import { useR } from 'phecda-vue'
 import HW from './components/HelloWorld.vue'
 
 const c = ref(1)
