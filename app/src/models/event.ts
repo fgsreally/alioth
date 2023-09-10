@@ -11,7 +11,7 @@ export class EventModel {
   @Init
   init() {
     const { activeDoc } = useR(DocModel)
-    window.$alioth_registerEvent = register
+    window.$alioth_eventStack = register
     register({
       name: 'nodeAction',
       pushQueue: true,

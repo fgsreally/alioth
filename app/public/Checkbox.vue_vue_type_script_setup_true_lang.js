@@ -1,21 +1,21 @@
 import { getCurrentScope as ds, onScopeDispose as fs, ref as I, watch as R, unref as d, getCurrentInstance as Pe, onMounted as Te, nextTick as te, readonly as Ga, computed as S, openBlock as T, createElementBlock as L, createElementVNode as D, warn as ps, inject as oe, toRef as st, onUnmounted as vs, isRef as an, shallowRef as on, onBeforeUnmount as ft, onBeforeMount as hs, provide as Xe, defineComponent as j, mergeProps as Lt, renderSlot as Z, useAttrs as gs, useSlots as ao, withDirectives as Ae, createCommentVNode as z, Fragment as Je, normalizeClass as k, createBlock as H, withCtx as K, resolveDynamicComponent as Ye, withModifiers as Qe, createVNode as ge, toDisplayString as he, normalizeStyle as me, vShow as gn, Transition as io, reactive as mn, onUpdated as ms, cloneVNode as bs, Text as Qa, Comment as ys, Teleport as ws, onDeactivated as Ss, toRaw as sn, vModelCheckbox as Qn, createTextVNode as Ya, toRefs as so, triggerRef as Sn, resolveComponent as jt, resolveDirective as _s, renderList as Bo, withKeys as Ue, vModelText as Ts, createSlots as Cs } from "vue";
 function mb(e, t, n, o) {
   var r;
-  (r = window.$alioth_registerWidget) == null || r.call(window, e, t, n, o);
+  (r = window.$alioth_widget) == null || r.call(window, e, t, n, o);
 }
 function bb(e, t, n) {
-  window.$alioth_register(e, t, n);
+  window.$alioth_state(e, t, n);
 }
 function yb(e, t) {
   var n;
-  (n = window.$alioth_addView) == null || n.call(window, e, t);
+  (n = window.$alioth_view) == null || n.call(window, e, t);
 }
 function wb(e) {
   var t;
-  (t = window.$alioth_addZone) == null || t.call(window, e);
+  (t = window.$alioth_zone) == null || t.call(window, e);
 }
 function Sb(...e) {
-  window.$alioth_addHeader && e.forEach(window.$alioth_addHeader);
+  window.$alioth_header && e.forEach(window.$alioth_header);
 }
 var Es = typeof global == "object" && global && global.Object === Object && global;
 const Za = Es;

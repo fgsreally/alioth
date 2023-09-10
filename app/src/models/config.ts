@@ -2,6 +2,7 @@ import { Global, Init, Tag, emitter, useR, useV } from 'phecda-vue'
 import type { Component } from 'vue'
 import { getWidget, loadDependence } from 'alioth-lib'
 import { DocModel } from './doc'
+import { ImportModel } from './import'
 import { componentMap } from '@/views/zones'
 import { useLayer } from '@/composables/layer'
 import PreviewRenderVue from '@/views/preview/PreviewRender.vue'
@@ -32,9 +33,7 @@ interface Zone {
 export class ConfigModel {
   componentMap = componentMap as Record<string, Component>
   getWidget = getWidget
-  presets: string[] = []
 
-  dependences: string[] = []
   // public previewConfig = [
   //   {
   //     key: 'local',
@@ -181,26 +180,15 @@ export class ConfigModel {
 
   @Init
   async init() {
-    window.$alioth_addZone = (arg: Zone) => {
+    window.$alioth_zone = (arg: Zone) => {
       this.addZone(arg)
     }
 
-    window.$alioth_addHeader = (arg: Header) => {
+    window.$alioth_header = (arg: Header) => {
       this.addHeader(arg)
     }
-    window.$alioth_addView = (key: string, component: Component) => {
+    window.$alioth_view = ({ key, component }: { key: string; component: Component }) => {
       this.componentMap[key] = component
     }
-    const presets: string[] = JSON.parse(getQuery('presets') || '[]')
-    const dependences: string[] = JSON.parse(getQuery('dependences') || '[]')
-
-    presets.forEach((url) => {
-      this.presets.push(url)
-      loadDependence(url).catch(() => emitter.emit('error', `load dependence ${url} fail`))
-    })
-    dependences.forEach((url) => {
-      this.dependences.push(url)
-      loadDependence(url).catch(() => emitter.emit('error', `load dependence ${url} fail`))
-    })
   }
 }

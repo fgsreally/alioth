@@ -43,20 +43,20 @@ export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
 
   bridgeDoc(doc: VirtualDocument<any>): void {
     // const ws=getQuery()
-    const ydoc = doc.controller.ydoc
-    const wsProvider = new WebsocketProvider('ws://localhost:1234', doc.id, ydoc)
-    observeDoc(this.find(doc.id)!)
-    wsProvider.on('status', (event) => {
-      console.log(event.status)
-      // if (event.status === 'connected')
-      //   observeDoc(this.find(doc.id))
-    })
+    // const ydoc = doc.controller.ydoc
+    // const wsProvider = new WebsocketProvider('ws://localhost:1234', doc.id, ydoc)
+    // observeDoc(this.find(doc.id)!)
+    // wsProvider.on('status', (event) => {
+    //   console.log(event.status)
+    //   // if (event.status === 'connected')
+    //   //   observeDoc(this.find(doc.id))
+    // })
   }
 
   @Init
   init() {
     // this.active(this.add())
-    this.bridge()
+    // this.bridge()
 
     // window.addEventListener('beforeunload', () => {
     //   localStorage.setItem('alioth_doc_state', this.docToStr())

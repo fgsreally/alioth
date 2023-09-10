@@ -1,4 +1,4 @@
-import type { CommandModel } from "@/models/event"
+import type { EventModel } from "@/models/event"
 import type { ConfigModel } from "@/models/config"
 import { DocModel } from "@/models/doc"
 
@@ -7,15 +7,15 @@ declare global {
         __PHECDA__:{
             doc:DocModel
             config:ConfigModel
-            command:CommandModel
+            command:EventModel
         }
         $alioth_update: any
-        $alioth_register: any
-        $alioth_registerWidget: any
-        $alioth_addView: any
-        $alioth_addZone: any
-        $alioth_addHeader:any
-        $alioth_registerEvent:any
+        $alioth_state: any
+        $alioth_widget: any
+        $alioth_view: any
+        $alioth_zone: any
+        $alioth_header:any
+        $alioth_eventStack:any
     }
 }
 export { }
