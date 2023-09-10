@@ -1,5 +1,5 @@
 import { Init, emitter } from 'phecda-vue'
-import { createConnector, interval, loadDependence } from 'alioth-lib'
+import { createConnector, interval, loadStyleOrScript } from 'alioth-lib'
 import { getQuery } from '@/utils/url'
 
 export const { connect, dynamicImport, urlMap, projectMap } = createConnector()
@@ -9,7 +9,6 @@ export class ImportModel {
    * @extend
    */
   presets: string[] = []
-  dependences: string[] = []
   info: Record<string, any> = {}
   graph: Record<string, any> = {}
   @Init
@@ -31,23 +30,10 @@ export class ImportModel {
       }
     }
     const presets: string[] = JSON.parse(getQuery('presets') || '[]')
-    const dependences: string[] = JSON.parse(getQuery('dependences') || '[]')
-
+    this.presets = presets
     presets.forEach(async (url) => {
       try {
-        this.presets.push(url)
-        const module = await loadDependence(url)
-        if (!url.endsWith('.css'))
-          this.graph[url] = this.importModule(module)
-      }
-      catch (e) {
-        emitter.emit('error', `load dependence ${url} failed`)
-      }
-    })
-    dependences.forEach(async (url) => {
-      try {
-        this.dependences.push(url)
-        const module = await loadDependence(url)
+        const module = await loadStyleOrScript(url)
         if (!url.endsWith('.css'))
           this.graph[url] = this.importModule(module)
       }

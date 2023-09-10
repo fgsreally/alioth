@@ -20,6 +20,7 @@
     "@unocss/preset-icons": "^0.53.1",
     "@vue-macros/reactivity-transform": "^0.3.7",
     "@vueuse/core": "^10.1.2",
+    "acorn": "^8.10.0",
     "alioth-dev": "workspace:^",
     "alioth-lib": "workspace:^",
     "codemirror": "^6.0.1",
