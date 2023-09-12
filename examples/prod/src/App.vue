@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BaseDocModel, allWidgetMap, createRenderComponent, getWidget, load, loadDependence } from 'alioth-lib'
+import { BaseDocModel, allWidgetMap, createRenderComponent, getWidget, loadJSON, loadPresets } from 'alioth-lib'
 import { onMounted, reactive, ref } from 'vue'
 const RenderBlock = createRenderComponent<any, any>()
 
@@ -7,8 +7,9 @@ const docUrl = 'http://127.0.0.1:8080/test.json'
 const isLoading = ref(true)
 const instance = reactive(new BaseDocModel())
 onMounted(async () => {
-  await Promise.all(['http://127.0.0.1:8080/b.js', 'http://127.0.0.1:8080/style.css'].map(loadDependence))
-  await load(instance as any, 'http://127.0.0.1:8080/test.json')
+  await loadPresets(['http://127.0.0.1:8080/b.js', 'http://127.0.0.1:8080/c.js', 'http://127.0.0.1:8080/style.css'])
+  const { docs } = await loadJSON('http://127.0.0.1:8080/data.json')
+  instance.load(docs)
   isLoading.value = false
   instance.active(instance.docs[0].id)
 })

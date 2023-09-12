@@ -9,7 +9,7 @@ console.log(count.value, 5)
 
 <template>
   <div style="width: 100px;height: 100px;background-color: red;">
-    {{ msg }}xxzz
+    {{ msg }}xxzza
   </div>
 </template>
 

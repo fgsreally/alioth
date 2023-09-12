@@ -23,7 +23,6 @@ watch(() => activeNode, (n, o) => {
     return
   const params = getWidget(n.attrs.key)!.meta[type]
   const { data, config } = createFormData(params, n.attrs.propsData)
-  console.log(n.attrs.propsData)
   for (const i in config) {
     config[i]._mount = ({ el }: any) => {
       add(el, (v: any) => {

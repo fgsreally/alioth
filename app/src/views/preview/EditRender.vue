@@ -22,12 +22,14 @@ function addBlock(module: any, e: MouseEvent) {
     key,
     index,
     label,
-    propsData: {},
+    propsData: {
+      onClick: '{{()=>useModal($docRender,{doc:$doc.activeDoc})}}',
+    },
     level: parent === root ? 1 : parent.attrs.level + 1,
     top: parent === root ? e.offsetY : 0,
     left: parent === root ? e.offsetX : 0,
   }, meta?.init || {}))
-  interval.setState(index, block.attrs.propsData)
+  // interval.setState(index, block.attrs.propsData)
   parent.insert(block)
 }
 

@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { Alioth, ExternalMap } from 'alioth-dev'
+import { Alioth, ExternalMap, RemoteLoader } from 'alioth-dev'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,12 +12,13 @@ export default defineConfig({
       // a: './src/components/HelloWorld.vue',
         b: './src/entry.ts',
       },
-    }), ExternalMap()],
+    }), ExternalMap(), RemoteLoader()],
   build: {
     sourcemap: true,
     lib: {
       entry: {
         b: './src/entry.ts',
+        c: './src/entry.js',
       },
       formats: ['es'],
     },

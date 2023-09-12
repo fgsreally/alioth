@@ -25,7 +25,7 @@ export class ImportModel {
         for (const entry in entries) {
           const data = await dynamicImport(project, entry)
 
-          this.graph[entry] = this.importModule(data!.module)
+          this.importModule(data!.module)
         }
       }
     }
@@ -36,6 +36,7 @@ export class ImportModel {
         const module = await loadStyleOrScript(url)
         if (!url.endsWith('.css'))
           this.graph[url] = this.importModule(module)
+        else this.graph[url] = {}
       }
       catch (e) {
         emitter.emit('error', `load dependence ${url} failed`)

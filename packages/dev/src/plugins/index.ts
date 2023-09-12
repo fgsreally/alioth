@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
-import type { PluginOption } from 'vite'
+import { resolve } from 'path'
+import { type PluginOption, normalizePath } from 'vite'
 import colors from 'colors'
-
+import axios from 'axios'
 interface ConnectorOpts {
   project: string
   externals?: Record<string, string>
@@ -46,8 +47,8 @@ export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
 }
 
 export function Connector(options: ConnectorOpts): PluginOption {
-  const { project, website, externals = {}, entry, presets = [], dependences = [] } = options
-  // const entryFiles = Object.values(options.entry).map(item => normalizePath(resolve(process.cwd(), item)))
+  const { project, website, externals = {}, entry, presets = [] } = options
+  const entryFiles = Object.values(options.entry).map(item => normalizePath(resolve(process.cwd(), item)))
   return {
     name: 'alioth-connector',
     apply: 'serve',
@@ -71,7 +72,6 @@ export function Connector(options: ConnectorOpts): PluginOption {
           url: host,
           externals: JSON.stringify(externals),
           presets: JSON.stringify(presets),
-          dependences: JSON.stringify(dependences),
 
         })
         console.log(
@@ -94,11 +94,11 @@ export function Connector(options: ConnectorOpts): PluginOption {
         else next()
       })
     },
-    // transform(code, id) {
-    //   if (entryFiles.includes(id))
+    transform(code, id) {
+      if (entryFiles.includes(id))
 
-    //     return code + injectHMR()
-    // },
+        return code + injectHMR()
+    },
   }
 }
 
@@ -109,13 +109,13 @@ export function Alioth(options: ConnectorOpts & ExternalMapOpts) {
   ]
 }
 
-// function injectHMR() {
-//   return `\nif (import.meta.hot) {
-//     import.meta.hot.accept((newModule) => {
-//       if(window.$alioth_update)window.$alioth_update(import.meta.url,newModule)
-//     })
-//   }`
-// }
+function injectHMR() {
+  return `\nif (import.meta.hot) {
+    import.meta.hot.accept((newModule) => {
+      if(window.$alioth_update)window.$alioth_update(import.meta.url,newModule)
+    })
+  }`
+}
 
 export function DynamicImportmap(imports: Record<string, string > = {}): PluginOption {
   return {
@@ -146,4 +146,27 @@ function generateQuery(obj: Record<string, string>) {
   return Object.entries(obj).map(([key, value]) => {
     return `${key}=${encodeURIComponent(value)}`
   }).join('&')
+}
+
+const urlReg = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/
+const pathReg = /^(\/|\.{1,2}\/).+$/
+
+export function RemoteLoader(): PluginOption {
+  return {
+    name: 'alioth-remote-loader',
+    enforce: 'pre',
+    resolveId(source, importer) {
+      if (urlReg.test(source))
+        return source
+      if (importer && urlReg.test(importer) && pathReg.test(source))
+
+        return new URL(source, importer).href
+    },
+    async load(id) {
+      if (urlReg.test(id)) {
+        const { data } = await axios.get(id)
+        return { code: data }
+      }
+    },
+  }
 }

@@ -6,7 +6,7 @@ defineProps<{
 
 <template>
   <div style="width: 50px;height: 30px;">
-    <el-button v-bind="$attrs">
+    <el-button>
       {{ text }}
     </el-button>
   </div>

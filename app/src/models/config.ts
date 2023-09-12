@@ -1,6 +1,6 @@
-import { Global, Init, Tag, emitter, useR, useV } from 'phecda-vue'
+import { Global, Init, Tag, useR, useV } from 'phecda-vue'
 import type { Component } from 'vue'
-import { getWidget, loadDependence } from 'alioth-lib'
+import { getWidget } from 'alioth-lib'
 import { DocModel } from './doc'
 import { ImportModel } from './import'
 import { componentMap } from '@/views/zones'
@@ -8,8 +8,10 @@ import { useLayer } from '@/composables/layer'
 import PreviewRenderVue from '@/views/preview/PreviewRender.vue'
 import IconEye from '~icons/lucide/eye'
 import IconDownload from '~icons/lucide/download'
-import { getQuery } from '@/utils/url'
+import IconBookDown from '~icons/lucide/book-down'
+
 import { download } from '@/utils/download'
+import { createPresetBundleEntry } from '@/utils/bundle'
 // import { presets } from '@/config'
 
 interface Header {
@@ -66,12 +68,21 @@ export class ConfigModel {
       label: '下载',
       component: IconDownload,
       handler() {
-        const { dependences, presets } = toRaw(useR(ConfigModel))
+        const { presets } = toRaw(useR(ImportModel))
         download('data.json', JSON.stringify({
           docs: useV(DocModel).toJSON(),
-          dependences,
           presets,
         }))
+      },
+    }, {
+      label: '依赖',
+      component: IconBookDown,
+      handler() {
+        const { graph } = toRaw(useR(ImportModel))
+
+        const docs = unref(useV(DocModel).docs)
+        download('entry.js', createPresetBundleEntry(docs, graph),
+        )
       },
     },
   ]

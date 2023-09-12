@@ -93,7 +93,6 @@ export class renderer extends BaseRenderer<VirtualNode<NodeSchema>> {
     //   return this
 
     const ret = interval.filter(cloneDeep(this.node.attrs.propsData))
-
     if ('modelValue' in this.node.attrs.propsData)
       ret['onUpdate:modelValue'] = (v: any) => ret.modelValue = v
     if (schema) {
@@ -108,7 +107,11 @@ export class renderer extends BaseRenderer<VirtualNode<NodeSchema>> {
     }
     (this._vnode = h(
       this.comp as DefineComponent,
-      Object.assign({ a_node: this.node, a_type: type }, ret),
+      Object.assign({
+        a_node: this.node,
+        a_type: type,
+
+      }, ret),
       this._vnode || undefined,
     ))
 

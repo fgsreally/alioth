@@ -1,4 +1,3 @@
-import { interval } from '../interval'
 import { VirtualDocument } from '../document'
 import type { NodeAttrs } from '../document'
 
@@ -6,10 +5,6 @@ export class BaseDocModel<T extends NodeAttrs> {
   containerAttrs: NodeAttrs
   activeId: string
   docs: VirtualDocument<T>[] = []
-
-  constructor() {
-    interval.setState('$doc', this)
-  }
 
   get activeDoc() {
     return this.find(this.activeId) as unknown as VirtualDocument<T>

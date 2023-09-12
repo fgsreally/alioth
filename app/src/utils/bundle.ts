@@ -1,4 +1,4 @@
-import acorn from 'acorn'
+import * as acorn from 'acorn'
 import type { NodeAttrs, VirtualDocument, VirtualNode } from 'alioth-lib'
 
 function extractVariables(code: string) {
@@ -28,7 +28,9 @@ function extractVariables(code: string) {
 export function createPresetBundleEntry(docs: VirtualDocument<NodeAttrs>[], graph: Record<string, Record<string, any>>) {
   const componentSet = new Set()
   const stateSet = new Set()
-  const records = {} as Record<string, string[]>
+  const dependences = {} as Record<string, string[]>
+  const effects = [] as string[]
+
   function parseAttrs(attrs: Record<string, any>) {
     for (const i in attrs) {
       if (typeof attrs[i] === 'object') {
@@ -49,24 +51,28 @@ export function createPresetBundleEntry(docs: VirtualDocument<NodeAttrs>[], grap
   }
   docs.forEach(doc => parseNode(doc.root))
   for (const url in graph) {
+    if (url.endsWith('.css')) {
+      effects.push(url)
+      continue
+    }
     for (const key in graph[url]) {
       const exports = graph[url][key]
       if (typeof exports === 'object' && exports.alioth) {
         if (exports.alioth === 'widget' && componentSet.has(exports.data.key)) {
-          if (!records[url])
-            records[url] = []
-          records[url].push(key)
+          if (!dependences[url])
+            dependences[url] = []
+          dependences[url].push(key)
         }
         if (exports.alioth === 'state' && stateSet.has(exports.data.key)) {
-          if (!records[url])
-            records[url] = []
-          records[url].push(key)
+          if (!dependences[url])
+            dependences[url] = []
+          dependences[url].push(key)
         }
       }
     }
   }
 
-  return Object.entries(records).reduce((p, [url, exports]) => {
+  return Object.entries(dependences).reduce((p, [url, exports]) => {
     return `${p}export {${exports.join(',')}} from '${url}'\n`
-  }, '')
+  }, '') + effects.map(url => `import '${url}'`).join('\n')
 }

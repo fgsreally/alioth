@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 import type { DefineComponent, PropType } from 'vue'
 import type { NodeAttrs } from './document/node'
-import type { BaseRegister } from './register'
+import { type BaseRegister } from './register'
 import type { VirtualNode } from './document'
 
 export function createRenderComponent<N extends NodeAttrs, R extends BaseRegister<any>>(): DefineComponent<{ value: R; type: keyof R; node: VirtualNode<N> }> {

@@ -42,10 +42,10 @@ export class Register extends BaseRegister<typeof renderer> {
         // schema: this.meta.schema,
       })
       .addStyle({
-        top: `${node.attrs.top.value}${node.attrs.top.size}`,
-        left: `${node.attrs.left.value}${node.attrs.left.size}`,
-        width: `${node.attrs.w.value}${node.attrs.w.size}`,
-        height: `${node.attrs.h.value}${node.attrs.h.size}`,
+        top: `${node.attrs.top}px`,
+        left: `${node.attrs.left}px`,
+        width: `${node.attrs.width}px`,
+        height: `${node.attrs.height}px`,
         position: 'absolute',
       })
 
