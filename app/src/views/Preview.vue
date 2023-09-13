@@ -1,39 +1,31 @@
 <script setup lang="ts">
-import { VirtualDocument, getWidget, interval, load } from 'alioth-lib'
+import { BaseDocModel, VirtualDocument, getWidget } from 'alioth-lib'
 import { RenderBlock } from '@/components/base/renderBlock'
-const state = reactive({
-  preset: '',
-  data: '',
-})
-const isLoading = ref(false)
-const doc = new VirtualDocument()
-async function add() {
+const instance: BaseDocModel<any> = reactive(new BaseDocModel())
 
+const isLoading = ref(false)
+async function change(e) {
+  const file = e.target.files[0]
+  const reader = new FileReader()
+
+  reader.onload = function (event) {
+    const fileContent = event.target.result
+    const ret = JSON.parse(fileContent as string)
+    instance.load(ret.docs)
+    instance.active(instance.docs[0].id)
+    isLoading.value = true
+  }
+
+  reader.readAsText(file)
 }
 </script>
 
 <template>
   <div v-if="isLoading">
-    <div
-      :style="{
-        position: 'relative',
-        backgroundColor: doc.root.attrs.backgroundColor,
-        width: `${doc.root.attrs.width}px`,
-        height: `${doc.root.attrs.height}px`,
-      }"
-    >
-      <RenderBlock
-        v-for="(item) in doc.root.children" :key="item.id" :node="item" type="render"
-        :value="getWidget(item.attrs.key)"
-      />
-    </div>
+    <RenderBlock :node="instance.activeDoc.root!" type="render" :value="getWidget('root')" />
   </div>
   <div v-else>
-    数据<input v-model="state.data">
-
-    <button @click="add">
-      添加
-    </button>
+    <input type="file" @change="change">
   </div>
 </template>
 

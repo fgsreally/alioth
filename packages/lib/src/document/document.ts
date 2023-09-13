@@ -7,12 +7,12 @@ import type { NodeAttrs } from './node'
 import { VirtualNode } from './node'
 import type { Controller } from './controller'
 export class VirtualDocument<A extends NodeAttrs> {
-  data: { root: VirtualNode<A>; activeNode?: VirtualNode<A>; hoverNode?: VirtualNode<A> }
   blockMap: Map<string, VirtualNode<A>> = new Map()
   controller: Controller
   root: VirtualNode<A>
   activeNode?: VirtualNode<A>
   hoverNode?: VirtualNode<A>
+  data = {} as Record<string, any>
   emitter = emitter
 
   constructor(initAttrs?: A, public id = nanoid()) {

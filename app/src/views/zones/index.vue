@@ -11,9 +11,10 @@ const { zones, componentMap } = useV(ConfigModel)
 <template>
   <Teleport to="body">
     <DragHelper
-      v-for="(item, i) in zones" :key="i" :transition="item.transition" :x="item.x" :y="item.y"
-      class="a-zone"
-      :label="item.label" :is-active="item.isActive({ instance: activeDoc, route })" :fix="item.fix || false"
+      v-for="(item, i) in zones"
+      :key="i" :transition="item.transition" :x="item.x" :y="item.y" class="a-zone"
+      :label="item.label"
+      :is-active="item.isActive({ instance: activeDoc, route })" :fix="item.fix || false" @click.stop
     >
       <component :is="(componentMap as any)[item.component]" v-bind="item.props" />
     </DragHelper>

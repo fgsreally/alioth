@@ -18,8 +18,15 @@ export class Register extends BaseRegister<typeof renderer> {
 
   edit(node: VirtualNode<any>) {
     const renderer = this.createRenderer(node)
+    if (node.id === 'root') {
+      return renderer.slot(['default'], this.widgetMap, 'edit').main({
+        type: 'edit',
+        schema: this.meta.schema,
+      }).exec()
+    }
+
     return renderer
-      .slot(['default', 'header'], this.widgetMap, 'edit')
+      .slot(['default'], this.widgetMap, 'edit')
       .main({
         type: 'edit',
         schema: this.meta.schema,

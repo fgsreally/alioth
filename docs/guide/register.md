@@ -56,7 +56,7 @@ export class Register extends BaseRegister<typeof renderer> {
 ### renderer
 而Renderer的格式大致如下
 ```ts
-export class renderer extends BaseRenderer<node<NodeSchema>> {
+export class renderer extends BaseRenderer<node<NodeAttrs>> {
 
   getSize() {
     if (!this._vnode)
@@ -103,7 +103,7 @@ export class Register extends BaseRegister<typeof renderer> {
 对应的`renderer`也可以删除部分不需要的功能
 
 ```ts
-export class renderer extends BaseRenderer<node<NodeSchema>> {
+export class renderer extends BaseRenderer<node<NodeAttrs>> {
 
   main({ type }: {
     type: string

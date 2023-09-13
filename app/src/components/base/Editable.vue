@@ -8,8 +8,8 @@ const isEditable = ref(false)
 
 <template>
   <input v-if="isEditable" v-model="modelValue" type="text" relative z-20 @change="isEditable = false" @blur="isEditable = false">
-  <p v-else @dblclick="isEditable = true">
-    {{ modelValue }}
+  <p v-else @dblclick="isEditable = !isEditable">
+    {{ modelValue || 'undefined' }}
   </p>
 </template>
 

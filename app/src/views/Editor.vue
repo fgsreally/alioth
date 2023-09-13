@@ -16,9 +16,10 @@ import Editable from '@/components/base/Editable.vue'
 import { DocModel } from '@/models/doc'
 import Zones from '@/views/zones/index.vue'
 import IconClose from '~icons/gg/close'
-import type { RootSchema } from '@/engine/schema'
-const { container, activeDoc } = $(useV<typeof DocModel<RootSchema>>(DocModel))
+import type { RootAttrs } from '@/engine/types'
+const { container, activeDoc } = $(useV<typeof DocModel<RootAttrs>>(DocModel))
 const { remove, docs, add, active, activeId } = $(useV(DocModel))
+const namespaces = computed(() => Object.keys(NameSpaceStore).filter(ns => !!ns))
 </script>
 
 <template>
@@ -27,17 +28,17 @@ const { remove, docs, add, active, activeId } = $(useV(DocModel))
   <section class="editor__box ">
     <Transition v-if="activeDoc" appear name="left">
       <div v-show="!container.attrs.isFull" class="editor__aside left  border-ol b-r-2 b-r-solid ">
-        <Tabs :default-value="Object.keys(NameSpaceStore)[0]">
+        <Tabs :default-value="namespaces[0]">
           <TabList>
-            <TabTrigger v-for="(_, i) in NameSpaceStore" :key="i" :value="(i as string)">
+            <TabTrigger v-for="(item) in namespaces" :key="item" :value="item">
               <button l-btn-n>
-                {{ i }}
+                {{ item }}
               </button>
             </TabTrigger>
             <TabIndicator class="bg-p h-1" />
           </TabList>
-          <TabContent v-for="(item, i) in NameSpaceStore" :key="i" :value="(i as string)">
-            <PreviewPart :comp-list="Array.from(item.widgetMap).map((item: any) => item[1])" type="text" />
+          <TabContent v-for="(item) in namespaces" :key="item" :value="item">
+            <PreviewPart :comp-list="Array.from(NameSpaceStore[item].widgetMap).map((item: any) => item[1])" type="text" />
           </TabContent>
         </Tabs>
       </div>
@@ -47,13 +48,17 @@ const { remove, docs, add, active, activeId } = $(useV(DocModel))
       <div m-t-10 text="sm" font="600" relative>
         <div flex w-full h-8 color-font-t>
           <div
-            v-for="(item) in docs" :key="item.id" max-w-20 font="500" l-flex cursor-pointer border-1 border-solid
+            v-for="(item) in docs" :key="item.id"
+            max-w-20 font="500"
+            h-8
+            l-flex cursor-pointer
+            border-1 border-solid
             border-font-t relative :class="{
               'border-b-none border-p color-on-p': item.id === activeId,
 
             }" @click="active(item.id)"
           >
-            <Editable v-model="item.id" class="m-x-2" />
+            <Editable v-model="item.data.title" class="m-x-2" />
             <IconClose
               v-if="item.id === activeId && docs.length > 1" absolute right-1 w-3 h-3 rd-2 hover:bg-on-b color-p
               @click.stop="remove(item.id)"
@@ -62,7 +67,7 @@ const { remove, docs, add, active, activeId } = $(useV(DocModel))
 
           <div
             i-lucide-plus-square absolute color-font-t hover:color-p cursor-pointer top="10px" left="-30px"
-            @click="add('未命名')"
+            @click="add()"
           />
         </div>
         <div v-if="activeDoc">
@@ -108,3 +113,4 @@ const { remove, docs, add, active, activeId } = $(useV(DocModel))
   background-color: red;
 }
 </style>
+@/engine/types

@@ -1,4 +1,4 @@
-export interface NodeSchema {
+export interface NodeAttrs {
   slot: string
   key: string
   label: string
@@ -6,12 +6,11 @@ export interface NodeSchema {
   propsData: any
   class: string[]
   level: number
-  vIf: string
   top: number
   left: number
 }
 
-export interface RootSchema {
+export interface RootAttrs {
   width: number
   height: number
   fontSize: number
@@ -29,3 +28,5 @@ export interface RootSchema {
   wLimit: [number, number]
   hLimit: [number, number]
 }
+
+export type AliothAttrs = NodeAttrs | RootAttrs

@@ -8,9 +8,8 @@ import VueCodemirror from 'vue-codemirror'
 import App from './App.vue'
 import router from './router'
 import '@/style/common.scss'
-import { addWiget } from './views/widgets'
 import { initState } from './models'
-
+import { initWidget } from './views/widgets'
 import 'uno.css'
 const app = createApp(App).use(createPhecda('alioth')).use(router).use(VueCodemirror, {
   // optional default global options
@@ -32,7 +31,7 @@ const app = createApp(App).use(createPhecda('alioth')).use(router).use(VueCodemi
   },
 })
 initState()
-if (import.meta.env.DEV)
-  addWiget()
+
+initWidget()
 
 app.mount('#al-root')

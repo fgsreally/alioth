@@ -79,12 +79,4 @@ export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
     //   this.active(this.add().id)
     // }
   }
-
-  toJSON() {
-    return this.docs.map((doc) => {
-      return {
-        id: doc.id, data: toRaw(doc.root),
-      }
-    }) as any[]
-  }
 }

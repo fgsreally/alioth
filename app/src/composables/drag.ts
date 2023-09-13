@@ -29,7 +29,6 @@ export function useDragSingle(cb: Function) {
   const { add, del } = useV(DragModel)
 
   onMounted(() => {
-    console.log(dom.value)
     add(dom.value, cb)
   })
   onBeforeUnmount(() => {

@@ -1,9 +1,9 @@
-import type { VirtualDocument } from 'alioth-lib'
+import type { NodeAttrs, VirtualDocument } from 'alioth-lib'
 import { createRenderComponent, getWidget } from 'alioth-lib'
 import type { PropType } from 'vue'
-import type { NodeSchema } from '@/engine/schema'
+import type { NodeAttrs } from '@/engine/types'
 import type { Register } from '@/engine/register'
-export const RenderBlock = createRenderComponent<NodeSchema, Register>()
+export const RenderBlock = createRenderComponent<NodeAttrs, Register>()
 
 export const DocRenderBlock = defineComponent({
   name: 'AliothDocRender',

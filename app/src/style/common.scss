@@ -170,14 +170,13 @@ p.preview-section-item {
   }
   
   input[type="text"] {
-    padding: 10px 14px 9px;
     grid-area: 1 / 1 / auto / auto;
     margin: 0px;
     border: none;
     background-color: rgb(44, 45, 60);
     appearance: none;
     font-size: inherit;
-    height: 36px;
+    height: 100%;
     color: rgb(224, 225, 236);
     caret-color: rgb(110, 94, 210);
     outline: none;

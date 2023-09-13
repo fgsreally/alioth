@@ -56,12 +56,20 @@ export class BaseDocModel<T extends NodeAttrs> {
   load(data: any) {
     data = typeof data === 'string' ? JSON.parse(data) : data
 
-    this.docs = data.map(({ id, data }: any) => {
+    this.docs = data.map(({ id, root, data }: any) => {
       const doc = new VirtualDocument()
       doc.id = id
-      doc.load(data)
+      doc.data = data
+
+      doc.load(root)
       return doc
     })
     return this.docs
+  }
+
+  toJSON() {
+    return this.docs.map(({ id, root, data }) => {
+      return { id, root, data }
+    }) as any[]
   }
 }
