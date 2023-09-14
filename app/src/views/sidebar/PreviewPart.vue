@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { defaultRegisterComponent } from 'alioth-lib'
 import { emitter, useV } from 'phecda-vue'
 import { RenderBlock } from '@/components/base/renderBlock'
 const { compList, type } = defineProps<{
-  compList: Array<defaultRegisterComponent>
+  compList: any[]
   type: string
 }>()
 
@@ -32,7 +31,7 @@ function dragend() {
     >
       <RenderBlock
         :value="module"
-        :type="type"
+        :type="(type as any)"
 
         class="preview-section__block"
       />

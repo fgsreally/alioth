@@ -13,7 +13,7 @@ useDocumentClick(() => {
 
 <template>
   <div class="editor__container">
-    <RenderBlock :node="activeDoc.root" type="edit" :value="getWidget('root')" />
+    <RenderBlock :node="activeDoc.root" type="edit" :value="getWidget('root')!" />
   </div>
 </template>
 

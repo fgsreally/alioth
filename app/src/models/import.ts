@@ -39,7 +39,7 @@ export class ImportModel {
         else this.graph[url] = {}
       }
       catch (e) {
-        emitter.emit('error', `load dependence ${url} failed`)
+        emitter.emit('error_info', `load dependence ${url} failed`)
       }
     })
   }

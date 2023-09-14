@@ -1,8 +1,8 @@
 import type { NodeAttrs, VirtualDocument } from 'alioth-lib'
 import { Global, Init, Tag } from 'phecda-vue'
 import { BridgeDocModel, interval, observeDoc } from 'alioth-lib'
+// @ts-expect-error miss types
 import { WebsocketProvider } from 'y-websocket'
-import { DocRenderBlock } from '@/components/base/renderBlock'
 @Global
 @Tag('doc')
 export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
@@ -28,7 +28,7 @@ export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
     super()
     interval.setState('$doc', this)
     // interval component
-    interval.setState('$docRender', toRaw(DocRenderBlock))
+    // interval.setState('$docRender', toRaw(DocRenderBlock))
   }
 
   bridge(): void {

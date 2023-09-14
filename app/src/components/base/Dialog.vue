@@ -17,7 +17,7 @@ const { modelValue } = defineModels<{
 </script>
 
 <template>
-  <Dialog v-slot="{ isOpen }" v-model:open="modelValue" :close-on-outside-click="false">
+  <Dialog v-slot="{ isOpen }" v-model:open="(modelValue as any)" :close-on-outside-click="false">
     <Teleport v-if="isOpen" to="body">
       <DialogBackdrop fixed top-0 left-0 w-screen h-screen flex content-center justify-center flex-wrap z-100>
         <DialogContainer>
