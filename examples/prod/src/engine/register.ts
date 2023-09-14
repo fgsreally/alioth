@@ -3,7 +3,6 @@ import {
   interval,
 
 } from 'alioth-lib'
-import type { VirtualNode } from 'alioth-lib'
 
 import type { VNode } from 'vue'
 

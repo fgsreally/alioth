@@ -2,6 +2,7 @@
   "extends": "@antfu/eslint-config",
   "rules":{
     "vue/no-dupe-keys":"off",
+    "vue/valid-v-model":"off",
     "vue/no-extra-parens":"off",
       "vue/no-mutating-props": ["error", {
       "shallowOnly": true

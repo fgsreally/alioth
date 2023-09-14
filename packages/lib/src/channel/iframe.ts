@@ -19,6 +19,7 @@ export class IframeChunnel extends EventEmitter {
     })
 
     this.on(ALIOTH_EVENT.CREATE_BLOCK, ({ id, key, value }) => {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       const VirtualNode = new VirtualNode(key, value)
       VirtualNode.id = id
     })

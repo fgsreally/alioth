@@ -7,8 +7,6 @@ interface ConnectorOpts {
   project: string
   externals?: Record<string, string>
   presets?: string[]
-  dependences?: string[]
-  website: string
   entry: Record<string, string>
 }
 
@@ -16,12 +14,15 @@ interface ExternalMapOpts {
   externals?: Record<string, string | undefined>
   importmap?: boolean
 }
+
+const website = process.env.ALIOTH_WEBSITE ?? 'https://fgsreally.github.io/alioth'
 export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
-  const { externals = {}, importmap = true } = options
-  const dep = Object.assign({
-    'vue': 'http://localhost:4010/vue.mjs',
-    'phecda-vue': 'http://localhost:4010/phecda-vue.mjs',
-  }, externals)
+  const {
+    externals = {
+      'vue': `${website}/vue.mjs`,
+      'phecda-vue': `${website}/phecda-vue.mjs`,
+    }, importmap = true,
+  } = options
   let isDev: boolean
   return {
     name: 'alioth-external-map',
@@ -32,13 +33,13 @@ export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
       if (isDev || !importmap) {
         return {
           resolve: {
-            alias: dep as any,
+            alias: externals as any,
           },
         }
       }
     },
     resolveId(source) {
-      if (source in dep) {
+      if (source in externals) {
         if ((!isDev) && importmap)
           return { id: source, external: true }
       }
@@ -47,7 +48,7 @@ export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
 }
 
 export function Connector(options: ConnectorOpts): PluginOption {
-  const { project, website, externals = {}, entry, presets = [] } = options
+  const { project, externals = {}, entry, presets = [] } = options
   const entryFiles = Object.values(options.entry).map(item => normalizePath(resolve(process.cwd(), item)))
   return {
     name: 'alioth-connector',
@@ -75,10 +76,10 @@ export function Connector(options: ConnectorOpts): PluginOption {
 
         })
         console.log(
-          `  ${colors.green('➜')}  ${colors.bold('Alioth-Dev')} :${colors.blue(`${website ?? 'http://localhost:4010'}?${query}`)}`,
+          `  ${colors.green('➜')}  ${colors.bold('Alioth-Dev')} :${colors.blue(`${website}?${query}`)}`,
         )
         console.log(
-          `  ${colors.green('➜')}  ${colors.bold('Alioth-Prod')} :${colors.blue(`${website ?? 'http://localhost:4010'}/preview?${query}`)}`,
+          `  ${colors.green('➜')}  ${colors.bold('Alioth-Prod')} :${colors.blue(`${website}/preview?${query}`)}`,
         )
       }
 

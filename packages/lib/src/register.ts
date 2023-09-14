@@ -65,6 +65,6 @@ export abstract class BaseRegister<R extends typeof BaseRenderer<VirtualNode<any
   }
 
   createRenderer(node?: VirtualNode<any>) {
-    return new this.Renderer(node!, this.comp)
+    return new this.Renderer(node!, this.comp) as InstanceType<R>
   }
 }

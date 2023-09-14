@@ -3,7 +3,7 @@
   "tag": "alpha",
   "initialVersions": {
     "example": "0.0.0",
-    "alioth-presets": "1.0.0",
+    "presets": "0.0.0",
     "prod": "0.0.0",
     "alioth-dev": "0.0.0",
     "alioth-lib": "0.0.0"

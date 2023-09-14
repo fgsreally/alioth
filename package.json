@@ -2,9 +2,16 @@
   "name": "alioth",
   "version": "1.0.0",
   "description": "",
+  "packageManager": "pnpm@7.33.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "turbo run dev --filter=./packages/* --filter=app",
+    "build": "turbo run build --filter=./packages/* --filter=app",
+    "test": "pnpm --filter=alioth-* -r run test",
+    "lint":"eslint . --ext .ts,.vue",
+    "dev:lib": "pnpm --filter=alioth-* -r run dev",
+    "build:lib": "pnpm --filter=alioth-* -r run build",
+    "build:app": "pnpm --filter=alioth-* -r run build",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"

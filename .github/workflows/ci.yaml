@@ -4,13 +4,12 @@ on:
   push:
     branches:
       - main
-      - prelease
       - development
 
   pull_request:
     branches:
       - main
-      - prelease
+
       
 jobs:
   lint:
@@ -45,5 +44,5 @@ jobs:
         run: pnpm run build
 
       - name: Test
-        run: pnpm run test:unit
+        run: pnpm run test
 
