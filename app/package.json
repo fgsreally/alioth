@@ -28,7 +28,6 @@
     "lodash-es": "^4.17.21",
     "phecda-vue": "^1.6.3",
     "unocss": "^0.52.3",
-    "unocss-preset-alioth": "workspace:^",
     "unplugin-auto-import": "^0.13.0",
     "unplugin-vue-components": "^0.24.1",
     "unplugin-vue-macros": "^2.1.7",

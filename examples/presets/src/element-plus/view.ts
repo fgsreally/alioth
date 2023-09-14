@@ -1,11 +1,5 @@
 // import { $RH, $V, $Z } from 'alioth-dev/helper'
-import { createLayer } from 'phecda-vue'
-import Tree from './zones/Tree.vue'
-import Container from './modals/Container.vue'
-import Select from './widgets/Select.vue'
-import List from './components/List.vue'
-import Checkbox from './widgets/Checkbox.vue'
-import IconContainer from '~icons/lucide/box'
+
 import './style.scss'
 
 export const view_input = {
