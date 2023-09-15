@@ -9,6 +9,7 @@
     "build": "turbo run build --filter=./packages/* --filter=app",
     "test": "pnpm --filter=alioth-* -r run test",
     "lint":"eslint . --ext .ts,.vue",
+    "publish":"changeset publish",
     "dev:lib": "pnpm --filter=alioth-* -r run dev",
     "build:lib": "pnpm --filter=alioth-* -r run build",
     "build:app": "pnpm --filter=alioth-* -r run build",
