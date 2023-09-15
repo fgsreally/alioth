@@ -1,8 +1,8 @@
 import type { NodeAttrs, VirtualDocument } from 'alioth-lib'
 import { Global, Init, Tag } from 'phecda-vue'
-import { BridgeDocModel, interval, observeDoc } from 'alioth-lib'
-// @ts-expect-error miss types
-import { WebsocketProvider } from 'y-websocket'
+import { BridgeDocModel, interval } from 'alioth-lib'
+// // @ts-expect-error miss types
+// import { WebsocketProvider } from 'y-websocket'
 @Global
 @Tag('doc')
 export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
@@ -32,32 +32,31 @@ export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
   }
 
   bridge(): void {
-    const wsProvider = new WebsocketProvider('ws://localhost:1234', 'documents', this.ydoc)
-    this.yarr.observe((e, t) => {
-      if ((!t.local) || t.origin) { // from remote or undoManager
-        if (e.changes.keys.size === 0) {
-          // only work when undo
-          e.changes.added.forEach((item) => {
-            this._add(item.content.getContent()[0])
-          })
-          e.changes.deleted.forEach((item) => {
-            const id = item.content.getContent()[0]
-            this.remove(id)!
-          })
-        }
-      }
-    })
+    // const wsProvider = new WebsocketProvider('ws://localhost:1234', 'documents', this.ydoc)
+    // this.yarr.observe((e, t) => {
+    //   if ((!t.local) || t.origin) { // from remote or undoManager
+    //     if (e.changes.keys.size === 0) {
+    //       // only work when undo
+    //       e.changes.added.forEach((item) => {
+    //         this._add(item.content.getContent()[0])
+    //       })
+    //       e.changes.deleted.forEach((item) => {
+    //         const id = item.content.getContent()[0]
+    //         this.remove(id)!
+    //       })
+    //     }
+    //   }
+    // })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   bridgeDoc(doc: VirtualDocument<any>): void {
-    // const ws=getQuery()
     // const ydoc = doc.controller.ydoc
     // const wsProvider = new WebsocketProvider('ws://localhost:1234', doc.id, ydoc)
     // observeDoc(this.find(doc.id)!)
     // wsProvider.on('status', (event) => {
-    //   console.log(event.status)
-    //   // if (event.status === 'connected')
-    //   //   observeDoc(this.find(doc.id))
+    //   if (event.status === 'connected')
+    //     observeDoc(this.find(doc.id)!)
     // })
   }
 

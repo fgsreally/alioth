@@ -15,7 +15,6 @@ export const state_changeC = {
   data: {
     key: 'changeC',
     value: function changeC() {
-      console.log('xx')
       c.value++
     },
   },

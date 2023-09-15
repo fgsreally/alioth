@@ -9,8 +9,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    ActionHelper: typeof import('./src/components/wrappers/ActionHelper.vue')['default']
-    Container: typeof import('./src/components/modals/Container.vue')['default']
     Dialog: typeof import('./src/components/base/Dialog.vue')['default']
     DragBox: typeof import('./src/components/wrappers/DragBox.vue')['default']
     DragHelper: typeof import('./src/components/base/DragHelper.vue')['default']
@@ -18,7 +16,6 @@ declare module '@vue/runtime-core' {
     Form: typeof import('./src/components/base/Form.vue')['default']
     FormConf: typeof import('./src/components/base/FormConf.vue')['default']
     FormItem: typeof import('./src/components/base/FormItem.vue')['default']
-    OffsetHelper: typeof import('./src/components/wrappers/OffsetHelper.vue')['default']
     PaneForm: typeof import('./src/components/base/PaneForm.vue')['default']
     Radio: typeof import('./src/components/base/Radio.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -26,7 +23,6 @@ declare module '@vue/runtime-core' {
     Select: typeof import('./src/components/base/Select.vue')['default']
     Single: typeof import('./src/components/wrappers/Single.vue')['default']
     Slider: typeof import('./src/components/base/Slider.vue')['default']
-    TabInput: typeof import('./src/components/base/TabInput.vue')['default']
     Tooltip: typeof import('./src/components/base/Tooltip.vue')['default']
     Upload: typeof import('./src/components/base/Upload.vue')['default']
   }

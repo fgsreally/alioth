@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
 defineProps<{ msg: number }>()
-
-const count = ref(1)
-console.log(count.value, 5)
 </script>
 
 <template>
