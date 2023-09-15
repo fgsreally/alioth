@@ -18,7 +18,7 @@ const { container } = $(useV(DocModel))
     >
       <RenderBlock
         v-for="(item) in container.children" :key="item.id" :node="item" type="render"
-        :value="getWidget(item.attrs.key)"
+        :value="getWidget(item.attrs.key)!"
       />
     </div>
   </section>

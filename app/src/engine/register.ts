@@ -11,6 +11,7 @@ export class Register extends BaseRegister<typeof renderer> {
   Renderer = renderer
   widgetMap = interval.widgetMap
   text() {
+    // @ts-expect-error  types mistake
     return h('p', {
       class: 'preview-text',
     }, this.key)
@@ -46,7 +47,7 @@ export class Register extends BaseRegister<typeof renderer> {
       .slot(['default'], this.widgetMap, 'render')
       .main({
         type: 'render',
-        // schema: this.meta.schema,
+        schema: this.meta.schema,
       })
       .addStyle({
         top: `${node.attrs.top}px`,

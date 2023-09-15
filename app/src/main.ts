@@ -20,16 +20,17 @@ const app = createApp(App).use(createPhecda('alioth')).use(router).use(VueCodemi
   placeholder: 'Code goes here...',
   extensions: [basicSetup, javascript()],
   // ...
-}).use(Terminal, {
-  codemirror: {
-    tabSize: 4,
-    mode: 'javascript',
-    theme: 'darcula',
-    lineNumbers: true,
-    line: true,
-    smartIndent: true,
-  },
-})
+}).use(Terminal)
+// {
+//   codemirror: {
+//     tabSize: 4,
+//     mode: 'javascript',
+//     theme: 'darcula',
+//     lineNumbers: true,
+//     line: true,
+//     smartIndent: true,
+//   },
+// }
 initState()
 
 initWidget()

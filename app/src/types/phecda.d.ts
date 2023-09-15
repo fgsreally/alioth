@@ -10,6 +10,7 @@ declare module 'phecda-vue' {
       type:ErrorEvent[keyof ErrorEvent]
       [key in string ]:any
     }
+    'error_info':string
   }
 }
 

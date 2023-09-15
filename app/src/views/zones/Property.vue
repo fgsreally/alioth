@@ -5,7 +5,7 @@ import { createFormData, useV } from 'phecda-vue'
 
 import { watch } from 'vue'
 import { DragModel } from '@/models/drag'
-
+import type { NodeAttrs } from '@/engine/types'
 import { DocModel } from '@/models/doc'
 
 const { type } = defineProps<{ type: 'props' | 'events' }>()
@@ -13,7 +13,7 @@ const { activeNode } = $(useV(DocModel))
 const { add, del } = useV(DragModel)
 let args = $ref<{ data: any; config: any }>({} as any)
 
-function setProps(node: VirtualNode, key: string, value: any) {
+function setProps(node: VirtualNode<NodeAttrs>, key: string, value: any) {
   node.attrs.propsData[key] = value
   node.setAttribute('propsData', node.attrs.propsData)
 }
@@ -26,7 +26,7 @@ watch(() => activeNode, (n, o) => {
   for (const i in config) {
     config[i]._mount = ({ el }: any) => {
       add(el, (v: any) => {
-        setProps(n, { [i]: v })
+        setProps(n, i, v)
         // n.setAttribute(`propsData.${i}`, v)
       })
     }
@@ -41,7 +41,7 @@ watch(() => activeNode, (n, o) => {
 <template>
   <pane-form
     :data="args.data" :config="args.config"
-    :on-update="(key:string, v:any) => setProps(activeNode, key, v)"
+    :on-update="(key:string, v:any) => setProps(activeNode!, key, v)"
   />
 </template>
 

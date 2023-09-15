@@ -4,6 +4,7 @@ import { Terminal, TerminalApi } from '@fgsreally/vue-web-terminal'
 import { CommandModel } from '@/models/command'
 
 const { input, commands } = useV(CommandModel)
+// @ts-expect-error miss types
 async function onExecCmd(_key, command, success, failed) {
   try {
     // @ts-expect-error resolve any params

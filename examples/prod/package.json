@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "alioth-dev": "workspace:^1.0.0",
-    "alioth-lib": "workspace:^1.0.0",
+    "alioth-dev": "workspace:*",
+    "alioth-lib": "workspace:*",
     "vue": "^3.3.4"
   },
   "devDependencies": {

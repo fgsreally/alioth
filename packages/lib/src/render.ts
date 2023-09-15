@@ -9,6 +9,7 @@ import {
 
 } from 'vue'
 import type { VirtualNode } from './document'
+import type { RegisterKey, RegisterType } from './register'
 
 export type CompList<RegisterBlock> = Map<string, RegisterBlock>
 
@@ -44,7 +45,7 @@ export class BaseRenderer<
 
   slotRenderer(
     slotSet: string[],
-    allWidgetMap: CompList<any>,
+    allWidgetMap: Map<RegisterKey, RegisterType>,
     renderType: string,
   ) {
     const slotRenderer: { [key in string]: Function } = {}
@@ -71,7 +72,7 @@ export class BaseRenderer<
 
   slot(
       slotSet: string[] = ['default'],
-      allWidgetMap: CompList<any>,
+      allWidgetMap: Map<RegisterKey, RegisterType>,
       renderType = 'render',
   ) {
     this._vnode = this.slotRenderer(

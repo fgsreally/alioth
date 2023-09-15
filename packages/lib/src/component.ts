@@ -4,7 +4,7 @@ import type { NodeAttrs } from './document/node'
 import { type BaseRegister } from './register'
 import type { VirtualNode } from './document'
 
-export function createRenderComponent<N extends NodeAttrs, R extends BaseRegister<any>>(): DefineComponent<{ value: R; type: keyof R; node: VirtualNode<N> }> {
+export function createRenderComponent<N extends NodeAttrs, R extends BaseRegister<any>>(): DefineComponent<{ value: R; type: keyof R; node?: VirtualNode<N> }> {
   return defineComponent({
     name: 'AliothRender',
     inheritAttrs: false,
@@ -18,6 +18,7 @@ export function createRenderComponent<N extends NodeAttrs, R extends BaseRegiste
       },
       node: {
         type: Object as PropType<VirtualNode<N>>,
+        required: false,
       },
     },
     setup(props) {

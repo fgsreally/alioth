@@ -3,7 +3,7 @@ import { emitter, useV } from 'phecda-vue'
 import { ImportModel } from '@/models/import'
 
 const { info } = useV(ImportModel)
-function dragstart(i: number) {
+function dragstart(i: string) {
   emitter.emit('dragstart', `{{${i}}}`)
 }
 

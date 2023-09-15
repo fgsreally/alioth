@@ -1,28 +1,18 @@
 <script setup lang="ts">
 import { useDrag } from 'alioth-lib'
 import { useV } from 'phecda-vue'
-import OffsetHelper from './OffsetHelper.vue'
-import ActionHelper from './ActionHelper.vue'
 import { DocModel } from '@/models/doc'
 // import { pxToBlockSize, toPx } from '@/utils/style'
 
 const { node } = defineProps<{ node: Object }>()
 
-const { activeDoc, activeNode } = $(useV(DocModel))
+const { activeNode } = $(useV(DocModel))
 const isActive = computed(() => node === activeNode)
 const moveBlocks = ['tl', 'tr', 'bl', 'br']
 
-// const sizeComputed = computed(() => {
-//   return {
-//     w: `${activeNode?.attrs.w.value.toFixed(0) || 0}${
-//       activeNode?.attrs.w.size || ''
-//     }`,
-//     h: `${activeNode.value?.attrs.h.value.toFixed(0) || 0}${
-//       activeNode.value?.attrs.h.size || ''
-//     }`,
-//   }
-// })
 async function startMove(e: MouseEvent) {
+  if (!activeNode)
+    return
   let x: number, y: number
 
   const initX = activeNode.attrs.left
@@ -47,6 +37,8 @@ function getIframeOffset() {
   return (document.querySelector('.iframebox') as HTMLElement).getBoundingClientRect()
 }
 function transform(evt: MouseEvent, item: string) {
+  if (!activeNode)
+    return
   const { x: iframeX, y: iframeY } = getIframeOffset()
   const x = evt.clientX + iframeX
   const y = evt.clientY + iframeY
@@ -79,13 +71,11 @@ function transform(evt: MouseEvent, item: string) {
 
 <template>
   <div>
-    <OffsetHelper v-show="isActive" />
-    <ActionHelper v-show="isActive" />
     <div class="dragBox" @mousedown.capture.self.prevent="startMove">
       <slot />
 
-      <i v-if="isActive" class="w size-controller">{{ activeNode.attrs.width }}</i>
-      <i v-if="isActive" class="h size-controller">{{ activeNode.attrs.height }}</i>
+      <i v-if="isActive" class="w size-controller">{{ activeNode!.attrs.width }}</i>
+      <i v-if="isActive" class="h size-controller">{{ activeNode!.attrs.height }}</i>
 
       <div
         v-for="(item, i) in moveBlocks" v-show="isActive" :key="i" :class="`${item} moveblock`"

@@ -8,7 +8,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogTitle,
-  DialogTrigger,
+
 } from '@ark-ui/vue'
 defineProps<{ title: string }>()
 const { modelValue } = defineModels<{
