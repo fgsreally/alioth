@@ -1,4 +1,4 @@
-import { createRenderComponent } from 'alioth-lib'
+import { createRenderComponent } from 'alioth-vue'
 import type { NodeAttrs } from '@/engine/types'
 import type { Register } from '@/engine/register'
 export const RenderBlock = createRenderComponent<NodeAttrs, Register>()

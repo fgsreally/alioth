@@ -1,7 +1,7 @@
 /* eslint-disable no-new-func */
 // import { cloneDeep, isSymbol } from 'lodash-es'
-import type { VirtualNode } from 'alioth-lib'
-import { BaseRenderer, interval } from 'alioth-lib'
+import type { VirtualNode } from 'alioth-vue'
+import { BaseRenderer, interval } from 'alioth-vue'
 import type { DefineComponent, VNode } from 'vue'
 import { h } from 'vue'
 import { cloneDeep } from 'lodash-es'

@@ -1,0 +1,11 @@
+<script setup lang="ts">
+
+</script>
+
+<template>
+  <div bg-red-500 w-10 h-10 />
+</template>
+
+<style scoped>
+
+</style>

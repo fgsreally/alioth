@@ -1,5 +1,5 @@
 import * as acorn from 'acorn'
-import type { NodeAttrs, VirtualDocument, VirtualNode } from 'alioth-lib'
+import type { NodeAttrs, VirtualDocument, VirtualNode } from 'alioth-vue'
 
 function extractVariables(code: string) {
   const ast = acorn.parse(code, { ecmaVersion: 'latest' })

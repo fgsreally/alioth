@@ -1,7 +1,6 @@
 import { omit } from 'lodash-es'
 import type { Transaction, YEvent } from 'yjs'
 import { UndoManager, Map as YMap } from 'yjs'
-import { emitter } from 'phecda-vue'
 import { nanoid } from 'nanoid'
 import type { NodeAttrs } from './node'
 import { VirtualNode } from './node'
@@ -13,7 +12,6 @@ export class VirtualDocument<A extends NodeAttrs> {
   activeNode?: VirtualNode<A>
   hoverNode?: VirtualNode<A>
   data = {} as Record<string, any>
-  emitter = emitter
 
   constructor(initAttrs?: A, public id = nanoid()) {
     this.root = this.createNode(initAttrs, 'root')
@@ -185,10 +183,6 @@ export function observeDoc(doc: VirtualDocument<any>) {
         }
         tasks.forEach(task => task())
         tasks = []
-      }
-      else {
-        // @ts-expect-error need phecda events type w
-        doc?.emitter.emit('alioth:node-action', event)
       }
     })
   }

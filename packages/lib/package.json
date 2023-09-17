@@ -1,6 +1,6 @@
 {
   "name": "alioth-lib",
-  "version": "0.0.0",
+  "version": "0.0.1-alpha.0",
   "description": "",
   "exports": {
     ".": {
@@ -29,19 +29,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@types/lodash-es": "^4.17.7",
-    "alasql": "^3.1.0",
-    "eventemitter3": "^5.0.0",
     "lodash-es": "^4.17.21",
     "nanoid": "^4.0.0",
-    "phecda-vue": "latest",
-    "vite": "^4.3.9",
-    "vue": "^3.3.4",
+    "phecda-core": "2.0.0-alpha.3",
     "yjs": "^13.6.7"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.7",
     "tsup": "^6.5.0",
-    "unbuild": "^1.1.1",
     "vitest": "^0.34.1"
   }
 }

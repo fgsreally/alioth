@@ -1,8 +1,8 @@
 import {
   BaseRegister,
   interval,
-} from 'alioth-lib'
-import type { VirtualNode } from 'alioth-lib'
+} from 'alioth-vue'
+import type { VirtualNode } from 'alioth-vue'
 import type { VNode } from 'vue'
 import { h } from 'vue'
 import { renderer } from './renderer'

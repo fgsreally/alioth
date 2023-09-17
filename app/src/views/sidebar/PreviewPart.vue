@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { emitter, useV } from 'phecda-vue'
+import { useV } from 'phecda-vue'
 import { RenderBlock } from '@/components/base/renderBlock'
+import { DragModel } from '@/models/drag'
 const { compList, type } = defineProps<{
   compList: any[]
   type: string
 }>()
+const { dragStart, dragEnd } = useV(DragModel)
 
 function dragstart(module: any) {
-  emitter.emit('dragstart', module)
+  dragStart(module)
 }
 
 function dragend() {
-  emitter.emit('dragend', null)
+  dragEnd()
 }
 </script>
 

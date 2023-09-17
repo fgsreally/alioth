@@ -1,8 +1,10 @@
+import { Tag } from 'phecda-core'
 import { VirtualDocument } from '../document'
 import type { NodeAttrs } from '../document'
 
-export class BaseDocModel<T extends NodeAttrs> {
-  containerAttrs: NodeAttrs
+@Tag('doc')
+export abstract class BaseDocModel<T extends NodeAttrs> {
+  abstract containerAttrs: NodeAttrs
   activeId: string
   docs: VirtualDocument<T>[] = []
 

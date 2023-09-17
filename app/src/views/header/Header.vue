@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useV } from 'phecda-vue'
 import { useLayer } from '../../composables/layer'
-import { ConfigModel } from '@/models/config'
+import { ViewModel } from '@/models/view'
 
-const { headers } = useV(ConfigModel)
+const { headers } = useV(ViewModel)
 </script>
 
 <template>
@@ -27,3 +27,4 @@ const { headers } = useV(ConfigModel)
 <style scoped>
 
 </style>
+@/models/view

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { VirtualNode } from 'alioth-lib'
-import { getWidget } from 'alioth-lib'
+import type { VirtualNode } from 'alioth-vue'
+import { getWidget } from 'alioth-vue'
 import { createFormData, useV } from 'phecda-vue'
 
 import { watch } from 'vue'

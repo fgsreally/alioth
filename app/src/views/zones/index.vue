@@ -2,10 +2,10 @@
 import { useV } from 'phecda-vue'
 import { DocModel } from '@/models/doc'
 
-import { ConfigModel } from '@/models/config'
+import { ViewModel } from '@/models/view'
 const { activeDoc } = useV(DocModel)
 const route = useRoute()
-const { zones, componentMap } = useV(ConfigModel)
+const { zones, componentMap } = useV(ViewModel)
 </script>
 
 <template>
@@ -20,3 +20,4 @@ const { zones, componentMap } = useV(ConfigModel)
     </DragHelper>
   </Teleport>
 </template>
+@/models/view

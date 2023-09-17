@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getWidget } from 'alioth-lib'
+import { getWidget } from 'alioth-vue'
 import { useV } from 'phecda-vue'
 import { RenderBlock } from '@/components/base/renderBlock'
 

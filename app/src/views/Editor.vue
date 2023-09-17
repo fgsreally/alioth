@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-extra-parens -->
 <script setup lang="ts">
-import { NameSpaceStore, iframeBox } from 'alioth-lib'
+import { NameSpaceStore, iframeBox } from 'alioth-vue'
 import { useV } from 'phecda-vue'
 import {
   TabContent,

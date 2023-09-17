@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useDrag } from 'alioth-lib'
+import { draggable } from 'alioth-vue'
 import { useV } from 'phecda-vue'
 import { DocModel } from '@/models/doc'
 // import { pxToBlockSize, toPx } from '@/utils/style'
@@ -17,7 +17,7 @@ async function startMove(e: MouseEvent) {
 
   const initX = activeNode.attrs.left
   const initY = activeNode.attrs.top
-  useDrag({
+  draggable({
     move: (e) => {
       if (!x || !y) {
         x = e.clientX
@@ -46,7 +46,7 @@ function transform(evt: MouseEvent, item: string) {
   const h = activeNode.attrs.height
   const initX = activeNode.attrs.left
   const initY = activeNode.attrs.top
-  useDrag({
+  draggable({
     move: (e) => {
       const offsetY = Math.trunc(e.clientY - y)
       const offsetX = Math.trunc(e.clientX - x)

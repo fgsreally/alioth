@@ -14,6 +14,8 @@ import transformerDirectives from '@unocss/transformer-directives'
 import { presetAttributify, presetUno } from 'unocss'
 import AutoImport from 'unplugin-auto-import/vite'
 
+process.env.ALIOTH_WEBSITE = 'http://localhost:4010'
+
 // https://vitejs.dev/config/
 export default defineConfig({
   define: {
@@ -23,7 +25,7 @@ export default defineConfig({
   },
 
   plugins: [
-    ExternalMap(),
+    // ExternalMap(),
     ReactivityTransform(),
     VueMacros({
       setupBlock: true,

@@ -1,4 +1,4 @@
-import type { VirtualNode } from 'alioth-lib'
+import type { VirtualNode } from 'alioth-vue'
 import { useV } from 'phecda-vue'
 import { DragModel } from '@/models/drag'
 import { DocModel } from '@/models/doc'

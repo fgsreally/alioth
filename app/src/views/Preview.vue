@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BaseDocModel, getWidget } from 'alioth-lib'
+import { BaseDocModel, getWidget } from 'alioth-vue'
 import { RenderBlock } from '@/components/base/renderBlock'
 const instance: any = reactive(new BaseDocModel())
 

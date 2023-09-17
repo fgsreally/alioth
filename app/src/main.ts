@@ -5,11 +5,13 @@ import '@fgsreally/vue-web-terminal/style.css'
 import { basicSetup } from 'codemirror'
 import { javascript } from '@codemirror/lang-javascript'
 import VueCodemirror from 'vue-codemirror'
+import { init, setRegister } from 'alioth-vue'
 import App from './App.vue'
 import router from './router'
 import '@/style/common.scss'
-import { initState } from './models'
+import { initModel } from './models'
 import { initWidget } from './views/widgets'
+import { Register } from '@/engine/register'
 import 'uno.css'
 const app = createApp(App).use(createPhecda('alioth')).use(router).use(VueCodemirror, {
   // optional default global options
@@ -31,8 +33,9 @@ const app = createApp(App).use(createPhecda('alioth')).use(router).use(VueCodemi
 //     smartIndent: true,
 //   },
 // }
-initState()
-
+init()
+setRegister(Register)
+initModel()
 initWidget()
 
 app.mount('#al-root')

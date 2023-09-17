@@ -1,4 +1,3 @@
-import { markRaw } from 'vue'
 import { Doc } from 'yjs'
 import { Controller } from '../document'
 import type { NodeAttrs, VirtualDocument } from '../document'
@@ -25,10 +24,8 @@ export abstract class BridgeDocModel<T extends NodeAttrs> extends BaseDocModel<T
     super.add(id)
     // 保持响应式
     const doc = this.docs[this.docs.length - 1]
-
     const c = new Controller()
-    doc.bind(markRaw(c))
-
+    doc.bind(c)
     this.bridgeDoc(doc)
     return doc
   }

@@ -1,18 +1,15 @@
-import { createEventStack } from 'alioth-lib'
-import { Global, Init, Tag, emitter, useR } from 'phecda-vue'
+import { BaseEventModel } from 'alioth-vue'
+import { Global, Init, emitter, useR } from 'phecda-vue'
 import { DocModel } from './doc'
-const { register, initialize, state } = createEventStack({ undo: true, redo: true })
 
 @Global
-@Tag('event')
-export class EventModel {
-  public state = state as any
-  public register = register
+
+export class EventModel extends BaseEventModel {
   @Init
   init() {
+    const { state } = this
     const { activeDoc } = useR(DocModel)
-    window.$alioth_eventStack = register
-    register({
+    this.register({
       name: 'nodeAction',
       pushQueue: true,
       init() { // 初始化操作默认就会执行
@@ -36,6 +33,5 @@ export class EventModel {
         }
       },
     })
-    initialize()
   }
 }

@@ -1,10 +1,9 @@
-import type { NodeAttrs, VirtualDocument } from 'alioth-lib'
+import type { NodeAttrs, VirtualDocument } from 'alioth-vue'
 import { Global, Init, Tag } from 'phecda-vue'
-import { BridgeDocModel, interval } from 'alioth-lib'
+import { BridgeDocModel, interval } from 'alioth-vue'
 // // @ts-expect-error miss types
 // import { WebsocketProvider } from 'y-websocket'
 @Global
-@Tag('doc')
 export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
   containerAttrs = {
     width: 640,
@@ -27,8 +26,6 @@ export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
   constructor() {
     super()
     interval.setState('$doc', this)
-    // interval component
-    // interval.setState('$docRender', toRaw(DocRenderBlock))
   }
 
   bridge(): void {
@@ -60,22 +57,28 @@ export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
     // })
   }
 
-  @Init
-  init() {
-    // this.active(this.add())
-    // this.bridge()
-
-    // window.addEventListener('beforeunload', () => {
-    //   localStorage.setItem('alioth_doc_state', this.docToStr())
-    // })
-    // const lastRecord = localStorage.getItem('alioth_doc_state') && false
-    // if (lastRecord) {
-    //   this.load(lastRecord)
-    //   this.active(this.docs[0]?.id || this.add().id)
-    // }
-
-    // else {
-    //   this.active(this.add().id)
-    // }
+  add() {
+    const doc = super.add()
+    markRaw(doc.controller)
+    return doc
   }
+
+  // @Init
+  // init() {
+  //   this.active(this.add())
+  //   this.bridge()
+
+  //   window.addEventListener('beforeunload', () => {
+  //     localStorage.setItem('alioth_doc_state', this.docToStr())
+  //   })
+  //   const lastRecord = localStorage.getItem('alioth_doc_state') && false
+  //   if (lastRecord) {
+  //     this.load(lastRecord)
+  //     this.active(this.docs[0]?.id || this.add().id)
+  //   }
+
+  //   else {
+  //     this.active(this.add().id)
+  //   }
+  // }
 }

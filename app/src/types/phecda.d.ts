@@ -7,8 +7,8 @@ declare module 'phecda-vue' {
     'alioth:node-action':any
     'code-change': any
     'custom_error':{
-      type:ErrorEvent[keyof ErrorEvent]
-      [key in string ]:any
+      info:string
+      error:Error
     }
     'error_info':string
   }
