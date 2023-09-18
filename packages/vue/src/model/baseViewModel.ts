@@ -1,4 +1,4 @@
-import { Tag } from 'phecda-vue'
+import { Global, Init, Tag } from 'phecda-vue'
 import type { Component } from 'vue'
 import { getWidget } from '../register'
 
@@ -18,7 +18,7 @@ export interface Zone<P> {
   transition: string
   props: any
 }
-
+@Global
 @Tag('view')
 export abstract class BaseViewModel<H, Z> {
   getWidget = getWidget
@@ -36,7 +36,8 @@ export abstract class BaseViewModel<H, Z> {
     this.headers.push(header)
   }
 
-  constructor() {
+  @Init
+  private _init() {
     window.$alioth_zone = (arg: Zone<Z>) => {
       this.addZone(arg)
     }

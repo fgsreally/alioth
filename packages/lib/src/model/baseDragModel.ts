@@ -1,4 +1,4 @@
-import { Tag } from 'phecda-core'
+import { Global, Tag } from 'phecda-core'
 
 const dragenter = (e: DragEvent) => {
   (e.dataTransfer as any).dropEffect = 'move'
@@ -9,7 +9,7 @@ const dragover = (e: DragEvent) => {
 const dragleave = (e: DragEvent) => {
   (e.dataTransfer as any).dropEffect = 'none'
 }
-
+@Global
 @Tag('drag')
 export class BaseDragModel {
   moduleMap: Map<HTMLElement, Function> = new Map()

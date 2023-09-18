@@ -30,8 +30,9 @@ const containerCanvas = useDragSingle(addBlock)
 </script>
 
 <template>
-  <div
-    ref="containerCanvas" class="editor__canvas" :class="props.isGrid ? 'gridHelper' : ''" :style="`--radius:${props.radius / 2};--fontSize:${props.fontSize};
+  <section style=" overflow-y:scroll;">
+    <div
+      ref="containerCanvas" class="editor__canvas" :class="props.isGrid ? 'gridHelper' : ''" :style="`--radius:${props.radius / 2};--fontSize:${props.fontSize};
             --gridGap:${props.gridGap / 2};
             --gridLen:${(props.width - props.margin * 2) / props.gridNum};
             --bkColor:${props.backgroundColor};
@@ -39,13 +40,14 @@ const containerCanvas = useDragSingle(addBlock)
             --height:${props.height};
             --margin:${props.margin};
             --gridColor:${props.gridColor};
-      `
 
-    "
-    @click.self.stop="activeDoc.cancel()"
-  >
-    <slot />
-  </div>
+      `
+      "
+      @click.stop.self="activeDoc.cancel()"
+    >
+      <slot />
+    </div>
+  </section>
 </template>
 
 <style>

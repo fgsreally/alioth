@@ -1,14 +1,16 @@
-import { Watcher } from 'phecda-core'
+import { Global, Init, Tag, Watcher } from 'phecda-core'
 
 export interface ErrorHandler {
-  info: string
+  type: string
   handler: (e: Error) => void
 }
 
+@Global
+@Tag('error')
 export abstract class BaseErrorModel {
   abstract errorHandlers: ErrorHandler[]
-
-  constructor() {
+  @Init
+  private _init() {
     window.$alioth_error = this.setErrorHandler.bind(this)
   }
 
@@ -17,12 +19,12 @@ export abstract class BaseErrorModel {
   }
 
   @Watcher('custom_error')
-  watchError({ error, info }: { error: Error; info: string }) {
-    const handler = this.errorHandlers.find(item => item.info === info)
+  watchError({ error, type }: { error: Error; type: string }) {
+    const handler = this.errorHandlers.find(item => item.type === type)
     if (handler)
       handler.handler(error)
 
     else
-      console.error(`[Alioth]: ${info}`)
+      console.error(`[Alioth]: ${type}`)
   }
 }

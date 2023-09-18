@@ -1,6 +1,11 @@
 import { ref } from 'vue'
+import type { AliothWidget } from 'alioth-vue'
 import HW from './components/HelloWorld.vue'
-
+import { Engine } from './engine/register'
+export const register_test = {
+  alioth: 'setRegister',
+  data: Engine,
+}
 const c = ref(1)
 export const state_c = {
   alioth: 'state',
@@ -20,7 +25,7 @@ export const state_changeC = {
   },
 }
 
-export const widget_a = {
+export const widget_a: AliothWidget = {
   alioth: 'widget',
   data: {
     category: 'lib',

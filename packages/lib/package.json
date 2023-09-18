@@ -31,7 +31,7 @@
   "dependencies": {
     "lodash-es": "^4.17.21",
     "nanoid": "^4.0.0",
-    "phecda-core": "2.0.0-alpha.3",
+    "phecda-core": "2.0.0-alpha.4",
     "yjs": "^13.6.7"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 import { Doc } from 'yjs'
-import { Controller } from '../document'
-import type { NodeAttrs, VirtualDocument } from '../document'
-import { BaseDocModel } from './baseDocModel'
+import { Controller } from 'alioth-lib/src/document'
+import type { NodeAttrs, VirtualDocument } from 'alioth-lib/src/document'
+import { BaseDocModel } from 'alioth-lib/src/model/baseDocModel'
 
 export abstract class BridgeDocModel<T extends NodeAttrs> extends BaseDocModel<T> {
   protected ydoc = new Doc()

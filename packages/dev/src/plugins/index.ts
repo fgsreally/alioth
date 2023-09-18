@@ -4,6 +4,7 @@ import { type PluginOption, normalizePath } from 'vite'
 import colors from 'colors'
 import axios from 'axios'
 interface ConnectorOpts {
+  website: string
   project: string
   externals?: Record<string, string>
   presets?: string[]
@@ -15,13 +16,9 @@ interface ExternalMapOpts {
   importmap?: boolean
 }
 
-const website = process.env.ALIOTH_WEBSITE ?? 'https://fgsreally.github.io/alioth'
 export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
   const {
-    externals = {
-      'vue': `${website}/vue.mjs`,
-      'phecda-vue': `${website}/phecda-vue.mjs`,
-    }, importmap = true,
+    externals = {}, importmap = true,
   } = options
   let isDev: boolean
   return {
@@ -48,7 +45,7 @@ export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
 }
 
 export function Connector(options: ConnectorOpts): PluginOption {
-  const { project, externals = {}, entry, presets = [] } = options
+  const { project, externals = {}, entry, presets = [], website } = options
   const entryFiles = Object.values(options.entry).map(item => normalizePath(resolve(process.cwd(), item)))
   return {
     name: 'alioth-connector',

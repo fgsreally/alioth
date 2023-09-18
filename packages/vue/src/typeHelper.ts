@@ -5,10 +5,11 @@ export interface BasePreset<T, D> {
   alioth: T
   data: D
 }
-export interface AliothWidget extends BasePreset<'widget', {
+export interface AliothWidget<Meta> extends BasePreset<'widget', {
   category: string
   key: string
   component: Component
+  meta?: Meta
 }> {
 
 }

@@ -25,7 +25,14 @@ export default defineConfig({
   },
 
   plugins: [
-    // ExternalMap(),
+    ExternalMap({
+      externals: {
+        'vue': 'http://localhost:4010/vue.mjs',
+        'phecda-core': 'http://localhost:4010/phecda-vue.mjs',
+        'phecda-vue': 'http://localhost:4010/phecda-vue.mjs',
+
+      },
+    }),
     ReactivityTransform(),
     VueMacros({
       setupBlock: true,
@@ -48,8 +55,9 @@ export default defineConfig({
 
     }),
     DynamicImportmap({
-      'vue': '/vue.mjs',
-      'phecda-vue': '/phecda-vue.mjs',
+      'vue': 'http://localhost:4010/vue.mjs',
+      'phecda-core': 'http://localhost:4010/phecda-vue.mjs',
+      'phecda-vue': 'http://localhost:4010/phecda-vue.mjs',
     }),
     // Icons(),
     UnoCSS({

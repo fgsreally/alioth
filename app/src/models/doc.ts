@@ -1,13 +1,13 @@
 import type { NodeAttrs, VirtualDocument } from 'alioth-vue'
-import { Global, Init, Tag } from 'phecda-vue'
-import { BridgeDocModel, interval } from 'alioth-vue'
+import { Init } from 'phecda-vue'
+import { BaseDocModel, Controller, interval, observeDoc } from 'alioth-vue'
 // // @ts-expect-error miss types
 // import { WebsocketProvider } from 'y-websocket'
-@Global
-export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
+
+export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
   containerAttrs = {
-    width: 640,
-    height: 600,
+    width: 480,
+    height: 400,
     fontSize: 16,
     backgroundColor: 'rgb(102, 107, 226)',
     gridColor: '#ff00006b',
@@ -46,8 +46,9 @@ export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
     // })
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   bridgeDoc(doc: VirtualDocument<any>): void {
+    observeDoc(this.find(doc.id)!)
+
     // const ydoc = doc.controller.ydoc
     // const wsProvider = new WebsocketProvider('ws://localhost:1234', doc.id, ydoc)
     // observeDoc(this.find(doc.id)!)
@@ -58,8 +59,12 @@ export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
   }
 
   add() {
-    const doc = super.add()
-    markRaw(doc.controller)
+    super.add()
+    // 保持响应式
+    const doc = this.docs[this.docs.length - 1]
+    const c = new Controller()
+    doc.bind(markRaw(c))
+    this.bridgeDoc(doc)
     return doc
   }
 

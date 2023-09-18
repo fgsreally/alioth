@@ -1,7 +1,8 @@
-import { Tag } from 'phecda-core'
+import { Global, Tag } from 'phecda-core'
 import { VirtualDocument } from '../document'
 import type { NodeAttrs } from '../document'
 
+@Global
 @Tag('doc')
 export abstract class BaseDocModel<T extends NodeAttrs> {
   abstract containerAttrs: NodeAttrs

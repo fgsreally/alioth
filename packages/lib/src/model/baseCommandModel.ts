@@ -1,4 +1,4 @@
-import { Tag } from 'phecda-core'
+import { Global, Init, Tag } from 'phecda-core'
 
 export interface Command {
   description: string
@@ -13,12 +13,12 @@ export interface Command {
 
   ]
 }
-
+@Global
 @Tag('command')
 export abstract class BaseCommandModel {
   abstract commands: Command[]
-
-  constructor() {
+  @Init
+  private _init() {
     window.$alioth_command = this.register.bind(this)
   }
 

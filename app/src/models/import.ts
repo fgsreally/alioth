@@ -1,14 +1,15 @@
-import { Global, Init } from 'phecda-vue'
+import { Init } from 'phecda-vue'
 import { BaseImportModel, createConnector, interval } from 'alioth-vue'
 import { getQuery } from '@/utils/url'
 
 export const { connect, dynamicImport, urlMap, projectMap } = createConnector()
-@Global
+
 export class ImportModel extends BaseImportModel {
   /**
    * @extend
    */
   presets: string[] = []
+  info: Record<string, any> = {}
 
   @Init
   async init() {
@@ -23,7 +24,6 @@ export class ImportModel extends BaseImportModel {
 
   setState({ key, value, meta }: { key: string; value: any; meta: any }) {
     interval.setState(key, value)
-
     this.info[key] = meta
   }
 }

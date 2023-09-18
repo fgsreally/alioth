@@ -1,20 +1,22 @@
+import { Global, Init, Tag } from 'phecda-core'
 import { createConnector } from '../core/connect'
 import { loadStyleOrScript } from '../core/invoke'
 
 export const { connect, dynamicImport, urlMap, projectMap } = createConnector()
-
+@Global
+@Tag('import')
 export abstract class BaseImportModel {
   /**
    * @extend
    */
-  info: Record<string, any> = {}
   graph: Record<string, any> = {}
 
-  constructor() {
+  @Init
+  private _init() {
     window.$alioth_update = (url: string, module: any) => {
       this.graph[url] = this.importModule(module)
     }
-    window.$alioth_state = this.setState.bind(this)
+    window.$alioth_state = (arg: any) => this.setState?.(arg)
   }
 
   async connectVite(url: string) {

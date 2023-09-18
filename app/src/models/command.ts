@@ -1,4 +1,4 @@
-import { Global, useR } from 'phecda-vue'
+import {  useR } from 'phecda-vue'
 import { BaseCommandModel, getWidget, interval } from 'alioth-vue'
 import { DocModel } from './doc'
 import { ViewModel } from './view'
@@ -15,7 +15,7 @@ interface Event {
 
   ]
 }
-@Global
+
 export class CommandModel extends BaseCommandModel {
   commands: Event[] = [
     {

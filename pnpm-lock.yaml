@@ -141,6 +141,12 @@ importers:
       alioth-dev:
         specifier: workspace:^
         version: link:../../packages/dev
+      alioth-vue:
+        specifier: workspace:0.0.1-alpha.0
+        version: link:../../packages/vue
+      phecda-vue:
+        specifier: 2.0.0-alpha.5
+        version: 2.0.0-alpha.5
       vue:
         specifier: ^3.2.47
         version: 3.3.4
@@ -217,8 +223,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       phecda-core:
-        specifier: 2.0.0-alpha.3
-        version: 2.0.0-alpha.3
+        specifier: 2.0.0-alpha.4
+        version: 2.0.0-alpha.4
       yjs:
         specifier: ^13.6.7
         version: 13.6.7
@@ -331,8 +337,8 @@ importers:
         specifier: workspace:*
         version: link:../lib
       phecda-vue:
-        specifier: 2.0.0-alpha.4
-        version: 2.0.0-alpha.4
+        specifier: 2.0.0-alpha.5
+        version: 2.0.0-alpha.5
       vue:
         specifier: ^3.3.4
         version: 3.3.4
@@ -2500,7 +2506,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.6(@types/node@18.16.8)(sass@1.66.1)
+      vite: 4.4.6
       vue: 3.3.4
     dev: true
 
@@ -7307,10 +7313,6 @@ packages:
     resolution: {integrity: sha512-UDiNpkL/UTVYecfBgvrx+Bhl60ZwBJzw0ndaD8FZXrg0vSZN+KTa1w6pfuSNYIm0FYBKpKeokgGH5nuYxr9wnQ==}
     dev: false
 
-  /phecda-core@2.0.0-alpha.3:
-    resolution: {integrity: sha512-gd7fdNmr6f5017jjiWvFZkvwNregq24oESCDqL9K8R55Wpyhau9OQUu5uvOhC2fum3fZNFuR/OZ4crODh+IHxg==}
-    dev: false
-
   /phecda-core@2.0.0-alpha.4:
     resolution: {integrity: sha512-DiETGNen3P2BxMVFBZrlmdrkLK5eZaIRH9xp6Ujqpg0llERsciuJ4uEBtx6JHLWXf7wp8oMlGjstVrmMsb6Axw==}
     dev: false
@@ -7328,14 +7330,6 @@ packages:
     dependencies:
       mitt: 3.0.1
       phecda-core: 1.7.0
-      vue: 3.3.4
-    dev: false
-
-  /phecda-vue@2.0.0-alpha.4:
-    resolution: {integrity: sha512-ERGi/WTQwR+q2SZdtXjGKgYX/HcNh/8LljvjbDo4zMEqNihMwclsq3zeek2XXjEOQdflz5WKGca2NHSgzNrp3w==}
-    dependencies:
-      mitt: 3.0.1
-      phecda-core: 2.0.0-alpha.3
       vue: 3.3.4
     dev: false
 

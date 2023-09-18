@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { draggable } from 'alioth-vue'
-import { useV } from 'phecda-vue'
+import { emitter, useV } from 'phecda-vue'
 import { DocModel } from '@/models/doc'
 // import { pxToBlockSize, toPx } from '@/utils/style'
 
@@ -28,6 +28,8 @@ async function startMove(e: MouseEvent) {
       activeNode.setAttribute('top', initY + e.clientY - y)
     },
     up: (e) => {
+      emitter.emit('alioth:node-action', null)
+
       // if (Math.abs(e.clientX - x) > 5 || Math.abs(e.clientY - y) > 5)
     },
   })

@@ -1,4 +1,4 @@
-import { Global, Tag, useR, useV } from 'phecda-vue'
+import { useR, useV } from 'phecda-vue'
 import type { Component } from 'vue'
 import { BaseViewModel } from 'alioth-vue'
 import { DocModel } from './doc'
@@ -30,8 +30,7 @@ interface Zone {
   transition: string
   props: any
 }
-@Global
-@Tag('config')
+
 export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any> {
   componentMap = componentMap as Record<string, Component>
   headers: Header[] = [
@@ -66,7 +65,7 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
     },
   ]
 
-  public zones: Zone[] = [
+  zones: Zone[] = [
 
     {
       component: 'Property',

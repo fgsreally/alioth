@@ -1,18 +1,16 @@
 import { BaseEventModel } from 'alioth-vue'
-import { Global, Init, emitter, useR } from 'phecda-vue'
+import { Init, emitter, useR } from 'phecda-vue'
 import { DocModel } from './doc'
-
-@Global
 
 export class EventModel extends BaseEventModel {
   @Init
   init() {
     const { state } = this
-    const { activeDoc } = useR(DocModel)
     this.register({
       name: 'nodeAction',
       pushQueue: true,
       init() { // 初始化操作默认就会执行
+        console.log('init')
         const action = () => {
           state.commands.nodeAction()
         }
@@ -23,8 +21,11 @@ export class EventModel extends BaseEventModel {
       },
 
       execute() {
+        const { activeDoc } = useR(DocModel)
+
         return {
           undo() {
+            console.log(activeDoc.controller)
             activeDoc.controller.undo()
           },
           redo() {
