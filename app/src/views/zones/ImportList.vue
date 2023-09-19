@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import { emitter, useO, useV } from 'phecda-vue'
 import { ImportModel } from '@/models/import'
-
+import {DragModel} from '@/models/drag'
 const { info } = useV(ImportModel)
-console.log(info.value)
-window.useO = useO
-function dragstart(i: string) {
-  emitter.emit('dragstart', `{{${i}}}`)
+const { dragStart, dragEnd } = useV(DragModel)
+
+function dragstart(module: any) {
+  dragStart(module)
 }
 
 function dragend() {
-  emitter.emit('dragend', null)
+  dragEnd()
 }
 </script>
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { getWidget } from 'alioth-vue'
 import { useV } from 'phecda-vue'
+import { DocModel } from './models/doc'
 import { RenderBlock } from '@/components/base/renderBlock'
 
-import { DocModel } from '@/models/doc'
 import { useDocumentClick } from '@/composables/click'
 const { activePage, doc } = $(useV(DocModel))
 useDocumentClick(() => {
@@ -12,7 +12,7 @@ useDocumentClick(() => {
 </script>
 
 <template>
-  <div flex justify-center items-center w-full h-full>
+  <div class="editor__container">
     <RenderBlock v-if="!!activePage" :node="activePage" type="edit" :value="getWidget('root')!" />
   </div>
 </template>

@@ -34,7 +34,9 @@
     "vue": "^3.3.2",
     "vue-codemirror": "^6.1.1",
     "vue-router": "^4.2.0",
-    "y-websocket": "^1.5.0"
+    "vue-ts-responsive-grid-layout": "^1.2.1",
+    "y-websocket": "^1.5.0",
+    "yjs": "^13.6.7"
   },
   "devDependencies": {
     "@iconify-json/gg": "^1.1.6",

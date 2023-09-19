@@ -7,24 +7,16 @@ const { headers } = useV(ViewModel)
 </script>
 
 <template>
-  <section w-full h-12 border-b-solid border-font-t flex flex-items-center justify-between p-x-8>
-    <div>
-      <h2 color-p>
-        Alioth
-      </h2>
+  <div fixed right="0" top="0" flex flex-items-center justify-center bg-on-b p-4 rd-2 m-4>
+    <div
+      v-for="(item, i) in headers" :key="i" color-font-n
+      cursor-pointer m-x-1 hover:color-blue @click="item.handler({ useLayer })"
+    >
+      <Component :is="item.component" />
     </div>
-    <div flex flex-items-center justify-center m-r-10>
-      <div
-        v-for="(item, i) in headers" :key="i" color-font-n
-        cursor-pointer m-x-1 hover:color-blue @click="item.handler({ useLayer })"
-      >
-        <Component :is="item.component" />
-      </div>
-    </div>
-  </section>
+  </div>
 </template>
 
 <style scoped>
 
 </style>
-@/models/view

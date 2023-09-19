@@ -19,6 +19,11 @@ body {
   // --el-bg-color-overlay: #e0c3fce6;
   // --el-color-primary: #a852f8;
   font-family: "Helvetica Neue";
+
+}
+#al-root{
+  width:100vw;
+  height:100vh
 }
 
 // .el-badge__content {
@@ -65,7 +70,7 @@ p.preview-section-item {
 //   color: white;
 // }
 
-#al-root{
+#al-body{
   button {
     cursor: pointer;
   }
@@ -87,7 +92,7 @@ p.preview-section-item {
   //   background-color: transparent;
   // }
   
-  .al-editor__iframe-wrapper {
+  .al-window{
     @apply l-card px-4 py-8;
     position: relative;
     overflow: hidden;

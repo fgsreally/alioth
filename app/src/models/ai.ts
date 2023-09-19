@@ -7,9 +7,8 @@ interface Agent {
   example?: [string, string]
   action: (ret: any) => void
 }
-
-@Tag('ai')
 @Global
+@Tag('ai')
 export class AiModel {
   agents: Agent[] = []
 

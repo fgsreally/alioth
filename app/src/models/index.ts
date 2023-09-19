@@ -1,6 +1,6 @@
 import { useO } from 'phecda-vue'
 
-import { ImportModel } from './import'
+import { ImportModel } from '../sandbox/src/models/import'
 import { ViewModel } from './view'
 import { DragModel } from './drag'
 import { DocModel } from './doc'

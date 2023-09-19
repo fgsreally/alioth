@@ -12,7 +12,7 @@ const { type } = defineProps<{ type: 'props' | 'events' }>()
 const { activeNode } = $(useV(DocModel))
 const { add, del } = useV(DragModel)
 let args = $ref<{ data: any; config: any }>({} as any)
-
+console.log('property')
 function setProps(node: VirtualNode<NodeAttrs>, key: string, value: any) {
   node.attrs.propsData[key] = value
   node.setAttribute('propsData', node.attrs.propsData)

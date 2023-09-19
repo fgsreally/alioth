@@ -11,6 +11,7 @@ const isActive = computed(() => node === activeNode)
 const moveBlocks = ['tl', 'tr', 'bl', 'br']
 
 async function startMove(e: MouseEvent) {
+  console.log('startmove')
   if (!activeNode)
     return
   let x: number, y: number
@@ -39,11 +40,11 @@ function getIframeOffset() {
   return (document.querySelector('.iframebox') as HTMLElement).getBoundingClientRect()
 }
 function transform(evt: MouseEvent, item: string) {
+  console.log('transform')
   if (!activeNode)
     return
-  const { x: iframeX, y: iframeY } = getIframeOffset()
-  const x = evt.clientX + iframeX
-  const y = evt.clientY + iframeY
+  const x = evt.clientX
+  const y = evt.clientY
   const w = activeNode.attrs.width
   const h = activeNode.attrs.height
   const initX = activeNode.attrs.left
@@ -73,7 +74,7 @@ function transform(evt: MouseEvent, item: string) {
 
 <template>
   <div>
-    <div class="dragBox" @mousedown.capture.self.prevent="startMove">
+    <div class="dragBox" @mousedown="startMove">
       <slot />
 
       <i v-if="isActive" class="w size-controller">{{ activeNode!.attrs.width }}</i>

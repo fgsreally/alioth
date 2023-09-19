@@ -10,8 +10,8 @@ import App from './App.vue'
 import router from './router'
 import '@/style/common.scss'
 import { initModel } from './models'
-import { initWidget } from './views/widgets'
 import { Register } from '@/engine/register'
+import { initWidget } from '@/sandbox/src/widgets'
 import 'uno.css'
 const app = createApp(App).use(createPhecda('alioth')).use(router).use(VueCodemirror, {
   // optional default global options

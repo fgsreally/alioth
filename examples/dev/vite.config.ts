@@ -9,8 +9,9 @@ export default defineConfig({
       project: 'alioth',
       presets: ['http://localhost:4010/view.js', 'http://localhost:4010/widget.js', 'http://localhost:4010/style.css'],
       entry: {
-      // a: './src/components/HelloWorld.vue',
         b: './src/entry.ts',
+        a: './src/main.ts',
+
       },
     }),
     ExternalMap({

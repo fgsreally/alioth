@@ -10,7 +10,6 @@ export class EventModel extends BaseEventModel {
       name: 'nodeAction',
       pushQueue: true,
       init() { // 初始化操作默认就会执行
-        console.log('init')
         const action = () => {
           state.commands.nodeAction()
         }
@@ -21,15 +20,14 @@ export class EventModel extends BaseEventModel {
       },
 
       execute() {
-        const { activeDoc } = useR(DocModel)
+        const { doc } = useR(DocModel)
 
         return {
           undo() {
-            console.log(activeDoc.controller)
-            activeDoc.controller.undo()
+            doc.controller.undo()
           },
           redo() {
-            activeDoc.controller.redo()
+            doc.controller.redo()
           },
         }
       },

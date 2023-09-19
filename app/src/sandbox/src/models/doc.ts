@@ -1,35 +1,54 @@
 import type { NodeAttrs, VirtualDocument } from 'alioth-vue'
-import { Init, useV } from 'phecda-vue'
+import { Init, useR } from 'phecda-vue'
 import { BaseDocModel, Controller, interval, observeDoc } from 'alioth-vue'
 import { ChannelModel } from './channel'
 // // @ts-expect-error miss types
 // import { WebsocketProvider } from 'y-websocket'
 
 export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
-  containerAttrs = markRaw(
-    {
-      title: '11',
-      key: 'root',
-      page: true,
-      width: 480,
-      height: 400,
-      fontSize: 16,
-      backgroundColor: 'rgb(102, 107, 226)',
-      gridColor: '#ff00006b',
-      gridNum: 10,
-      gridGap: 20,
-      margin: 0,
-      radius: 0,
-      isContainer: true,
-      isFull: false,
-      isGrid: true,
-      mode: 'normal',
-      wLimit: [375, 2000],
-      hLimit: [600, 4000],
-    },
-  )
+  containerAttrs = {
 
-  connectSandBox = false
+    width: 480,
+    height: 400,
+    fontSize: 16,
+    backgroundColor: 'rgb(102, 107, 226)',
+    gridColor: '#ff00006b',
+    gridNum: 10,
+    gridGap: 20,
+    margin: 0,
+    radius: 0,
+    isContainer: true,
+    isFull: false,
+    isGrid: true,
+    mode: 'normal',
+    wLimit: [375, 2000],
+    hLimit: [600, 4000],
+  }
+
+  constructor() {
+    super()
+
+    interval.setState('$doc', this)
+  }
+
+  @Init
+  init() {
+    const { add, send } = useR(ChannelModel)
+    this.doc.bind(markRaw(new Controller()))
+    observeDoc(this.doc)
+
+    add('doc-sync', (delta) => {
+      Y.applyUpdate(this.doc.controller.ydoc, delta, 'sandbox')
+      console.log('doc', this.doc.root)
+    })
+    // this.doc.controller.ydoc.on('update', (delta, origin) => {
+    //   if (origin !== 'sandbox')
+    //     send('doc-sync', Y.encodeStateAsUpdate(this.doc.controller.ydoc))
+    //   // send('doc-sync', delta)
+    // })
+    // this.add()
+  }
+
   bridge(): void {
     // const wsProvider = new WebsocketProvider('ws://localhost:1234', 'documents', this.ydoc)
     // this.yarr.observe((e, t) => {
@@ -49,6 +68,12 @@ export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
   }
 
   bridgeDoc(doc: VirtualDocument<any>): void {
+    observeDoc(this.find(doc.id)!)
+    const { send } = useR(ChannelModel)
+
+    doc.controller.ydoc.on('update', (update) => {
+      send('doc_sync', update)
+    })
 
     // const ydoc = doc.controller.ydoc
     // const wsProvider = new WebsocketProvider('ws://localhost:1234', doc.id, ydoc)
@@ -59,12 +84,15 @@ export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
     // })
   }
 
-  @Init
-  init() {
-    interval.setState('$doc', this)
-    this.doc.bind(markRaw(new Controller()))
-    observeDoc(this.doc)
-  }
+  // add() {
+  //   super.add()
+  //   // 保持响应式
+  //   const doc = this.docs[this.docs.length - 1]
+  //   const c = new Controller()
+  //   doc.bind(markRaw(c))
+  //   this.bridgeDoc(doc)
+  //   return doc
+  // }
 
   // @Init
   // init() {

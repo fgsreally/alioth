@@ -1,78 +1,146 @@
 import { Global, Tag } from 'phecda-core'
 import { VirtualDocument } from '../document'
-import type { NodeAttrs } from '../document'
+import type { NodeAttrs, VirtualNode } from '../document'
 
 @Global
 @Tag('doc')
 export abstract class BaseDocModel<T extends NodeAttrs> {
   abstract containerAttrs: NodeAttrs
   activeId: string
-  docs: VirtualDocument<T>[] = []
+  doc = new VirtualDocument({}, 'model')
 
-  get activeDoc() {
-    return this.find(this.activeId) as unknown as VirtualDocument<T>
-  }
-
-  get container() {
-    return this.activeDoc?.root
-  }
-
-  get isActive() {
-    return !!this.find(this.activeId)
+  get activePage() {
+    return this.find(this.activeId) as unknown as VirtualNode<T>
   }
 
   get activeNode() {
-    return this.find(this.activeId)?.activeNode
+    return this.doc.activeNode
+  }
+
+  get pages() {
+    return this.doc.root.children
   }
 
   active(id: string) {
     if (this.activeId === id)
       return
-    if (this.docs.some(item => item.id === id))
+    if (this.doc.root.children.some(item => item.id === id))
       this.activeId = id
   }
 
   add(id?: string) {
-    const doc = new VirtualDocument(this.containerAttrs, id)
+    const node = this.doc.createNode(this.containerAttrs, id)
 
-    this.docs.push(doc)
-    return doc
+    this.doc.root.insert(node)
+    return node
   }
 
   remove(id: string) {
-    if (this.docs.length > 1) {
-      const index = this.docs.findIndex(item => item.id === id)
-
-      this.docs.splice(index, 1)
-      this.activeId = this.docs[(index > 0) ? index - 1 : index].id
+    const { children } = this.doc.root
+    if (children.length > 1) {
+      const index = children.findIndex(item => item.id === id)
+      this.doc.root.remove(index)
+      this.activeId = children[index - 1].id
     }
   }
 
   find(id: string) {
-    return this.docs.find(item => item.id === id)
+    return this.doc.root.children.find(item => item.id === id)
   }
 
   index(id: string) {
-    return this.docs.findIndex(item => id === item.id)
+    return this.doc.root.children.findIndex(item => id === item.id)
   }
 
-  load(data: any) {
-    data = typeof data === 'string' ? JSON.parse(data) : data
+  // load(data: any) {
+  //   data = typeof data === 'string' ? JSON.parse(data) : data
 
-    this.docs = data.map(({ id, root, data }: any) => {
-      const doc = new VirtualDocument()
-      doc.id = id
-      doc.data = data
+  //   this.doc = data.map(({ id, root, data }: any) => {
+  //     const doc = new VirtualDocument()
+  //     doc.id = id
+  //     doc.data = data
 
-      doc.load(root)
-      return doc
-    })
-    return this.docs
-  }
+  //     doc.load(root)
+  //     return doc
+  //   })
+  //   return this.doc
+  // }
 
-  toJSON() {
-    return this.docs.map(({ id, root, data }) => {
-      return { id, root, data }
-    }) as any[]
-  }
+  // toJSON() {
+  //   return this.doc.map(({ id, root, data }) => {
+  //     return { id, root, data }
+  //   }) as any[]
+  // }
 }
+// export abstract class BaseDocModel<T extends NodeAttrs> {
+//   abstract containerAttrs: NodeAttrs
+//   activeId: string
+//   doc: VirtualDocument<T>[] = []
+
+//   get activeDoc() {
+//     return this.find(this.activeId) as unknown as VirtualDocument<T>
+//   }
+
+//   get container() {
+//     return this.activeDoc?.root
+//   }
+
+//   get isActive() {
+//     return !!this.find(this.activeId)
+//   }
+
+//   get activeNode() {
+//     return this.find(this.activeId)?.activeNode
+//   }
+
+//   active(id: string) {
+//     if (this.activeId === id)
+//       return
+//     if (this.doc.some(item => item.id === id))
+//       this.activeId = id
+//   }
+
+//   add(id?: string) {
+//     const doc = new VirtualDocument(this.containerAttrs, id)
+
+//     this.doc.push(doc)
+//     return doc
+//   }
+
+//   remove(id: string) {
+//     if (this.doc.length > 1) {
+//       const index = this.doc.findIndex(item => item.id === id)
+
+//       this.doc.splice(index, 1)
+//       this.activeId = this.doc[(index > 0) ? index - 1 : index].id
+//     }
+//   }
+
+//   find(id: string) {
+//     return this.doc.find(item => item.id === id)
+//   }
+
+//   index(id: string) {
+//     return this.doc.findIndex(item => id === item.id)
+//   }
+
+//   load(data: any) {
+//     data = typeof data === 'string' ? JSON.parse(data) : data
+
+//     this.doc = data.map(({ id, root, data }: any) => {
+//       const doc = new VirtualDocument()
+//       doc.id = id
+//       doc.data = data
+
+//       doc.load(root)
+//       return doc
+//     })
+//     return this.doc
+//   }
+
+//   toJSON() {
+//     return this.doc.map(({ id, root, data }) => {
+//       return { id, root, data }
+//     }) as any[]
+//   }
+// }

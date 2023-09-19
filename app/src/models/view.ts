@@ -1,8 +1,8 @@
 import { useR, useV } from 'phecda-vue'
 import type { Component } from 'vue'
 import { BaseViewModel } from 'alioth-vue'
+import { ImportModel } from '../sandbox/src/models/import'
 import { DocModel } from './doc'
-import { ImportModel } from './import'
 import { componentMap } from '@/views/zones'
 import { useLayer } from '@/composables/layer'
 import PreviewRenderVue from '@/views/preview/PreviewRender.vue'
@@ -72,6 +72,7 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       label: '组件property',
       name: 'Property',
       isActive: ({ instance }) => {
+        console.log(instance, 'property')
         return !!instance?.activeNode
       },
       props: {
@@ -82,10 +83,22 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       transition: 'left',
 
     },
+    // {
+    //   component: 'Terminal',
+    //   label: '终端',
+    //   name: 'terminal',
+    //   isActive: () => true,
+    //   props: {
+    //   },
+    //   x: 100,
+    //   y: 300,
+    //   transition: 'left',
+
+    // },
     {
-      component: 'Terminal',
-      label: '中断',
-      name: 'terminal',
+      component: 'Material',
+      label: '物料',
+      name: 'Material',
       isActive: () => true,
       props: {
       },
@@ -94,6 +107,7 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       transition: 'left',
 
     },
+
     {
       component: 'Property',
       label: '事件',
