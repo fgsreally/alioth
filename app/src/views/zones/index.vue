@@ -13,7 +13,8 @@ const { zones, componentMap } = useV(ViewModel)
     <DragHelper
 
       v-for="(item, i) in zones"
-      :key="i" :transition="item.transition" :x="item.x" :y="item.y" class="a-zone"
+      v-show="!item.hidden"
+      :key="i" :transition="item.transition" :x="item.x" :y="item.y" class="al-zone"
       :label="item.label"
       :is-active="item.isActive({ instance: doc, route })" :fix="item.fix || false" @click.stop
     >

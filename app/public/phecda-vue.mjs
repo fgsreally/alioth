@@ -244,8 +244,8 @@ a(Fe, "Assign");
 function Ue(e) {
   const n = e.prototype.__TAG__;
   n && (O(e.prototype), S(e.prototype, "__CLASS"), b(e.prototype, "__CLASS", {
-    init: async () => {
-      globalThis.__PHECDA__ || (globalThis.__PHECDA__ = {}), globalThis.__PHECDA__[n] = e;
+    init: async (instance) => {
+      globalThis.__PHECDA__ || (globalThis.__PHECDA__ = {}), globalThis.__PHECDA__[instance.__TAG__] = instance.constructor;
     }
   }));
 }

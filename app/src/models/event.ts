@@ -6,6 +6,7 @@ export class EventModel extends BaseEventModel {
   @Init
   init() {
     const { state } = this
+
     this.register({
       name: 'nodeAction',
       pushQueue: true,

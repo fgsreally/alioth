@@ -5,7 +5,7 @@ const { remove, doc, add, active, activeId, pages } = $(useV(DocModel))
 </script>
 
 <template>
-  <section fixed bottom="0" left="0" m-x-4 flex color-font-t>
+  <section fixed bottom="0" left="0" m-x-4 flex color-font-t h-8 class="al-zone">
     <div
       v-for="item in pages" :key="item.id"
       font="500"
@@ -21,11 +21,12 @@ const { remove, doc, add, active, activeId, pages } = $(useV(DocModel))
     >
       <Editable v-model="item.attrs.title" class="m-x-2" />
       <IconClose
-        v-if="item.id === activeId && pages.length > 1" absolute right-1 w-3 h-3 rd-2 hover:bg-on-b color-p
+        absolute right-1 w-3 h-3 rd-2 hover:bg-on-b color-p
         @click.stop="remove(item.id)"
       />
     </div>
     <div
+
       i-lucide-plus-square hover:color-p cursor-pointer
       @click="add()"
     />

@@ -5,7 +5,7 @@ export interface BasePreset<T, D> {
   alioth: T
   data: D
 }
-export interface AliothWidget<Meta> extends BasePreset<'widget', {
+export interface AliothWidget<Meta = any> extends BasePreset<'widget', {
   category: string
   key: string
   component: Component
@@ -37,6 +37,6 @@ export interface AliothCommand extends BasePreset<'command', Command> {
 
 }
 
-export interface AliothEventStack<E extends DefaultEvent> extends BasePreset<'eventStack', E> {
+export interface AliothEventStack<E extends DefaultEvent = DefaultEvent> extends BasePreset<'eventStack', E> {
 
 }

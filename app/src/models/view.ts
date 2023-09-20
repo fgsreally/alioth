@@ -1,7 +1,7 @@
 import { useR, useV } from 'phecda-vue'
 import type { Component } from 'vue'
 import { BaseViewModel } from 'alioth-vue'
-import { ImportModel } from '../sandbox/src/models/import'
+import { ImportModel } from './import'
 import { DocModel } from './doc'
 import { componentMap } from '@/views/zones'
 import { useLayer } from '@/composables/layer'
@@ -24,6 +24,7 @@ interface Zone {
   label: string
   name: string
   isActive: (...args: any) => boolean
+  hidden: boolean
   x: number
   y: number
   fix?: boolean
@@ -58,8 +59,8 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       handler() {
         const { graph } = toRaw(useR(ImportModel))
 
-        const docs = unref(useV(DocModel).docs)
-        download('entry.js', createPresetBundleEntry(docs, graph),
+        const doc = unref(useV(DocModel).doc)
+        download('entry.js', createPresetBundleEntry(doc, graph),
         )
       },
     },
@@ -81,7 +82,7 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       x: 600,
       y: 600,
       transition: 'left',
-
+      hidden: false,
     },
     // {
     //   component: 'Terminal',
@@ -105,6 +106,7 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       x: 100,
       y: 300,
       transition: 'left',
+      hidden: false,
 
     },
 
@@ -121,6 +123,7 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       x: 600,
       y: 600,
       transition: 'left',
+      hidden: false,
 
     },
     {
@@ -134,17 +137,10 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       x: 0,
       y: 580,
       transition: 'bottom',
+      hidden: false,
+
     },
-    {
-      component: 'Uno',
-      label: '样式',
-      name: 'class',
-      isActive: ({ instance }) => !!instance?.activeNode,
-      x: 800,
-      y: 400,
-      transition: 'right',
-      props: {},
-    },
+
     // {
     //   component: 'Property',
     //   label: '组件property',
@@ -157,19 +153,6 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
     //   transition: 'left',
     //   props: {},
     // },
-    {
-      component: 'Events',
-      label: '组件events',
-      name: 'events',
-      isActive: () => {
-        // return !!instance?.activeNode
-        return false
-      },
-      x: 600,
-      y: 600,
-      transition: 'bottom',
-      props: {},
-    },
 
   ]
 }

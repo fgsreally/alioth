@@ -7,7 +7,7 @@ const { activePage } = $(useV(DocModel))
 </script>
 
 <template>
-  <section min-w="80vw" min-h="80vh" l-flex border-1 border-solid border-font-t>
-    <RenderBlock v-if="!!activePage" :node="activePage" type="render" :value="getWidget('root')!" />
+  <section w="100vw" h="100vh" l-flex border-1 border-solid border-font-t>
+    <RenderBlock :node="activePage" type="render" :value="getWidget('root')!" />
   </section>
 </template>

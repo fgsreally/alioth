@@ -7,10 +7,11 @@ import { DocModel } from './doc'
 import { EventModel } from './event'
 import { ErrorModel } from './error'
 export function initModel() {
+  useO(EventModel)
+
   useO(ImportModel)
   useO(ViewModel)
   useO(DragModel)
   useO(DocModel)
-  useO(EventModel)
   useO(ErrorModel)
 }

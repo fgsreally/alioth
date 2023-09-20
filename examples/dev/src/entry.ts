@@ -1,5 +1,6 @@
 import { ref } from 'vue'
-import type { AliothWidget } from 'alioth-vue'
+import type { AliothEventStack, AliothWidget } from 'alioth-vue'
+import { useR } from 'phecda-vue'
 import HW from './components/HelloWorld.vue'
 import Input from './components/Input.vue'
 import { Engine } from './engine/register'
@@ -55,5 +56,19 @@ export const widget_a: AliothWidget = {
         },
       },
     },
+  },
+}
+
+export const event_test: AliothEventStack = {
+  alioth: 'eventStack',
+  data: {
+    keyboard: 'ctrl+a',
+    name: 'show-material',
+    execute() {
+      const { zones } = useR(window.__PHECDA__.view)
+      const zone = zones.find(item => item.name === 'Material')
+      zone.hidden = !zone.hidden
+    },
+    pushQueue: false,
   },
 }

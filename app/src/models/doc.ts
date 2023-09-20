@@ -1,9 +1,9 @@
 import type { NodeAttrs, VirtualDocument } from 'alioth-vue'
-import { Init, useV } from 'phecda-vue'
+import { Init, emitter, useO } from 'phecda-vue'
 import { BaseDocModel, Controller, interval, observeDoc } from 'alioth-vue'
-import { ChannelModel } from './channel'
-// // @ts-expect-error miss types
-// import { WebsocketProvider } from 'y-websocket'
+import { WebsocketProvider } from 'y-websocket'
+import { EventModel } from './event'
+// @ts-expect-error miss types
 
 export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
   containerAttrs = markRaw(
@@ -29,59 +29,39 @@ export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
     },
   )
 
-  connectSandBox = false
-  bridge(): void {
-    // const wsProvider = new WebsocketProvider('ws://localhost:1234', 'documents', this.ydoc)
-    // this.yarr.observe((e, t) => {
-    //   if ((!t.local) || t.origin) { // from remote or undoManager
-    //     if (e.changes.keys.size === 0) {
-    //       // only work when undo
-    //       e.changes.added.forEach((item) => {
-    //         this._add(item.content.getContent()[0])
-    //       })
-    //       e.changes.deleted.forEach((item) => {
-    //         const id = item.content.getContent()[0]
-    //         this.remove(id)!
-    //       })
-    //     }
-    //   }
-    // })
+  add() {
+    emitter.emit('alioth:node-action', null)
+
+    return super.add()
   }
 
-  bridgeDoc(doc: VirtualDocument<any>): void {
+  remove(id: string) {
+    emitter.emit('alioth:node-action', null)
 
-    // const ydoc = doc.controller.ydoc
-    // const wsProvider = new WebsocketProvider('ws://localhost:1234', doc.id, ydoc)
-    // observeDoc(this.find(doc.id)!)
-    // wsProvider.on('status', (event) => {
-    //   if (event.status === 'connected')
-    //     observeDoc(this.find(doc.id)!)
-    // })
+    return super.remove(id)
   }
 
   @Init
   init() {
-    interval.setState('$doc', this)
+    useO(EventModel)
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('alioth_doc_state', JSON.stringify({
+        data: this.toJSON(),
+        activeId: this.activeId,
+      }))
+    })
     this.doc.bind(markRaw(new Controller()))
     observeDoc(this.doc)
+
+    const wsProvider = new WebsocketProvider('ws://localhost:1234', 'alioth', this.doc.controller.ydoc)
+    const lastRecord = localStorage.getItem('alioth_doc_state')
+    if (lastRecord) {
+      const { data, activeId } = JSON.parse(lastRecord)
+
+      emitter.emit('alioth:node-action', null)
+      this.load(data)
+      this.active(activeId)
+    }
+    interval.setState('$doc', this)
   }
-
-  // @Init
-  // init() {
-  //   this.active(this.add())
-  //   this.bridge()
-
-  //   window.addEventListener('beforeunload', () => {
-  //     localStorage.setItem('alioth_doc_state', this.docToStr())
-  //   })
-  //   const lastRecord = localStorage.getItem('alioth_doc_state') && false
-  //   if (lastRecord) {
-  //     this.load(lastRecord)
-  //     this.active(this.docs[0]?.id || this.add().id)
-  //   }
-
-  //   else {
-  //     this.active(this.add().id)
-  //   }
-  // }
 }

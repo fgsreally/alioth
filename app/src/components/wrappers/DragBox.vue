@@ -11,7 +11,6 @@ const isActive = computed(() => node === activeNode)
 const moveBlocks = ['tl', 'tr', 'bl', 'br']
 
 async function startMove(e: MouseEvent) {
-  console.log('startmove')
   if (!activeNode)
     return
   let x: number, y: number
@@ -36,11 +35,7 @@ async function startMove(e: MouseEvent) {
   })
 }
 
-function getIframeOffset() {
-  return (document.querySelector('.iframebox') as HTMLElement).getBoundingClientRect()
-}
 function transform(evt: MouseEvent, item: string) {
-  console.log('transform')
   if (!activeNode)
     return
   const x = evt.clientX
@@ -67,7 +62,9 @@ function transform(evt: MouseEvent, item: string) {
       if (item.includes('b'))
         activeNode.setAttribute('height', h + offsetY)
     },
-
+    up(e) {
+      emitter.emit('alioth:node-action', null)
+    },
   })
 }
 </script>

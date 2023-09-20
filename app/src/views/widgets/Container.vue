@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useV } from 'phecda-vue'
+import { emitter, useV } from 'phecda-vue'
 import { useDragSingle } from '@/composables/drag'
 import type { AliothAttrs, RootAttrs } from '@/engine/types'
 import { DocModel } from '@/models/doc'
@@ -29,13 +29,13 @@ function addBlock(module: any, e: MouseEvent) {
   }, meta?.init || {}))
   // interval.setState(index, block.attrs.propsData)
   parent.insert(block)
+  emitter.emit('alioth:node-action', null)
 }
-console.log('canvas')
 const containerCanvas = useDragSingle(addBlock)
 </script>
 
 <template>
-  <section style=" overflow-y:scroll;" class="al-window">
+  <section class="al-window">
     <div
       ref="containerCanvas" class="editor__canvas " :class="props.isGrid ? 'gridHelper' : ''" :style="`--radius:${props.radius / 2};--fontSize:${props.fontSize};
             --gridGap:${props.gridGap / 2};

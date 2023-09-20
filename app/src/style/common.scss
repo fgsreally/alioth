@@ -20,10 +20,13 @@ body {
   // --el-color-primary: #a852f8;
   font-family: "Helvetica Neue";
 
+
+
 }
 #al-root{
   width:100vw;
   height:100vh
+  
 }
 
 // .el-badge__content {
@@ -70,7 +73,29 @@ p.preview-section-item {
 //   color: white;
 // }
 
-#al-body{
+.al-window{
+  @apply l-card px-8 py-8;
+  position: relative;
+  overflow: hidden;
+  overflow-x: auto;
+
+  // padding: 0.75rem;
+  // padding-top: 1.25rem;
+  // border-radius: 1rem;
+  // background-color: #c187f6e2;
+  &:before {
+    content: "";
+    margin-bottom: 1rem;
+    display: block;
+    height: 0.75rem;
+    width: 0.75rem;
+    border-radius: 9999px;
+    opacity: 0.3;
+    box-shadow: 1.4em 0, 2.8em 0, 4.2em 0;
+  }
+}
+
+.al-zone{
   button {
     cursor: pointer;
   }
@@ -79,39 +104,8 @@ p.preview-section-item {
     color: white;
   }
   
-  // .l-flex::-webkit-scrollbar {
-  //   width: 12px;
-  // }
-  // .l-flex::-webkit-scrollbar-thumb {
-  //   background-color: #313248;
-  //   border-radius: 12px;
-  //   border: 3px solid transparent;
-  //   background-clip: content-box;
-  // }
-  // .l-flex::-webkit-scrollbar-track {
-  //   background-color: transparent;
-  // }
   
-  .al-window{
-    @apply l-card px-4 py-8;
-    position: relative;
-    overflow: hidden;
-    overflow-x: auto;
-    // padding: 0.75rem;
-    // padding-top: 1.25rem;
-    // border-radius: 1rem;
-    // background-color: #c187f6e2;
-    &:before {
-      content: "";
-      margin-bottom: 1rem;
-      display: block;
-      height: 0.75rem;
-      width: 0.75rem;
-      border-radius: 9999px;
-      opacity: 0.3;
-      box-shadow: 1.4em 0, 2.8em 0, 4.2em 0;
-    }
-  }
+  
   
   .l-btn-s {
     background-color: rgba(43, 44, 68, 1);

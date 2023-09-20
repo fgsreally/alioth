@@ -15,6 +15,7 @@ export class VirtualDocument<A extends NodeAttrs> {
 
   constructor(initAttrs?: A, public id = nanoid()) {
     this.root = this.createNode(initAttrs, 'root')
+    console.log(this.blockMap)
   }
 
   // 从所有block中找
@@ -41,19 +42,24 @@ export class VirtualDocument<A extends NodeAttrs> {
     id && (node.id = id)
 
     node.bind(this)
-
+    if (id === 'root')
+      this.root = node
     this.blockMap.set(node.id, node)
 
     return node
   }
 
   _createNode(initAttrs?: A, id?: string) {
+    if (id && this.blockMap.has(id))
+      return this.blockMap.get(id)
     const node = new VirtualNode<A>(initAttrs)
 
     id && (node.id = id)
 
     node.doc = this
 
+    if (id === 'root')
+      this.root = node
     this.blockMap.set(node.id, node)
 
     return node
@@ -87,32 +93,31 @@ export class VirtualDocument<A extends NodeAttrs> {
   load(data: any) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
+
     function traverse(data: any) {
-      const node = new VirtualNode(data.key)
+      const node = that.createNode(data.attrs, data.id)
 
-      node.bind(that)
-
-      node.id = data.id
-      node.attrs = data.attrs
       data.children.forEach((item: any, i: number) => {
         const child = traverse(item)
-        child.parent = node
-        node.children[i] = child
+        node.insert(child, i)
+        // child.parent = node
+        // node.children[i] = child
       })
       return node
     }
-    this.root = traverse(data)
+
+    this.controller.ydoc.transact(() => {
+      this.root = traverse(data)
+    })
     return this
   }
 }
 
 export function observeDoc(doc: VirtualDocument<any>) {
   const fn: (arg0: YEvent<any>[], arg1: Transaction) => void = (events, t) => {
-    console.log(t, events)
-
     let tasks: (() => void)[] = []
     events.forEach((event) => {
-      if ((!t.local) || t.origin !== 'a-c') {
+      if ((!t.local) || t.origin instanceof UndoManager) {
         // from remote or undoManager
         if (event.changes.keys.size === 0) {
           event.changes.added.forEach((item: any) => {
@@ -144,12 +149,13 @@ export function observeDoc(doc: VirtualDocument<any>) {
                 if (obj instanceof YMap) {
                   const attrs = obj.toJSON()
 
-                  doc._createNode(omit(attrs, ['children']), i)
+                  const node = doc._createNode(omit(attrs, ['children']), i)
 
                   if (attrs.children.length) {
                     tasks.push(() => {
                       attrs.children.forEach((k: string, i: number) => {
-                        doc.get(attrs.id)!._insert(doc.get(k)!, i)
+                        console.log(doc.get(attrs.id), doc.get(k), i)
+                        node!._insert(doc.get(k)!, i)
                       })
                     })
                   }

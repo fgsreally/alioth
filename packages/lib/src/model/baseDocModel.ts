@@ -37,11 +37,14 @@ export abstract class BaseDocModel<T extends NodeAttrs> {
 
   remove(id: string) {
     const { children } = this.doc.root
-    if (children.length > 1) {
-      const index = children.findIndex(item => item.id === id)
-      this.doc.root.remove(index)
+    const index = children.findIndex(item => item.id === id)
+    this.doc.root.remove(index)
+    if (children.length > 1)
+
       this.activeId = children[index - 1].id
-    }
+
+    else
+      this.activeId = ''
   }
 
   find(id: string) {
@@ -52,25 +55,15 @@ export abstract class BaseDocModel<T extends NodeAttrs> {
     return this.doc.root.children.findIndex(item => id === item.id)
   }
 
-  // load(data: any) {
-  //   data = typeof data === 'string' ? JSON.parse(data) : data
+  load(data: any) {
+    data = typeof data === 'string' ? JSON.parse(data) : data
 
-  //   this.doc = data.map(({ id, root, data }: any) => {
-  //     const doc = new VirtualDocument()
-  //     doc.id = id
-  //     doc.data = data
+    this.doc.load(data)
+  }
 
-  //     doc.load(root)
-  //     return doc
-  //   })
-  //   return this.doc
-  // }
-
-  // toJSON() {
-  //   return this.doc.map(({ id, root, data }) => {
-  //     return { id, root, data }
-  //   }) as any[]
-  // }
+  toJSON() {
+    return this.doc.root
+  }
 }
 // export abstract class BaseDocModel<T extends NodeAttrs> {
 //   abstract containerAttrs: NodeAttrs

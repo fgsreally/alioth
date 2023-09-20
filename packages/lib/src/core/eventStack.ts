@@ -7,7 +7,7 @@ export interface DefaultEvent {
     redo?(): void
     /** 撤回时执行的操作 */
     undo?(): void
-  }
+  } | void
   /** 键盘 如 shift+y */
 
   keyboard?: string

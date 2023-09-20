@@ -94,7 +94,6 @@ export class renderer extends BaseRenderer<VirtualNode<NodeAttrs>> {
     if (!this._vnode)
       return this
     if (this.node.attrs.page) {
-      console.log(this.node.attrs)
       this._vnode = h(
         this.comp as DefineComponent,
         this.node.attrs,

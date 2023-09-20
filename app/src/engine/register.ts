@@ -18,7 +18,6 @@ export class Register extends BaseRegister<typeof renderer> {
   }
 
   edit(node: VirtualNode<any>) {
-    console.log(node)
     const renderer = this.createRenderer(node)
     if (node.attrs.page) {
       return renderer.slot(['default'], this.widgetMap, 'edit').main({
@@ -44,7 +43,14 @@ export class Register extends BaseRegister<typeof renderer> {
   }
 
   render(node: any) {
-    return this.createRenderer(node)
+    const renderer = this.createRenderer(node)
+    if (node.attrs.page) {
+      return renderer.slot(['default'], this.widgetMap, 'render').main({
+        type: 'render',
+        schema: this.meta.schema,
+      }).exec()
+    }
+    return renderer
       .slot(['default'], this.widgetMap, 'render')
       .main({
         type: 'render',
