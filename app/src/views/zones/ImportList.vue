@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { emitter, useO, useV } from 'phecda-vue'
 import { ImportModel } from '@/models/import'
-import {DragModel} from '@/models/drag'
+import { DragModel } from '@/models/drag'
 const { info } = useV(ImportModel)
 const { dragStart, dragEnd } = useV(DragModel)
 
-function dragstart(module: any) {
-  dragStart(module)
+function dragstart(key: any) {
+  dragStart(`{{${key}}}`)
 }
 
 function dragend() {

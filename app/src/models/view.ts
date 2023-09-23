@@ -57,11 +57,18 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       label: '依赖',
       component: IconBookDown,
       handler() {
-        const { graph } = toRaw(useR(ImportModel))
+        const { graph, viteUrl } = useR(ImportModel)
 
         const doc = unref(useV(DocModel).doc)
-        download('entry.js', createPresetBundleEntry(doc, graph),
-        )
+        fetch(new URL('/alioth/file', viteUrl).href, {
+          method: 'POST',
+          body: JSON.stringify({
+            file: 'entry.js',
+            content: createPresetBundleEntry(doc, graph, viteUrl),
+          }),
+        }).then(() => {
+
+        })
       },
     },
   ]
@@ -73,7 +80,6 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       label: '组件property',
       name: 'Property',
       isActive: ({ instance }) => {
-        console.log(instance, 'property')
         return !!instance?.activeNode
       },
       props: {
@@ -84,18 +90,18 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       transition: 'left',
       hidden: false,
     },
-    // {
-    //   component: 'Terminal',
-    //   label: '终端',
-    //   name: 'terminal',
-    //   isActive: () => true,
-    //   props: {
-    //   },
-    //   x: 100,
-    //   y: 300,
-    //   transition: 'left',
-
-    // },
+    {
+      component: 'Terminal',
+      label: '终端',
+      name: 'terminal',
+      isActive: () => true,
+      props: {
+      },
+      x: 100,
+      y: 300,
+      transition: 'left',
+      hidden: false,
+    },
     {
       component: 'Material',
       label: '物料',
@@ -134,7 +140,7 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
 
       },
       isActive: () => true,
-      x: 0,
+      x: 400,
       y: 580,
       transition: 'bottom',
       hidden: false,

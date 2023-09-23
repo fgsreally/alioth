@@ -753,7 +753,7 @@ function ue(e = {}, n = {}) {
   }
   p(s, "traverse");
   function i(m) {
-    return m = K(m), s(m), m;
+    return  s(m), m;
   }
   p(i, "filter");
   function f(m, $) {

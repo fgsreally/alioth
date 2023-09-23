@@ -15,7 +15,6 @@ export class VirtualDocument<A extends NodeAttrs> {
 
   constructor(initAttrs?: A, public id = nanoid()) {
     this.root = this.createNode(initAttrs, 'root')
-    console.log(this.blockMap)
   }
 
   // 从所有block中找
@@ -105,10 +104,14 @@ export class VirtualDocument<A extends NodeAttrs> {
       })
       return node
     }
-
-    this.controller.ydoc.transact(() => {
+    if (this.controller) {
+      this.controller.ydoc.transact(() => {
+        this.root = traverse(data)
+      })
+    }
+    else {
       this.root = traverse(data)
-    })
+    }
     return this
   }
 }
@@ -117,7 +120,7 @@ export function observeDoc(doc: VirtualDocument<any>) {
   const fn: (arg0: YEvent<any>[], arg1: Transaction) => void = (events, t) => {
     let tasks: (() => void)[] = []
     events.forEach((event) => {
-      if ((!t.local) || t.origin instanceof UndoManager) {
+      if ((!t.local) || t.origin instanceof UndoManager || t.origin === 'alioth') {
         // from remote or undoManager
         if (event.changes.keys.size === 0) {
           event.changes.added.forEach((item: any) => {
@@ -154,7 +157,6 @@ export function observeDoc(doc: VirtualDocument<any>) {
                   if (attrs.children.length) {
                     tasks.push(() => {
                       attrs.children.forEach((k: string, i: number) => {
-                        console.log(doc.get(attrs.id), doc.get(k), i)
                         node!._insert(doc.get(k)!, i)
                       })
                     })

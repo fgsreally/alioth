@@ -12,15 +12,20 @@ const { type } = defineProps<{ type: 'props' | 'events' }>()
 const { activeNode } = $(useV(DocModel))
 const { add, del } = useV(DragModel)
 let args = $ref<{ data: any; config: any }>({} as any)
-console.log('property')
+let isShow = $ref(true)
 function setProps(node: VirtualNode<NodeAttrs>, key: string, value: any) {
   node.attrs.propsData[key] = value
   node.setAttribute('propsData', node.attrs.propsData)
 }
 
-watch(() => activeNode, (n, o) => {
+watch(() => activeNode, async (n, o) => {
   if (!n)
     return
+  if (o && n.attrs.key !== o.attrs.key) {
+    isShow = false
+    await nextTick()
+    isShow = true
+  }
   const params = getWidget(n.attrs.key)!.meta[type]
   const { data, config } = createFormData(params, n.attrs.propsData)
   for (const i in config) {
@@ -40,6 +45,7 @@ watch(() => activeNode, (n, o) => {
 
 <template>
   <pane-form
+    v-if="isShow"
     :data="args.data" :config="args.config"
     :on-update="(key:string, v:any) => setProps(activeNode!, key, v)"
   />

@@ -7,17 +7,18 @@ import {
   TabTrigger,
   Tabs,
 } from '@ark-ui/vue'
+import { useV } from 'phecda-vue'
 import Material from './Material.vue'
+import { DocModel } from '@/models/doc'
+const { activeNode } = useV(DocModel)
 const namespaces = computed(() => Object.keys(NameSpaceStore).filter(ns => !!ns))
 </script>
 
 <template>
   <Tabs :default-value="namespaces[0]">
     <TabList>
-      <TabTrigger v-for="(item) in namespaces" :key="item" :value="item">
-        <button l-btn-n>
-          {{ item }}
-        </button>
+      <TabTrigger v-for="(item) in namespaces" :key="item" :value="item" l-btn-n cursor-pointer>
+        {{ item }}
       </TabTrigger>
       <TabIndicator class="bg-p h-1" />
     </TabList>

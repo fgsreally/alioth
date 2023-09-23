@@ -1,17 +1,19 @@
-import { Init, useV } from 'phecda-vue'
+import { Init } from 'phecda-vue'
 import { BaseImportModel, interval } from 'alioth-vue'
 import { getQuery } from '@/utils/url'
 export class ImportModel extends BaseImportModel {
   info: Record<string, any> = {}
   presets: string[]
+  viteUrl: string
   @Init
   async init() {
     const { url, presets } = this.getParams()
-    if (url)
+    if (url) {
+      this.viteUrl = url
       await this.connectVite(url)
+    }
     this.presets = presets
     await this.connectPreset(presets)
-    // useV(ChannelModel).add('import', this.setInfo.bind(this))
   }
 
   getParams() {

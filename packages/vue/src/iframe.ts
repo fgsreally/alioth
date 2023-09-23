@@ -63,16 +63,6 @@ function proxyEvents(iframe: HTMLIFrameElement) {
       window.dispatchEvent(event)
     })
   });
-  ['pointermove', 'pointerdown'].forEach((ev) => {
-    iframeWindow.addEventListener(ev, (e) => {
-      const proxyEvent = mouseProxy(e as MouseEvent);
-
-      (proxyEvent.clientX as number) += x;
-      (proxyEvent.clientY as number) += y
-      const event = new PointerEvent(ev, proxyEvent)
-      document.dispatchEvent(event)
-    })
-  });
 
   ['keydown', 'keyup'].forEach((ev) => {
     iframeWindow.addEventListener(ev, (e) => {
@@ -156,7 +146,7 @@ export const iframeBox = defineComponent({
       })
 
       return h('div', {
-        class: 'al-editor__iframe-wrapper',
+        class: 'al-window',
         onVnodeMounted(vnode) {
           (vnode.el as HTMLElement).appendChild(iframeLib[props.uuid as string])
         },

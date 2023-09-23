@@ -1,5 +1,6 @@
 import { Global, Tag, emitter } from 'phecda-vue'
 import OpenAI from 'openai'
+import { prompt1, prompt2, prompt3, prompt4, s_prompt } from './prompt'
 
 interface Agent {
   type: string
@@ -13,8 +14,29 @@ export class AiModel {
   agents: Agent[] = []
 
   openai = new OpenAI({
-    apiKey: import.meta.env.OPENAI,
+    apiKey: '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',
+    dangerouslyAllowBrowser: true,
   })
+
+  constructor() {
+    // this.test()
+  }
+
+  async test() {
+    const completion = await this.openai.chat.completions.create({
+      messages: [{ role: 'system', content: s_prompt },
+        { role: 'user', content: prompt1 },
+        { role: 'assistant', content: prompt2 },
+        { role: 'user', content: prompt3 },
+        { role: 'assistant', content: prompt4 },
+        {
+          role: 'user', content: '创建一个表单，点击表单下方提交按钮，上传表单信息',
+        },
+      ],
+      model: 'gpt-3.5-turbo',
+    })
+    console.log(completion.choices[0].message.content)
+  }
 
   async ask(type: string) {
     try {

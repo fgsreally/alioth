@@ -30,7 +30,6 @@ export class BaseDragModel {
   dragStart(data: any) {
     this.listenController = new AbortController()
     const { signal } = this.listenController
-    console.log(this.moduleMap)
     for (const [el] of this.moduleMap) {
       el.addEventListener('dragenter', dragenter, { signal })
       el.addEventListener('dragover', dragover, { signal })

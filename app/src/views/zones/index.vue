@@ -16,7 +16,7 @@ const { zones, componentMap } = useV(ViewModel)
       v-show="!item.hidden"
       :key="i" :transition="item.transition" :x="item.x" :y="item.y" class="al-zone"
       :label="item.label"
-      :is-active="item.isActive({ instance: doc, route })" :fix="item.fix || false" @click.stop
+      :is-active="item.isActive({ instance: doc, activePage, route })" :fix="item.fix || false" @click.stop
     >
       <component :is="(componentMap as any)[item.component]" v-bind="item.props" @mousedown.stop />
     </DragHelper>

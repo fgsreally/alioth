@@ -33,35 +33,7 @@ body {
 //   z-index: 10;
 // }
 
-.block_edit {
-  position: absolute;
-  pointer-events: auto;
-  width: fit-content;
-  user-select: contain;
-  z-index: 10;
-}
 
-.slotBlock_edit {
-  user-select: none;
-  pointer-events: auto;
-  position: relative;
-  width: fit-content;
-}
-
-.innerBlock_edit {
-  pointer-events: none;
-  user-select: none;
- 
-
-}
-
-.block_render {
-  position: absolute;
-}
-
-.slotBlock_render {
-  position: relative;
-}
 
 p.preview-section-item {
   background: linear-gradient(62deg, #0980f7 0%, #8b17f9 100%);
@@ -78,7 +50,35 @@ p.preview-section-item {
   position: relative;
   overflow: hidden;
   overflow-x: auto;
-
+  & .block_edit {
+    position: absolute;
+    pointer-events: auto;
+    width: fit-content;
+    user-select: contain;
+    z-index: 10;
+  }
+  
+ & .slotBlock_edit {
+    user-select: none;
+    pointer-events: auto;
+    position: relative;
+    width: fit-content;
+  }
+  
+ & .innerBlock_edit {
+    pointer-events: none;
+    user-select: none;
+   
+  
+  }
+  
+  &.block_render {
+    position: absolute;
+  }
+  
+  &.slotBlock_render {
+    position: relative;
+  }
   // padding: 0.75rem;
   // padding-top: 1.25rem;
   // border-radius: 1rem;
@@ -95,125 +95,125 @@ p.preview-section-item {
   }
 }
 
-.al-zone{
-  button {
-    cursor: pointer;
-  }
+// .al-zone{
+//   // button {
+//   //   cursor: pointer;
+//   // }
   
-  .l-tag:hover svg {
-    color: white;
-  }
-  
-  
+//   .l-tag:hover svg {
+//     color: white;
+//   }
   
   
-  .l-btn-s {
-    background-color: rgba(43, 44, 68, 1);
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    line-height: 1;
-    height: 32px;
-    white-space: nowrap;
-    cursor: pointer;
-    color: #606266;
-    text-align: center;
-    box-sizing: border-box;
-    outline: 0;
-    transition: 0.1s;
-    font-weight: 500;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    vertical-align: middle;
-    -webkit-appearance: none;
-    border: 1px solid rgba(82, 82, 111, 0.44);
-    padding: 8px 15px;
-    border-radius: 4px;
-    &:hover {
-      border-color: #8b17f9;
-      color: #8b17f9;
-      outline: 0;
-    }
-    &:focus {
-      border-color: #8b17f9;
-      color: #8b17f9;
-      outline: 0;
-      border-width: 2px;
-    }
-  }
   
-  input {
-    min-width: 150px;
-    writing-mode: horizontal-tb !important;
-    text-rendering: auto;
-    color: fieldtext;
-    letter-spacing: normal;
-    word-spacing: normal;
-    line-height: normal;
-    text-transform: none;
-    text-indent: 0px;
-    text-shadow: none;
-    display: inline-block;
-    text-align: start;
-    appearance: auto;
-    -webkit-rtl-ordering: logical;
-    cursor: text;
-    margin: 0em;
-    padding: 1px 2px;
-    border-width: 2px;
-    border-style: inset;
-    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
-    border-image: initial;
-  }
   
-  input[type="text"] {
-    grid-area: 1 / 1 / auto / auto;
-    margin: 0px;
-    border: none;
-    background-color: rgb(44, 45, 60);
-    appearance: none;
-    font-size: inherit;
-    height: 100%;
-    color: rgb(224, 225, 236);
-    caret-color: rgb(110, 94, 210);
-    outline: none;
-    width: 100%;
-    border-radius: 4px;
-    border: 1px solid transparent;
+//   .l-btn-s {
+//     background-color: rgba(43, 44, 68, 1);
+//     display: inline-flex;
+//     justify-content: center;
+//     align-items: center;
+//     line-height: 1;
+//     height: 32px;
+//     white-space: nowrap;
+//     cursor: pointer;
+//     color: #606266;
+//     text-align: center;
+//     box-sizing: border-box;
+//     outline: 0;
+//     transition: 0.1s;
+//     font-weight: 500;
+//     -webkit-user-select: none;
+//     -moz-user-select: none;
+//     -ms-user-select: none;
+//     user-select: none;
+//     vertical-align: middle;
+//     -webkit-appearance: none;
+//     border: 1px solid rgba(82, 82, 111, 0.44);
+//     padding: 8px 15px;
+//     border-radius: 4px;
+//     &:hover {
+//       border-color: #8b17f9;
+//       color: #8b17f9;
+//       outline: 0;
+//     }
+//     &:focus {
+//       border-color: #8b17f9;
+//       color: #8b17f9;
+//       outline: 0;
+//       border-width: 2px;
+//     }
+//   }
   
-    &::after {
-      content: attr(data-placeholder);
-      box-sizing: border-box;
-      width: auto;
-      height: 36px;
-      grid-area: 1 / 1 / auto / auto;
-      visibility: hidden;
-      font: inherit;
-      white-space: nowrap;
-      padding: 10px 14px 9px;
-    }
-    &:focus {
-      border: 1px solid rgb(102, 107, 226);
-    }
-  }
+//   input {
+//     min-width: 150px;
+//     writing-mode: horizontal-tb !important;
+//     text-rendering: auto;
+//     color: fieldtext;
+//     letter-spacing: normal;
+//     word-spacing: normal;
+//     line-height: normal;
+//     text-transform: none;
+//     text-indent: 0px;
+//     text-shadow: none;
+//     display: inline-block;
+//     text-align: start;
+//     appearance: auto;
+//     -webkit-rtl-ordering: logical;
+//     cursor: text;
+//     margin: 0em;
+//     padding: 1px 2px;
+//     border-width: 2px;
+//     border-style: inset;
+//     border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+//     border-image: initial;
+//   }
   
-  // common.less
-  *::-webkit-scrollbar {
-    @apply bg-black;
-    width: 10px;
-    border-radius: 5px;
-    // height: 10px; // 高度写不写，都不影响，因为会根据内容的长度自动计算
-  }
+//   input[type="text"] {
+//     grid-area: 1 / 1 / auto / auto;
+//     margin: 0px;
+//     border: none;
+//     background-color: rgb(44, 45, 60);
+//     appearance: none;
+//     font-size: inherit;
+//     height: 100%;
+//     color: rgb(224, 225, 236);
+//     caret-color: rgb(110, 94, 210);
+//     outline: none;
+//     width: 100%;
+//     border-radius: 4px;
+//     border: 1px solid transparent;
   
-  *::-webkit-scrollbar-thumb {
-    @apply bg-font-n;
+//     &::after {
+//       content: attr(data-placeholder);
+//       box-sizing: border-box;
+//       width: auto;
+//       height: 36px;
+//       grid-area: 1 / 1 / auto / auto;
+//       visibility: hidden;
+//       font: inherit;
+//       white-space: nowrap;
+//       padding: 10px 14px 9px;
+//     }
+//     &:focus {
+//       border: 1px solid rgb(102, 107, 226);
+//     }
+//   }
   
-    border-radius: 5px;
-  }
+//   // common.less
+//   *::-webkit-scrollbar {
+//     @apply bg-black;
+//     width: 10px;
+//     border-radius: 5px;
+//     // height: 10px; // 高度写不写，都不影响，因为会根据内容的长度自动计算
+//   }
   
-}
+//   *::-webkit-scrollbar-thumb {
+//     @apply bg-font-n;
+  
+//     border-radius: 5px;
+//   }
+  
+// }
 
 .preview-text {
   @apply color-font-n;

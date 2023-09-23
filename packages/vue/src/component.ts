@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, onUpdated } from 'vue'
 import type { DefineComponent, PropType } from 'vue'
 import type { NodeAttrs, VirtualNode } from 'alioth-lib'
 import { type BaseRegister } from './register'
@@ -21,6 +21,11 @@ export function createRenderComponent<N extends NodeAttrs, R extends BaseRegiste
       },
     },
     setup(props) {
+      console.log(props)
+
+      onUpdated(() => {
+        console.log('update')
+      })
       return () => {
         // @ts-expect-error it will work after creating register
         return props.value[props.type](props.node)

@@ -10,5 +10,6 @@ import Zones from '@/views/zones/index.vue'
   <Zones />
   <Header />
   <EditRender />
+
   <Page />
 </template>

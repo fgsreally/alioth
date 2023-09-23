@@ -3,7 +3,7 @@ import { getWidget } from 'alioth-vue'
 import { useV } from 'phecda-vue'
 import { DocModel } from './models/doc'
 import { RenderBlock } from '@/components/base/renderBlock'
-
+import Zones from '@/views/zones/index.vue'
 import { useDocumentClick } from '@/composables/click'
 const { activePage, doc } = $(useV(DocModel))
 useDocumentClick(() => {
@@ -15,6 +15,7 @@ useDocumentClick(() => {
   <div class="editor__container">
     <RenderBlock v-if="!!activePage" :node="activePage" type="edit" :value="getWidget('root')!" />
   </div>
+  <Zones />
 </template>
 
 <style lang="scss">

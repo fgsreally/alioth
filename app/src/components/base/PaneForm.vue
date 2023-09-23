@@ -11,7 +11,6 @@ const { config, data, onUpdate } = defineProps<{
 }>()
 
 const { componentMap } = useO(ViewModel)
-
 const CustomForm = createForm(componentMap, Form, FormItem, {
   onUpdate,
 })
@@ -25,4 +24,3 @@ const CustomForm = createForm(componentMap, Form, FormItem, {
     label-width="120px"
   />
 </template>
-@/models/view

@@ -23,9 +23,9 @@ export abstract class BaseImportModel {
     await connect(url)
     for (const [project, entries] of projectMap.entries()) {
       for (const entry in entries) {
-        const data = await dynamicImport(project, entry)
+        const { module, url } = (await dynamicImport(project, entry))!
 
-        this.importModule(data!.module)
+        this.graph[url] = this.importModule(module)
       }
     }
   }

@@ -1,11 +1,8 @@
 import { useO } from 'phecda-vue'
 
-import { ImportModel } from './import'
-
 import { DocModel } from './doc'
-import { ChannelModel } from './channel'
+import { ImportModel } from '@/models/import'
 export function initModel() {
   useO(ImportModel)
-  useO(ChannelModel)
   useO(DocModel)
 }

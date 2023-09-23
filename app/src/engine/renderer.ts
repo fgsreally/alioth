@@ -1,4 +1,3 @@
-/* eslint-disable no-new-func */
 // import { cloneDeep, isSymbol } from 'lodash-es'
 import type { VirtualNode } from 'alioth-vue'
 import { BaseRenderer, interval } from 'alioth-vue'
@@ -6,12 +5,12 @@ import type { DefineComponent, VNode } from 'vue'
 import { h } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { emitter, useV } from 'phecda-vue'
-import { GridItem } from 'vue-ts-responsive-grid-layout'
+import { GridItem } from 'grid-layout-plus'
 import DragBox from '../components/wrappers/DragBox.vue'
 import type { NodeAttrs } from './types'
 import { DocModel } from '@/models/doc'
 import { ERROR_EVENT } from '@/config'
-
+import { layout } from '@/views/test'
 const { doc } = useV(DocModel)
 
 export class renderer extends BaseRenderer<VirtualNode<NodeAttrs>> {
@@ -42,13 +41,12 @@ export class renderer extends BaseRenderer<VirtualNode<NodeAttrs>> {
     if (!this._vnode)
       return this
 
-    // this._vnode = h(GridItem, {}, this._vnode)
-    this._vnode = h(
-      DragBox as unknown as DefineComponent,
-      { node: this.node },
-      this._vnode as VNode,
-    )
-
+    // this._vnode = h(
+    //   DragBox as unknown as DefineComponent,
+    //   { node: this.node },
+    //   this._vnode as VNode,
+    // )
+    this._vnode = h(GridItem, layout[this.node.attrs.index], this, this._vnode)
     return this
   }
 
@@ -96,33 +94,42 @@ export class renderer extends BaseRenderer<VirtualNode<NodeAttrs>> {
     if (this.node.attrs.page) {
       this._vnode = h(
         this.comp as DefineComponent,
-        this.node.attrs,
-        this._vnode || undefined,
+        { ...this.node.attrs, mode: type },
+        this._vnode,
       )
       return this
     }
     const ret = interval.filter(cloneDeep(this.node.attrs.propsData))
-    if (this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData)
-      ret['onUpdate:modelValue'] = (v: any) => ret.modelValue = v
-    if (schema) {
-      for (const i in schema) {
-        const fn = new Function(i, `return ${schema[i]}`)
-        if (!fn(ret[i])) {
-          emitter.emit('custom_error', {
-            type: ERROR_EVENT.PROPS,
-          })
-        }
-      }
-    }
-    (this._vnode = h(
-      this.comp as DefineComponent,
-      Object.assign({
-        a_node: this.node,
-        a_type: type,
 
-      }, ret),
-      this._vnode || undefined,
-    ))
+    if (type === 'render' && this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
+      console.log(ret);
+      (this._vnode = h(
+        this.comp as DefineComponent,
+        {
+          ...ret,
+          'onUpdate:modelValue': (v: any) => {
+            console.log('modelvalue')
+            ret.modelValue = v
+          },
+        },
+        { default: () => this._vnode || undefined }))
+    }
+    else {
+      (this._vnode = h(
+        this.comp as DefineComponent,
+        ret,
+        { default: () => this._vnode || undefined }))
+    }
+    // if (schema) {
+    //   for (const i in schema) {
+    //     const fn = new Function(i, `return ${schema[i]}`)
+    //     if (!fn(ret[i])) {
+    //       emitter.emit('custom_error', {
+    //         type: ERROR_EVENT.PROPS,
+    //       })
+    //     }
+    //   }
+    // }
 
     return this
   }

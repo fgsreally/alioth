@@ -53,15 +53,15 @@ export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
     this.doc.bind(markRaw(new Controller()))
     observeDoc(this.doc)
 
-    const wsProvider = new WebsocketProvider('ws://localhost:1234', 'alioth', this.doc.controller.ydoc)
+    // const wsProvider = new WebsocketProvider('ws://localhost:1234', 'alioth', this.doc.controller.ydoc)
     const lastRecord = localStorage.getItem('alioth_doc_state')
-    if (lastRecord) {
-      const { data, activeId } = JSON.parse(lastRecord)
+    // if (lastRecord) {
+    //   const { data, activeId } = JSON.parse(lastRecord)
 
-      emitter.emit('alioth:node-action', null)
-      this.load(data)
-      this.active(activeId)
-    }
+    //   emitter.emit('alioth:node-action', null)
+    //   this.load(data)
+    //   this.active(activeId)
+    // }
     interval.setState('$doc', this)
   }
 }

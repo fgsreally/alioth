@@ -54,7 +54,7 @@ export class BaseRenderer<
       // eslint-disable-next-line array-callback-return
         this.node.children.map((node: VirtualNode<any>) => {
           try {
-            if (node.attrs.slot === templateName) {
+            if ((node.attrs.slot || 'default') === templateName) {
               return (allWidgetMap as any)
                 .get(node.attrs.key)[renderType](node, slotProps)
             }

@@ -23,6 +23,7 @@ const app = createApp(App).use(createPhecda('alioth')).use(router).use(VueCodemi
   extensions: [basicSetup, javascript()],
   // ...
 }).use(Terminal)
+app.config.warnHandler = () => null
 // {
 //   codemirror: {
 //     tabSize: 4,

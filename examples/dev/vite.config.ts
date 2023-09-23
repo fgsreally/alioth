@@ -7,7 +7,7 @@ export default defineConfig({
     Alioth({
       website: 'http://localhost:4010/',
       project: 'alioth',
-      presets: ['http://localhost:4010/view.js', 'http://localhost:4010/widget.js', 'http://localhost:4010/style.css'],
+      presets: [],
       entry: {
         b: './src/entry.ts',
         a: './src/main.ts',
@@ -26,7 +26,7 @@ export default defineConfig({
     sourcemap: true,
     lib: {
       entry: {
-        b: './src/entry.ts',
+        b: './entry.js',
       },
       formats: ['es'],
     },

@@ -29,7 +29,7 @@ export abstract class BaseDocModel<T extends NodeAttrs> {
   }
 
   add(id?: string) {
-    const node = this.doc.createNode(this.containerAttrs, id)
+    const node = this.doc.createNode(this.containerAttrs || {}, id)
 
     this.doc.root.insert(node)
     return node

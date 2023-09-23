@@ -1,3 +1,4 @@
+import { markRaw } from 'vue'
 import type { Component } from 'vue'
 import { interval } from './interval'
 import type { BaseRegister } from './register'
@@ -17,7 +18,7 @@ export async function init() {
   ) {
     // @ts-expect-error is not a abstract
     // eslint-disable-next-line new-cap
-    getNamespace(category).register?.(new interval.register(category, key, component, meta))
+    getNamespace(category).register?.(markRaw(new interval.register(category, key, component, meta)))
   }
   window.$alioth_widget = registerWidget
   window.$alioth_setRegister = setRegister

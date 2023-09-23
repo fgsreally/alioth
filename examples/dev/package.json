@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "alioth-dev": "workspace:^",
+    "alioth-preset-elementplus": "workspace:^0.0.0",
     "alioth-vue": "workspace:0.0.1-alpha.0",
     "phecda-vue": "2.0.0-alpha.5",
     "vue": "^3.2.47"

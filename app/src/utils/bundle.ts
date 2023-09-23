@@ -25,7 +25,7 @@ function extractVariables(code: string) {
   return Array.from(variables)
 }
 // to treeshake
-export function createPresetBundleEntry(doc: VirtualDocument<NodeAttrs>, graph: Record<string, Record<string, any>>) {
+export function createPresetBundleEntry(doc: VirtualDocument<NodeAttrs>, graph: Record<string, Record<string, any>>, baseUrl: string) {
   const componentSet = new Set()
   const stateSet = new Set()
   const dependences = {} as Record<string, string[]>
@@ -50,7 +50,6 @@ export function createPresetBundleEntry(doc: VirtualDocument<NodeAttrs>, graph: 
   }
 
   parseNode(doc.root)
-  console.log(graph)
 
   for (const url in graph) {
     if (url.endsWith('.css')) {
@@ -75,6 +74,6 @@ export function createPresetBundleEntry(doc: VirtualDocument<NodeAttrs>, graph: 
   }
 
   return Object.entries(dependences).reduce((p, [url, exports]) => {
-    return `${p}export {${exports.join(',')}} from '${url}'\n`
-  }, '') + effects.map(url => `import '${url}'`).join('\n')
+    return `${p}export {${exports.join(',')}} from '${url.replace(baseUrl, '')}'\n`
+  }, '') + effects.map(url => `import '${url.replace(baseUrl, '')}'`).join('\n')
 }

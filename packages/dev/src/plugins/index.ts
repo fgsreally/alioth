@@ -1,8 +1,10 @@
 /* eslint-disable no-console */
 import { resolve } from 'path'
+import fs from 'fs'
 import { type PluginOption, normalizePath } from 'vite'
 import colors from 'colors'
 import axios from 'axios'
+import { log } from '../utils'
 interface ConnectorOpts {
   website: string
   project: string
@@ -86,10 +88,25 @@ export function Connector(options: ConnectorOpts): PluginOption {
 
         res.setHeader('Access-Control-Allow-Methods', '*')
         if (req?.url === '/alioth' && req.method === 'GET')
+          return res.end(JSON.stringify({ entry, project }))
 
-          res.end(JSON.stringify({ entry, project }))
+        if (req?.url === '/alioth/file' && req.method === 'POST') {
+          let data = ''
 
-        else next()
+          req.on('data', (chunk) => {
+            data += chunk
+          })
+          req.on('end', () => {
+            const { file, content } = JSON.parse(data)
+            fs.writeFileSync(file, content)
+            log(`create file ${file}`)
+            res.end('1')
+          })
+
+          return
+        }
+
+        next()
       })
     },
     transform(code, id) {
