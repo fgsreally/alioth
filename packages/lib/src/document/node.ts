@@ -1,12 +1,13 @@
 import { nanoid } from 'nanoid'
-
+import { set } from 'lodash-es'
+import EventEmitter from 'eventemitter3'
 import type { VirtualDocument } from './document'
 // import type { HistoryController } from './history'
 
 export interface NodeAttrs {
   [key: string]: any
 }
-export class VirtualNode<A extends NodeAttrs> {
+export class VirtualNode<A extends NodeAttrs> extends EventEmitter {
   // attributes: Record<keyof NodeAttrs, NodeAttrs[keyof NodeAttrs]> = Object.create({})
   id = nanoid()
   parent: VirtualNode<A> | null
@@ -16,6 +17,7 @@ export class VirtualNode<A extends NodeAttrs> {
   attrs: Record<keyof NodeAttrs, NodeAttrs[keyof NodeAttrs]>
   constructor(initAttrs?: A,
   ) {
+    super()
     this.attrs = initAttrs || {}
   }
 
@@ -27,7 +29,7 @@ export class VirtualNode<A extends NodeAttrs> {
 
   setAttributes(values: Record<keyof NodeAttrs, NodeAttrs[keyof NodeAttrs]>) {
     for (const key in values)
-      this.setAttribute(key, values[key])
+      this.set(key, values[key])
   }
 
   toJSON(): any {
@@ -41,20 +43,21 @@ export class VirtualNode<A extends NodeAttrs> {
   /**
         * 外部调用
         */
-  public setAttribute(key: keyof NodeAttrs, value: NodeAttrs[keyof NodeAttrs]) {
-    if (this.attrs[key] === value)
-      return
+  public set(path: string, value: any) {
+    // if (this.attrs[key] === value)
+    //   return
 
-    this._setAttribute(key, value)
+    this._set(path, value)
     if (this.doc?.controller)
-      this.doc.controller.setAttr(this.id, key as string, value)
+      this.doc.controller.set(this.id, path as string, value)
   }
 
   /**
         * 仅被HC调用
         */
-  _setAttribute(key: keyof NodeAttrs, value: NodeAttrs[keyof NodeAttrs]) {
-    this.attrs[key] = value
+  _set(path: string, value: any) {
+    set(this.attrs, path, value)
+    this.emit('setAttr', path)
   }
 
   // 在父block的children中的位置
@@ -72,11 +75,9 @@ export class VirtualNode<A extends NodeAttrs> {
   }
 
   _insert(node: VirtualNode<A>, index: number) {
-    //  if (node.parent)
-    //   node.parent._remove(node.index!)
     node.parent = this
-    // VirtualNode<A>.BlockMap.set(VirtualNode.id, VirtualNode)
     this.children.splice(index, 0, node)
+    node.emit('insert')
   }
 
   public remove(index: number) {
@@ -89,9 +90,13 @@ export class VirtualNode<A extends NodeAttrs> {
 
   _remove(index: number) {
     const removeBlock = this.children.splice(index, 1)[0]
-
-    removeBlock.parent = null
-
+    function traverse(node: VirtualNode<any>) {
+      node.emit('remove')
+      node.removeAllListeners()
+      node.parent = null
+      node.children.forEach(traverse)
+    }
+    traverse(removeBlock)
     return removeBlock
   }
 

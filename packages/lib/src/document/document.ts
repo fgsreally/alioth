@@ -2,10 +2,11 @@ import { omit } from 'lodash-es'
 import type { Transaction, YEvent } from 'yjs'
 import { UndoManager, Map as YMap } from 'yjs'
 import { nanoid } from 'nanoid'
+import EventEmitter from 'eventemitter3'
 import type { NodeAttrs } from './node'
 import { VirtualNode } from './node'
 import type { Controller } from './controller'
-export class VirtualDocument<A extends NodeAttrs> {
+export class VirtualDocument<A extends NodeAttrs> extends EventEmitter {
   blockMap: Map<string, VirtualNode<A>> = new Map()
   controller: Controller
   root: VirtualNode<A>
@@ -14,6 +15,7 @@ export class VirtualDocument<A extends NodeAttrs> {
   data = {} as Record<string, any>
 
   constructor(initAttrs?: A, public id = nanoid()) {
+    super()
     this.root = this.createNode(initAttrs, 'root')
   }
 
@@ -44,7 +46,7 @@ export class VirtualDocument<A extends NodeAttrs> {
     if (id === 'root')
       this.root = node
     this.blockMap.set(node.id, node)
-
+    this.emit('create', id)
     return node
   }
 
@@ -60,6 +62,7 @@ export class VirtualDocument<A extends NodeAttrs> {
     if (id === 'root')
       this.root = node
     this.blockMap.set(node.id, node)
+    this.emit('create', id)
 
     return node
   }
@@ -114,6 +117,10 @@ export class VirtualDocument<A extends NodeAttrs> {
     }
     return this
   }
+
+  // transact(cb: (arg: Transaction) => void, origin?: string) {
+  //   this.controller.ydoc.transact(cb, origin)
+  // }
 }
 
 export function observeDoc(doc: VirtualDocument<any>) {
@@ -121,6 +128,8 @@ export function observeDoc(doc: VirtualDocument<any>) {
     let tasks: (() => void)[] = []
     events.forEach((event) => {
       if ((!t.local) || t.origin instanceof UndoManager || t.origin === 'alioth') {
+        console.log(event.changes.keys)
+
         // from remote or undoManager
         if (event.changes.keys.size === 0) {
           event.changes.added.forEach((item: any) => {
@@ -150,20 +159,28 @@ export function observeDoc(doc: VirtualDocument<any>) {
             switch (item.action) {
               case 'add':
                 if (obj instanceof YMap) {
-                  const attrs = obj.toJSON()
+                  if (obj.has('_is_node')) {
+                    const attrs = obj.toJSON()
 
-                  const node = doc._createNode(omit(attrs, ['children']), i)
+                    const node = doc._createNode(omit(attrs, ['children']), i)
 
-                  if (attrs.children.length) {
-                    tasks.push(() => {
-                      attrs.children.forEach((k: string, i: number) => {
-                        node!._insert(doc.get(k)!, i)
+                    if (attrs.children.length) {
+                      tasks.push(() => {
+                        attrs.children.forEach((k: string, i: number) => {
+                          node!._insert(doc.get(k)!, i)
+                        })
                       })
-                    })
+                    }
+                  }
+                  else {
+                    doc.get(event.path[0] as string)?._set(i, obj.toJSON())
                   }
                 }
 
-                else { doc.get(event.path[0] as string)?._setAttribute(i, obj) }
+                else {
+                  console.log(event.path[0], i, obj)
+                  doc.get(event.path[0] as string)?._set(i, obj)
+                }
 
                 break
               case 'delete':
@@ -171,11 +188,17 @@ export function observeDoc(doc: VirtualDocument<any>) {
                   doc._removeNode(doc.get(i)!)
                 else
 
-                  doc.get(event.path[0] as string)?._setAttribute(i, obj)
+                  doc.get(event.path[0] as string)?._set(i, obj)
 
                 break
               case 'update':
                 if (obj instanceof YMap) {
+                  // if (obj.has('_is_node')) {
+
+                  // }
+                  // else {
+                  //   console.log(event.path[0], obj.toJSON(), i)
+                  // }
                   const attrs = obj.toJSON()
                   if (attrs.children.length) {
                     tasks.push(() => {
@@ -185,7 +208,10 @@ export function observeDoc(doc: VirtualDocument<any>) {
                     })
                   }
                 }
-                else { doc.get(event.path[0] as string)?._setAttribute(i, obj) }
+                else {
+                  doc.get(event.path[0] as string)?._set([...event.path.slice(1), i].join('.')
+                    , obj)
+                }
             }
           })
         }
