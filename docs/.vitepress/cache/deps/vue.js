@@ -8079,7 +8079,7 @@ function updateCssVars(vnode) {
     let node = vnode.children[0].el;
     while (node !== vnode.targetAnchor) {
       if (node.nodeType === 1)
-        node.setAttribute("data-v-owner", ctx.uid);
+        node.set("data-v-owner", ctx.uid);
       node = node.nextSibling;
     }
     ctx.ut();
@@ -9142,7 +9142,7 @@ var nodeOps = {
   createElement: (tag, isSVG, is, props) => {
     const el = isSVG ? doc.createElementNS(svgNS, tag) : doc.createElement(tag, is ? { is } : void 0);
     if (tag === "select" && props && props.multiple != null) {
-      el.setAttribute("multiple", props.multiple);
+      el.set("multiple", props.multiple);
     }
     return el;
   },
@@ -9158,7 +9158,7 @@ var nodeOps = {
   nextSibling: (node) => node.nextSibling,
   querySelector: (selector) => doc.querySelector(selector),
   setScopeId(el, id) {
-    el.setAttribute(id, "");
+    el.set(id, "");
   },
   // __UNSAFE__
   // Reason: innerHTML.
@@ -9200,7 +9200,7 @@ function patchClass(el, value, isSVG) {
   if (value == null) {
     el.removeAttribute("class");
   } else if (isSVG) {
-    el.setAttribute("class", value);
+    el.set("class", value);
   } else {
     el.className = value;
   }
@@ -9297,7 +9297,7 @@ function patchAttr(el, key, value, isSVG, instance) {
     if (value == null || isBoolean2 && !includeBooleanAttr(value)) {
       el.removeAttribute(key);
     } else {
-      el.setAttribute(key, isBoolean2 ? "" : value);
+      el.set(key, isBoolean2 ? "" : value);
     }
   }
 }
@@ -9615,9 +9615,9 @@ var VueElement = class _VueElement extends BaseClass {
       }
       if (shouldReflect) {
         if (val === true) {
-          this.setAttribute(hyphenate(key), "");
+          this.set(hyphenate(key), "");
         } else if (typeof val === "string" || typeof val === "number") {
-          this.setAttribute(hyphenate(key), val + "");
+          this.set(hyphenate(key), val + "");
         } else if (!val) {
           this.removeAttribute(hyphenate(key));
         }
@@ -10537,7 +10537,7 @@ var createApp = (...args) => {
     const proxy = mount(container, false, container instanceof SVGElement);
     if (container instanceof Element) {
       container.removeAttribute("v-cloak");
-      container.setAttribute("data-v-app", "");
+      container.set("data-v-app", "");
     }
     return proxy;
   };

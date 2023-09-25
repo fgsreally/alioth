@@ -70,6 +70,7 @@ export class VirtualDocument<A extends NodeAttrs> extends EventEmitter {
   removeNode(node: VirtualNode<NodeAttrs>) {
     if (node.parent) {
       node.parent.remove(node.index!)
+
       this.blockMap.delete(node.id)
     }
   }
@@ -118,40 +119,54 @@ export class VirtualDocument<A extends NodeAttrs> extends EventEmitter {
     return this
   }
 
-  // transact(cb: (arg: Transaction) => void, origin?: string) {
-  //   this.controller.ydoc.transact(cb, origin)
-  // }
+  transact(cb: (arg?: Transaction) => void, origin?: string) {
+    if (this.controller)
+      this.controller.ydoc.transact(cb, origin)
+  }
 }
 
 export function observeDoc(doc: VirtualDocument<any>) {
   const fn: (arg0: YEvent<any>[], arg1: Transaction) => void = (events, t) => {
     let tasks: (() => void)[] = []
-    events.forEach((event) => {
-      if ((!t.local) || t.origin instanceof UndoManager || t.origin === 'alioth') {
-        console.log(event.changes.keys)
 
+    events.forEach((event) => {
+      if ((!t.local) || t.origin instanceof UndoManager) {
         // from remote or undoManager
         if (event.changes.keys.size === 0) {
+          event.changes.deleted.forEach((item) => {
+            const parent = doc.get(event.path[0] as string)!
+            const id = item.content.getContent()[0]
+            const node = doc.get(id)!
+            if (node)
+              parent._removeNode(node)
+          })
           event.changes.added.forEach((item: any) => {
             const id = item.content.getContent()[0]
             const node = doc.get(id)!
+
             if (item.left) {
               const left = doc.get(item.left.content.getContent()[0])!
-              left.parent!._insert(node, left.index!)
+
+              left.parent!._insert(node, left.index! + 1)
             }
             else {
-              const parent = doc.get(item.parent.parent.get('id'))
+              const parent = doc.get(event.path[0] as string)
 
               parent!._insert(node, 0)
             }
           })
-          // only work when undo
 
-          event.changes.deleted.forEach((item) => {
-            const id = item.content.getContent()[0]
-            const node = doc.get(id)!
-            node && node.parent?._remove(node.index!)
-          })
+          // let retain = 0
+          // event.changes.delta.forEach((item) => {
+          //   if (item.delete)
+          //     doc.get(event.path[0] as string)?._remove(retain)
+
+          //   if (item.retain)
+          //     retain += item.retain
+
+          //   if (item.insert)
+          //     doc.get(event.path[0] as string)?._insert(doc.get(item.insert[0])!, retain)
+          // })
         }
         else {
           event.changes.keys.forEach((item, i) => {
@@ -178,7 +193,6 @@ export function observeDoc(doc: VirtualDocument<any>) {
                 }
 
                 else {
-                  console.log(event.path[0], i, obj)
                   doc.get(event.path[0] as string)?._set(i, obj)
                 }
 
@@ -193,19 +207,20 @@ export function observeDoc(doc: VirtualDocument<any>) {
                 break
               case 'update':
                 if (obj instanceof YMap) {
-                  // if (obj.has('_is_node')) {
+                  if (obj.has('_is_node')) {
+                    const attrs = obj.toJSON()
 
-                  // }
-                  // else {
-                  //   console.log(event.path[0], obj.toJSON(), i)
-                  // }
-                  const attrs = obj.toJSON()
-                  if (attrs.children.length) {
-                    tasks.push(() => {
-                      attrs.children.forEach((k: string, i: number) => {
-                        doc.get(attrs.id)!._insert(doc.get(k)!, i)
+                    if (attrs.children.length) {
+                      tasks.push(() => {
+                        attrs.children.forEach((k: string, i: number) => {
+                          doc.get(attrs.id)!._insert(doc.get(k)!, i)
+                        })
                       })
-                    })
+                    }
+                  }
+                  else {
+                    doc.get(event.path[0] as string)?._set([...event.path.slice(1), i].join('.')
+                      , obj.toJSON())
                   }
                 }
                 else {

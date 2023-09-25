@@ -24,8 +24,9 @@ export class Controller<MapType = any> {
 
   create(id: string, data: any) {
     this.ydoc.transact(() => {
-      const map = new YMap(Object.entries({ ...data, id, children: new YArray(), _is_node: true }))
-
+      const map = traverse({ ...data, id, _is_node: true })
+      // new YMap(Object.entries({ ...data, id, children: new YArray(), _is_node: true }))
+      map.set('children', new YArray())
       this.map.set(id, map as any)
     })
   }
@@ -51,24 +52,27 @@ export class Controller<MapType = any> {
     const paths = path.split('.')
     let structure = map
     const key = paths.pop()
+
     paths.forEach((p) => {
       structure = structure.get(p)
     })
-    function traverse(value: any): any {
-      if (Array.isArray(value))
-        return YArray.from(value.map(traverse))
 
-      if (typeof value === 'object') {
-        const obj = {} as any
-        for (const i in value)
-          obj[i] = traverse(value[i])
-
-        return new YMap(Object.entries(obj))
-      }
-      return value
-    }
     this.ydoc.transact(() => {
-      structure.set(key, traverse(value))
     })
+    structure.set(key, traverse(value))
   }
+}
+
+function traverse(value: any): any {
+  if (Array.isArray(value))
+    return YArray.from(value.map(traverse))
+
+  if (typeof value === 'object') {
+    const obj = {} as any
+    for (const i in value)
+      obj[i] = traverse(value[i])
+
+    return new YMap(Object.entries(obj))
+  }
+  return value
 }

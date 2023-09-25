@@ -24,8 +24,8 @@ async function startMove(e: MouseEvent) {
         y = e.clientY
       }
 
-      activeNode.setAttribute('left', initX + e.clientX - x)
-      activeNode.setAttribute('top', initY + e.clientY - y)
+      activeNode.set('left', initX + e.clientX - x)
+      activeNode.set('top', initY + e.clientY - y)
     },
     up: (e) => {
       emitter.emit('alioth:node-action', null)
@@ -49,18 +49,18 @@ function transform(evt: MouseEvent, item: string) {
       const offsetY = Math.trunc(e.clientY - y)
       const offsetX = Math.trunc(e.clientX - x)
       if (item.includes('t')) {
-        activeNode.setAttribute('top', initY + offsetY)
-        activeNode.setAttribute('height', h - offsetY)
+        activeNode.set('top', initY + offsetY)
+        activeNode.set('height', h - offsetY)
       }
       if (item.includes('l')) {
-        activeNode.setAttribute('left', initX + offsetX)
-        activeNode.setAttribute('width', w - offsetX)
+        activeNode.set('left', initX + offsetX)
+        activeNode.set('width', w - offsetX)
       }
       if (item.includes('r'))
-        activeNode.setAttribute('width', w + offsetX)
+        activeNode.set('width', w + offsetX)
 
       if (item.includes('b'))
-        activeNode.setAttribute('height', h + offsetY)
+        activeNode.set('height', h + offsetY)
     },
     up(e) {
       emitter.emit('alioth:node-action', null)

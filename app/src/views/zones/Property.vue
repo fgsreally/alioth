@@ -15,7 +15,7 @@ let args = $ref<{ data: any; config: any }>({} as any)
 let isShow = $ref(true)
 function setProps(node: VirtualNode<NodeAttrs>, key: string, value: any) {
   node.attrs.propsData[key] = value
-  node.setAttribute('propsData', node.attrs.propsData)
+  node.set('propsData', node.attrs.propsData)
 }
 
 watch(() => activeNode, async (n, o) => {
@@ -32,7 +32,7 @@ watch(() => activeNode, async (n, o) => {
     config[i]._mount = ({ el }: any) => {
       add(el, (v: any) => {
         setProps(n, i, v)
-        // n.setAttribute(`propsData.${i}`, v)
+        // n.set(`propsData.${i}`, v)
       })
     }
     config[i]._unmount = ({ el }: any) => {

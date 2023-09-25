@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { set } from 'lodash-es'
+import { clone, set } from 'lodash-es'
 import EventEmitter from 'eventemitter3'
 import type { VirtualDocument } from './document'
 // import type { HistoryController } from './history'
@@ -19,6 +19,14 @@ export class VirtualNode<A extends NodeAttrs> extends EventEmitter {
   ) {
     super()
     this.attrs = initAttrs || {}
+  }
+
+  get cloneChilds() {
+    return clone(this.children)
+  }
+
+  get index() {
+    return this.parent?.children.findIndex(node => node.id === this.id)
   }
 
   bind(doc: VirtualDocument<A>) {
@@ -57,26 +65,29 @@ export class VirtualNode<A extends NodeAttrs> extends EventEmitter {
         */
   _set(path: string, value: any) {
     set(this.attrs, path, value)
-    this.emit('setAttr', path)
+    this.emit('set', path)
   }
 
   // 在父block的children中的位置
-  get index() {
-    return this.parent?.children.findIndex(v => v.id === this.id)
-  }
 
   public insert(node: VirtualNode<A>, index?: number) {
     if ((!index) && index !== 0)
       index = this.children.length
 
     this._insert(node, index)
+
     if (this.doc?.controller)
       this.doc.controller.insert(this.id, node.id, index)
   }
 
   _insert(node: VirtualNode<A>, index: number) {
+    // if (this.children.find(item => item.id === node.id))
+
+    //   return
     node.parent = this
+
     this.children.splice(index, 0, node)
+
     node.emit('insert')
   }
 
@@ -84,18 +95,25 @@ export class VirtualNode<A extends NodeAttrs> extends EventEmitter {
     // this.HC.emitter.emit(ALIOTH_EVENT.REMOVE_NODE, { id: this.id, index })
     const node = this._remove(index)
 
-    if (this.doc?.controller)
+    if (this.doc?.controller && node)
       this.doc.controller.delete(this.id, node.id, index)
+  }
+
+  _removeNode(node: VirtualNode<any>) {
+    this.children = this.children.filter(item => item !== node)
   }
 
   _remove(index: number) {
     const removeBlock = this.children.splice(index, 1)[0]
     function traverse(node: VirtualNode<any>) {
+      if (!node)
+        return
       node.emit('remove')
       node.removeAllListeners()
       node.parent = null
       node.children.forEach(traverse)
     }
+
     traverse(removeBlock)
     return removeBlock
   }

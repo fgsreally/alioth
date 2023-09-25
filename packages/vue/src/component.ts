@@ -21,11 +21,6 @@ export function createRenderComponent<N extends NodeAttrs, R extends BaseRegiste
       },
     },
     setup(props) {
-      console.log(props)
-
-      onUpdated(() => {
-        console.log('update')
-      })
       return () => {
         // @ts-expect-error it will work after creating register
         return props.value[props.type](props.node)

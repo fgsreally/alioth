@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { emitter, useV } from 'phecda-vue'
 import { GridLayout } from 'grid-layout-plus'
-import { layout } from '../test'
 import { useDragSingle } from '@/composables/drag'
 import type { AliothAttrs, RootAttrs } from '@/engine/types'
 import { DocModel } from '@/models/doc'
@@ -10,11 +9,27 @@ const props = defineProps<RootAttrs>()
 let index = 0
 const colNum = ref(12)
 const { doc, activePage } = $(useV<typeof DocModel<AliothAttrs>>(DocModel))
+function update() {
+  // activePage.children.forEach((node) => {
+  //   node.set('layout.x', node.attrs.layout.x)
+  //   node.set('layout.y', node.attrs.layout.y)
+  // })
+}
+const layout = computed(() => {
+  return activePage.children.map(item => item.attrs.layout)
+})
 function addBlock(module: any, e: MouseEvent) {
   const { key, label, meta } = module
   const { hoverNode, root } = doc
   // const index = createIndex(key)
   const parent = hoverNode || activePage
+  const info = {
+    x: 0,
+    y: 0, // puts it at the bottom
+    w: 2,
+    h: 2,
+    i: `${index++}`,
+  }
   const block = doc.createNode(Object.assign({
     slot: 'default',
     key,
@@ -22,20 +37,15 @@ function addBlock(module: any, e: MouseEvent) {
     label,
     propsData: {
     },
+    layout: info,
     level: parent === root ? 1 : parent.attrs.level + 1,
     top: parent === activePage ? e.offsetY : 0,
     left: parent === activePage ? e.offsetX : 0,
   }, meta?.init || {}))
   // interval.setState(index, block.attrs.propsData)
   parent.insert(block)
+  console.log(parent)
   emitter.emit('alioth:node-action', null)
-  layout.push({
-    x: (layout.length * 2) % (colNum.value || 12),
-    y: layout.length + (colNum.value || 12), // puts it at the bottom
-    w: 2,
-    h: 2,
-    i: `${index++}`,
-  })
 }
 const containerCanvas = useDragSingle(addBlock)
 </script>
@@ -76,7 +86,9 @@ const containerCanvas = useDragSingle(addBlock)
       :is-draggable="props.mode !== 'render'"
       :is-resizable="props.mode !== 'render'"
       vertical-compact
+      prevent-collision
       use-css-transforms
+      @layout-updated="update"
     >
       <slot />
     </GridLayout>

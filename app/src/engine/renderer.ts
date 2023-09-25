@@ -11,7 +11,7 @@ import type { NodeAttrs } from './types'
 import { DocModel } from '@/models/doc'
 import { ERROR_EVENT } from '@/config'
 import { layout } from '@/views/test'
-const { doc } = useV(DocModel)
+const { doc, activePage } = useV(DocModel)
 
 export class renderer extends BaseRenderer<VirtualNode<NodeAttrs>> {
   propsData: any
@@ -46,7 +46,26 @@ export class renderer extends BaseRenderer<VirtualNode<NodeAttrs>> {
     //   { node: this.node },
     //   this._vnode as VNode,
     // )
-    this._vnode = h(GridItem, layout[this.node.attrs.index], this, this._vnode)
+    const node = this.node
+    this._vnode = h(GridItem, {
+      ...node.attrs.layout,
+      onMove(_i, x, y) {
+        activePage.value.children.forEach((node) => {
+          // node.set('layout.x', node.attrs.layout.x)
+          // node.set('layout.y', node.attrs.layout.y)
+        })
+      },
+      onResize(_i, h, w) {
+        node.set('layout.h', node.attrs.layout.h)
+        node.set('layout.w', node.attrs.layout.w)
+      },
+      onResized() {
+        emitter.emit('alioth:node-action', null)
+      },
+      onMoved() {
+        emitter.emit('alioth:node-action', null)
+      },
+    }, this._vnode)
     return this
   }
 
@@ -102,13 +121,11 @@ export class renderer extends BaseRenderer<VirtualNode<NodeAttrs>> {
     const ret = interval.filter(cloneDeep(this.node.attrs.propsData))
 
     if (type === 'render' && this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
-      console.log(ret);
       (this._vnode = h(
         this.comp as DefineComponent,
         {
           ...ret,
           'onUpdate:modelValue': (v: any) => {
-            console.log('modelvalue')
             ret.modelValue = v
           },
         },
@@ -117,7 +134,7 @@ export class renderer extends BaseRenderer<VirtualNode<NodeAttrs>> {
     else {
       (this._vnode = h(
         this.comp as DefineComponent,
-        ret,
+        { ...ret, x: this.node.id },
         { default: () => this._vnode || undefined }))
     }
     // if (schema) {
@@ -137,6 +154,7 @@ export class renderer extends BaseRenderer<VirtualNode<NodeAttrs>> {
   editAction() {
     if (!this._vnode)
       return this;
+
     (this._vnode as any).props.onMousedownCapture = () => {
       doc.value.select(this.node)
     }
