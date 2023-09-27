@@ -3,12 +3,12 @@ import type { AliothEventStack, AliothWidget } from 'alioth-vue'
 import { useR } from 'phecda-vue'
 import HW from './components/HelloWorld.vue'
 import Input from './components/Input.vue'
-import { Engine } from './engine/register'
+import { Engine } from './engine/engine'
 import 'alioth-preset-elementplus/dist/style.css'
 
 // console.log('entry')
 // export const register_test = {
-//   alioth: 'setRegister',
+//   alioth: 'setEngine',
 //   data: Engine,
 // }
 const c = ref(1)
@@ -67,3 +67,4 @@ export const event_test: AliothEventStack = {
   },
 }
 export * from 'alioth-preset-elementplus'
+// export * from 'alioth-preset-layout/grid'

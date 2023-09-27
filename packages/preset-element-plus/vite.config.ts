@@ -11,7 +11,9 @@ import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { sfc } from 'unplugin-vue-sfcmore/vite'
 import Icons from 'unplugin-icons/vite'
-
+import pkg from './package.json'
+const dependencies = pkg.dependencies
+for (const i in dependencies)dependencies[i] = i
 // https://vitejs.dev/config/
 export default defineConfig({
 
@@ -47,11 +49,11 @@ export default defineConfig({
 
     }),
     ExternalMap({
-      externals: {
+      externals: Object.assign(dependencies, {
         'vue': 'http://localhost:4010/vue.mjs',
         'phecda-core': 'http://localhost:4010/phecda-vue.mjs',
         'phecda-vue': 'http://localhost:4010/phecda-vue.mjs',
-      },
+      }),
     }),
     sfc({
       write: true,

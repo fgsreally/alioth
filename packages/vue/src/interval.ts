@@ -1,5 +1,5 @@
 import { createFilter } from 'phecda-vue'
-import { type BaseRegister, allWidgetMap } from './register'
+import { type BaseEngine, allWidgetMap } from './register'
 
 const { filter, data, setState } = createFilter({})
 
@@ -14,5 +14,5 @@ export const interval = {
   setState: typeof setState
   docData: any
   widgetMap: typeof allWidgetMap
-  register: typeof BaseRegister<any, any>
+  engine: typeof BaseEngine<any, any>
 }

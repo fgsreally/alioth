@@ -20,19 +20,24 @@ export interface Zone<P> {
 }
 @Global
 @Tag('view')
-export abstract class BaseViewModel<H, Z> {
+export class BaseViewModel<H, Z> {
   getWidget = getWidget
-  abstract componentMap: Record<string, Component>
+  componentMap: Record<string, Component> = {}
 
-  abstract headers: Header<H>[]
+  headers: Header<H>[] = []
 
-  abstract zones: Zone<Z>[]
+  zones: Zone<Z>[] = []
 
   addZone(zone: Zone<Z>) {
+    if (this.zones.find(item => item.label === zone.label))
+      return
     this.zones.push(zone)
   }
 
   addHeader(header: Header<H>) {
+    if (this.headers.find(item => item.label === header.label))
+      return
+
     this.headers.push(header)
   }
 

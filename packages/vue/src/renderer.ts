@@ -31,14 +31,14 @@ export interface defaultDecorator {
 }
 
 export class BaseRenderer<
-    NodeType extends VirtualNode<any>,
+NodeAttrs extends Record<string, any>,
   > {
   protected _vnode: VNode | VNode[] | null = null
 
   // stack: { funcName: string; property: any }[];
   renderType: string
   // slotVNode: { [key in string]: Function };
-  constructor(protected node: NodeType, protected comp: Component) {}
+  constructor(protected node: VirtualNode<NodeAttrs>, protected comp: Component) {}
   exec() {
     return this._vnode
   }
@@ -48,6 +48,9 @@ export class BaseRenderer<
     allWidgetMap: Map<RegisterKey, RegisterType>,
     renderType: string,
   ) {
+    if (!this.node.children.length)
+      return undefined
+
     const slotRenderer: { [key in string]: Function } = {}
     slotSet.forEach((templateName) => {
       slotRenderer[templateName] = (slotProps: any) =>
@@ -55,8 +58,10 @@ export class BaseRenderer<
         this.node.children.map((node: VirtualNode<any>) => {
           try {
             if ((node.attrs.slot || 'default') === templateName) {
-              return (allWidgetMap as any)
+              const ret = (allWidgetMap as any)
                 .get(node.attrs.key)[renderType](node, slotProps)
+
+              return ret
             }
           }
           catch (e) {
@@ -67,6 +72,7 @@ export class BaseRenderer<
           }
         })
     })
+
     return slotRenderer
   }
 
@@ -113,8 +119,8 @@ export class BaseRenderer<
   }
 
   useDragger(
-    dragEnter: (e: DragEvent, VirtualNode: NodeType) => void,
-    dragOver: (e: DragEvent, VirtualNode: NodeType) => void,
+    dragEnter: (e: DragEvent, VirtualNode: VirtualNode<NodeAttrs>) => void,
+    dragOver: (e: DragEvent, VirtualNode: VirtualNode<NodeAttrs>) => void,
   ) {
     (this._vnode as any).props.ondragenter = (e: DragEvent) =>
       dragEnter(e, this.node);

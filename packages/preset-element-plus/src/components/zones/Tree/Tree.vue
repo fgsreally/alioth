@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import type { VirtualNode } from 'alioth-vue'
 import { emitter, useV } from 'phecda-vue'
-// @ts-expect-error miss type
-const { activePage, doc } = $(useV(window.__PHECDA__.doc))
+const { activePage, doc } = $(useV(__PHECDA__.doc))
 function nodeClick(node: any) {
   doc.select(node)
 }
@@ -28,7 +27,6 @@ function drop(draggingNode: any,
         node2.parent!.insert(newNode, index + 1)
     }
   })
-  console.log(dropType)
 
   emitter.emit('alioth:node-action', null)
 }

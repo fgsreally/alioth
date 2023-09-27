@@ -15,8 +15,8 @@ export interface Command {
 }
 @Global
 @Tag('command')
-export abstract class BaseCommandModel {
-  abstract commands: Command[]
+export class BaseCommandModel {
+  commands: Command[] = []
   @Init
   private _init() {
     window.$alioth_command = this.register.bind(this)

@@ -1,3 +1,6 @@
 export * from './components/widgets/Button'
 export * from './components/widgets/Input'
 export * from './components/zones/Tree'
+export * from './components/views/Option'
+export * from './components/widgets/Select'
+export * from './components/widgets/DatePicker'

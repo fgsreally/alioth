@@ -1,9 +1,9 @@
 import { defineComponent, onUpdated } from 'vue'
 import type { DefineComponent, PropType } from 'vue'
 import type { NodeAttrs, VirtualNode } from 'alioth-lib'
-import { type BaseRegister } from './register'
+import { type BaseEngine } from './register'
 
-export function createRenderComponent<N extends NodeAttrs, R extends BaseRegister<any>>(): DefineComponent<{ value: R; type: keyof R; node?: VirtualNode<N> }> {
+export function createRenderComponent<N extends NodeAttrs, R extends BaseEngine<any>>(): DefineComponent<{ value: R; type: keyof R; node?: VirtualNode<N> }> {
   return defineComponent({
     name: 'AliothRender',
     inheritAttrs: false,

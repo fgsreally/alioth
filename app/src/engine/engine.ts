@@ -1,12 +1,12 @@
 import {
-  BaseRegister,
+  BaseEngine,
   interval,
 } from 'alioth-vue'
 import type { VirtualNode } from 'alioth-vue'
 import type { VNode } from 'vue'
 import { h } from 'vue'
 import { renderer } from './renderer'
-export class Register extends BaseRegister<typeof renderer> {
+export class Register extends BaseEngine<typeof renderer> {
   Renderer = renderer
   widgetMap = interval.widgetMap
   text() {
@@ -19,12 +19,12 @@ export class Register extends BaseRegister<typeof renderer> {
   edit(node: VirtualNode<any>) {
     const renderer = this.createRenderer(node)
     if (node.attrs.page) {
+      console.log('page')
       return renderer.slot(['default'], this.widgetMap, 'edit').main({
         type: 'edit',
         schema: this.meta.schema,
       }).exec()
     }
-
     return renderer
       .slot(['default'], this.widgetMap, 'edit')
       .main({

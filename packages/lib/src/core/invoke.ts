@@ -55,7 +55,7 @@ export function loadStyleOrScript(url: string) {
 }
 
 export function detect() {
-  ['header', 'state', 'error', 'eventStack', 'zone', 'view', 'update', 'error', 'interval', 'setRegister'].forEach((item) => {
+  ['header', 'state', 'error', 'eventStack', 'zone', 'view', 'update', 'error', 'interval', 'setEngine'].forEach((item) => {
     // @ts-expect-error miss type
     if (!window[`$alioth_${item}`])
       console.warn(`[Alioth]: miss global property $alioth_${item}`)

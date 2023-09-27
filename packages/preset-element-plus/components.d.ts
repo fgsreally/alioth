@@ -10,13 +10,20 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Button: typeof import('./src/components/widgets/Button/Button.vue')['default']
+    DatePicker: typeof import('./src/components/widgets/DatePicker/DatePicker.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElInput: typeof import('element-plus/es')['ElInput']
+    ElOption: typeof import('element-plus/es')['ElOption']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
+    ElSelect: typeof import('element-plus/es')['ElSelect']
+    ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
     ElTree: typeof import('element-plus/es')['ElTree']
+    Form: typeof import('./src/components/widgets/AutoForm/Form.vue')['default']
     Input: typeof import('./src/components/widgets/Input/Input.vue')['default']
+    Option: typeof import('./src/components/views/Option/Option.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Select: typeof import('./src/components/widgets/Select/Select.vue')['default']
     Tree: typeof import('./src/components/zones/Tree/Tree.vue')['default']
   }
 }

@@ -1,13 +1,18 @@
-import { Global, Tag } from 'phecda-core'
+import { Global, Init, Tag } from 'phecda-core'
 import { VirtualDocument } from '../document'
 import type { NodeAttrs, VirtualNode } from '../document'
 
 @Global
 @Tag('doc')
-export abstract class BaseDocModel<T extends NodeAttrs> {
-  abstract containerAttrs: NodeAttrs
+export class BaseDocModel<T extends NodeAttrs> {
+  containerAttrs: NodeAttrs = {}
   activeId: string
   doc = new VirtualDocument({}, 'model')
+
+  @Init
+  private _init() {
+    window.$alioth_container = (attr: any) => this.containerAttrs = attr
+  }
 
   get activePage() {
     return this.find(this.activeId) as unknown as VirtualNode<T>
@@ -29,7 +34,7 @@ export abstract class BaseDocModel<T extends NodeAttrs> {
   }
 
   add(id?: string) {
-    const node = this.doc.createNode(this.containerAttrs || {}, id)
+    const node = this.doc.createNode(this.containerAttrs, id)
 
     this.doc.root.insert(node)
     return node

@@ -155,18 +155,6 @@ export function observeDoc(doc: VirtualDocument<any>) {
               parent!._insert(node, 0)
             }
           })
-
-          // let retain = 0
-          // event.changes.delta.forEach((item) => {
-          //   if (item.delete)
-          //     doc.get(event.path[0] as string)?._remove(retain)
-
-          //   if (item.retain)
-          //     retain += item.retain
-
-          //   if (item.insert)
-          //     doc.get(event.path[0] as string)?._insert(doc.get(item.insert[0])!, retain)
-          // })
         }
         else {
           event.changes.keys.forEach((item, i) => {

@@ -47,6 +47,11 @@ export class renderer extends BaseRenderer<VirtualNode<NodeAttrs>> {
     //   this._vnode as VNode,
     // )
     const node = this.node
+    console.log(node.attrs.hover)
+    if (node.attrs.hover)
+
+      return this
+
     this._vnode = h(GridItem, {
       ...node.attrs.layout,
       onMove(_i, x, y) {
@@ -108,8 +113,6 @@ export class renderer extends BaseRenderer<VirtualNode<NodeAttrs>> {
     type: string
     schema: any
   }) {
-    if (!this._vnode)
-      return this
     if (this.node.attrs.page) {
       this._vnode = h(
         this.comp as DefineComponent,
@@ -118,8 +121,8 @@ export class renderer extends BaseRenderer<VirtualNode<NodeAttrs>> {
       )
       return this
     }
-    const ret = interval.filter(cloneDeep(this.node.attrs.propsData))
 
+    const ret = interval.filter(cloneDeep(this.node.attrs.propsData))
     if (type === 'render' && this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
       (this._vnode = h(
         this.comp as DefineComponent,
@@ -135,7 +138,7 @@ export class renderer extends BaseRenderer<VirtualNode<NodeAttrs>> {
       (this._vnode = h(
         this.comp as DefineComponent,
         { ...ret, x: this.node.id },
-        { default: () => this._vnode || undefined }))
+        this._vnode))
     }
     // if (schema) {
     //   for (const i in schema) {

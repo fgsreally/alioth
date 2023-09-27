@@ -37,6 +37,7 @@ function addBlock(module: any, e: MouseEvent) {
     label,
     propsData: {
     },
+    hover: !!hoverNode,
     layout: info,
     level: parent === root ? 1 : parent.attrs.level + 1,
     top: parent === activePage ? e.offsetY : 0,

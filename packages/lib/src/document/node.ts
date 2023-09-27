@@ -1,14 +1,12 @@
 import { nanoid } from 'nanoid'
 import { clone, set } from 'lodash-es'
-import EventEmitter from 'eventemitter3'
 import type { VirtualDocument } from './document'
 // import type { HistoryController } from './history'
 
 export interface NodeAttrs {
   [key: string]: any
 }
-export class VirtualNode<A extends NodeAttrs> extends EventEmitter {
-  // attributes: Record<keyof NodeAttrs, NodeAttrs[keyof NodeAttrs]> = Object.create({})
+export class VirtualNode<A extends NodeAttrs> {
   id = nanoid()
   parent: VirtualNode<A> | null
   children: VirtualNode<A>[] = []
@@ -17,7 +15,6 @@ export class VirtualNode<A extends NodeAttrs> extends EventEmitter {
   attrs: Record<keyof NodeAttrs, NodeAttrs[keyof NodeAttrs]>
   constructor(initAttrs?: A,
   ) {
-    super()
     this.attrs = initAttrs || {}
   }
 
@@ -64,8 +61,8 @@ export class VirtualNode<A extends NodeAttrs> extends EventEmitter {
         * 仅被HC调用
         */
   _set(path: string, value: any) {
+    this.doc.emit('set', { path, value })
     set(this.attrs, path, value)
-    this.emit('set', path)
   }
 
   // 在父block的children中的位置
@@ -85,10 +82,9 @@ export class VirtualNode<A extends NodeAttrs> extends EventEmitter {
 
     //   return
     node.parent = this
+    this.doc.emit('insert', { parent: this, child: node, index })
 
     this.children.splice(index, 0, node)
-
-    node.emit('insert')
   }
 
   public remove(index: number) {
@@ -100,16 +96,17 @@ export class VirtualNode<A extends NodeAttrs> extends EventEmitter {
   }
 
   _removeNode(node: VirtualNode<any>) {
-    this.children = this.children.filter(item => item !== node)
+    this.children.splice(this.children.findIndex(item => item.id === node.id), 1)
   }
 
   _remove(index: number) {
     const removeBlock = this.children.splice(index, 1)[0]
+    const { doc } = this
     function traverse(node: VirtualNode<any>) {
       if (!node)
         return
-      node.emit('remove')
-      node.removeAllListeners()
+      doc.blockMap.delete(node.id)
+      doc.emit('remove', { node })
       node.parent = null
       node.children.forEach(traverse)
     }

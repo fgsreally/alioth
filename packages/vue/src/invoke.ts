@@ -1,7 +1,7 @@
 import { markRaw } from 'vue'
 import type { Component } from 'vue'
 import { interval } from './interval'
-import type { BaseRegister } from './register'
+import type { BaseEngine } from './register'
 import { getNamespace } from './register'
 let isLoad = false
 
@@ -18,10 +18,10 @@ export async function init() {
   ) {
     // @ts-expect-error is not a abstract
     // eslint-disable-next-line new-cap
-    getNamespace(category).register?.(markRaw(new interval.register(category, key, component, meta)))
+    getNamespace(category).register?.(markRaw(new interval.engine(category, key, component, meta)))
   }
   window.$alioth_widget = registerWidget
-  window.$alioth_setRegister = setRegister
+  window.$alioth_setEngine = setEngine
   window.$alioth_interval = interval
   window.$alioth_state = ({ key, value }: any) => {
     interval.setState(key, value)
@@ -30,6 +30,6 @@ export async function init() {
   isLoad = true
 }
 
-export function setRegister<R extends typeof BaseRegister<any, any>>(Register: R) {
-  interval.register = Register
+export function setEngine<R extends typeof BaseEngine<any, any>>(engine: R) {
+  interval.engine = engine
 }

@@ -5,7 +5,7 @@ import { loadStyleOrScript } from '../core/invoke'
 export const { connect, dynamicImport, urlMap, projectMap } = createConnector()
 @Global
 @Tag('import')
-export abstract class BaseImportModel {
+export class BaseImportModel {
   /**
    * @extend
    */
@@ -57,5 +57,5 @@ export abstract class BaseImportModel {
     return exportsMap
   }
 
-  abstract setState(param: { key: string; value: any; meta: any }): void
+  setState: (param: { key: string; value: any; meta: any }) => void
 }

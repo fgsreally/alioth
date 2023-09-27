@@ -7,8 +7,8 @@ export interface ErrorHandler {
 
 @Global
 @Tag('error')
-export abstract class BaseErrorModel {
-  abstract errorHandlers: ErrorHandler[]
+export class BaseErrorModel {
+  errorHandlers: ErrorHandler[]
   @Init
   private _init() {
     window.$alioth_error = this.setErrorHandler.bind(this)
