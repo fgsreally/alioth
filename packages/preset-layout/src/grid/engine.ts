@@ -15,7 +15,6 @@ export class Engine extends BaseEngine<typeof renderer> {
 
   edit(node: VirtualNode<any>) {
     const renderer = this.createRenderer(node)
-
     if (node.parent!.parent?.id === 'root') {
       return renderer
         .slot(['default'], this.widgetMap, 'edit')
@@ -26,7 +25,8 @@ export class Engine extends BaseEngine<typeof renderer> {
         .exec()
     }
 
-    return renderer.slot(['default'], this.widgetMap, 'edit').main('edit').exec()
+    return renderer.slot(['default'], this.widgetMap, 'edit').main('edit').addStyle({ pointerEvents: 'auto' }).editAction()
+      .exec()
   }
 
   render(node: any) {

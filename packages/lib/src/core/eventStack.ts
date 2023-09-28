@@ -45,6 +45,9 @@ export function createEventStack<Event extends DefaultEvent>(options: {
   }
 
   const register = (command: Event) => {
+    if (command.name in state.commands)
+      return
+
     if (initialized && command.init)
 
       state.destroyArray.push(command.init())

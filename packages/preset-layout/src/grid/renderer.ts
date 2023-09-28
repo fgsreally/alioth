@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash-es'
 import { emitter, useV } from 'phecda-vue'
 import { GridItem } from 'grid-layout-plus'
 
-const { doc, activePage } = useV(window.__PHECDA__.doc)
+const { doc, activePage } = useV(__PHECDA__.doc)
 
 export class renderer extends BaseRenderer<any> {
   propsData: any
@@ -39,9 +39,7 @@ export class renderer extends BaseRenderer<any> {
   }
 
   main(type: string) {
-    if (!this._vnode)
-      return this
-    if (this.node.parent.id === 'root') {
+    if (this.node.parent?.id === 'root') {
       this._vnode = h(
         this.comp as DefineComponent,
         { ...this.node.attrs, a_mode: type, a_node: this.node },
@@ -59,13 +57,13 @@ export class renderer extends BaseRenderer<any> {
             ret.modelValue = v
           },
         },
-        { default: () => this._vnode || undefined }))
+        this._vnode))
     }
     else {
       (this._vnode = h(
         this.comp as DefineComponent,
         { ...ret, a_mode: type, a_node: this.node },
-        { default: () => this._vnode || undefined }))
+        this._vnode))
     }
 
     return this
@@ -74,8 +72,9 @@ export class renderer extends BaseRenderer<any> {
   editAction() {
     if (!this._vnode)
       return this;
+    (this._vnode as any).props.onMousedown = (e) => {
+      e.stopPropagation()
 
-    (this._vnode as any).props.onMousedownCapture = () => {
       doc.value.select(this.node)
     }
     (this._vnode as any).props.onDragoverCapture = () => {
@@ -91,6 +90,7 @@ export class renderer extends BaseRenderer<any> {
     (this._vnode as any).props.onMouseleave = () => {
       doc.value.cancel('hoverNode')
     }
+    console.log((this._vnode as any).props, this.node.attrs.key)
 
     return this
   }

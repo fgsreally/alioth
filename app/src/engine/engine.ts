@@ -19,7 +19,6 @@ export class Register extends BaseEngine<typeof renderer> {
   edit(node: VirtualNode<any>) {
     const renderer = this.createRenderer(node)
     if (node.attrs.page) {
-      console.log('page')
       return renderer.slot(['default'], this.widgetMap, 'edit').main({
         type: 'edit',
         schema: this.meta.schema,

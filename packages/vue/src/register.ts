@@ -38,10 +38,6 @@ export function createNameSpace<
     },
 
     register: (module: registerWidget) => {
-      // if (allWidgetMap.has(module.key)) {
-      //   err?.(module.key)
-      //   return
-      // }
       widgetMap.set(module.key, module)
       allWidgetMap.set(module.key, module)
     },

@@ -33,7 +33,7 @@ export interface defaultDecorator {
 export class BaseRenderer<
 NodeAttrs extends Record<string, any>,
   > {
-  protected _vnode: VNode | VNode[] | null = null
+  protected _vnode: VNode | VNode[] | undefined = undefined
 
   // stack: { funcName: string; property: any }[];
   renderType: string

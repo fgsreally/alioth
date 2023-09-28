@@ -3,8 +3,9 @@
 </script>
 
 <template>
-  <div bg-red-500 w-10 h-10>
+  <div bg-red-500 style="width:100%;height: 100%;">
     <slot />
+    11
   </div>
 </template>
 

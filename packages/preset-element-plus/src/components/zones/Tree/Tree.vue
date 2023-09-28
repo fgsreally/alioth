@@ -36,7 +36,7 @@ function drop(draggingNode: any,
   <el-scrollbar>
     <el-tree
       class="tree" :data="activePage.cloneChilds" default-expand-all node-key="id"
-      :props="{ children: 'cloneChilds', label: (data:any) => data.id }"
+      :props="{ children: 'cloneChilds', label: (data:any) => data.attrs.key }"
       draggable
       @node-click="nodeClick"
       @node-drop="drop"

@@ -49,7 +49,7 @@ export default defineConfig({
 
     }),
     ExternalMap({
-      externals: Object.assign(dependencies, {
+      externals: Object.assign({}, {
         'vue': 'http://localhost:4010/vue.mjs',
         'phecda-core': 'http://localhost:4010/phecda-vue.mjs',
         'phecda-vue': 'http://localhost:4010/phecda-vue.mjs',
