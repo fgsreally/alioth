@@ -3,10 +3,10 @@ import { BaseRenderer, interval } from 'alioth-vue'
 import type { DefineComponent, VNode } from 'vue'
 import { h } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { emitter, useV } from 'phecda-vue'
+import { useV } from 'phecda-vue'
 import DragBox from './DragBox.vue'
 
-const { activeDoc } = useV(window.__PHECDA__.doc)
+const { doc } = useV(__PHECDA__.doc)
 
 export class renderer extends BaseRenderer<any> {
   propsData: any
@@ -74,16 +74,18 @@ export class renderer extends BaseRenderer<any> {
 
   useOffset() {
     if (!this._vnode || !this.node.attrs.top)
-      return this;
+      return this
 
-    (this._vnode as any).props.style = `top:${this.node.attrs.top}px;left:${this.node.attrs.left}px`
+    this.addStyle({
+      top: `${this.node.attrs.top}px`,
+      left: `${this.node.attrs.left}px`,
+
+    })
     return this
   }
 
   main(type: string) {
-    if (!this._vnode)
-      return this
-    if (this.node.parent.id === 'root') {
+    if (this.node.parent?.id === 'root') {
       this._vnode = h(
         this.comp as DefineComponent,
         { ...this.node.attrs, a_mode: type, a_node: this.node },
@@ -108,20 +110,24 @@ export class renderer extends BaseRenderer<any> {
     if (!this._vnode)
       return this;
     (this._vnode as any).props.onMousedownCapture = () => {
-      activeDoc.value.select(this.node)
+      doc.value.select(this.node)
+    }
+
+    (this._vnode as any).props.onclick = (e) => {
+      e.stopPropagation()
     }
     (this._vnode as any).props.onDragoverCapture = () => {
-      activeDoc.value.select(this.node, 'hoverNode')
+      doc.value.select(this.node, 'hoverNode')
     };
     (this._vnode as any).props.onDragleave = () => {
-      activeDoc.value.cancel('hoverNode')
+      doc.value.cancel('hoverNode')
     }
     (this._vnode as any).props.onMouseenter = () => {
-      activeDoc.value.select(this.node, 'hoverNode')
+      doc.value.select(this.node, 'hoverNode')
     }
 
     (this._vnode as any).props.onMouseleave = () => {
-      activeDoc.value.cancel('hoverNode')
+      doc.value.cancel('hoverNode')
     }
 
     return this

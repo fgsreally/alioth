@@ -18,20 +18,20 @@ const props = defineProps<{
   wLimit: [number, number]
   hLimit: [number, number]
 }>()
-const { doc, activePage } = $(useV(__PHECDA__.doc))
+const { doc, activePage } = useV(__PHECDA__.doc)
 function addBlock(module: any, e: MouseEvent) {
   const { key, label, meta } = module
-  const { hoverNode, root } = doc
-  const parent = hoverNode || activePage
-  const block = doc.createNode(Object.assign({
+  const { hoverNode, root } = doc.value
+  const parent = hoverNode || activePage.value
+  const block = doc.value.createNode(Object.assign({
     slot: 'default',
     key,
     label,
     propsData: {
     },
-    level: parent === root ? 1 : parent.attrs.level + 1,
-    top: parent === root ? e.offsetY : 0,
-    left: parent === root ? e.offsetX : 0,
+    level: parent === activePage.value ? 1 : parent.attrs.level + 1,
+    top: parent === activePage.value ? e.offsetY : 0,
+    left: parent === activePage.value ? e.offsetX : 0,
   }, meta?.init || {}))
   parent.insert(block)
 }
@@ -49,8 +49,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div
-    ref="dom" class="editor__canvas" :class="props.isGrid ? 'gridHelper' : ''" :style="`--radius:${props.radius / 2};--fontSize:${props.fontSize};
+  <section class="al-window">
+    <div
+      ref="dom" class="editor__canvas " :class="props.isGrid ? 'gridHelper' : ''" :style="`--radius:${props.radius / 2};--fontSize:${props.fontSize};
             --gridGap:${props.gridGap / 2};
             --gridLen:${(props.width - props.margin * 2) / props.gridNum};
             --bkColor:${props.backgroundColor};
@@ -60,11 +61,12 @@ onBeforeUnmount(() => {
             --gridColor:${props.gridColor};
       `
 
-    "
-    @click.self.stop="doc.cancel()"
-  >
-    <slot />
-  </div>
+      "
+      @click.self.stop="doc.cancel()"
+    >
+      <slot />
+    </div>
+  </section>
 </template>
 
 <style scoped>

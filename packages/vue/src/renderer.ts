@@ -148,11 +148,11 @@ NodeAttrs extends Record<string, any>,
     if (!this._vnode)
       return this
 
-    if (!(this._vnode as any).props.style) {
+    if (!(this._vnode as any).props.style)
       (this._vnode as any).props.style = style;
 
-      (this._vnode as any).props.style = Object.assign((this._vnode as any).props.style, style)
-    }
+    (this._vnode as any).props.style = Object.assign((this._vnode as any).props.style, style)
+
     return this
   }
 

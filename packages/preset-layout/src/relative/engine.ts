@@ -9,7 +9,7 @@ import { renderer } from './renderer'
 
 export class Engine extends BaseEngine<typeof renderer> {
   Renderer = renderer
-  widgetMap = interval.widgetMap
+  widgetMap = $alioth_interval.widgetMap
   text() {
     return h('p', {
       class: 'preview-text',
@@ -28,7 +28,13 @@ export class Engine extends BaseEngine<typeof renderer> {
       .addClass('innerBlock_edit')
       .useSize()
       .draggable()
-      .addClass('block_edit')
+      .addStyle({
+        position: 'relative',
+        pointerEvents: 'auto',
+        width: 'fit-content',
+        userSelect: 'contain',
+        zIndex: '10',
+      })
       .useOffset()
       .editAction()
       .exec()

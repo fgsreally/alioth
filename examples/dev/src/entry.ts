@@ -67,4 +67,4 @@ export const event_test: AliothEventStack = {
   },
 }
 export * from 'alioth-preset-elementplus'
-export * from 'alioth-preset-layout/grid'
+export * from 'alioth-preset-layout/relative'

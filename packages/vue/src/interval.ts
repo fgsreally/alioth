@@ -8,6 +8,7 @@ export const interval = {
   data,
   setState,
   widgetMap: allWidgetMap,
+
 } as unknown as {
   filter: typeof filter
   data: typeof data

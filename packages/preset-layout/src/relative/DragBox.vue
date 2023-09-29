@@ -2,20 +2,20 @@
 import { draggable } from 'alioth-vue'
 import { emitter, useV } from 'phecda-vue'
 // import { pxToBlockSize, toPx } from '@/utils/style'
-
+import { computed } from 'vue'
 const { node } = defineProps<{ node: Object }>()
 
-const { activeNode } = $(useV(window.__PHECDA__.doc))
-const isActive = computed(() => node === activeNode)
+const { activeNode } = useV(__PHECDA__.doc)
+console.log(node)
+const isActive = computed(() => node === activeNode.value)
 const moveBlocks = ['tl', 'tr', 'bl', 'br']
 
 async function startMove(e: MouseEvent) {
-  if (!activeNode)
+  if (!activeNode.value)
     return
   let x: number, y: number
 
-  const initX = activeNode.attrs.left
-  const initY = activeNode.attrs.top
+  const { left: initX, top: initY } = activeNode.value.attrs
   draggable({
     move: (e) => {
       if (!x || !y) {
@@ -23,8 +23,8 @@ async function startMove(e: MouseEvent) {
         y = e.clientY
       }
 
-      activeNode.set('left', initX + e.clientX - x)
-      activeNode.set('top', initY + e.clientY - y)
+      activeNode.value.set('left', initX + e.clientX - x)
+      activeNode.value.set('top', initY + e.clientY - y)
     },
     up: (e) => {
       emitter.emit('alioth:node-action', null)
@@ -35,31 +35,31 @@ async function startMove(e: MouseEvent) {
 }
 
 function transform(evt: MouseEvent, item: string) {
-  if (!activeNode)
+  if (!activeNode.value)
     return
   const x = evt.clientX
   const y = evt.clientY
-  const w = activeNode.attrs.width
-  const h = activeNode.attrs.height
-  const initX = activeNode.attrs.left
-  const initY = activeNode.attrs.top
+  const w = activeNode.value.attrs.width
+  const h = activeNode.value.attrs.height
+  const initX = activeNode.value.attrs.left
+  const initY = activeNode.value.attrs.top
   draggable({
     move: (e) => {
       const offsetY = Math.trunc(e.clientY - y)
       const offsetX = Math.trunc(e.clientX - x)
       if (item.includes('t')) {
-        activeNode.set('top', initY + offsetY)
-        activeNode.set('height', h - offsetY)
+        activeNode.value.set('top', initY + offsetY)
+        activeNode.value.set('height', h - offsetY)
       }
       if (item.includes('l')) {
-        activeNode.set('left', initX + offsetX)
-        activeNode.set('width', w - offsetX)
+        activeNode.value.set('left', initX + offsetX)
+        activeNode.value.set('width', w - offsetX)
       }
       if (item.includes('r'))
-        activeNode.set('width', w + offsetX)
+        activeNode.value.set('width', w + offsetX)
 
       if (item.includes('b'))
-        activeNode.set('height', h + offsetY)
+        activeNode.value.set('height', h + offsetY)
     },
     up(e) {
       emitter.emit('alioth:node-action', null)

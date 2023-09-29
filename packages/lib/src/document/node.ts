@@ -12,10 +12,10 @@ export class VirtualNode<A extends NodeAttrs> {
   children: VirtualNode<A>[] = []
   timeout = 800
   doc: VirtualDocument<A>
-  attrs: Record<keyof NodeAttrs, NodeAttrs[keyof NodeAttrs]>
-  constructor(initAttrs?: A,
+  attrs: A
+  constructor(initAttrs: A,
   ) {
-    this.attrs = initAttrs || {}
+    this.attrs = initAttrs
   }
 
   get cloneChilds() {

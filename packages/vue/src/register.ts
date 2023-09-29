@@ -1,5 +1,5 @@
 import type { Component } from 'vue'
-import { markRaw, reactive } from 'vue'
+import { reactive } from 'vue'
 
 import type { VirtualNode } from 'alioth-lib'
 import type { BaseRenderer } from './renderer'
@@ -16,7 +16,7 @@ export function getWidget<
   registerWidget extends BaseEngine<any>,
 >(key?: string) {
   if (key)
-    return allWidgetMap.has(key) ? markRaw((allWidgetMap as Map<string, registerWidget>).get(key)!) : null
+    return allWidgetMap.has(key) ? (allWidgetMap as Map<string, registerWidget>).get(key) : null
 }
 
 export function createNameSpace<
