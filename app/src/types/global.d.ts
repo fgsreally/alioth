@@ -1,12 +1,12 @@
 import type { EventModel } from "@/models/event"
-import type { ConfigModel } from "@/models/config"
+import type { ViewModel } from "@/models/view"
 import { DocModel } from "@/models/doc"
 
 declare global {
     interface Window {
         __PHECDA__:{
             doc:DocModel
-            config:ConfigModel
+            config:ViewModel
             command:EventModel
         }
         $alioth_update: any

@@ -2,21 +2,23 @@
 import { useV } from 'phecda-vue'
 import { DocModel } from '@/models/doc'
 
-import { ConfigModel } from '@/models/config'
-const { activeDoc } = useV(DocModel)
+import { ViewModel } from '@/models/view'
+const { activePage, doc } = useV(DocModel)
 const route = useRoute()
-const { zones, componentMap } = useV(ConfigModel)
+const { zones, componentMap } = useV(ViewModel)
 </script>
 
 <template>
   <Teleport to="body">
     <DragHelper
+
       v-for="(item, i) in zones"
-      :key="i" :transition="item.transition" :x="item.x" :y="item.y" class="a-zone"
+      v-show="!item.hidden"
+      :key="i" :transition="item.transition" :x="item.x" :y="item.y" class="al-zone"
       :label="item.label"
-      :is-active="item.isActive({ instance: activeDoc, route })" :fix="item.fix || false" @click.stop
+      :is-active="item.isActive({ instance: doc, activePage, route })" :fix="item.fix || false" @click.stop
     >
-      <component :is="(componentMap as any)[item.component]" v-bind="item.props" />
+      <component :is="(componentMap as any)[item.component]" v-bind="item.props" @mousedown.stop />
     </DragHelper>
   </Teleport>
 </template>

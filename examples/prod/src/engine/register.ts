@@ -1,5 +1,5 @@
 import {
-  BaseRegister,
+  BaseEngine,
   interval,
 
 } from 'alioth-lib'
@@ -8,7 +8,7 @@ import type { VNode } from 'vue'
 
 import { renderer } from './renderer'
 
-export class Register extends BaseRegister<typeof renderer> {
+export class Register extends BaseEngine<typeof renderer> {
   Renderer = renderer
   widgetMap = interval.widgetMap
   render(node: any) {

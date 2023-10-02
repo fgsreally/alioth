@@ -1,81 +1,67 @@
-import type { NodeAttrs, VirtualDocument } from 'alioth-lib'
-import { Global, Init, Tag } from 'phecda-vue'
-import { BridgeDocModel, interval } from 'alioth-lib'
-// // @ts-expect-error miss types
-// import { WebsocketProvider } from 'y-websocket'
-@Global
-@Tag('doc')
-export class DocModel<T extends NodeAttrs> extends BridgeDocModel<T> {
-  containerAttrs = {
-    width: 640,
-    height: 600,
-    fontSize: 16,
-    backgroundColor: 'rgb(102, 107, 226)',
-    gridColor: '#ff00006b',
-    gridNum: 10,
-    gridGap: 20,
-    margin: 0,
-    radius: 0,
-    isContainer: true,
-    isFull: false,
-    isGrid: true,
-    mode: 'normal',
-    wLimit: [375, 2000],
-    hLimit: [600, 4000],
+import type { NodeAttrs, VirtualDocument } from 'alioth-vue'
+import { Init, emitter, useO } from 'phecda-vue'
+import { BaseDocModel, Controller, interval, observeDoc } from 'alioth-vue'
+import { WebsocketProvider } from 'y-websocket'
+import { EventModel } from './event'
+// @ts-expect-error miss types
+
+export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
+  containerAttrs = markRaw(
+    {
+      title: '11',
+      key: 'root',
+      page: true,
+      width: 480,
+      height: 400,
+      fontSize: 16,
+      backgroundColor: 'rgb(102, 107, 226)',
+      gridColor: '#ff00006b',
+      gridNum: 10,
+      gridGap: 20,
+      margin: 0,
+      radius: 0,
+      isContainer: true,
+      isFull: false,
+      isGrid: true,
+      mode: 'normal',
+      wLimit: [375, 2000],
+      hLimit: [600, 4000],
+    },
+  )
+
+  add() {
+    emitter.emit('alioth:node-action', null)
+
+    return super.add()
   }
 
-  constructor() {
-    super()
-    interval.setState('$doc', this)
-    // interval component
-    // interval.setState('$docRender', toRaw(DocRenderBlock))
-  }
+  remove(id: string) {
+    emitter.emit('alioth:node-action', null)
 
-  bridge(): void {
-    // const wsProvider = new WebsocketProvider('ws://localhost:1234', 'documents', this.ydoc)
-    // this.yarr.observe((e, t) => {
-    //   if ((!t.local) || t.origin) { // from remote or undoManager
-    //     if (e.changes.keys.size === 0) {
-    //       // only work when undo
-    //       e.changes.added.forEach((item) => {
-    //         this._add(item.content.getContent()[0])
-    //       })
-    //       e.changes.deleted.forEach((item) => {
-    //         const id = item.content.getContent()[0]
-    //         this.remove(id)!
-    //       })
-    //     }
-    //   }
-    // })
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  bridgeDoc(doc: VirtualDocument<any>): void {
-    // const ydoc = doc.controller.ydoc
-    // const wsProvider = new WebsocketProvider('ws://localhost:1234', doc.id, ydoc)
-    // observeDoc(this.find(doc.id)!)
-    // wsProvider.on('status', (event) => {
-    //   if (event.status === 'connected')
-    //     observeDoc(this.find(doc.id)!)
-    // })
+    return super.remove(id)
   }
 
   @Init
   init() {
-    // this.active(this.add())
-    // this.bridge()
+    useO(EventModel)
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('alioth_doc_state', JSON.stringify({
+        data: this.toJSON(),
+        activeId: this.activeId,
+      }))
+    })
+    this.doc.bind(markRaw(new Controller()))
+    observeDoc(this.doc)
 
-    // window.addEventListener('beforeunload', () => {
-    //   localStorage.setItem('alioth_doc_state', this.docToStr())
-    // })
-    // const lastRecord = localStorage.getItem('alioth_doc_state') && false
+    // const wsProvider = new WebsocketProvider('ws://localhost:1234', 'alioth', this.doc.controller.ydoc)
+    const lastRecord = localStorage.getItem('alioth_doc_state')
     // if (lastRecord) {
-    //   this.load(lastRecord)
-    //   this.active(this.docs[0]?.id || this.add().id)
-    // }
+    //   const { data, activeId } = JSON.parse(lastRecord)
 
-    // else {
-    //   this.active(this.add().id)
+    //   emitter.emit('alioth:node-action', null)
+    //   this.load(data)
+    //   this.active(activeId)
     // }
+    interval.setState('$doc', this)
   }
 }

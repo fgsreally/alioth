@@ -1,9 +1,12 @@
 /* eslint-disable no-console */
 import { resolve } from 'path'
+import fs from 'fs'
 import { type PluginOption, normalizePath } from 'vite'
 import colors from 'colors'
 import axios from 'axios'
+import { log } from '../utils'
 interface ConnectorOpts {
+  website: string
   project: string
   externals?: Record<string, string>
   presets?: string[]
@@ -15,13 +18,9 @@ interface ExternalMapOpts {
   importmap?: boolean
 }
 
-const website = process.env.ALIOTH_WEBSITE ?? 'https://fgsreally.github.io/alioth'
 export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
   const {
-    externals = {
-      'vue': `${website}/vue.mjs`,
-      'phecda-vue': `${website}/phecda-vue.mjs`,
-    }, importmap = true,
+    externals = {}, importmap = true,
   } = options
   let isDev: boolean
   return {
@@ -48,7 +47,7 @@ export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
 }
 
 export function Connector(options: ConnectorOpts): PluginOption {
-  const { project, externals = {}, entry, presets = [] } = options
+  const { project, externals = {}, entry, presets = [], website } = options
   const entryFiles = Object.values(options.entry).map(item => normalizePath(resolve(process.cwd(), item)))
   return {
     name: 'alioth-connector',
@@ -89,10 +88,25 @@ export function Connector(options: ConnectorOpts): PluginOption {
 
         res.setHeader('Access-Control-Allow-Methods', '*')
         if (req?.url === '/alioth' && req.method === 'GET')
+          return res.end(JSON.stringify({ entry, project }))
 
-          res.end(JSON.stringify({ entry, project }))
+        if (req?.url === '/alioth/file' && req.method === 'POST') {
+          let data = ''
 
-        else next()
+          req.on('data', (chunk) => {
+            data += chunk
+          })
+          req.on('end', () => {
+            const { file, content } = JSON.parse(data)
+            fs.writeFileSync(file, content)
+            log(`create file ${file}`)
+            res.end('1')
+          })
+
+          return
+        }
+
+        next()
       })
     },
     transform(code, id) {

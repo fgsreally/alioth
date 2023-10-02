@@ -3,7 +3,7 @@
 ### register
 先看一下平台默认的`register`,我将一步一步解释
 ```ts
-export class Register extends BaseRegister<typeof renderer> {
+export class Register extends BaseEngine<typeof renderer> {
   Renderer = renderer// 为了更好的管理代码，这里有一个Renderer的class，它负责提供各种各样的功能，
   widgetMap = interval.widgetMap
   text() { // 这里我声明了一个text的渲染方法，它会渲染一个p标签，里面就会有对应物料的key,这就是左侧物料区的渲染方式
@@ -75,7 +75,7 @@ export class renderer extends BaseRenderer<node<NodeAttrs>> {
 而在生产的环境中，很明显`edit`和`text`不需要，故只需要保留`render`方法，
 
 ```ts
-export class Register extends BaseRegister<typeof renderer> {
+export class Register extends BaseEngine<typeof renderer> {
   Renderer = renderer
   widgetMap = interval.widgetMap
 

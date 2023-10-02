@@ -1,7 +1,7 @@
-import { Global, Tag, useR } from 'phecda-vue'
-import { getWidget, interval } from 'alioth-lib'
+import {  useR } from 'phecda-vue'
+import { BaseCommandModel, getWidget, interval } from 'alioth-vue'
 import { DocModel } from './doc'
-import { ConfigModel } from './config'
+import { ViewModel } from './view'
 interface Event {
   description: string
   exec: (...arg: any) => any
@@ -15,9 +15,8 @@ interface Event {
 
   ]
 }
-@Global
-@Tag('command')
-export class CommandModel {
+
+export class CommandModel extends BaseCommandModel {
   commands: Event[] = [
     {
       key: 'state',
@@ -64,7 +63,7 @@ export class CommandModel {
       description: '获取ConfigModel对应的状态',
       usage: 'config-model',
       exec: () => {
-        return useR(ConfigModel)
+        return useR(ViewModel)
       },
     },
     {
@@ -76,12 +75,4 @@ export class CommandModel {
       },
     },
   ]
-
-  register(command: Event) {
-    this.commands.push(command)
-  }
-
-  input(key: string, arg?: any) {
-    return this.commands.find(item => item.key === key)?.exec(arg)
-  }
 }

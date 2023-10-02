@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useDrag } from 'alioth-lib'
-import { useV } from 'phecda-vue'
+import { draggable } from 'alioth-vue'
+import { emitter, useV } from 'phecda-vue'
 import { DocModel } from '@/models/doc'
 // import { pxToBlockSize, toPx } from '@/utils/style'
 
@@ -17,61 +17,61 @@ async function startMove(e: MouseEvent) {
 
   const initX = activeNode.attrs.left
   const initY = activeNode.attrs.top
-  useDrag({
+  draggable({
     move: (e) => {
       if (!x || !y) {
         x = e.clientX
         y = e.clientY
       }
 
-      activeNode.setAttribute('left', initX + e.clientX - x)
-      activeNode.setAttribute('top', initY + e.clientY - y)
+      activeNode.set('left', initX + e.clientX - x)
+      activeNode.set('top', initY + e.clientY - y)
     },
     up: (e) => {
+      emitter.emit('alioth:node-action', null)
+
       // if (Math.abs(e.clientX - x) > 5 || Math.abs(e.clientY - y) > 5)
     },
   })
 }
 
-function getIframeOffset() {
-  return (document.querySelector('.iframebox') as HTMLElement).getBoundingClientRect()
-}
 function transform(evt: MouseEvent, item: string) {
   if (!activeNode)
     return
-  const { x: iframeX, y: iframeY } = getIframeOffset()
-  const x = evt.clientX + iframeX
-  const y = evt.clientY + iframeY
+  const x = evt.clientX
+  const y = evt.clientY
   const w = activeNode.attrs.width
   const h = activeNode.attrs.height
   const initX = activeNode.attrs.left
   const initY = activeNode.attrs.top
-  useDrag({
+  draggable({
     move: (e) => {
       const offsetY = Math.trunc(e.clientY - y)
       const offsetX = Math.trunc(e.clientX - x)
       if (item.includes('t')) {
-        activeNode.setAttribute('top', initY + offsetY)
-        activeNode.setAttribute('height', h - offsetY)
+        activeNode.set('top', initY + offsetY)
+        activeNode.set('height', h - offsetY)
       }
       if (item.includes('l')) {
-        activeNode.setAttribute('left', initX + offsetX)
-        activeNode.setAttribute('width', w - offsetX)
+        activeNode.set('left', initX + offsetX)
+        activeNode.set('width', w - offsetX)
       }
       if (item.includes('r'))
-        activeNode.setAttribute('width', w + offsetX)
+        activeNode.set('width', w + offsetX)
 
       if (item.includes('b'))
-        activeNode.setAttribute('height', h + offsetY)
+        activeNode.set('height', h + offsetY)
     },
-
+    up(e) {
+      emitter.emit('alioth:node-action', null)
+    },
   })
 }
 </script>
 
 <template>
   <div>
-    <div class="dragBox" @mousedown.capture.self.prevent="startMove">
+    <div class="dragBox" @mousedown="startMove">
       <slot />
 
       <i v-if="isActive" class="w size-controller">{{ activeNode!.attrs.width }}</i>

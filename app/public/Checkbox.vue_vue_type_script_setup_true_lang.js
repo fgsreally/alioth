@@ -2101,7 +2101,7 @@ function hh(e) {
     var o = t.styles[n] || {}, r = t.attributes[n] || {}, a = t.elements[n];
     !Be(a) || !dt(a) || (Object.assign(a.style, o), Object.keys(r).forEach(function(i) {
       var s = r[i];
-      s === !1 ? a.removeAttribute(i) : a.setAttribute(i, s === !0 ? "" : s);
+      s === !1 ? a.removeAttribute(i) : a.set(i, s === !0 ? "" : s);
     }));
   });
 }
@@ -2882,7 +2882,7 @@ function Ia(e, t = 1, n) {
   var o;
   qe || (qe = document.createElement("textarea"), document.body.appendChild(qe));
   const { paddingSize: r, borderSize: a, boxSizing: i, contextStyle: s } = Tg(e);
-  qe.setAttribute("style", `${s};${Sg}`), qe.value = e.value || e.placeholder || "";
+  qe.set("style", `${s};${Sg}`), qe.value = e.value || e.placeholder || "";
   let l = qe.scrollHeight;
   const c = {};
   i === "border-box" ? l = l + a : i === "content-box" && (l = l - r), qe.value = "";
@@ -3773,7 +3773,7 @@ const Zi = fe({
             "aria-haspopup",
             "aria-expanded"
           ].forEach((g, u) => {
-            vo(m[u]) ? p.removeAttribute(g) : p.setAttribute(g, m[u]);
+            vo(m[u]) ? p.removeAttribute(g) : p.set(g, m[u]);
           });
         }, { immediate: !0 })), kn(v) && [
           "aria-controls",
@@ -4292,7 +4292,7 @@ const $m = 0, Om = (e) => {
         const M = d(q || g.value), W = d(J || g.value);
         kn(M) && (F = R([b, () => o.ariaLabel, _, () => o.id], (X) => {
           ["role", "aria-label", "aria-modal", "id"].forEach((pe, se) => {
-            vo(X[se]) ? M.removeAttribute(pe) : M.setAttribute(pe, X[se]);
+            vo(X[se]) ? M.removeAttribute(pe) : M.set(pe, X[se]);
           });
         }, { immediate: !0 })), W !== M && kn(W) && ["role", "aria-label", "aria-modal", "id"].forEach((X) => {
           W.removeAttribute(X);

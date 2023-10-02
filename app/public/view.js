@@ -155,7 +155,7 @@ function Ne(t, s = 1, a) {
   var o;
   w || (w = document.createElement("textarea"), document.body.appendChild(w));
   const { paddingSize: l, borderSize: u, boxSizing: i, contextStyle: b } = Lt(t);
-  w.setAttribute("style", `${b};${Mt}`), w.value = t.value || t.placeholder || "";
+  w.set("style", `${b};${Mt}`), w.value = t.value || t.placeholder || "";
   let p = w.scrollHeight;
   const h = {};
   i === "border-box" ? p = p + u : i === "content-box" && (p = p - l), w.value = "";

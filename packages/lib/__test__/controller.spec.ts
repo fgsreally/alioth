@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { applyUpdate } from 'yjs'
-import { VirtualDocument, observeDoc } from '../src'
+import { VirtualDocument, observeDoc } from '../src/document/document'
 import { Controller } from '../src/document/controller'
 
 describe('controller [yjs]', () => {
@@ -15,7 +15,7 @@ describe('controller [yjs]', () => {
       key: 'test',
     })
     c.insert('0', '1', 0)
-    c.setAttr('1', 'key', 'fgs')
+    c.set('1', 'key', 'fgs')
 
     c.undo()
     expect(c.map.get('1').get('key')).toBe('test')
@@ -31,6 +31,34 @@ describe('controller [yjs]', () => {
     expect(c.map.get('0').get('children').length).toBe(1)
   })
 
+  it('deep', () => {
+    const c = new Controller({
+      captureTimeout: 0,
+    })
+    c.create('0', {
+      key: 'root',
+    })
+
+    c.set('0', 'a', { b: { c: 3 } })
+
+    expect(c.map.get('0').get('a').get('b').get('c')).toBe(3)
+    expect(c.map.get('0').get('key')).toBe('root')
+
+    c.undo()
+    expect(c.map.get('0').has('a')).toBe(false)
+    c.redo()
+    expect(c.map.get('0').get('a').get('b').get('c')).toBe(3)
+    c.set('0', 'a.b.c', 4)
+    expect(c.map.get('0').get('a').get('b').get('c')).toBe(4)
+    c.undo()
+    expect(c.map.get('0').get('a').get('b').get('c')).toBe(3)
+
+    c.set('0', 'a', [{ b: { c: 3 } }])
+    expect(c.map.get('0').get('a').get(0).get('b').get('c')).toBe(3)
+
+    c.undo()
+    expect(c.map.get('0').get('a').get('b').get('c')).toBe(3)
+  })
   it('controller sync', () => {
     const c = new Controller({
       captureTimeout: 0,
@@ -69,7 +97,7 @@ describe('controller [yjs]', () => {
 
     doc.root.insert(node)
     expect(doc.root.children.length).toBe(1)
-    node.setAttribute('name', 'b')
+    node.set('name', 'b')
 
     c.undo()
 
@@ -110,13 +138,23 @@ describe('controller [yjs]', () => {
     doc1.root.insert(doc1.createNode(), 1)
     expect(doc2.blockMap.size).toBe(3)
     expect(doc2.root.children.length).toBe(2)
-    node.setAttribute('name', 'alioth')
-
-    expect(doc2.get(node.id)!.attrs.name).toBe('alioth')
+    node.set('config', { alioth: true })
+    node.set('config.alioth', false)
+    expect(doc2.get(node.id)!.attrs.config.alioth).toBe(false)
 
     c.undo()
+    expect(doc2.get(node.id)!.attrs.config.alioth).toBe(true)
 
-    expect(doc2.get(node.id)!.attrs.name).toBeUndefined()
+    node.set('config.alioth', { a: { b: { c: 1 } } })
+    expect(doc2.get(node.id)!.attrs.config.alioth.a.b.c).toBe(1)
+
+    node.set('config.alioth.a.b.c', 2)
+    expect(doc2.get(node.id)!.attrs.config.alioth.a.b.c).toBe(2)
+    c.undo()
+    expect(doc2.get(node.id)!.attrs.config.alioth.a.b.c).toBe(1)
+    c.redo()
+    expect(doc2.get(node.id)!.attrs.config.alioth.a.b.c).toBe(2)
+
     doc1.removeNode(node)
 
     expect(doc2.root.children.length).toBe(1)
@@ -134,5 +172,32 @@ describe('controller [yjs]', () => {
     expect(doc1.blockMap.size).toBe(3)
     c2.undo()
     expect(doc1.blockMap.size).toBe(2)
+  })
+  it('swap node', () => {
+    const doc = new VirtualDocument()
+    const c = new Controller({
+      captureTimeout: 0,
+    })
+    doc.bind(c)
+    observeDoc(doc)
+    const node1 = doc.createNode()
+    const node2 = doc.createNode()
+
+    doc.root.insert(node1)
+    doc.root.insert(node2)
+    doc.controller.ydoc.transact(() => {
+      doc.removeNode(node1)
+      node2.insert(doc.createNode(node1.attrs, node1.id))
+    })
+    expect(doc.blockMap.size).toBe(3)
+    expect(doc.root.children.length).toBe(1)
+    expect(node2.children.length).toBe(1)
+    c.undo()
+    expect(node2.children.length).toBe(0)
+
+    expect(doc.root.children.length).toBe(2)
+    c.redo()
+    expect(node2.children.length).toBe(1)
+    expect(doc.root.children.length).toBe(1)
   })
 })

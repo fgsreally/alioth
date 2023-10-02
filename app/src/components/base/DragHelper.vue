@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useDrag } from 'alioth-lib'
+import { draggable } from 'alioth-vue'
 const { x, y, isActive, fix } = defineProps<{ x: number; y: number; isActive: boolean; fix: boolean; label: string }>()
 const style = reactive({ x, y })
 
@@ -33,7 +33,7 @@ function startMove(e: MouseEvent) {
   const initOffsetX = e.clientX
   const initOffsetY = e.clientY
   const { x: initX, y: initY } = style
-  useDrag({
+  draggable({
     move(e) {
       const x = e.clientX
       const y = e.clientY

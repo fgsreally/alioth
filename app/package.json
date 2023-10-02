@@ -12,7 +12,7 @@
     "server": "y-websocket-server"
   },
   "dependencies": {
-    "@ark-ui/vue": "^0.4.0",
+    "@ark-ui/vue": "^0.8.0",
     "@codemirror/lang-javascript": "^6.1.9",
     "@fgsreally/vue-web-terminal": "^3.1.8",
     "@iconify-json/lucide": "^1.1.96",
@@ -21,11 +21,13 @@
     "@vue-macros/reactivity-transform": "^0.3.7",
     "@vueuse/core": "^10.1.2",
     "acorn": "^8.10.0",
-    "alioth-dev": "workspace:^",
-    "alioth-lib": "workspace:^",
+    "alioth-dev": "workspace:*",
+    "alioth-vue": "workspace:*",
     "codemirror": "^6.0.1",
+    "grid-layout-plus": "^1.0.3",
     "lodash-es": "^4.17.21",
-    "phecda-vue": "^1.6.3",
+    "openai": "^4.7.1",
+    "phecda-vue": "2.0.0-alpha.5",
     "unocss": "^0.52.3",
     "unplugin-auto-import": "^0.13.0",
     "unplugin-vue-components": "^0.24.1",
@@ -33,7 +35,8 @@
     "vue": "^3.3.2",
     "vue-codemirror": "^6.1.1",
     "vue-router": "^4.2.0",
-    "y-websocket": "^1.5.0"
+    "y-websocket": "^1.5.0",
+    "yjs": "^13.6.7"
   },
   "devDependencies": {
     "@iconify-json/gg": "^1.1.6",

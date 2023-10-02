@@ -5,11 +5,13 @@ import '@fgsreally/vue-web-terminal/style.css'
 import { basicSetup } from 'codemirror'
 import { javascript } from '@codemirror/lang-javascript'
 import VueCodemirror from 'vue-codemirror'
+import { init, setEngine } from 'alioth-vue'
 import App from './App.vue'
 import router from './router'
 import '@/style/common.scss'
-import { initState } from './models'
-import { initWidget } from './views/widgets'
+import { initModel } from './models'
+import { Register } from '@/engine/engine'
+import { initWidget } from '@/views/widgets'
 import 'uno.css'
 const app = createApp(App).use(createPhecda('alioth')).use(router).use(VueCodemirror, {
   // optional default global options
@@ -21,6 +23,7 @@ const app = createApp(App).use(createPhecda('alioth')).use(router).use(VueCodemi
   extensions: [basicSetup, javascript()],
   // ...
 }).use(Terminal)
+app.config.warnHandler = () => null
 // {
 //   codemirror: {
 //     tabSize: 4,
@@ -31,8 +34,11 @@ const app = createApp(App).use(createPhecda('alioth')).use(router).use(VueCodemi
 //     smartIndent: true,
 //   },
 // }
-initState()
-
-initWidget()
+init()
+setEngine(Register)
+initModel()
+setTimeout(()=>{
+  initWidget()
+},3000)
 
 app.mount('#al-root')
