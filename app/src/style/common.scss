@@ -53,8 +53,9 @@ p.preview-section-item {
   & .block_edit {
     position: absolute;
     pointer-events: auto;
-    width: fit-content;
     user-select: contain;
+    width: fit-content;
+    
     z-index: 10;
   }
   
