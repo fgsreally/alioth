@@ -120,11 +120,12 @@ export class Engine extends BaseEngine<typeof Renderer> {
 
 而`Engine`定义多个方法，分别对应不同的渲染方式：编辑时/预览时/生产时...，
 
-各个方法通过链式调用`Renderer`类，负责将对应的`node`转为`Vnode`，从而渲染
+各个方法通过链式调用`Renderer`类，负责将对应的`virtualNode`转为`Vnode`，从而渲染
 
-> 渲染结果不一定是视图，导出代码也是一种渲染，可以定义一个`code`方法，将`node`转为字符串
+> 渲染结果不一定是视图，导出代码也是一种渲染，可以定义一个`code`方法，将`virtualNode`转为字符串
+
+> 生产环境时，可以只保留一个`render`方法，从而保持体积精简
 
 一些案例[详见]()
-
 
 
