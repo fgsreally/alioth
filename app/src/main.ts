@@ -35,10 +35,9 @@ app.config.warnHandler = () => null
 //   },
 // }
 init()
-setEngine(Register)
 initModel()
-setTimeout(()=>{
+setTimeout(() => {
   initWidget()
-},3000)
+}, 3000)
 
 app.mount('#al-root')

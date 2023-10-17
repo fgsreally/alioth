@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 import { resolve } from 'path'
 import fs from 'fs'
-import { type PluginOption, normalizePath } from 'vite'
+import { normalizePath } from 'vite'
+import type { PluginOption } from 'vite'
 import colors from 'colors'
 import axios from 'axios'
 import { log } from '../utils'
@@ -39,8 +40,9 @@ export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
     },
     resolveId(source) {
       if (source in externals) {
-        if ((!isDev) && importmap)
-          return { id: source, external: true }
+        if (!isDev)
+
+          return { id: importmap ? source : externals[source]!, external: true }
       }
     },
   }
@@ -166,15 +168,20 @@ function generateQuery(obj: Record<string, string>) {
 const urlReg = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/
 const pathReg = /^(\/|\.{1,2}\/).+$/
 
-export function RemoteLoader(): PluginOption {
+export function RemoteLoader(RE: RegExp): PluginOption {
   return {
     name: 'alioth-remote-loader',
     enforce: 'pre',
     resolveId(source, importer) {
-      if (urlReg.test(source))
-        return source
-      if (importer && urlReg.test(importer) && pathReg.test(source))
+      if (urlReg.test(source)) {
+        if (RE.test(source))
+          return source
 
+        else
+          return { id: source, external: true }
+      }
+
+      if (importer && urlReg.test(importer) && pathReg.test(source))
         return new URL(source, importer).href
     },
     async load(id) {

@@ -1,16 +1,8 @@
 import { ref } from 'vue'
-import type { AliothEventStack, AliothWidget } from 'alioth-vue'
-import { useR } from 'phecda-vue'
+import type { AliothWidget } from 'alioth-vue'
+import TestVue from './components/Test.vue'
 import HW from './components/HelloWorld.vue'
-import Input from './components/Input.vue'
-import { Engine } from './engine/engine'
-import 'alioth-preset-elementplus/dist/style.css'
 
-// console.log('entry')
-// export const register_test = {
-//   alioth: 'setEngine',
-//   data: Engine,
-// }
 const c = ref(1)
 export const state_c = {
   alioth: 'state',
@@ -52,19 +44,22 @@ export const widget_a: AliothWidget = {
     },
   },
 }
-
-export const event_test: AliothEventStack = {
-  alioth: 'eventStack',
+export const widget_test: AliothWidget = {
+  alioth: 'widget',
   data: {
-    keyboard: 'ctrl+a',
-    name: 'show-material',
-    execute() {
-      const { zones } = useR(window.__PHECDA__.view)
-      const zone = zones.find(item => item.name === 'Material')
-      zone.hidden = !zone.hidden
+    category: 'lib',
+    key: 'test',
+    component: TestVue,
+    meta: {
+      props: {
+
+      },
+      events: {
+        onClick: {
+          _component: 'Input',
+          _formItem: { label: '绑定事件' },
+        },
+      },
     },
-    pushQueue: false,
   },
 }
-export * from 'alioth-preset-elementplus'
-export * from 'alioth-preset-layout/relative'

@@ -6,7 +6,6 @@ import { computed } from 'vue'
 const { node } = defineProps<{ node: Object }>()
 
 const { activeNode } = useV(__PHECDA__.doc)
-console.log(node)
 const isActive = computed(() => node === activeNode.value)
 const moveBlocks = ['tl', 'tr', 'bl', 'br']
 

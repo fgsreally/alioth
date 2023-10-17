@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div bg-red-500 style="width:100%;height: 100%;">
+  <div style="width:100%;height: 100%;background-color: red;">
     <slot />
     11
   </div>

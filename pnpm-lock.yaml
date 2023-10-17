@@ -181,6 +181,9 @@ importers:
       alioth-lib:
         specifier: workspace:*
         version: link:../../packages/lib
+      alioth-vue:
+        specifier: workspace:0.0.1-alpha.0
+        version: link:../../packages/vue
       vue:
         specifier: ^3.3.4
         version: 3.3.4
@@ -2148,7 +2151,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.6(@types/node@18.16.8)(sass@1.66.1)
+      vite: 4.4.6
       vue: 3.3.4
     dev: true
 

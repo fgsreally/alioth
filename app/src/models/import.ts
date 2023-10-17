@@ -25,7 +25,7 @@ export class ImportModel extends BaseImportModel {
     }
   }
 
-  setState({ key, meta, value }: { key: string; meta: any; value: any }) {
+  setState = ({ key, meta, value }: { key: string; meta: any; value: any }) => {
     this.info[key] = meta
     interval.setState(key, value)
   }

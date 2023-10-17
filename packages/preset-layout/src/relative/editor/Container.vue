@@ -21,7 +21,7 @@ const props = defineProps<{
 const { doc, activePage } = useV(__PHECDA__.doc)
 function addBlock(module: any, e: MouseEvent) {
   const { key, label, meta } = module
-  const { hoverNode, root } = doc.value
+  const { hoverNode } = doc.value
   const parent = hoverNode || activePage.value
   const block = doc.value.createNode(Object.assign({
     slot: 'default',

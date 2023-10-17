@@ -1,6 +1,5 @@
 import {
   BaseEngine,
-  interval,
 } from 'alioth-vue'
 import type { VirtualNode } from 'alioth-vue'
 import type { VNode } from 'vue'

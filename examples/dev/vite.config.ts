@@ -1,16 +1,19 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { Alioth, ExternalMap, RemoteLoader } from 'alioth-dev'
+import { Alioth, ExternalMap } from 'alioth-dev'
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    'process.env.NODE_ENV': '"production"',
+
+  },
   plugins: [vue(),
     Alioth({
       website: 'http://localhost:4010/',
       project: 'alioth',
-      presets: [],
       entry: {
-        b: './src/entry.ts',
-        a: './src/main.ts',
+        editor: './src/entry.editor.ts',
+        runtime: './src/entry.runtime.ts',
 
       },
     }),
@@ -20,14 +23,14 @@ export default defineConfig({
         'phecda-core': 'http://localhost:4010/phecda-vue.mjs',
         'phecda-vue': 'http://localhost:4010/phecda-vue.mjs',
       },
+      importmap: false,
     }),
-    RemoteLoader()],
+    // RemoteLoader(/http:\/\/localhost:4010\/(.*)/),
+  ],
   build: {
     sourcemap: true,
     lib: {
-      entry: {
-        b: './entry.js',
-      },
+      entry: './entry.js',
       formats: ['es'],
     },
   },

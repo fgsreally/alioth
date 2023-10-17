@@ -14,7 +14,8 @@ export class BaseImportModel {
   @Init
   private _init() {
     window.$alioth_update = (url: string, module: any) => {
-      this.graph[url] = this.importModule(module)
+      // vite hmr will cause xx?t=xx
+      this.graph[url.split('?')[0]] = this.importModule(module)
     }
     window.$alioth_state = (arg: any) => this.setState?.(arg)
   }

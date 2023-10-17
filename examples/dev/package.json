@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "alioth-dev": "workspace:^",
+    "alioth-dev": "workspace:*",
     "alioth-preset-elementplus": "workspace:^0.0.0",
     "alioth-preset-layout": "workspace:^0.0.0",
     "alioth-vue": "workspace:*",

@@ -1,5 +1,5 @@
 // import { cloneDeep, isSymbol } from 'lodash-es'
-import { BaseRenderer, interval } from 'alioth-vue'
+import { BaseRenderer } from 'alioth-vue'
 import type { DefineComponent, VNode } from 'vue'
 import { h } from 'vue'
 import { cloneDeep } from 'lodash-es'
@@ -93,7 +93,7 @@ export class renderer extends BaseRenderer<any> {
       )
       return this
     }
-    const ret = interval.filter(cloneDeep(this.node.attrs.propsData))
+    const ret = $alioth_interval.filter(cloneDeep(this.node.attrs.propsData))
     if (type === 'render' && 'modelValue' in this.node.attrs.propsData)
       ret['onUpdate:modelValue'] = (v: any) => ret.modelValue = v
       ;

@@ -90,7 +90,6 @@ export class renderer extends BaseRenderer<any> {
     (this._vnode as any).props.onMouseleave = () => {
       doc.value.cancel('hoverNode')
     }
-    console.log((this._vnode as any).props, this.node.attrs.key)
 
     return this
   }
