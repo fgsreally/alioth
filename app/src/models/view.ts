@@ -11,7 +11,7 @@ import IconDownload from '~icons/lucide/download'
 import IconBookDown from '~icons/lucide/book-down'
 
 import { download } from '@/utils/download'
-import { createPresetBundleEntry } from '@/utils/bundle'
+import { createPresetWidgetEntry } from '@/utils/bundle'
 // import { presets } from '@/config'
 
 interface Header {
@@ -64,7 +64,7 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
           method: 'POST',
           body: JSON.stringify({
             file: 'entry.js',
-            content: createPresetBundleEntry(doc, graph, viteUrl),
+            content: createPresetWidgetEntry(doc, graph, viteUrl),
           }),
         }).then(() => {
 

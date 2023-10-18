@@ -13,7 +13,10 @@
   },
   "dependencies": {
     "@ark-ui/vue": "^0.8.0",
+    "@codemirror/commands": "^6.3.0",
     "@codemirror/lang-javascript": "^6.1.9",
+    "@codemirror/state": "^6.3.1",
+    "@codemirror/view": "^6.21.3",
     "@fgsreally/vue-web-terminal": "^3.1.8",
     "@iconify-json/lucide": "^1.1.96",
     "@types/lodash-es": "^4.17.7",

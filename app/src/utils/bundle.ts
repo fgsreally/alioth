@@ -24,8 +24,9 @@ function extractVariables(code: string) {
 
   return Array.from(variables)
 }
-// to treeshake
-export function createPresetBundleEntry(doc: VirtualDocument<NodeAttrs>, graph: Record<string, Record<string, any>>, baseUrl: string) {
+// work for treeshake
+// only includes widget
+export function createPresetWidgetEntry(doc: VirtualDocument<NodeAttrs>, graph: Record<string, Record<string, any>>, baseUrl: string) {
   const componentSet = new Set()
   const stateSet = new Set()
   const dependences = {} as Record<string, string[]>

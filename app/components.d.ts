@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     DragBox: typeof import('./src/components/wrappers/DragBox.vue')['default']
     DragHelper: typeof import('./src/components/base/DragHelper.vue')['default']
     Editable: typeof import('./src/components/base/Editable.vue')['default']
+    EnvInput: typeof import('./src/components/base/EnvInput.vue')['default']
     Form: typeof import('./src/components/base/Form.vue')['default']
     FormConf: typeof import('./src/components/base/FormConf.vue')['default']
     FormItem: typeof import('./src/components/base/FormItem.vue')['default']
