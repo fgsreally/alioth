@@ -17,8 +17,7 @@
   "dependencies": {
     "@vueuse/core": "^10.1.2",
     "alioth-vue": "workspace:^",
-    "phecda-vue": "2.0.0-alpha.5",
-    "vue": "^3.3.4"
+    "phecda-vue": "2.0.1",    "vue": "^3.3.4"
   },
   "devDependencies": {
     "@arco-design/web-vue": "^2.52.0",

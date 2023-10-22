@@ -10,6 +10,59 @@
   // --el-color-primary: #8b17f9;
 }
 
+.env-highlight {
+  @apply text-accentContrast;
+
+  &.env-found {
+    @apply bg-green-600;
+    @apply hover:bg-green-600;
+  }
+
+  &.env-not-found {
+    @apply bg-red-500;
+    @apply hover:bg-red-600;
+  }
+}
+
+
+:root{
+  --font-sans: "Inter Variable", sans-serif;
+  --font-icon: "Material Symbols Rounded Variable";
+  --font-mono: "Roboto Mono Variable", monospace;
+  --font-size-body: 0.75rem;
+  --font-size-tiny: 0.688rem;
+  --line-height-body: 1rem;
+  --upper-primary-sticky-fold: 4.125rem;
+  --upper-secondary-sticky-fold: 6.188rem;
+  --upper-tertiary-sticky-fold: 8.25rem;
+  --upper-fourth-sticky-fold: 10.2rem;
+  --upper-mobile-primary-sticky-fold: 6.625rem;
+  --upper-mobile-secondary-sticky-fold: 8.688rem;
+  --upper-mobile-sticky-fold: 10.75rem;
+  --upper-mobile-tertiary-sticky-fold: 8.25rem;
+  --lower-primary-sticky-fold: 3rem;
+  --lower-secondary-sticky-fold: 5.063rem;
+  --lower-tertiary-sticky-fold: 7.125rem;
+  --lower-fourth-sticky-fold: 9.188rem;
+  --sidebar-primary-sticky-fold: 2rem;
+  --primary-color: theme("colors.dark.800");
+  --primary-light-color: theme("colors.dark.600");
+  --primary-dark-color: theme("colors.neutral.800");
+  --primary-contrast-color: theme("colors.neutral.900");
+
+  --secondary-color: theme("colors.neutral.400");
+  --secondary-light-color: theme("colors.neutral.500");
+  --secondary-dark-color: theme("colors.neutral.50");
+
+  --divider-color: theme("colors.neutral.800");
+  --divider-light-color: theme("colors.dark.500");
+  --divider-dark-color: theme("colors.dark.300");
+
+  --error-color: theme("colors.stone.800");
+  --tooltip-color: theme("colors.neutral.100");
+  --popover-color: theme("colors.dark.700");
+  --editor-theme: "merbivore_soft";
+}
 
 body {
   @apply bg-bg;

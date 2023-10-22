@@ -277,13 +277,13 @@ export class VariablePlugin {
 
   constructor(
     private editorView: Ref<EditorView | undefined>,
-    private variables: UnwrapNestedRefs< Record<string, any>>,
+    private variables: Ref< Record<string, any>>,
   ) {
     watch(() => this.variables, () => {
       this.editorView.value?.dispatch({
         effects: this.compartment.reconfigure([
-          cursorTooltipField(this.variables),
-          environmentHighlightStyle(this.variables),
+          cursorTooltipField(this.variables.value),
+          environmentHighlightStyle(this.variables.value),
         ]),
       })
     })
@@ -291,8 +291,8 @@ export class VariablePlugin {
 
   get extension() {
     return this.compartment.of([
-      cursorTooltipField(this.variables),
-      environmentHighlightStyle(this.variables),
+      cursorTooltipField(this.variables.value),
+      environmentHighlightStyle(this.variables.value),
     ])
   }
 }

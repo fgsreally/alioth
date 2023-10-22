@@ -1,7 +1,4 @@
 # preset
-
-预设可以是物料，可以是配置栏，可以是快捷键，其可以是任何能帮上我们的元素
-
 在[快速开始](./quick-start.md)中，在入口文件中`export`的东西就是预设
 
 ## preset category
@@ -78,7 +75,7 @@ export const zone_a = {
 
 4. 添加`View`
 专门用于编辑器的视图区域
-和物料一样，都是组件，但只用于编辑器、平台中，被`zone/header`调用，而不会在生产中出现
+和物料一样，都是组件，但只用于编辑器中，被`zone/header`调用，而不会在生产中出现
 
 ```ts
 export const view_a = {

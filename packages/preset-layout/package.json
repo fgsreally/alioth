@@ -8,15 +8,15 @@
     "preview": "vite preview"
   },
   "exports": {
-    "./grid/*": "./src/grid/*",
-    "./relative/*": "./src/relative/*"
+    "./*": "./src/*"
   },
   "dependencies": {
     "alioth-dev": "workspace:*",
     "alioth-vue": "workspace:*",
+    "vuedraggable-es":"^4.1.1",
     "grid-layout-plus": "^1.0.3",
     "lodash-es": "^4.17.21",
-    "phecda-vue": "2.0.0-alpha.5",
+    "phecda-vue": "2.0.1",
     "vue": "^3.3.4"
   },
   "devDependencies": {

@@ -22,7 +22,6 @@ export default defineConfig({
     vue(),
     Alioth({
       project: 'project name',
-      preset: ['element-plus'], // 也可以是你创建的preset的 url
       entry: {
         a: './src/a.ts', // 入口文件
       },
@@ -67,37 +66,51 @@ defineProps<{ msg: string }>()
 在入口文件中
 ```ts
 // in entry.ts
-import { $R, $RW } from 'alioth-dev/helper'
-import HelloWorld from './components/HelloWorld.vue'
-import {ref} from 'vue'
-export function change() {
-  console.log(true)
-}
-// registerWidget，注册物料
-$RW('lib' /** 分区 */, 'a' /** 唯一标识 */, HelloWorld, {
-  props: {
-    /**
-     * 玉衡默认的配置器（使用了phecda-vue)，会使用Input对应的视图组件，然后对应的是物料中的msg，
-     * 如果你自定义了，不使用默认的，这里按照自己的想法写就好
-     */
-    msg: {
-      _component: 'Input',
-      _formItem: { label: '文本' },
-    },
-  }
-})
 
-const a=ref('helloworld的数据')
-// register 注册js,可以是数据，可以是函数，可以是任何东西
-$R('a', a, {})
-$R('change', () => {
-  a.value + = '.'
-  console.log('change')
-}, { })
+import HelloWorld from './components/HelloWorld.vue'
+export const widget_a = {
+  alioth: 'widget', // 注册一个物料
+  data: {
+    category: 'lib',
+    key: 'a',
+    component: HW,
+    meta: {
+      props: {
+        msg: {
+          _component: 'Input',
+          _formItem: { label: '绑定数据' },
+        },
+      },
+      events: {
+        onClick: {
+          _component: 'Input',
+          _formItem: { label: '绑定事件' },
+        },
+      },
+    },
+  },
+}
+const c = ref(1)
+export const state_c = {
+  alioth: 'state', // 注册一个变量
+  data: {
+    key: 'c',
+    value: c,
+  },
+}
+
+export const state_changeC = {
+  alioth: 'state', // 注册一个变量
+  data: {
+    key: 'changeC',
+    value: function changeC() {
+      c.value++
+    },
+  },
+}
 ```
 
-> `$R`,`$RW`最后一个参数都是元数据，你可以在自定义的部分中使用他们
-> 请不要担心体积的问题，这些函数只是提供类型的帮助而已
+
 
 
 ## 6. 界面中操作

@@ -8,7 +8,7 @@ export default defineConfig({
   description: ogDescription,
   base,
   head: [
-    ['link', { rel: 'icon', href: `${base}favicon.ico` }],
+    ['link', { rel: 'icon', href: `${base}alioth.png` }],
 
   ],
 

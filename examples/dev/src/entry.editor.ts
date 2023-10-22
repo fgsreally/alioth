@@ -4,7 +4,7 @@ import type { AliothEventStack } from 'alioth-vue'
 // import 'alioth-preset-elementplus/dist/style.css'
 
 // engine should be exported before all widgets,so it starts with '_'
-export { engine as _engine, container } from 'alioth-preset-layout/relative/editor/index.ts'
+export { engine as _engine, container } from 'alioth-preset-layout/draggable/editor/index.ts'
 
 export const event_test: AliothEventStack = {
   alioth: 'eventStack',
