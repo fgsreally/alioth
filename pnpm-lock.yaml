@@ -84,8 +84,8 @@ importers:
         specifier: ^4.7.1
         version: 4.7.1
       phecda-vue:
-        specifier: 2.0.0-alpha.5
-        version: 2.0.0-alpha.5
+        specifier: ^2.0.3
+        version: 2.0.3
       tippy.js:
         specifier: ^6.3.7
         version: 6.3.7
@@ -160,17 +160,20 @@ importers:
   examples/dev:
     dependencies:
       alioth-dev:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/dev
       alioth-preset-elementplus:
-        specifier: workspace:^0.0.0
+        specifier: workspace:*
         version: link:../../packages/preset-element-plus
+      alioth-preset-layout:
+        specifier: workspace:*
+        version: link:../../packages/preset-layout
       alioth-vue:
-        specifier: workspace:0.0.1-alpha.0
+        specifier: workspace:*
         version: link:../../packages/vue
       phecda-vue:
-        specifier: 2.0.0-alpha.5
-        version: 2.0.0-alpha.5
+        specifier: ^2.0.3
+        version: 2.0.3
       vue:
         specifier: ^3.2.47
         version: 3.3.4
@@ -278,8 +281,8 @@ importers:
         specifier: workspace:^
         version: link:../vue
       phecda-vue:
-        specifier: 2.0.0-alpha.5
-        version: 2.0.0-alpha.5
+        specifier: ^2.0.3
+        version: 2.0.3
       vue:
         specifier: ^3.3.4
         version: 3.3.4
@@ -336,8 +339,8 @@ importers:
         specifier: ^2.2.29
         version: 2.2.29(vue@3.3.4)
       phecda-vue:
-        specifier: 2.0.0-alpha.5
-        version: 2.0.0-alpha.5
+        specifier: ^2.0.3
+        version: 2.0.3
       vue:
         specifier: ^3.3.4
         version: 3.3.4
@@ -394,8 +397,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       phecda-vue:
-        specifier: 2.0.1
-        version: 2.0.1
+        specifier: ^2.0.3
+        version: 2.0.3
       vue:
         specifier: ^3.3.4
         version: 3.3.4
@@ -419,8 +422,8 @@ importers:
         specifier: workspace:*
         version: link:../lib
       phecda-vue:
-        specifier: 2.0.0-alpha.5
-        version: 2.0.0-alpha.5
+        specifier: ^2.0.3
+        version: 2.0.3
       vue:
         specifier: ^3.3.4
         version: 3.3.4
@@ -2176,7 +2179,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.6
+      vite: 4.4.6(@types/node@18.16.8)(sass@1.66.1)
       vue: 3.3.4
     dev: true
 
@@ -6576,16 +6579,8 @@ packages:
     resolution: {integrity: sha512-DiETGNen3P2BxMVFBZrlmdrkLK5eZaIRH9xp6Ujqpg0llERsciuJ4uEBtx6JHLWXf7wp8oMlGjstVrmMsb6Axw==}
     dev: false
 
-  /phecda-vue@2.0.0-alpha.5:
-    resolution: {integrity: sha512-VhWNFweTO/7oWuJdYhegnrOk7dNjVgZ6aZXVrTaRN6AjRTzNKqEU4g/n1rh8obNfKgEfJdlYgT8llJ9x8rCpkQ==}
-    dependencies:
-      mitt: 3.0.1
-      phecda-core: 2.0.0-alpha.4
-      vue: 3.3.4
-    dev: false
-
-  /phecda-vue@2.0.1:
-    resolution: {integrity: sha512-xYh6cLGBHClz6N8bMrZPJ2FqJinSmwgERt2FBjCDqDrekD4sW9O0C8cluvpe89s7RNHgRuTV0VVUo853D+hb5g==}
+  /phecda-vue@2.0.3:
+    resolution: {integrity: sha512-wp4HAwnil/M1KqkS4gIhuECM9NB26AHJmXS1A5trdmsE7i+D8ENhKeV/tJYRNbMsn2Z+gGbOX0DFoD6bYpQIGQ==}
     dependencies:
       mitt: 3.0.1
       phecda-core: 2.0.0

@@ -7,7 +7,7 @@ import colors from 'colors'
 import axios from 'axios'
 import { log } from '../utils'
 interface ConnectorOpts {
-  website: string
+  website: string | Record<string, string>
   project: string
   externals?: Record<string, string>
   presets?: string[]
@@ -76,12 +76,18 @@ export function Connector(options: ConnectorOpts): PluginOption {
           presets: JSON.stringify(presets),
 
         })
-        console.log(
-          `  ${colors.green('➜')}  ${colors.bold('Alioth-Dev')} :${colors.blue(`${website}?${query}`)}`,
-        )
-        console.log(
-          `  ${colors.green('➜')}  ${colors.bold('Alioth-Prod')} :${colors.blue(`${website}/preview?${query}`)}`,
-        )
+        if (typeof website === 'string') {
+          console.log(
+            `  ${colors.green('➜')}  ${colors.bold('Alioth')} :${colors.blue(`${website}?${query}`)}`,
+          )
+        }
+        else {
+          Object.entries(website).forEach(([key, url]) => {
+            console.log(
+              `  ${colors.green('➜')}  ${colors.bold(`Alioth-${key}`)} :${colors.blue(`${url}?${query}`)}`,
+            )
+          })
+        }
       }
 
       server.middlewares.use((req, res, next) => {
@@ -134,7 +140,7 @@ function injectHMR() {
   }`
 }
 
-export function DynamicImportmap(imports: Record<string, string > = {}): PluginOption {
+export function DynamicImportmap(imports: Record<string, string> = {}): PluginOption {
   return {
     name: 'alioth-dynamic-importmap',
     enforce: 'post',

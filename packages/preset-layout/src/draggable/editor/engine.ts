@@ -20,26 +20,25 @@ export class Engine extends BaseEngine<typeof renderer> {
       return renderer.slot(['default'], this.widgetMap, 'edit').main('edit').editAction().exec()
     }
     if (slot?.a_node)
-
       return null
 
     const renderer = this.createRenderer(node)
     return renderer.slot(['default'], this.widgetMap, 'edit').main('edit').editAction().exec()
   }
 
-  // render(node: any) {
-  //   const renderer = this.createRenderer(node)
+  render(node: VirtualNode<any>, slot?: any) {
+    if (slot?.a_node === node) {
+      const renderer = this.createRenderer(slot.a_node)
 
-  //   if (node.parent!.parent!.id === 'root') {
-  //     return renderer
-  //       .slot(['default'], this.widgetMap, 'render')
-  //       .main('render')
-  //       .grid()
-  //       .exec()
-  //   }
+      return renderer.slot(['default'], this.widgetMap, 'render').main('render').exec()
+    }
+    if (slot?.a_node)
 
-  //   return renderer.slot(['default'], this.widgetMap, 'render').main('render').exec()
-  // }
+      return null
+
+    const renderer = this.createRenderer(node)
+    return renderer.slot(['default'], this.widgetMap, 'render').main('render').exec()
+  }
 
   code() {
 

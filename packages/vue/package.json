@@ -17,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "alioth-lib": "workspace:*",
-    "phecda-vue": "2.0.1",    "vue": "^3.3.4"
+    "phecda-vue": "^2.0.3",    "vue": "^3.3.4"
   },
   "devDependencies": {
     "tsup": "^6.5.0"

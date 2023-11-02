@@ -1,9 +1,7 @@
-import type { NodeAttrs, VirtualDocument } from 'alioth-vue'
+import type { NodeAttrs } from 'alioth-vue'
 import { Init, emitter, useO } from 'phecda-vue'
 import { BaseDocModel, Controller, interval, observeDoc } from 'alioth-vue'
-import { WebsocketProvider } from 'y-websocket'
 import { EventModel } from './event'
-// @ts-expect-error miss types
 
 export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
   containerAttrs = markRaw(

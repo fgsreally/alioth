@@ -11,13 +11,12 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@vueuse/core": "^10.1.2",
     "alioth-vue": "workspace:^",
-    "phecda-vue": "2.0.1",    "vue": "^3.3.4"
+    "phecda-vue": "^2.0.3",    "vue": "^3.3.4"
   },
   "devDependencies": {
     "@arco-design/web-vue": "^2.52.0",

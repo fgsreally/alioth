@@ -176,22 +176,26 @@ export function observeDoc(doc: VirtualDocument<any>) {
                     }
                   }
                   else {
-                    doc.get(event.path[0] as string)?._set(i, obj.toJSON())
+                    const path = [...event.path.slice(1), i].join('.')
+                    doc.get(event.path[0] as string)?._set(path, obj.toJSON())
                   }
                 }
 
                 else {
-                  doc.get(event.path[0] as string)?._set(i, obj)
+                  const path = [...event.path.slice(1), i].join('.')
+
+                  doc.get(event.path[0] as string)?._set(path, obj)
                 }
 
                 break
               case 'delete':
-                if (item.oldValue instanceof YMap)
+                if (item.oldValue instanceof YMap) {
                   doc._removeNode(doc.get(i)!)
-                else
-
-                  doc.get(event.path[0] as string)?._set(i, obj)
-
+                }
+                else {
+                  const path = [...event.path.slice(1), i].join('.')
+                  doc.get(event.path[0] as string)?._set(path, obj)
+                }
                 break
               case 'update':
                 if (obj instanceof YMap) {

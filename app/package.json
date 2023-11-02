@@ -30,7 +30,7 @@
     "grid-layout-plus": "^1.0.3",
     "lodash-es": "^4.17.21",
     "openai": "^4.7.1",
-    "phecda-vue": "2.0.1",    "tippy.js": "^6.3.7",
+    "phecda-vue": "^2.0.3",    "tippy.js": "^6.3.7",
     "unocss": "^0.52.3",
     "unplugin-auto-import": "^0.13.0",
     "unplugin-vue-components": "^0.24.1",

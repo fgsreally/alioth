@@ -10,10 +10,11 @@
   },
   "dependencies": {
     "alioth-dev": "workspace:*",
-    "alioth-preset-elementplus": "workspace:^0.0.0",
-    "alioth-preset-layout": "workspace:^0.0.0",
+    "alioth-preset-elementplus": "workspace:*",
+    "alioth-preset-layout": "workspace:*",
     "alioth-vue": "workspace:*",
-    "phecda-vue": "2.0.1",    "vue": "^3.2.47"
+    "phecda-vue": "^2.0.3",
+    "vue": "^3.2.47"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.1.0",

@@ -1,4 +1,4 @@
-import type { Ref, UnwrapNestedRefs } from 'vue'
+import type { Ref } from 'vue'
 import { watch } from 'vue'
 import { Compartment } from '@codemirror/state'
 import {
@@ -195,20 +195,6 @@ function cursorTooltipField(variables: Record<string, any>) {
       const envTypeIcon = `<span class="inline-flex items-center justify-center my-1">${
         IconUser
       }</span>`
-
-      // const appendEditAction = (tooltip: HTMLElement) => {
-      //   const editIcon = document.createElement('button')
-      //   editIcon.className
-      //     = 'ml-2 cursor-pointer text-accent hover:text-accentDark'
-      //   editIcon.addEventListener('click', () => {
-      //     const isPersonalEnv
-      //       = envName === 'Global' || selectedEnvType !== 'TEAM_ENV'
-      //     const action = isPersonalEnv ? 'my' : 'team'
-
-      //   })
-      //   editIcon.innerHTML = `<span class="inline-flex items-center justify-center my-1">${IconEdit}</span>`
-      //   tooltip.appendChild(editIcon)
-      // }
 
       return {
         pos: start,

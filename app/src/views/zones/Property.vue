@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { VirtualNode } from 'alioth-vue'
 import { getWidget } from 'alioth-vue'
-import { createFormData, useV } from 'phecda-vue'
+import { createFormData, emitter, useV } from 'phecda-vue'
 
 import { watch } from 'vue'
 import { DragModel } from '@/models/drag'
-import type { NodeAttrs } from '@/engine/types'
+import type { NodeAttrs } from '@/types/node'
 import { DocModel } from '@/models/doc'
 
 const { type } = defineProps<{ type: 'props' | 'events' }>()
@@ -13,12 +13,12 @@ const { activeNode } = $(useV(DocModel))
 const { add, del } = useV(DragModel)
 let args = $ref<{ data: any; config: any }>({} as any)
 let isShow = $ref(true)
+
 function setProps(node: VirtualNode<NodeAttrs>, key: string, value: any) {
-  node.attrs.propsData[key] = value
-  node.set('propsData', node.attrs.propsData)
+  node.set(`propsData.${key}`, value)
 }
 
-watch(() => activeNode, async (n, o) => {
+watch(() => activeNode as VirtualNode<NodeAttrs>, async (n, o) => {
   if (!n)
     return
   if (o && n.attrs.key !== o.attrs.key) {

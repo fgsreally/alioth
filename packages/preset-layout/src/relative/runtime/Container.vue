@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { useV } from 'phecda-vue'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
-
-const props = defineProps<{
+import { ref } from 'vue'
+defineProps<{
   width: number
   height: number
   fontSize: number
@@ -23,13 +21,9 @@ const dom = ref<HTMLElement>(null as any)
 </script>
 
 <template>
-  <section class="al-window">
-    <div
-      ref="dom" class="editor__canvas "
-    >
-      <slot />
-    </div>
-  </section>
+  <div ref="dom" class="editor__canvas ">
+    <slot />
+  </div>
 </template>
 
 <style scoped>
@@ -45,14 +39,13 @@ const dom = ref<HTMLElement>(null as any)
 }
 
 .editor__canvas.gridHelper {
-  background-image: -webkit-linear-gradient(
-      top,
+  background-image: -webkit-linear-gradient(top,
       transparent 9px,
-      rgb(0, 0, 5, 0.153) 10px
-    ),
+      rgb(0, 0, 5, 0.153) 10px),
     -webkit-linear-gradient(left, transparent 9px, rgba(0, 0, 5, 0.153) 10px);
   background-size: 10px 10px;
 }
+
 .editor__canvas.gridHelper::before {
   content: "";
   border-radius: calc(var(--radius) * 1px);
@@ -65,13 +58,11 @@ const dom = ref<HTMLElement>(null as any)
   z-index: 1;
   opacity: 0.5;
   pointer-events: none;
-  background: -webkit-linear-gradient(
-    left,
-    transparent calc(var(--gridGap) * 1px - 1px),
-    var(--gridColor) calc(var(--gridGap) * 1px),
-    var(--gridColor) calc((var(--gridLen) - var(--gridGap)) * 1px),
-    transparent calc((var(--gridLen) - var(--gridGap)) * 1px + 1px)
-  );
+  background: -webkit-linear-gradient(left,
+      transparent calc(var(--gridGap) * 1px - 1px),
+      var(--gridColor) calc(var(--gridGap) * 1px),
+      var(--gridColor) calc((var(--gridLen) - var(--gridGap)) * 1px),
+      transparent calc((var(--gridLen) - var(--gridGap)) * 1px + 1px));
   background-size: calc(var(--gridLen) * 1px);
 }
 </style>

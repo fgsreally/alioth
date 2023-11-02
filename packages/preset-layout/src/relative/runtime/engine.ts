@@ -1,9 +1,7 @@
 import {
   BaseEngine,
 } from 'alioth-vue'
-import type { VirtualNode } from 'alioth-vue'
 import type { VNode } from 'vue'
-import { h } from 'vue'
 import { renderer } from './renderer'
 
 export class Engine extends BaseEngine<typeof renderer> {

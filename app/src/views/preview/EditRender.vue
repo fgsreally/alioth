@@ -31,7 +31,9 @@ function load(e: any) {
 
 <template>
   <div flex justify-center items-center w-full h-full>
-    <RenderBlock v-if="!!activePage" :node="activePage" type="edit" :value="getWidget('root')!" />
+    <section v-if="!!activePage" class="al-window">
+      <RenderBlock :node="activePage" type="edit" :value="getWidget('root')!" />
+    </section>
   </div>
 </template>
 

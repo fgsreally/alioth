@@ -1,4 +1,4 @@
-import { defineComponent, onUpdated } from 'vue'
+import { defineComponent } from 'vue'
 import type { DefineComponent, PropType } from 'vue'
 import type { NodeAttrs, VirtualNode } from 'alioth-lib'
 import { type BaseEngine } from './register'

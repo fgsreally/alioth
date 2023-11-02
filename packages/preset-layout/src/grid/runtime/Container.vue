@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { emitter, useV } from 'phecda-vue'
 import { GridLayout } from 'grid-layout-plus'
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 
 const { aNode } = defineProps<{ height: number; width: number; aMode: string; aNode: any }>()
 
@@ -13,7 +12,6 @@ const layout = computed(() => {
 <template>
   <section
     ref="dom"
-    class="al-window"
     :style="{
       width: `${width}px`,
       height: `${height}px`,

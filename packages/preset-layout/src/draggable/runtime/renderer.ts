@@ -3,22 +3,9 @@ import { BaseRenderer, interval } from 'alioth-vue'
 import type { DefineComponent } from 'vue'
 import { h } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { GridItem } from 'grid-layout-plus'
 
 export class renderer extends BaseRenderer<any> {
   propsData: any
-
-  grid() {
-    if (!this._vnode)
-      return this
-
-    const node = this.node
-    this._vnode = h(GridItem, {
-      ...node.attrs.layout,
-
-    }, this._vnode)
-    return this
-  }
 
   main(type: string) {
     if (this.node.parent?.id === 'root') {
@@ -30,9 +17,7 @@ export class renderer extends BaseRenderer<any> {
       return this
     }
     const ret = interval.filter(cloneDeep(this.node.attrs.propsData))
-    ret.aNode = this.node
-    ret.aMode = type
-    if (type === 'render' && this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
+    if (this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
       (this._vnode = h(
         this.comp as DefineComponent,
         {
@@ -41,12 +26,6 @@ export class renderer extends BaseRenderer<any> {
             ret.modelValue = v
           },
         },
-        this._vnode))
-    }
-    else {
-      (this._vnode = h(
-        this.comp as DefineComponent,
-        { ...ret },
         this._vnode))
     }
 

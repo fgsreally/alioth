@@ -49,9 +49,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="al-window">
-    <div
-      ref="dom" class="editor__canvas " :class="props.isGrid ? 'gridHelper' : ''" :style="`--radius:${props.radius / 2};--fontSize:${props.fontSize};
+  <div
+    ref="dom" class="editor__canvas " :class="props.isGrid ? 'gridHelper' : ''" :style="`--radius:${props.radius / 2};--fontSize:${props.fontSize};
             --gridGap:${props.gridGap / 2};
             --gridLen:${(props.width - props.margin * 2) / props.gridNum};
             --bkColor:${props.backgroundColor};
@@ -61,12 +60,11 @@ onBeforeUnmount(() => {
             --gridColor:${props.gridColor};
       `
 
-      "
-      @click.self.stop="doc.cancel()"
-    >
-      <slot />
-    </div>
-  </section>
+    "
+    @click.self.stop="doc.cancel()"
+  >
+    <slot />
+  </div>
 </template>
 
 <style scoped>

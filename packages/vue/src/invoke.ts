@@ -4,7 +4,7 @@ import { interval } from './interval'
 import type { BaseEngine } from './register'
 import { getNamespace } from './register'
 let isLoad = false
-
+let isRegister = false
 export async function init() {
   if (isLoad)
     return
@@ -16,6 +16,7 @@ export async function init() {
       meta?: any
     },
   ) {
+    isRegister = true
     // @ts-expect-error is not a abstract
     // eslint-disable-next-line new-cap
     getNamespace(category).register?.(markRaw(new interval.engine(category, key, component, meta)))
@@ -31,5 +32,9 @@ export async function init() {
 }
 
 export function setEngine<R extends typeof BaseEngine<any, any>>(engine: R) {
+  if (isRegister) {
+    console.warn('Alioth: must setEngine before register widget')
+    return
+  }
   interval.engine = engine
 }

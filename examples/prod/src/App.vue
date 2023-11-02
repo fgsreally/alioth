@@ -3,7 +3,6 @@ import { VirtualDocument, createRenderComponent, getWidget, loadJSON, loadPreset
 import { onMounted, reactive, ref } from 'vue'
 const RenderBlock = createRenderComponent<any, any>()
 
-const docUrl = 'http://127.0.0.1:8080/test.json'
 const isLoading = ref(true)
 const instance = reactive(new VirtualDocument())
 onMounted(async () => {
@@ -11,7 +10,6 @@ onMounted(async () => {
   const { docs } = await loadJSON('http://127.0.0.1:8080/data.json')
   instance.load(docs)
   isLoading.value = false
-  console.log(getWidget('root'))
 })
 </script>
 

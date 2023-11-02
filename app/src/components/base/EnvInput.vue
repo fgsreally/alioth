@@ -108,13 +108,7 @@ watch(
   () => props.modelValue,
   (newVal) => {
     if (!newVal) {
-      invokeAction('contextmenu.open', {
-        position: {
-          top: 0,
-          left: 0,
-        },
-        text: null,
-      })
+
     }
   },
 )

@@ -1,11 +1,11 @@
 // import { cloneDeep, isSymbol } from 'lodash-es'
-import { BaseRenderer, interval } from 'alioth-vue'
+import { BaseRenderer } from 'alioth-vue'
 import type { DefineComponent } from 'vue'
 import { h } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { useV } from 'phecda-vue'
 
-const { doc, activePage } = useV(__PHECDA__.doc)
+const { doc } = useV(__PHECDA__.doc)
 
 export class renderer extends BaseRenderer<any> {
   propsData: any
@@ -19,7 +19,7 @@ export class renderer extends BaseRenderer<any> {
       )
       return this
     }
-    const ret = interval.filter(cloneDeep(this.node.attrs.propsData))
+    const ret = $alioth_interval.filter(cloneDeep(this.node.attrs.propsData))
     if (type === 'render' && this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
       (this._vnode = h(
         this.comp as DefineComponent,
