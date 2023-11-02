@@ -104,14 +104,14 @@ function updateModelValue(value: string) {
 }
 
 // close the context menu when the input is empty
-watch(
-  () => props.modelValue,
-  (newVal) => {
-    if (!newVal) {
+// watch(
+//   () => props.modelValue,
+//   (newVal) => {
+//     if (!newVal) {
 
-    }
-  },
-)
+//     }
+//   },
+// )
 
 function handleKeystroke(ev: KeyboardEvent) {
   if (['ArrowDown', 'ArrowUp', 'Enter', 'Tab', 'Escape'].includes(ev.key))

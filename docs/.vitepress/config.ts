@@ -30,69 +30,77 @@ export default defineConfig({
     },
 
     nav: [
-      { text: '指南', link: '/guide/quick-start', activeMatch: '/guide/' },
-      {
-        text: 'API',
-        link: '/api/helper',
-        activeMatch: '/api/',
-      },
+      { text: '指南', link: '/core/intro', activeMatch: '/core/' },
+      // {
+      //   text: 'API',
+      //   link: '/api/helper',
+      //   activeMatch: '/api/',
+      // },
       // { text: '常见问题', link: '/question/', activeMatch: '/question/' },
       // { text: '框架封装', link: '/pack/', activeMatch: '/pack/' },
 
     ],
 
     sidebar: {
+
       '/': [
         {
-          text: '设计思路',
+          text: '核心',
           collapsed: true,
           items: [
             {
-              text: '开始之前',
-              link: '/why/index',
+              text: '介绍',
+              link: '/core/intro',
             },
             {
-              text: '从哪儿开始',
-              link: '/why/question',
+              text: '核心',
+              link: '/core/core',
             },
             {
-              text: '特性',
-              link: '/why/feature',
-            },
-
-            {
-              text: '自定义',
-              link: '/why/custom',
-            },
-          ],
-        },
-        {
-          text: '入门',
-          collapsed: false,
-          items: [
-
-            {
-              text: '快速上手',
-              link: '/guide/quick-start',
-            },
-          ],
-        },
-
-        {
-          text: '指南',
-          collapsed: false,
-          items: [
-            {
-              text: '注册器',
-              link: '/guide/register',
+              text: '节点',
+              link: '/core/node',
             },
             {
               text: '预设',
-              link: '/guide/preset',
+              link: '/core/preset',
+            },
+            {
+              text: '功能模块',
+              link: '/core/function',
+            },
+            {
+              text: '渲染引擎',
+              link: '/core/engine',
+            },
+            {
+              text: 'phecda-vue',
+              link: '/core/phecda-vue',
             },
             {
               text: '部署',
-              link: '/guide/deploy',
+              link: '/core/deploy',
+            },
+          ],
+        },
+        {
+          text: '案例',
+          collapsed: false,
+          items: [
+            {
+              text: '看见须知',
+              link: '/example/must-know',
+            },
+            {
+              text: '快速上手',
+              link: '/example/quick-start',
+            },
+            {
+              text: '预设',
+              link: '/example/preset',
+            },
+            {
+              text: '功能模块',
+              link: '/example/function',
             },
 
           ],
@@ -140,10 +148,40 @@ export default defineConfig({
           ],
         },
       ],
-      '/question': [],
-      '/pack/': [
+      '/blog': [
+        {
+          text: '设计思路',
+          collapsed: true,
+          items: [
+            {
+              text: '开始之前',
+              link: '/blog/index',
+            },
+            {
+              text: '从哪儿开始',
+              link: '/blog/question',
+            },
+            {
+              text: '特性',
+              link: '/blog/feature',
+            },
 
+            {
+              text: '自定义',
+              link: '/blog/custom',
+            },
+            {
+              text: '自定义平台',
+              link: '/blog/platform',
+            },
+            {
+              text: '进展',
+              link: '/blog/changelog',
+            },
+          ],
+        },
       ],
+
     },
   },
 })

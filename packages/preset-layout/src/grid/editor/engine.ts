@@ -32,7 +32,7 @@ export class Engine extends BaseEngine<typeof renderer> {
   render(node: any) {
     const renderer = this.createRenderer(node)
 
-    if (node.parent!.parent!.id === 'root') {
+    if (node.parent?.parent?.id === 'root') {
       return renderer
         .slot(['default'], this.widgetMap, 'render')
         .main('render')

@@ -1,6 +1,6 @@
 import component from './Container.vue'
 import { Engine } from './engine'
-export const widget_container = {
+export const container = {
   alioth: 'widget',
   data: {
     key: 'root',
@@ -9,7 +9,7 @@ export const widget_container = {
   },
 }
 
-export const engine_ = {
+export const engine = {
   alioth: 'setEngine',
   data: Engine,
 }

@@ -1,4 +1,4 @@
-# intro
+# 介绍
 > 目前仅用于`vue3+vite`
 
 `alioth`的定位是一个高度自定义的低代码引擎，它提供一系列低代码中可能用到的功能：渲染、协同、更新...
@@ -8,7 +8,7 @@
 > 我会给出一些由`alioth`的案例和模板，如果你不希望从零开始，可以参考一下
 
 :::info 提醒
-这里只会讲概念，如果要看案例or代码,请看[example](../example/index.md)
+这里只会讲概念，如果要看案例or代码,请看[example](../example/must-know.md)
 :::
 
 ## headless

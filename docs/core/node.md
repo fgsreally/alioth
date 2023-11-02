@@ -1,7 +1,7 @@
 # 节点
 > 这是一定的，无论你是自制平台，还是使用默认平台
 
-玉衡本质是操作一个树状的`virtualDocument`实例，树上的节点为`virtualNode`实例，[详见]()
+玉衡本质是操作一个树状的`virtualDocument`实例，树上的节点为`virtualNode`实例，详见源码
 
 这和`web`中的`document`和`node`很像，同样通过`insert/remove/set`的方式操作
 

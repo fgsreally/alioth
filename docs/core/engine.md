@@ -128,6 +128,6 @@ export class Engine extends BaseEngine<typeof Renderer> {
 
 > 生产环境时，可以只保留一个`render`方法，从而保持体积精简
 
-一些案例[详见]()
+一些案例[详见](https://github.com/fgsreally/alioth/tree/main/packages/preset-layout)
 
 

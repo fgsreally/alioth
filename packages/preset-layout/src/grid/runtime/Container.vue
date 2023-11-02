@@ -2,20 +2,17 @@
 import { GridLayout } from 'grid-layout-plus'
 import { computed } from 'vue'
 
-const { aNode } = defineProps<{ height: number; width: number; aMode: string; aNode: any }>()
+const { a_node } = defineProps<{ a_mode: string; a_node: any }>()
 
 const layout = computed(() => {
-  return aNode.children.map(item => item.attrs.layout)
+  return a_node.children.map(item => item.attrs.layout)
 })
 </script>
 
 <template>
   <section
     ref="dom"
-    :style="{
-      width: `${width}px`,
-      height: `${height}px`,
-    }"
+    class="a-container"
 
     @mouseup.stop
   >
@@ -23,8 +20,8 @@ const layout = computed(() => {
       v-model:layout="layout"
       :col-num="12"
       :row-height="30"
-      :is-draggable="aMode !== 'render'"
-      :is-resizable="aMode !== 'render'"
+      :is-draggable="a_mode !== 'render'"
+      :is-resizable="a_mode !== 'render'"
       vertical-compact
       prevent-collision
       use-css-transforms
@@ -33,3 +30,10 @@ const layout = computed(() => {
     </GridLayout>
   </section>
 </template>
+
+<style>
+.a-container {
+  min-width: 600px;
+  min-height: 300px;
+}
+</style>

@@ -44,7 +44,6 @@ function addBlock(module: any, e: MouseEvent) {
     top: parent === activePage.value ? e.offsetY : 0,
     left: parent === activePage.value ? e.offsetX : 0,
   }, meta?.init || {}))
-  // interval.setState(index, block.attrs.propsData)
   parent.insert(block)
   emitter.emit('alioth:node-action', null)
 }

@@ -6,7 +6,7 @@ const RenderBlock = createRenderComponent<any, any>()
 const isLoading = ref(true)
 const instance = reactive(new VirtualDocument())
 onMounted(async () => {
-  await loadPresets(['http://127.0.0.1:8080/b.js', 'http://127.0.0.1:8080/style.css'])
+  await loadPresets(['http://127.0.0.1:8080/example-dev.js', 'http://127.0.0.1:8080/style.css'])
   const { docs } = await loadJSON('http://127.0.0.1:8080/data.json')
   instance.load(docs)
   isLoading.value = false
