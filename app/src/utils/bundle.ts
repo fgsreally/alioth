@@ -28,7 +28,7 @@ function extractVariables(code: string) {
   return Array.from(variables)
 }
 
-export async function bundleWithEsbuild(rawCode: string, baseUrl: string) {
+export async function bundleWithEsbuild(rawCode: string) {
   await esbuild.initialize({
     worker: true,
     wasmURL: './node_modules/esbuild-wasm/esbuild.wasm',
@@ -43,7 +43,7 @@ export async function bundleWithEsbuild(rawCode: string, baseUrl: string) {
 
     format: 'esm',
     write: false,
-    plugins: [unpkgPathPlugin(rawCode), fetchPlugin(rawCode)],
+    plugins: [unpkgPathPlugin(), fetchPlugin(rawCode)],
     define: {
       'import.meta.hot': 'false',
       'import.meta.DEV': 'false',
@@ -93,7 +93,6 @@ export function createEntryFileCode(doc: VirtualDocument<NodeAttrs>, graph: Reco
     for (const key in graph[url]) {
       const exports = graph[url][key]
 
-      console.log(exports)
       if (typeof exports === 'object' && exports.alioth) {
         if (exports.alioth === 'setEngine')
           dependences[url].push(key)

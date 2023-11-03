@@ -1,6 +1,6 @@
 import type * as esbuild from 'esbuild-wasm'
 
-export const unpkgPathPlugin = (inputCode: string) => {
+export const unpkgPathPlugin = () => {
   return {
     name: 'unpkg-path-plugin',
     setup(build: esbuild.PluginBuild) {
@@ -8,14 +8,13 @@ export const unpkgPathPlugin = (inputCode: string) => {
         return { path: args.path, namespace: 'alioth', external: true }
       })
       // handle root entry file
-      build.onResolve({ filter: /(^index\.js$)/ }, (args: any) => {
+      build.onResolve({ filter: /(^index\.js$)/ }, () => {
         return { path: 'index.js', namespace: 'alioth' }
       })
 
       // handle rel paths in module :  includes ./ || ../
       build.onResolve({ filter: /^\.+\// }, (args: any) => {
         const url = new URL(args.path, `http://localhost:5173${args.resolveDir}/`)
-        console.log(url)
 
         return {
           path: url.href,
