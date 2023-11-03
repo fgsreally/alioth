@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/thru.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "/**\n * This method is like `_.tap` except that it returns the result of `interceptor`.\n * The purpose of this method is to \"pass thru\" values replacing intermediate\n * results in a method chain sequence.\n *\n * @static\n * @memberOf _\n * @since 3.0.0\n * @category Seq\n * @param {*} value The value to provide to `interceptor`.\n * @param {Function} interceptor The function to invoke.\n * @returns {*} Returns the result of `interceptor`.\n * @example\n *\n * _('  abc  ')\n *  .chain()\n *  .trim()\n *  .thru(function(value) {\n *    return [value];\n *  })\n *  .value();\n * // => ['abc']\n */\nfunction thru(value, interceptor) {\n  return interceptor(value);\n}\n\nexport default thru;\n",
+      "start": 1698982453643,
+      "end": 1698982453683,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453683,
+      "end": 1698982453683,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453683,
+      "end": 1698982453683,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453683,
+      "end": 1698982453683,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453684,
+      "end": 1698982453684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453684,
+      "end": 1698982453684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453684,
+      "end": 1698982453684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453684,
+      "end": 1698982453684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453684,
+      "end": 1698982453684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453684,
+      "end": 1698982453684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453684,
+      "end": 1698982453684,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453684,
+      "end": 1698982453684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453684,
+      "end": 1698982453684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453684,
+      "end": 1698982453684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453684,
+      "end": 1698982453684,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453684,
+      "end": 1698982453684,
+      "order": "normal"
+    }
+  ]
+}

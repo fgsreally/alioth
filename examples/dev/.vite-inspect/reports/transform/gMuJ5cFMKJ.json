@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_basePickBy.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import baseGet from './_baseGet.js';\nimport baseSet from './_baseSet.js';\nimport castPath from './_castPath.js';\n\n/**\n * The base implementation of  `_.pickBy` without support for iteratee shorthands.\n *\n * @private\n * @param {Object} object The source object.\n * @param {string[]} paths The property paths to pick.\n * @param {Function} predicate The function invoked per property.\n * @returns {Object} Returns the new object.\n */\nfunction basePickBy(object, paths, predicate) {\n  var index = -1,\n      length = paths.length,\n      result = {};\n\n  while (++index < length) {\n    var path = paths[index],\n        value = baseGet(object, path);\n\n    if (predicate(value, path)) {\n      baseSet(result, castPath(path, object), value);\n    }\n  }\n  return result;\n}\n\nexport default basePickBy;\n",
+      "start": 1698982454470,
+      "end": 1698982454524,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454524,
+      "end": 1698982454524,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454524,
+      "end": 1698982454524,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454524,
+      "end": 1698982454524,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454524,
+      "end": 1698982454524,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454524,
+      "end": 1698982454524,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454524,
+      "end": 1698982454524,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454524,
+      "end": 1698982454524,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454524,
+      "end": 1698982454524,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454524,
+      "end": 1698982454524,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454524,
+      "end": 1698982454524,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454524,
+      "end": 1698982454524,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454524,
+      "end": 1698982454524,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454524,
+      "end": 1698982454525,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454525,
+      "end": 1698982454525,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454525,
+      "end": 1698982454525,
+      "order": "normal"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseSortBy.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "/**\n * The base implementation of `_.sortBy` which uses `comparer` to define the\n * sort order of `array` and replaces criteria objects with their corresponding\n * values.\n *\n * @private\n * @param {Array} array The array to sort.\n * @param {Function} comparer The function to define sort order.\n * @returns {Array} Returns `array`.\n */\nfunction baseSortBy(array, comparer) {\n  var length = array.length;\n\n  array.sort(comparer);\n  while (length--) {\n    array[length] = array[length].value;\n  }\n  return array;\n}\n\nexport default baseSortBy;\n",
+      "start": 1698982454818,
+      "end": 1698982454852,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454852,
+      "end": 1698982454852,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454852,
+      "end": 1698982454852,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454852,
+      "end": 1698982454852,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454852,
+      "end": 1698982454852,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454852,
+      "end": 1698982454852,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454853,
+      "end": 1698982454853,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454853,
+      "end": 1698982454853,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454853,
+      "end": 1698982454853,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454853,
+      "end": 1698982454853,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454853,
+      "end": 1698982454853,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454853,
+      "end": 1698982454853,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454853,
+      "end": 1698982454853,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454853,
+      "end": 1698982454853,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454853,
+      "end": 1698982454853,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454853,
+      "end": 1698982454853,
+      "order": "normal"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/cloneWith.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import baseClone from './_baseClone.js';\n\n/** Used to compose bitmasks for cloning. */\nvar CLONE_SYMBOLS_FLAG = 4;\n\n/**\n * This method is like `_.clone` except that it accepts `customizer` which\n * is invoked to produce the cloned value. If `customizer` returns `undefined`,\n * cloning is handled by the method instead. The `customizer` is invoked with\n * up to four arguments; (value [, index|key, object, stack]).\n *\n * @static\n * @memberOf _\n * @since 4.0.0\n * @category Lang\n * @param {*} value The value to clone.\n * @param {Function} [customizer] The function to customize cloning.\n * @returns {*} Returns the cloned value.\n * @see _.cloneDeepWith\n * @example\n *\n * function customizer(value) {\n *   if (_.isElement(value)) {\n *     return value.cloneNode(false);\n *   }\n * }\n *\n * var el = _.cloneWith(document.body, customizer);\n *\n * console.log(el === document.body);\n * // => false\n * console.log(el.nodeName);\n * // => 'BODY'\n * console.log(el.childNodes.length);\n * // => 0\n */\nfunction cloneWith(value, customizer) {\n  customizer = typeof customizer == 'function' ? customizer : undefined;\n  return baseClone(value, CLONE_SYMBOLS_FLAG, customizer);\n}\n\nexport default cloneWith;\n",
+      "start": 1698982453075,
+      "end": 1698982453110,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453110,
+      "end": 1698982453110,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453110,
+      "end": 1698982453110,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453110,
+      "end": 1698982453110,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453110,
+      "end": 1698982453110,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453110,
+      "end": 1698982453110,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453110,
+      "end": 1698982453110,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453110,
+      "end": 1698982453110,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453110,
+      "end": 1698982453110,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453110,
+      "end": 1698982453110,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453110,
+      "end": 1698982453110,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453110,
+      "end": 1698982453110,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453111,
+      "end": 1698982453111,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453111,
+      "end": 1698982453111,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453111,
+      "end": 1698982453111,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453111,
+      "end": 1698982453111,
+      "order": "normal"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isArguments.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import baseIsArguments from './_baseIsArguments.js';\nimport isObjectLike from './isObjectLike.js';\n\n/** Used for built-in method references. */\nvar objectProto = Object.prototype;\n\n/** Used to check objects for own properties. */\nvar hasOwnProperty = objectProto.hasOwnProperty;\n\n/** Built-in value references. */\nvar propertyIsEnumerable = objectProto.propertyIsEnumerable;\n\n/**\n * Checks if `value` is likely an `arguments` object.\n *\n * @static\n * @memberOf _\n * @since 0.1.0\n * @category Lang\n * @param {*} value The value to check.\n * @returns {boolean} Returns `true` if `value` is an `arguments` object,\n *  else `false`.\n * @example\n *\n * _.isArguments(function() { return arguments; }());\n * // => true\n *\n * _.isArguments([1, 2, 3]);\n * // => false\n */\nvar isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsArguments : function(value) {\n  return isObjectLike(value) && hasOwnProperty.call(value, 'callee') &&\n    !propertyIsEnumerable.call(value, 'callee');\n};\n\nexport default isArguments;\n",
+      "start": 1698982453264,
+      "end": 1698982453304,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453304,
+      "end": 1698982453304,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453304,
+      "end": 1698982453304,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453304,
+      "end": 1698982453304,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453304,
+      "end": 1698982453304,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453304,
+      "end": 1698982453304,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453304,
+      "end": 1698982453304,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453304,
+      "end": 1698982453304,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453304,
+      "end": 1698982453304,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453304,
+      "end": 1698982453304,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453304,
+      "end": 1698982453304,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453304,
+      "end": 1698982453305,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453305,
+      "end": 1698982453305,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453305,
+      "end": 1698982453305,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453305,
+      "end": 1698982453305,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453305,
+      "end": 1698982453305,
+      "order": "normal"
+    }
+  ]
+}

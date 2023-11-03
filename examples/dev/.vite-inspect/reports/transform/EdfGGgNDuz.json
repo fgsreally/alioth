@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/grid-layout-plus@1.0.3_vue@3.3.4/node_modules/grid-layout-plus/es/helpers/common.mjs",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "const T = Symbol(\"LAYOUT_KEY\"), v = Symbol(\"EMITTER_KEY\");\nfunction A(r) {\n  let n = 0, t;\n  for (let e = 0, i = r.length; e < i; e++)\n    t = r[e].y + r[e].h, t > n && (n = t);\n  return n;\n}\nfunction Y(r) {\n  const n = Array(r.length);\n  for (let t = 0, e = r.length; t < e; t++)\n    n[t] = y(r[t]);\n  return n;\n}\nfunction y(r) {\n  return { ...r };\n}\nfunction d(r, n) {\n  return !(r === n || r.x + r.w <= n.x || r.x >= n.x + n.w || r.y + r.h <= n.y || r.y >= n.y + n.h);\n}\nfunction $(r, n, t) {\n  const e = b(r), i = g(r), o = Array(r.length);\n  for (let s = 0, f = i.length; s < f; s++) {\n    let c = i[s];\n    c.static || (c = E(e, c, n, t), e.push(c)), o[r.indexOf(c)] = c, c.moved = !1;\n  }\n  return o;\n}\nfunction E(r, n, t, e) {\n  if (t)\n    for (; n.y > 0 && !l(r, n); )\n      n.y--;\n  else if (e) {\n    const o = e[n.i].y;\n    for (; n.y > o && !l(r, n); )\n      n.y--;\n  }\n  let i;\n  for (; i = l(r, n); )\n    n.y = i.y + i.h;\n  return n;\n}\nfunction _(r, n) {\n  const t = b(r);\n  for (let e = 0, i = r.length; e < i; e++) {\n    const o = r[e];\n    if (o.x + o.w > n.cols && (o.x = n.cols - o.w), o.x < 0 && (o.x = 0, o.w = n.cols), !o.static)\n      t.push(o);\n    else\n      for (; l(t, o); )\n        o.y++;\n  }\n  return r;\n}\nfunction C(r, n) {\n  for (let t = 0, e = r.length; t < e; t++)\n    if (r[t].i === n)\n      return r[t];\n}\nfunction l(r, n) {\n  for (let t = 0, e = r.length; t < e; t++)\n    if (d(r[t], n))\n      return r[t];\n}\nfunction L(r, n) {\n  return r.filter((t) => d(t, n));\n}\nfunction b(r) {\n  return r.filter((n) => n.static);\n}\nfunction x(r, n, t, e, i = !1, o = !1) {\n  if (n.static)\n    return r;\n  const s = n.x, f = n.y, c = e && n.y > e;\n  typeof t == \"number\" && (n.x = t), typeof e == \"number\" && (n.y = e), n.moved = !0;\n  let h = g(r);\n  c && (h = h.reverse());\n  const p = L(h, n);\n  if (o && p.length)\n    return n.x = s, n.y = f, n.moved = !1, r;\n  for (let w = 0, m = p.length; w < m; w++) {\n    const u = p[w];\n    u.moved || n.y > u.y && n.y - u.y > u.h / 4 || (u.static ? r = a(r, u, n, i) : r = a(r, n, u, i));\n  }\n  return r;\n}\nfunction a(r, n, t, e) {\n  if (e) {\n    const o = {\n      x: t.x,\n      y: t.y,\n      w: t.w,\n      h: t.h,\n      i: \"-1\"\n    };\n    if (o.y = Math.max(n.y - t.h, 0), !l(r, o))\n      return x(r, t, void 0, o.y, !1);\n  }\n  return x(r, t, void 0, t.y + 1, !1);\n}\nfunction O(r, n, t, e) {\n  const i = \"translate3d(\" + n + \"px,\" + r + \"px, 0)\";\n  return {\n    transform: i,\n    WebkitTransform: i,\n    MozTransform: i,\n    msTransform: i,\n    OTransform: i,\n    width: t + \"px\",\n    height: e + \"px\",\n    position: \"absolute\"\n  };\n}\nfunction G(r, n, t, e) {\n  const i = \"translate3d(\" + n * -1 + \"px,\" + r + \"px, 0)\";\n  return {\n    transform: i,\n    WebkitTransform: i,\n    MozTransform: i,\n    msTransform: i,\n    OTransform: i,\n    width: t + \"px\",\n    height: e + \"px\",\n    position: \"absolute\"\n  };\n}\nfunction R(r, n, t, e) {\n  return {\n    top: r + \"px\",\n    left: n + \"px\",\n    width: t + \"px\",\n    height: e + \"px\",\n    position: \"absolute\"\n  };\n}\nfunction V(r, n, t, e) {\n  return {\n    top: r + \"px\",\n    right: n + \"px\",\n    width: t + \"px\",\n    height: e + \"px\",\n    position: \"absolute\"\n  };\n}\nfunction g(r) {\n  return Array.from(r).sort(function(n, t) {\n    return n.y === t.y && n.x === t.x ? 0 : n.y > t.y || n.y === t.y && n.x > t.x ? 1 : -1;\n  });\n}\nfunction k(r, n) {\n  n = n || \"Layout\";\n  const t = [\"x\", \"y\", \"w\", \"h\"], e = [];\n  if (!Array.isArray(r))\n    throw new Error(n + \" must be an array!\");\n  for (let i = 0, o = r.length; i < o; i++) {\n    const s = r[i];\n    for (let f = 0; f < t.length; f++)\n      if (typeof s[t[f]] != \"number\")\n        throw new Error(\n          \"VueGridLayout: \" + n + \"[\" + i + \"].\" + t[f] + \" must be a number!\"\n        );\n    if (s.i === void 0 || s.i === null)\n      throw new Error(\"VueGridLayout: \" + n + \"[\" + i + \"].i cannot be null!\");\n    if (typeof s.i != \"number\" && typeof s.i != \"string\")\n      throw new Error(\"VueGridLayout: \" + n + \"[\" + i + \"].i must be a string or number!\");\n    if (e.indexOf(s.i) >= 0)\n      throw new Error(\"VueGridLayout: \" + n + \"[\" + i + \"].i must be unique!\");\n    if (e.push(s.i), s.static !== void 0 && typeof s.static != \"boolean\")\n      throw new Error(\"VueGridLayout: \" + n + \"[\" + i + \"].static must be a boolean!\");\n  }\n}\nfunction K(r, n = \"vgl\") {\n  const t = () => `${n}-${r}`;\n  return {\n    b: t,\n    be: (s) => `${t()}__${s}`,\n    bm: (s) => `${t()}--${s}`,\n    bem: (s, f) => `${t()}__${s}--${f}`\n  };\n}\nexport {\n  v as EMITTER_KEY,\n  T as LAYOUT_KEY,\n  A as bottom,\n  Y as cloneLayout,\n  y as cloneLayoutItem,\n  d as collides,\n  $ as compact,\n  E as compactItem,\n  _ as correctBounds,\n  L as getAllCollisions,\n  l as getFirstCollision,\n  C as getLayoutItem,\n  b as getStatics,\n  x as moveElement,\n  a as moveElementAwayFromCollision,\n  R as setTopLeft,\n  V as setTopRight,\n  O as setTransform,\n  G as setTransformRtl,\n  g as sortLayoutItemsByRowCol,\n  K as useNameHelper,\n  k as validateLayout\n};\n//# sourceMappingURL=common.mjs.map\n",
+      "start": 1698982453758,
+      "end": 1698982453836,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453836,
+      "end": 1698982453836,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453837,
+      "end": 1698982453837,
+      "order": "normal"
+    }
+  ]
+}

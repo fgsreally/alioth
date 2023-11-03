@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/pullAll.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import basePullAll from './_basePullAll.js';\n\n/**\n * This method is like `_.pull` except that it accepts an array of values to remove.\n *\n * **Note:** Unlike `_.difference`, this method mutates `array`.\n *\n * @static\n * @memberOf _\n * @since 4.0.0\n * @category Array\n * @param {Array} array The array to modify.\n * @param {Array} values The values to remove.\n * @returns {Array} Returns `array`.\n * @example\n *\n * var array = ['a', 'b', 'c', 'a', 'b', 'c'];\n *\n * _.pullAll(array, ['a', 'c']);\n * console.log(array);\n * // => ['b', 'b']\n */\nfunction pullAll(array, values) {\n  return (array && array.length && values && values.length)\n    ? basePullAll(array, values)\n    : array;\n}\n\nexport default pullAll;\n",
+      "start": 1698982453510,
+      "end": 1698982453563,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453563,
+      "end": 1698982453563,
+      "order": "normal"
+    }
+  ]
+}

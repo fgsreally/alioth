@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/padEnd.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import createPadding from './_createPadding.js';\nimport stringSize from './_stringSize.js';\nimport toInteger from './toInteger.js';\nimport toString from './toString.js';\n\n/**\n * Pads `string` on the right side if it's shorter than `length`. Padding\n * characters are truncated if they exceed `length`.\n *\n * @static\n * @memberOf _\n * @since 4.0.0\n * @category String\n * @param {string} [string=''] The string to pad.\n * @param {number} [length=0] The padding length.\n * @param {string} [chars=' '] The string used as padding.\n * @returns {string} Returns the padded string.\n * @example\n *\n * _.padEnd('abc', 6);\n * // => 'abc   '\n *\n * _.padEnd('abc', 6, '_-');\n * // => 'abc_-_'\n *\n * _.padEnd('abc', 3);\n * // => 'abc'\n */\nfunction padEnd(string, length, chars) {\n  string = toString(string);\n  length = toInteger(length);\n\n  var strLength = length ? stringSize(string) : 0;\n  return (length && strLength < length)\n    ? (string + createPadding(length - strLength, chars))\n    : string;\n}\n\nexport default padEnd;\n",
+      "start": 1698982453460,
+      "end": 1698982453535,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453535,
+      "end": 1698982453535,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453535,
+      "end": 1698982453535,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453535,
+      "end": 1698982453535,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453535,
+      "end": 1698982453535,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453535,
+      "end": 1698982453536,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453536,
+      "end": 1698982453536,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453536,
+      "end": 1698982453536,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453536,
+      "end": 1698982453536,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453536,
+      "end": 1698982453536,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453536,
+      "end": 1698982453536,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453536,
+      "end": 1698982453536,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453536,
+      "end": 1698982453536,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453536,
+      "end": 1698982453536,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453536,
+      "end": 1698982453536,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453536,
+      "end": 1698982453536,
+      "order": "normal"
+    }
+  ]
+}

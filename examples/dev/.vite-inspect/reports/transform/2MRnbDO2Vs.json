@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/omitBy.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import baseIteratee from './_baseIteratee.js';\nimport negate from './negate.js';\nimport pickBy from './pickBy.js';\n\n/**\n * The opposite of `_.pickBy`; this method creates an object composed of\n * the own and inherited enumerable string keyed properties of `object` that\n * `predicate` doesn't return truthy for. The predicate is invoked with two\n * arguments: (value, key).\n *\n * @static\n * @memberOf _\n * @since 4.0.0\n * @category Object\n * @param {Object} object The source object.\n * @param {Function} [predicate=_.identity] The function invoked per property.\n * @returns {Object} Returns the new object.\n * @example\n *\n * var object = { 'a': 1, 'b': '2', 'c': 3 };\n *\n * _.omitBy(object, _.isNumber);\n * // => { 'b': '2' }\n */\nfunction omitBy(object, predicate) {\n  return pickBy(object, negate(baseIteratee(predicate)));\n}\n\nexport default omitBy;\n",
+      "start": 1698982453435,
+      "end": 1698982453509,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453509,
+      "end": 1698982453509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453509,
+      "end": 1698982453509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453509,
+      "end": 1698982453509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453509,
+      "end": 1698982453509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453509,
+      "end": 1698982453509,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453509,
+      "end": 1698982453510,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453510,
+      "end": 1698982453510,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453510,
+      "end": 1698982453510,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453510,
+      "end": 1698982453510,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453510,
+      "end": 1698982453510,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453510,
+      "end": 1698982453510,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453510,
+      "end": 1698982453510,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453510,
+      "end": 1698982453510,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453510,
+      "end": 1698982453510,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453510,
+      "end": 1698982453510,
+      "order": "normal"
+    }
+  ]
+}

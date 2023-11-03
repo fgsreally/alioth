@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/ceil.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import createRound from './_createRound.js';\n\n/**\n * Computes `number` rounded up to `precision`.\n *\n * @static\n * @memberOf _\n * @since 3.10.0\n * @category Math\n * @param {number} number The number to round up.\n * @param {number} [precision=0] The precision to round up to.\n * @returns {number} Returns the rounded up number.\n * @example\n *\n * _.ceil(4.006);\n * // => 5\n *\n * _.ceil(6.004, 2);\n * // => 6.01\n *\n * _.ceil(6040, -2);\n * // => 6100\n */\nvar ceil = createRound('ceil');\n\nexport default ceil;\n",
+      "start": 1698982452933,
+      "end": 1698982453101,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453101,
+      "end": 1698982453101,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453101,
+      "end": 1698982453101,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453101,
+      "end": 1698982453101,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453101,
+      "end": 1698982453101,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453102,
+      "end": 1698982453102,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453102,
+      "end": 1698982453102,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453102,
+      "end": 1698982453102,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453102,
+      "end": 1698982453102,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453102,
+      "end": 1698982453102,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453102,
+      "end": 1698982453102,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453102,
+      "end": 1698982453102,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453102,
+      "end": 1698982453102,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453102,
+      "end": 1698982453102,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453102,
+      "end": 1698982453102,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453102,
+      "end": 1698982453102,
+      "order": "normal"
+    }
+  ]
+}

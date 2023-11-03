@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/grid-layout-plus@1.0.3_vue@3.3.4/node_modules/grid-layout-plus/es/components/grid-item.vue.mjs",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import { defineComponent as Fe, inject as pe, ref as be, reactive as we, toRef as Oe, onBeforeMount as Ae, onMounted as Pe, watchEffect as Ye, onBeforeUnmount as Le, computed as D, watch as w, openBlock as ze, createElementBlock as ye, normalizeClass as Re, unref as Y, normalizeStyle as Xe, renderSlot as _e, createCommentVNode as qe } from \"vue\";\nimport { isNull as S, nextTickOnce as f, throttle as ve } from \"@vexip-ui/utils\";\nimport { LAYOUT_KEY as je, EMITTER_KEY as $e, setTransformRtl as Ge, setTransform as Ke, setTopRight as Ve, setTopLeft as Je, useNameHelper as Qe } from \"../helpers/common.mjs\";\nimport { getControlPosition as Se, createCoreData as xe } from \"../helpers/draggable.mjs\";\nimport { getColsFromBreakpoint as Ze } from \"../helpers/responsive.mjs\";\nimport { getDocumentDir as He } from \"../helpers/dom.mjs\";\nimport Me from \"interactjs\";\nconst ot = /* @__PURE__ */ Fe({\n  __name: \"grid-item\",\n  props: {\n    isDraggable: {\n      type: Boolean,\n      default: null\n    },\n    isResizable: {\n      type: Boolean,\n      default: null\n    },\n    isBounded: {\n      type: Boolean,\n      default: null\n    },\n    static: {\n      type: Boolean,\n      default: !1\n    },\n    minH: {\n      type: Number,\n      default: 1\n    },\n    minW: {\n      type: Number,\n      default: 1\n    },\n    maxH: {\n      type: Number,\n      default: 1 / 0\n    },\n    maxW: {\n      type: Number,\n      default: 1 / 0\n    },\n    x: {\n      type: Number,\n      required: !0\n    },\n    y: {\n      type: Number,\n      required: !0\n    },\n    w: {\n      type: Number,\n      required: !0\n    },\n    h: {\n      type: Number,\n      required: !0\n    },\n    i: {\n      type: [Number, String],\n      required: !0\n    },\n    dragIgnoreFrom: {\n      type: String,\n      default: \"a, button\"\n    },\n    dragAllowFrom: {\n      type: String,\n      default: null\n    },\n    resizeIgnoreFrom: {\n      type: String,\n      default: \"a, button\"\n    },\n    preserveAspectRatio: {\n      type: Boolean,\n      default: !1\n    },\n    dragOption: {\n      type: Object,\n      default: () => ({})\n    },\n    resizeOption: {\n      type: Object,\n      default: () => ({})\n    }\n  },\n  emits: [\"container-resized\", \"resize\", \"resized\", \"move\", \"moved\"],\n  setup(We, { expose: Be, emit: M }) {\n    const i = We, l = pe(je), g = pe($e);\n    if (!l)\n      throw new Error(\"[grid-layout-plus]: missing layout store, GridItem must under a GridLayout.\");\n    const d = be(null), e = we({\n      cols: 1,\n      containerWidth: 100,\n      rowHeight: 30,\n      margin: [10, 10],\n      maxRows: 1 / 0,\n      draggable: null,\n      resizable: null,\n      bounded: null,\n      transformScale: 1,\n      useCssTransforms: !0,\n      useStyleCursor: !0,\n      isDragging: !1,\n      dragging: {\n        top: -1,\n        left: -1\n      },\n      isResizing: !1,\n      resizing: {\n        width: -1,\n        height: -1\n      },\n      style: {},\n      rtl: !1\n    });\n    let L = !1, X = !1, _ = NaN, q = NaN, j = NaN, $ = NaN, G = -1, K = -1, V = -1, J = -1, h = i.x, y = i.y, p = i.w, R = i.h;\n    const W = be(), Q = we({\n      i: Oe(i, \"i\"),\n      state: e,\n      wrapper: W,\n      calcXY: E\n    });\n    function Z(t) {\n      Ie(t);\n    }\n    function U() {\n      ue();\n    }\n    function ee(t) {\n      S(i.isDraggable) && (e.draggable = t);\n    }\n    function te(t) {\n      S(i.isResizable) && (e.resizable = t);\n    }\n    function ie(t) {\n      S(i.isBounded) && (e.bounded = t);\n    }\n    function re(t) {\n      e.transformScale = t;\n    }\n    function ae(t) {\n      e.rowHeight = t;\n    }\n    function ne(t) {\n      e.maxRows = t;\n    }\n    function oe() {\n      e.rtl = He() === \"rtl\", ue();\n    }\n    function se(t) {\n      e.cols = Math.floor(t);\n    }\n    l.increaseItem(Q), Ae(() => {\n      e.rtl = He() === \"rtl\";\n    }), Pe(() => {\n      l.responsive && l.lastBreakpoint ? e.cols = Ze(l.lastBreakpoint, l.cols) : e.cols = l.colNum, e.rowHeight = l.rowHeight, e.containerWidth = l.width !== null ? l.width : 100, e.margin = l.margin !== void 0 ? l.margin : [10, 10], e.maxRows = l.maxRows, S(i.isDraggable) ? e.draggable = l.isDraggable : e.draggable = i.isDraggable, S(i.isResizable) ? e.resizable = l.isResizable : e.resizable = i.isResizable, S(i.isBounded) ? e.bounded = l.isBounded : e.bounded = i.isBounded, e.transformScale = l.transformScale, e.useCssTransforms = l.useCssTransforms, e.useStyleCursor = l.useStyleCursor, Ye(() => {\n        h = i.x, y = i.y, R = i.h, p = i.w, f(x);\n      }), g.on(\"updateWidth\", Z), g.on(\"compact\", U), g.on(\"setDraggable\", ee), g.on(\"setResizable\", te), g.on(\"setBounded\", ie), g.on(\"setTransformScale\", re), g.on(\"setRowHeight\", ae), g.on(\"setMaxRows\", ne), g.on(\"directionchange\", oe), g.on(\"setColNum\", se);\n    }), Le(() => {\n      g.off(\"updateWidth\", Z), g.off(\"compact\", U), g.off(\"setDraggable\", ee), g.off(\"setResizable\", te), g.off(\"setBounded\", ie), g.off(\"setTransformScale\", re), g.off(\"setRowHeight\", ae), g.off(\"setMaxRows\", ne), g.off(\"directionchange\", oe), g.off(\"setColNum\", se), d.value && (d.value.unset(), d.value = null), l.decreaseItem(Q);\n    }), Be({ state: e, wrapper: W });\n    const Ce = navigator.userAgent.toLowerCase().includes(\"android\"), le = D(() => e.resizable && !i.static), m = D(() => l.isMirrored ? !e.rtl : e.rtl), Ne = D(() => (e.draggable || e.resizable) && !i.static), z = Qe(\"item\"), De = D(() => ({\n      [z.b()]: !0,\n      [z.bm(\"resizable\")]: le.value,\n      [z.bm(\"static\")]: i.static,\n      [z.bm(\"resizing\")]: e.isResizing,\n      [z.bm(\"dragging\")]: e.isDragging,\n      [z.bm(\"transform\")]: e.useCssTransforms,\n      [z.bm(\"rtl\")]: m.value,\n      [z.bm(\"no-touch\")]: Ce && Ne.value\n    })), I = D(() => [z.be(\"resizer\"), m.value && z.bem(\"resizer\", \"rtl\")].filter(Boolean));\n    w(\n      () => i.isDraggable,\n      (t) => {\n        e.draggable = t;\n      }\n    ), w(\n      () => i.static,\n      () => {\n        f(he), f(H);\n      }\n    ), w(\n      () => e.draggable,\n      () => {\n        f(he);\n      }\n    ), w(\n      () => i.isResizable,\n      (t) => {\n        e.resizable = t;\n      }\n    ), w(\n      () => i.isBounded,\n      (t) => {\n        e.bounded = t;\n      }\n    ), w(\n      () => e.resizable,\n      () => {\n        f(H);\n      }\n    ), w(\n      () => e.rowHeight,\n      () => {\n        f(x), f(k);\n      }\n    ), w([() => e.cols, () => e.containerWidth], () => {\n      f(H), f(x), f(k);\n    }), w([() => i.minH, () => i.maxH, () => i.minW, () => i.maxW], () => {\n      f(H);\n    }), w(m, () => {\n      f(H), f(x);\n    }), w(\n      () => l.margin,\n      (t) => {\n        !t || t[0] === e.margin[0] && t[1] === e.margin[1] || (e.margin = t.map(Number), f(x), f(k));\n      }\n    );\n    function x() {\n      i.x + i.w > e.cols ? (h = 0, p = i.w > e.cols ? e.cols : i.w) : (h = i.x, p = i.w);\n      const t = B(h, y, p, R);\n      e.isDragging && (t.top = e.dragging.top, m.value ? t.right = e.dragging.left : t.left = e.dragging.left), e.isResizing && (t.width = e.resizing.width, t.height = e.resizing.height);\n      let a;\n      e.useCssTransforms ? m.value ? a = Ge(t.top, t.right, t.width, t.height) : a = Ke(t.top, t.left, t.width, t.height) : m.value ? a = Ve(t.top, t.right, t.width, t.height) : a = Je(t.top, t.left, t.width, t.height), e.style = a;\n    }\n    function k() {\n      const t = {};\n      for (const a of [\"width\", \"height\"]) {\n        const o = e.style[a].match(/^(\\d+)px$/);\n        if (!o)\n          return;\n        t[a] = o[1];\n      }\n      M(\"container-resized\", i.i, i.h, i.w, t.height, t.width);\n    }\n    function ge(t) {\n      if (i.static)\n        return;\n      const a = t.type;\n      if (a === \"resizestart\" && e.isResizing || a !== \"resizestart\" && !e.isResizing)\n        return;\n      const s = Se(t);\n      if (S(s))\n        return;\n      const { x: o, y: c } = s, n = { width: 0, height: 0 };\n      let r;\n      switch (a) {\n        case \"resizestart\": {\n          H(), G = p, K = R, r = B(h, y, p, R), n.width = r.width, n.height = r.height, e.resizing = n, e.isResizing = !0;\n          break;\n        }\n        case \"resizemove\": {\n          const u = xe(j, $, o, c);\n          m.value ? n.width = e.resizing.width - u.deltaX / e.transformScale : n.width = e.resizing.width + u.deltaX / e.transformScale, n.height = e.resizing.height + u.deltaY / e.transformScale, e.resizing = n;\n          break;\n        }\n        case \"resizeend\": {\n          r = B(h, y, p, R), n.width = r.width, n.height = r.height, e.resizing = { width: -1, height: -1 }, e.isResizing = !1;\n          break;\n        }\n      }\n      r = Te(n.height, n.width), r.w < i.minW && (r.w = i.minW), r.w > i.maxW && (r.w = i.maxW), r.h < i.minH && (r.h = i.minH), r.h > i.maxH && (r.h = i.maxH), r.h < 1 && (r.h = 1), r.w < 1 && (r.w = 1), j = o, $ = c, (p !== r.w || R !== r.h) && M(\"resize\", i.i, r.h, r.w, n.height, n.width), t.type === \"resizeend\" && (G !== p || K !== R) && M(\"resized\", i.i, r.h, r.w, n.height, n.width), g.emit(\"resizeEvent\", t.type, i.i, h, y, r.h, r.w);\n    }\n    function ce(t) {\n      if (i.static || e.isResizing)\n        return;\n      const a = t.type;\n      if (a === \"dragstart\" && e.isDragging || a !== \"dragstart\" && !e.isDragging)\n        return;\n      const s = Se(t);\n      if (S(s))\n        return;\n      const { x: o, y: c } = s, n = t.target;\n      if (!n.offsetParent)\n        return;\n      const r = { top: 0, left: 0 };\n      switch (a) {\n        case \"dragstart\": {\n          V = h, J = y;\n          const b = n.offsetParent.getBoundingClientRect(), v = n.getBoundingClientRect(), C = v.left / e.transformScale, N = b.left / e.transformScale, F = v.right / e.transformScale, O = b.right / e.transformScale, A = v.top / e.transformScale, P = b.top / e.transformScale;\n          m.value ? r.left = (F - O) * -1 : r.left = C - N, r.top = A - P, e.dragging = r, e.isDragging = !0;\n          break;\n        }\n        case \"dragmove\": {\n          const b = xe(_, q, o, c);\n          if (m.value ? r.left = e.dragging.left - b.deltaX / e.transformScale : r.left = e.dragging.left + b.deltaX / e.transformScale, r.top = e.dragging.top + b.deltaY / e.transformScale, e.bounded) {\n            const v = n.offsetParent.clientHeight - fe(i.h, e.rowHeight, e.margin[1]);\n            r.top = de(r.top, 0, v);\n            const C = T(), N = e.containerWidth - fe(i.w, C, e.margin[0]);\n            r.left = de(r.left, 0, N);\n          }\n          e.dragging = r;\n          break;\n        }\n        case \"dragend\": {\n          const b = n.offsetParent.getBoundingClientRect(), v = n.getBoundingClientRect(), C = v.left / e.transformScale, N = b.left / e.transformScale, F = v.right / e.transformScale, O = b.right / e.transformScale, A = v.top / e.transformScale, P = b.top / e.transformScale;\n          m.value ? r.left = (F - O) * -1 : r.left = C - N, r.top = A - P, e.dragging = { top: -1, left: -1 }, e.isDragging = !1;\n          break;\n        }\n      }\n      let u;\n      m.value, u = E(r.top, r.left), _ = o, q = c, (h !== u.x || y !== u.y) && M(\"move\", i.i, u.x, u.y), t.type === \"dragend\" && (V !== h || J !== y) && M(\"moved\", i.i, u.x, u.y), g.emit(\"dragEvent\", t.type, i.i, u.x, u.y, R, p);\n    }\n    function B(t, a, s, o) {\n      const c = T();\n      let n;\n      return m.value ? n = {\n        right: Math.round(c * t + (t + 1) * e.margin[0]),\n        top: Math.round(e.rowHeight * a + (a + 1) * e.margin[1]),\n        // 0 * Infinity === NaN, which causes problems with resize constriants;\n        // Fix this if it occurs.\n        // Note we do it here rather than later because Math.round(Infinity) causes deopt\n        width: s === 1 / 0 ? s : Math.round(c * s + Math.max(0, s - 1) * e.margin[0]),\n        height: o === 1 / 0 ? o : Math.round(e.rowHeight * o + Math.max(0, o - 1) * e.margin[1])\n      } : n = {\n        left: Math.round(c * t + (t + 1) * e.margin[0]),\n        top: Math.round(e.rowHeight * a + (a + 1) * e.margin[1]),\n        // 0 * Infinity === NaN, which causes problems with resize constriants;\n        // Fix this if it occurs.\n        // Note we do it here rather than later because Math.round(Infinity) causes deopt\n        width: s === 1 / 0 ? s : Math.round(c * s + Math.max(0, s - 1) * e.margin[0]),\n        height: o === 1 / 0 ? o : Math.round(e.rowHeight * o + Math.max(0, o - 1) * e.margin[1])\n      }, n;\n    }\n    function E(t, a) {\n      const s = T();\n      let o = Math.round((a - e.margin[0]) / (s + e.margin[0])), c = Math.round((t - e.margin[1]) / (e.rowHeight + e.margin[1]));\n      return o = Math.max(Math.min(o, e.cols - p), 0), c = Math.max(Math.min(c, e.maxRows - R), 0), { x: o, y: c };\n    }\n    function T() {\n      return (e.containerWidth - e.margin[0] * (e.cols + 1)) / e.cols;\n    }\n    function fe(t, a, s) {\n      return Number.isFinite(t) ? Math.round(a * t + Math.max(0, t - 1) * s) : t;\n    }\n    function de(t, a, s) {\n      return Math.max(Math.min(t, s), a);\n    }\n    function Te(t, a, s = !1) {\n      const o = T();\n      let c = Math.round((a + e.margin[0]) / (o + e.margin[0])), n = 0;\n      return s ? n = Math.ceil((t + e.margin[1]) / (e.rowHeight + e.margin[1])) : n = Math.round((t + e.margin[1]) / (e.rowHeight + e.margin[1])), c = Math.max(Math.min(c, e.cols - h), 0), n = Math.max(Math.min(n, e.maxRows - y), 0), { w: c, h: n };\n    }\n    function Ie(t, a) {\n      e.containerWidth = t, a != null && (e.cols = a);\n    }\n    function ue() {\n      x();\n    }\n    function me() {\n      !d.value && W.value && (d.value = Me(W.value), e.useStyleCursor || d.value.styleCursor(!1));\n    }\n    const ke = ve(ce);\n    function he() {\n      if (me(), !!d.value)\n        if (e.draggable && !i.static) {\n          const t = {\n            ignoreFrom: i.dragIgnoreFrom,\n            allowFrom: i.dragAllowFrom,\n            ...i.dragOption\n          };\n          d.value.draggable(t), L || (L = !0, d.value.on(\"dragstart dragmove dragend\", (a) => {\n            a.type === \"dragmove\" ? ke(a) : ce(a);\n          }));\n        } else\n          d.value.draggable({ enabled: !1 });\n    }\n    const Ee = ve(ge);\n    function H() {\n      if (me(), !!d.value)\n        if (e.resizable && !i.static) {\n          const t = B(0, 0, i.maxW, i.maxH), a = B(0, 0, i.minW, i.minH), s = {\n            edges: {\n              left: !1,\n              right: `.${I.value[0]}`,\n              bottom: `.${I.value[0]}`,\n              top: !1\n            },\n            ignoreFrom: i.resizeIgnoreFrom,\n            restrictSize: {\n              min: {\n                height: a.height * e.transformScale,\n                width: a.width * e.transformScale\n              },\n              max: {\n                height: t.height * e.transformScale,\n                width: t.width * e.transformScale\n              }\n            },\n            ...i.resizeOption\n          };\n          i.preserveAspectRatio && (s.modifiers = [Me.modifiers.aspectRatio({ ratio: \"preserve\" })]), d.value.resizable(s), X || (X = !0, d.value.on(\"resizestart resizemove resizeend\", (o) => {\n            o.type === \"resizemove\" ? Ee(o) : ge(o);\n          }));\n        } else\n          d.value.resizable({ enabled: !1 });\n    }\n    return (t, a) => (ze(), ye(\"section\", {\n      ref_key: \"wrapper\",\n      ref: W,\n      class: Re(Y(De)),\n      style: Xe(e.style)\n    }, [\n      _e(t.$slots, \"default\"),\n      Y(le) ? (ze(), ye(\"span\", {\n        key: 0,\n        class: Re(Y(I))\n      }, null, 2)) : qe(\"\", !0)\n    ], 6));\n  }\n});\nexport {\n  ot as default\n};\n//# sourceMappingURL=grid-item.vue.mjs.map\n",
+      "start": 1698982452786,
+      "end": 1698982452910,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982452910,
+      "end": 1698982452910,
+      "order": "normal"
+    }
+  ]
+}

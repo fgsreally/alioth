@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/grid-layout-plus@1.0.3_vue@3.3.4/node_modules/grid-layout-plus/es/style.scss.mjs",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "const t = \"\";\nexport {\n  t as default\n};\n//# sourceMappingURL=style.scss.mjs.map\n",
+      "start": 1698982452786,
+      "end": 1698982452951,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982452951,
+      "end": 1698982452951,
+      "order": "normal"
+    }
+  ]
+}

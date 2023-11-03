@@ -3,7 +3,7 @@ import { emitter, useV } from 'phecda-vue'
 import { GridLayout } from 'grid-layout-plus'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
-const props = defineProps<{ mode: string }>()
+const props = defineProps<{ a_mode: string }>()
 
 let index = 0
 const { doc, activePage } = useV(__PHECDA__.doc)
@@ -61,8 +61,8 @@ onBeforeUnmount(() => {
 <template>
   <section ref="dom" class="a-container" @click.stop.self="doc.cancel()" @mouseup.stop>
     <GridLayout
-      v-model:layout="layout" :col-num="12" :row-height="30" :is-draggable="props.mode !== 'render'"
-      :is-resizable="props.mode !== 'render'" vertical-compact prevent-collision use-css-transforms
+      v-model:layout="layout" :col-num="12" :row-height="30" :is-draggable="a_mode !== 'render'"
+      :is-resizable="a_mode !== 'render'" vertical-compact prevent-collision use-css-transforms
       @layout-updated="update"
     >
       <slot />

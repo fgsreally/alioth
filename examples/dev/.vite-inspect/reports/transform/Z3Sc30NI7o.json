@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_hasUnicodeWord.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "/** Used to detect strings that need a more robust regexp to match words. */\nvar reHasUnicodeWord = /[a-z][A-Z]|[A-Z]{2}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/;\n\n/**\n * Checks if `string` contains a word composed of Unicode symbols.\n *\n * @private\n * @param {string} string The string to inspect.\n * @returns {boolean} Returns `true` if a word is found, else `false`.\n */\nfunction hasUnicodeWord(string) {\n  return reHasUnicodeWord.test(string);\n}\n\nexport default hasUnicodeWord;\n",
+      "start": 1698982454561,
+      "end": 1698982454593,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454593,
+      "end": 1698982454593,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454593,
+      "end": 1698982454593,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454593,
+      "end": 1698982454593,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454593,
+      "end": 1698982454593,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454593,
+      "end": 1698982454593,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454593,
+      "end": 1698982454593,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454593,
+      "end": 1698982454593,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454594,
+      "end": 1698982454594,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454594,
+      "end": 1698982454594,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454594,
+      "end": 1698982454594,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454594,
+      "end": 1698982454594,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454594,
+      "end": 1698982454594,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454594,
+      "end": 1698982454594,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454594,
+      "end": 1698982454594,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454594,
+      "end": 1698982454594,
+      "order": "normal"
+    }
+  ]
+}
