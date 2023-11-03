@@ -1,34 +1,38 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { Alioth, ExternalMap, RemoteLoader } from 'alioth-dev'
+import { Alioth } from 'alioth-dev'
+import { visualizer } from 'rollup-plugin-visualizer'
+import Inspect from 'vite-plugin-inspect'
+
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+
+  },
   plugins: [vue(),
+    Inspect({
+      build: true,
+    }),
+    visualizer(),
     Alioth({
       website: 'http://localhost:4010/',
       project: 'alioth',
-      presets: [],
       entry: {
-        b: './src/entry.ts',
-        a: './src/main.ts',
+        editor: './src/entry.editor.ts',
+        runtime: './src/entry.runtime.ts',
 
       },
-    }),
-    ExternalMap({
       externals: {
         'vue': 'http://localhost:4010/vue.mjs',
         'phecda-core': 'http://localhost:4010/phecda-vue.mjs',
         'phecda-vue': 'http://localhost:4010/phecda-vue.mjs',
       },
     }),
-    RemoteLoader()],
+
+    // RemoteLoader(/http:\/\/localhost:4010\/(.*)/),
+  ],
   build: {
     sourcemap: true,
-    lib: {
-      entry: {
-        b: './entry.js',
-      },
-      formats: ['es'],
-    },
+
   },
 })

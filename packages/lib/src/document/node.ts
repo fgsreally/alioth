@@ -13,9 +13,9 @@ export class VirtualNode<A extends NodeAttrs> {
   timeout = 800
   doc: VirtualDocument<A>
   attrs: A
-  constructor(initAttrs: A,
+  constructor(initAttrs?: A,
   ) {
-    this.attrs = initAttrs
+    this.attrs = initAttrs || {} as any
   }
 
   get cloneChilds() {

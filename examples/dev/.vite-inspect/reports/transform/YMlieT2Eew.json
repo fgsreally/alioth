@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseGetTag.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import Symbol from './_Symbol.js';\nimport getRawTag from './_getRawTag.js';\nimport objectToString from './_objectToString.js';\n\n/** `Object#toString` result references. */\nvar nullTag = '[object Null]',\n    undefinedTag = '[object Undefined]';\n\n/** Built-in value references. */\nvar symToStringTag = Symbol ? Symbol.toStringTag : undefined;\n\n/**\n * The base implementation of `getTag` without fallbacks for buggy environments.\n *\n * @private\n * @param {*} value The value to query.\n * @returns {string} Returns the `toStringTag`.\n */\nfunction baseGetTag(value) {\n  if (value == null) {\n    return value === undefined ? undefinedTag : nullTag;\n  }\n  return (symToStringTag && symToStringTag in Object(value))\n    ? getRawTag(value)\n    : objectToString(value);\n}\n\nexport default baseGetTag;\n",
+      "start": 1698982454384,
+      "end": 1698982454429,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454429,
+      "end": 1698982454429,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454429,
+      "end": 1698982454429,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454429,
+      "end": 1698982454429,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454429,
+      "end": 1698982454429,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454429,
+      "end": 1698982454429,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454429,
+      "end": 1698982454429,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454429,
+      "end": 1698982454429,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454429,
+      "end": 1698982454429,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454429,
+      "end": 1698982454429,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454429,
+      "end": 1698982454429,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454429,
+      "end": 1698982454430,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454430,
+      "end": 1698982454430,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454430,
+      "end": 1698982454430,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454430,
+      "end": 1698982454430,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454430,
+      "end": 1698982454430,
+      "order": "normal"
+    }
+  ]
+}

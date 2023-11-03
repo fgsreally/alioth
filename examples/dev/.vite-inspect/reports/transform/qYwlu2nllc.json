@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/join.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "/** Used for built-in method references. */\nvar arrayProto = Array.prototype;\n\n/* Built-in method references for those with the same name as other `lodash` methods. */\nvar nativeJoin = arrayProto.join;\n\n/**\n * Converts all elements in `array` into a string separated by `separator`.\n *\n * @static\n * @memberOf _\n * @since 4.0.0\n * @category Array\n * @param {Array} array The array to convert.\n * @param {string} [separator=','] The element separator.\n * @returns {string} Returns the joined string.\n * @example\n *\n * _.join(['a', 'b', 'c'], '~');\n * // => 'a~b~c'\n */\nfunction join(array, separator) {\n  return array == null ? '' : nativeJoin.call(array, separator);\n}\n\nexport default join;\n",
+      "start": 1698982453340,
+      "end": 1698982453373,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453373,
+      "end": 1698982453373,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453373,
+      "end": 1698982453373,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453373,
+      "end": 1698982453373,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453373,
+      "end": 1698982453373,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453373,
+      "end": 1698982453373,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453373,
+      "end": 1698982453373,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453373,
+      "end": 1698982453373,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453373,
+      "end": 1698982453373,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453373,
+      "end": 1698982453373,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453373,
+      "end": 1698982453373,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453374,
+      "end": 1698982453374,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453374,
+      "end": 1698982453374,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453374,
+      "end": 1698982453374,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453374,
+      "end": 1698982453374,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453374,
+      "end": 1698982453374,
+      "order": "normal"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_getHolder.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "/**\n * Gets the argument placeholder value for `func`.\n *\n * @private\n * @param {Function} func The function to inspect.\n * @returns {*} Returns the placeholder value.\n */\nfunction getHolder(func) {\n  var object = func;\n  return object.placeholder;\n}\n\nexport default getHolder;\n",
+      "start": 1698982454228,
+      "end": 1698982454279,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454279,
+      "end": 1698982454279,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454279,
+      "end": 1698982454279,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454279,
+      "end": 1698982454279,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454279,
+      "end": 1698982454279,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454279,
+      "end": 1698982454279,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454279,
+      "end": 1698982454279,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454279,
+      "end": 1698982454279,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454279,
+      "end": 1698982454279,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454279,
+      "end": 1698982454279,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454279,
+      "end": 1698982454279,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454279,
+      "end": 1698982454280,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454280,
+      "end": 1698982454280,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454280,
+      "end": 1698982454280,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454280,
+      "end": 1698982454280,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454280,
+      "end": 1698982454280,
+      "order": "normal"
+    }
+  ]
+}

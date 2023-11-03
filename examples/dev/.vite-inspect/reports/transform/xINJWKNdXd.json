@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseToNumber.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import isSymbol from './isSymbol.js';\n\n/** Used as references for various `Number` constants. */\nvar NAN = 0 / 0;\n\n/**\n * The base implementation of `_.toNumber` which doesn't ensure correct\n * conversions of binary, hexadecimal, or octal string values.\n *\n * @private\n * @param {*} value The value to process.\n * @returns {number} Returns the number.\n */\nfunction baseToNumber(value) {\n  if (typeof value == 'number') {\n    return value;\n  }\n  if (isSymbol(value)) {\n    return NAN;\n  }\n  return +value;\n}\n\nexport default baseToNumber;\n",
+      "start": 1698982454603,
+      "end": 1698982454724,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454724,
+      "end": 1698982454724,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454724,
+      "end": 1698982454724,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454724,
+      "end": 1698982454724,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454724,
+      "end": 1698982454724,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454724,
+      "end": 1698982454724,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454725,
+      "end": 1698982454725,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454725,
+      "end": 1698982454725,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454725,
+      "end": 1698982454725,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454725,
+      "end": 1698982454725,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454725,
+      "end": 1698982454725,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454725,
+      "end": 1698982454725,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454725,
+      "end": 1698982454725,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454725,
+      "end": 1698982454725,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454725,
+      "end": 1698982454725,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454725,
+      "end": 1698982454725,
+      "order": "normal"
+    }
+  ]
+}

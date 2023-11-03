@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_coreJsData.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import root from './_root.js';\n\n/** Used to detect overreaching core-js shims. */\nvar coreJsData = root['__core-js_shared__'];\n\nexport default coreJsData;\n",
+      "start": 1698982454792,
+      "end": 1698982454824,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454824,
+      "end": 1698982454824,
+      "order": "normal"
+    }
+  ]
+}

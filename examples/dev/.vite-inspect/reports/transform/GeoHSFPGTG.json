@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/grid-layout-plus@1.0.3_vue@3.3.4/node_modules/grid-layout-plus/es/helpers/draggable.mjs",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "function a(t) {\n  return c(t);\n}\nfunction c(t) {\n  var f;\n  const n = ((f = t.target) == null ? void 0 : f.offsetParent) || document.body, e = t.offsetParent === document.body ? { left: 0, top: 0 } : n.getBoundingClientRect(), o = t.clientX + n.scrollLeft - e.left, r = t.clientY + n.scrollTop - e.top;\n  return { x: o, y: r };\n}\nfunction i(t, n, e, o) {\n  return s(t) ? {\n    deltaX: e - t,\n    deltaY: o - n,\n    lastX: t,\n    lastY: n,\n    x: e,\n    y: o\n  } : {\n    deltaX: 0,\n    deltaY: 0,\n    lastX: e,\n    lastY: o,\n    x: e,\n    y: o\n  };\n}\nfunction s(t) {\n  return typeof t == \"number\" && !Number.isNaN(t);\n}\nexport {\n  i as createCoreData,\n  a as getControlPosition,\n  c as offsetXYFromParentOf\n};\n//# sourceMappingURL=draggable.mjs.map\n",
+      "start": 1698982453761,
+      "end": 1698982453862,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453862,
+      "end": 1698982453862,
+      "order": "normal"
+    }
+  ]
+}

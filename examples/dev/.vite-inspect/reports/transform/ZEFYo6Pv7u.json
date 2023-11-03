@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_stackDelete.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "/**\n * Removes `key` and its value from the stack.\n *\n * @private\n * @name delete\n * @memberOf Stack\n * @param {string} key The key of the value to remove.\n * @returns {boolean} Returns `true` if the entry was removed, else `false`.\n */\nfunction stackDelete(key) {\n  var data = this.__data__,\n      result = data['delete'](key);\n\n  this.size = data.size;\n  return result;\n}\n\nexport default stackDelete;\n",
+      "start": 1698982454932,
+      "end": 1698982454987,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454987,
+      "end": 1698982454987,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454987,
+      "end": 1698982454987,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454987,
+      "end": 1698982454987,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454987,
+      "end": 1698982454987,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454987,
+      "end": 1698982454987,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454987,
+      "end": 1698982454987,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454987,
+      "end": 1698982454987,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454987,
+      "end": 1698982454987,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454987,
+      "end": 1698982454987,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454987,
+      "end": 1698982454987,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454987,
+      "end": 1698982454988,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454988,
+      "end": 1698982454988,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454988,
+      "end": 1698982454988,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454988,
+      "end": 1698982454988,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454988,
+      "end": 1698982454988,
+      "order": "normal"
+    }
+  ]
+}

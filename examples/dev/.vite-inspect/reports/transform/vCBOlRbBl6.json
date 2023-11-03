@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/ary.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import createWrap from './_createWrap.js';\n\n/** Used to compose bitmasks for function metadata. */\nvar WRAP_ARY_FLAG = 128;\n\n/**\n * Creates a function that invokes `func`, with up to `n` arguments,\n * ignoring any additional arguments.\n *\n * @static\n * @memberOf _\n * @since 3.0.0\n * @category Function\n * @param {Function} func The function to cap arguments for.\n * @param {number} [n=func.length] The arity cap.\n * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.\n * @returns {Function} Returns the new capped function.\n * @example\n *\n * _.map(['6', '8', '10'], _.ary(parseInt, 1));\n * // => [6, 8, 10]\n */\nfunction ary(func, n, guard) {\n  n = guard ? undefined : n;\n  n = (func && n == null) ? func.length : n;\n  return createWrap(func, WRAP_ARY_FLAG, undefined, undefined, undefined, undefined, n);\n}\n\nexport default ary;\n",
+      "start": 1698982452904,
+      "end": 1698982453069,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453069,
+      "end": 1698982453069,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453069,
+      "end": 1698982453069,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453069,
+      "end": 1698982453069,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453069,
+      "end": 1698982453069,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453069,
+      "end": 1698982453069,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453069,
+      "end": 1698982453069,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453069,
+      "end": 1698982453069,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453069,
+      "end": 1698982453069,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453069,
+      "end": 1698982453069,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453069,
+      "end": 1698982453069,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453070,
+      "end": 1698982453070,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453070,
+      "end": 1698982453070,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453070,
+      "end": 1698982453070,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453070,
+      "end": 1698982453070,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453070,
+      "end": 1698982453070,
+      "order": "normal"
+    }
+  ]
+}

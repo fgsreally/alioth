@@ -14,8 +14,11 @@ hero:
   Introduction: 玉衡
   actions:
     - theme: brand
-      text: 快速开始
-      link: /guide/quick-start.html
+      text: 核心知识
+      link: /core/intro.html
+    - theme: alt
+      text: 案例
+      link: /example/quick-start.html
 
 
 features:

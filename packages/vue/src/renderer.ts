@@ -43,7 +43,7 @@ NodeAttrs extends Record<string, any>,
     return this._vnode
   }
 
-  slotRenderer(
+  createSlots(
     slotSet: string[],
     allWidgetMap: Map<RegisterKey, RegisterType>,
     renderType: string,
@@ -51,29 +51,25 @@ NodeAttrs extends Record<string, any>,
     if (!this.node.children.length)
       return undefined
 
-    const slotRenderer: { [key in string]: Function } = {}
+    const slots: { [key in string]: Function } = {}
     slotSet.forEach((templateName) => {
-      slotRenderer[templateName] = (slotProps: any) =>
+      slots[templateName] = (slotProps: any) =>
       // eslint-disable-next-line array-callback-return
         this.node.children.map((node: VirtualNode<any>) => {
-          try {
-            if ((node.attrs.slot || 'default') === templateName) {
-              const ret = (allWidgetMap as any)
-                .get(node.attrs.key)[renderType](node, slotProps)
+          if ((node.attrs.slot || 'default') === templateName) {
+            const widget = (allWidgetMap as any)
+              .get(node.attrs.key)
+            if (!widget)
+              throw new Error(`miss widget "${node.attrs.key}"`)
 
-              return ret
-            }
-          }
-          catch (e) {
-            console.error(
-                `(Method ${this.renderType} or VirtualNode ${node.attrs.key} ) may not be found in the registration module )\n`,
-                e,
-            )
+            const ret = widget[renderType](node, slotProps)
+
+            return ret
           }
         })
     })
 
-    return slotRenderer
+    return slots
   }
 
   slot(
@@ -81,7 +77,7 @@ NodeAttrs extends Record<string, any>,
       allWidgetMap: Map<RegisterKey, RegisterType>,
       renderType = 'render',
   ) {
-    this._vnode = this.slotRenderer(
+    this._vnode = this.createSlots(
       slotSet,
       allWidgetMap,
       renderType,

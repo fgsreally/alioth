@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_LazyWrapper.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import baseCreate from './_baseCreate.js';\nimport baseLodash from './_baseLodash.js';\n\n/** Used as references for the maximum length and index of an array. */\nvar MAX_ARRAY_LENGTH = 4294967295;\n\n/**\n * Creates a lazy wrapper object which wraps `value` to enable lazy evaluation.\n *\n * @private\n * @constructor\n * @param {*} value The value to wrap.\n */\nfunction LazyWrapper(value) {\n  this.__wrapped__ = value;\n  this.__actions__ = [];\n  this.__dir__ = 1;\n  this.__filtered__ = false;\n  this.__iteratees__ = [];\n  this.__takeCount__ = MAX_ARRAY_LENGTH;\n  this.__views__ = [];\n}\n\n// Ensure `LazyWrapper` is an instance of `baseLodash`.\nLazyWrapper.prototype = baseCreate(baseLodash.prototype);\nLazyWrapper.prototype.constructor = LazyWrapper;\n\nexport default LazyWrapper;\n",
+      "start": 1698982454422,
+      "end": 1698982454464,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454464,
+      "end": 1698982454464,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454464,
+      "end": 1698982454464,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454464,
+      "end": 1698982454464,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454464,
+      "end": 1698982454464,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454464,
+      "end": 1698982454464,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454464,
+      "end": 1698982454464,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454464,
+      "end": 1698982454464,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454464,
+      "end": 1698982454464,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454464,
+      "end": 1698982454464,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454464,
+      "end": 1698982454464,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454464,
+      "end": 1698982454465,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454465,
+      "end": 1698982454465,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454465,
+      "end": 1698982454465,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454465,
+      "end": 1698982454465,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454465,
+      "end": 1698982454465,
+      "order": "normal"
+    }
+  ]
+}

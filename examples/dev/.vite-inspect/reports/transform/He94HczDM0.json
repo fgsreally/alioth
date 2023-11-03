@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_createAssigner.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import baseRest from './_baseRest.js';\nimport isIterateeCall from './_isIterateeCall.js';\n\n/**\n * Creates a function like `_.assign`.\n *\n * @private\n * @param {Function} assigner The function to assign values.\n * @returns {Function} Returns the new assigner function.\n */\nfunction createAssigner(assigner) {\n  return baseRest(function(object, sources) {\n    var index = -1,\n        length = sources.length,\n        customizer = length > 1 ? sources[length - 1] : undefined,\n        guard = length > 2 ? sources[2] : undefined;\n\n    customizer = (assigner.length > 3 && typeof customizer == 'function')\n      ? (length--, customizer)\n      : undefined;\n\n    if (guard && isIterateeCall(sources[0], sources[1], guard)) {\n      customizer = length < 3 ? undefined : customizer;\n      length = 1;\n    }\n    object = Object(object);\n    while (++index < length) {\n      var source = sources[index];\n      if (source) {\n        assigner(object, source, index, customizer);\n      }\n    }\n    return object;\n  });\n}\n\nexport default createAssigner;\n",
+      "start": 1698982454195,
+      "end": 1698982454253,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454253,
+      "end": 1698982454253,
+      "order": "normal"
+    }
+  ]
+}

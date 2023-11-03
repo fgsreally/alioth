@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/over.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import arrayMap from './_arrayMap.js';\nimport createOver from './_createOver.js';\n\n/**\n * Creates a function that invokes `iteratees` with the arguments it receives\n * and returns their results.\n *\n * @static\n * @memberOf _\n * @since 4.0.0\n * @category Util\n * @param {...(Function|Function[])} [iteratees=[_.identity]]\n *  The iteratees to invoke.\n * @returns {Function} Returns the new function.\n * @example\n *\n * var func = _.over([Math.max, Math.min]);\n *\n * func(1, 2, 3, 4);\n * // => [4, 1]\n */\nvar over = createOver(arrayMap);\n\nexport default over;\n",
+      "start": 1698982453446,
+      "end": 1698982453528,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453529,
+      "end": 1698982453529,
+      "order": "normal"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lib0@0.2.80/node_modules/lib0/random.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "/**\n * Isomorphic module for true random numbers / buffers / uuids.\n *\n * Attention: falls back to Math.random if the browser does not support crypto.\n *\n * @module random\n */\n\nimport * as math from './math.js'\nimport * as binary from './binary.js'\nimport { getRandomValues } from 'lib0/webcrypto'\n\nexport const rand = Math.random\n\nexport const uint32 = () => getRandomValues(new Uint32Array(1))[0]\n\nexport const uint53 = () => {\n  const arr = getRandomValues(new Uint32Array(8))\n  return (arr[0] & binary.BITS21) * (binary.BITS32 + 1) + (arr[1] >>> 0)\n}\n\n/**\n * @template T\n * @param {Array<T>} arr\n * @return {T}\n */\nexport const oneOf = arr => arr[math.floor(rand() * arr.length)]\n\n// @ts-ignore\nconst uuidv4Template = [1e7] + -1e3 + -4e3 + -8e3 + -1e11\n\n/**\n * @return {string}\n */\nexport const uuidv4 = () => uuidv4Template.replace(/[018]/g, /** @param {number} c */ c =>\n  (c ^ uint32() & 15 >> c / 4).toString(16)\n)\n",
+      "start": 1698982453780,
+      "end": 1698982454212,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454212,
+      "end": 1698982454212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454212,
+      "end": 1698982454212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454212,
+      "end": 1698982454212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454212,
+      "end": 1698982454212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454212,
+      "end": 1698982454212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454212,
+      "end": 1698982454212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454212,
+      "end": 1698982454212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454212,
+      "end": 1698982454212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454212,
+      "end": 1698982454212,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454212,
+      "end": 1698982454212,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454213,
+      "end": 1698982454213,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454213,
+      "end": 1698982454213,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454213,
+      "end": 1698982454213,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454213,
+      "end": 1698982454213,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454213,
+      "end": 1698982454213,
+      "order": "normal"
+    }
+  ]
+}

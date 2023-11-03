@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/isTypedArray.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import baseIsTypedArray from './_baseIsTypedArray.js';\nimport baseUnary from './_baseUnary.js';\nimport nodeUtil from './_nodeUtil.js';\n\n/* Node.js helper references. */\nvar nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;\n\n/**\n * Checks if `value` is classified as a typed array.\n *\n * @static\n * @memberOf _\n * @since 3.0.0\n * @category Lang\n * @param {*} value The value to check.\n * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.\n * @example\n *\n * _.isTypedArray(new Uint8Array);\n * // => true\n *\n * _.isTypedArray([]);\n * // => false\n */\nvar isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;\n\nexport default isTypedArray;\n",
+      "start": 1698982453332,
+      "end": 1698982453361,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453361,
+      "end": 1698982453361,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453361,
+      "end": 1698982453361,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453361,
+      "end": 1698982453361,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453361,
+      "end": 1698982453361,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453361,
+      "end": 1698982453361,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453361,
+      "end": 1698982453361,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453361,
+      "end": 1698982453361,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453361,
+      "end": 1698982453361,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453361,
+      "end": 1698982453361,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453361,
+      "end": 1698982453361,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453362,
+      "end": 1698982453362,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453362,
+      "end": 1698982453362,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453362,
+      "end": 1698982453362,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453362,
+      "end": 1698982453362,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453362,
+      "end": 1698982453362,
+      "order": "normal"
+    }
+  ]
+}

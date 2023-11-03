@@ -1,15 +1,11 @@
-import Container from './Container.vue'
-import Test from './Test.vue'
+import { useR } from 'phecda-vue'
+import { ViewModel } from '@/models/view'
+import EnvInput from '@/components/base/EnvInput.vue'
 export function initWidget() {
-  const registerWidget = window.$alioth_widget
   // registerWidget({
   //   category: '',
   //   key: 'root',
   //   component: Container,
   // })
-  registerWidget({
-    category: 'test',
-    key: 'test',
-    component: Test,
-  })
+  useR(ViewModel).componentMap.Input = EnvInput
 }

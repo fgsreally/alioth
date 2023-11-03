@@ -1,0 +1,114 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/index.ts",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import component from './Container.vue'\nimport { Engine } from './engine'\nexport const container = {\n  alioth: 'widget',\n  data: {\n    key: 'root',\n    category: '',\n    component,\n  },\n}\n\nexport const engine = {\n  alioth: 'setEngine',\n  data: Engine,\n}\n",
+      "start": 1698982452290,
+      "end": 1698982452290,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982452291,
+      "end": 1698982452291,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import component from \"./Container.vue\";\nimport { Engine } from \"./engine\";\nexport const container = {\n  alioth: \"widget\",\n  data: {\n    key: \"root\",\n    category: \"\",\n    component\n  }\n};\nexport const engine = {\n  alioth: \"setEngine\",\n  data: Engine\n};\n",
+      "start": 1698982452291,
+      "end": 1698982452636,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/index.ts"
+        ],
+        "sourcesContent": [
+          "import component from './Container.vue'\nimport { Engine } from './engine'\nexport const container = {\n  alioth: 'widget',\n  data: {\n    key: 'root',\n    category: '',\n    component,\n  },\n}\n\nexport const engine = {\n  alioth: 'setEngine',\n  data: Engine,\n}\n"
+        ],
+        "mappings": "AAAA,OAAO,eAAe;AACtB,SAAS,cAAc;AAChB,aAAM,YAAY;AAAA,EACvB,QAAQ;AAAA,EACR,MAAM;AAAA,IACJ,KAAK;AAAA,IACL,UAAU;AAAA,IACV;AAAA,EACF;AACF;AAEO,aAAM,SAAS;AAAA,EACpB,QAAQ;AAAA,EACR,MAAM;AACR;",
+        "names": []
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982452636,
+      "end": 1698982452636,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982452636,
+      "end": 1698982452636,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982452636,
+      "end": 1698982452636,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982452636,
+      "end": 1698982452636,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982452636,
+      "end": 1698982452636,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982452636,
+      "end": 1698982452636,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982452636,
+      "end": 1698982452636,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982452636,
+      "end": 1698982452636,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982452636,
+      "end": 1698982452636,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982452636,
+      "end": 1698982452636,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982452636,
+      "end": 1698982452636,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982452636,
+      "end": 1698982452638,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982452638,
+      "end": 1698982452638,
+      "order": "normal"
+    }
+  ]
+}

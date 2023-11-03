@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/flowRight.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import createFlow from './_createFlow.js';\n\n/**\n * This method is like `_.flow` except that it creates a function that\n * invokes the given functions from right to left.\n *\n * @static\n * @since 3.0.0\n * @memberOf _\n * @category Util\n * @param {...(Function|Function[])} [funcs] The functions to invoke.\n * @returns {Function} Returns the new composite function.\n * @see _.flow\n * @example\n *\n * function square(n) {\n *   return n * n;\n * }\n *\n * var addSquare = _.flowRight([square, _.add]);\n * addSquare(1, 2);\n * // => 9\n */\nvar flowRight = createFlow(true);\n\nexport default flowRight;\n",
+      "start": 1698982453215,
+      "end": 1698982453245,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453245,
+      "end": 1698982453245,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453245,
+      "end": 1698982453245,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453245,
+      "end": 1698982453245,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453245,
+      "end": 1698982453245,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453245,
+      "end": 1698982453245,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453245,
+      "end": 1698982453245,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453245,
+      "end": 1698982453245,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453245,
+      "end": 1698982453245,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453245,
+      "end": 1698982453246,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453246,
+      "end": 1698982453246,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453246,
+      "end": 1698982453246,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453246,
+      "end": 1698982453246,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453246,
+      "end": 1698982453246,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453246,
+      "end": 1698982453246,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453246,
+      "end": 1698982453246,
+      "order": "normal"
+    }
+  ]
+}

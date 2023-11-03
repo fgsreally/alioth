@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/zipObject.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import assignValue from './_assignValue.js';\nimport baseZipObject from './_baseZipObject.js';\n\n/**\n * This method is like `_.fromPairs` except that it accepts two arrays,\n * one of property identifiers and one of corresponding values.\n *\n * @static\n * @memberOf _\n * @since 0.4.0\n * @category Array\n * @param {Array} [props=[]] The property identifiers.\n * @param {Array} [values=[]] The property values.\n * @returns {Object} Returns the new object.\n * @example\n *\n * _.zipObject(['a', 'b'], [1, 2]);\n * // => { 'a': 1, 'b': 2 }\n */\nfunction zipObject(props, values) {\n  return baseZipObject(props || [], values || [], assignValue);\n}\n\nexport default zipObject;\n",
+      "start": 1698982453748,
+      "end": 1698982453782,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453782,
+      "end": 1698982453782,
+      "order": "normal"
+    }
+  ]
+}

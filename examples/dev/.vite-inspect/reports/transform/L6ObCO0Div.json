@@ -1,0 +1,116 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/engine.ts",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import {\n  BaseEngine,\n} from 'alioth-vue'\nimport type { VirtualNode } from 'alioth-vue'\nimport { h } from 'vue'\nimport { renderer } from './renderer'\nexport class Engine extends BaseEngine<typeof renderer> {\n  Renderer = renderer\n  widgetMap = $alioth_interval.widgetMap\n  text() {\n    return h('p', {\n      class: 'preview-text',\n    }, this.key)\n  }\n\n  edit(node: VirtualNode<any>) {\n    const renderer = this.createRenderer(node)\n    if (node.parent!.parent?.id === 'root') {\n      return renderer\n        .slot(['default'], this.widgetMap, 'edit')\n        .main('edit')\n        .addClass('innerBlock_edit')\n        .grid()\n        .editAction()\n        .exec()\n    }\n\n    return renderer.slot(['default'], this.widgetMap, 'edit').main('edit').addStyle({ pointerEvents: 'auto' }).editAction()\n      .exec()\n  }\n\n  render(node: any) {\n    const renderer = this.createRenderer(node)\n\n    if (node.parent?.parent?.id === 'root') {\n      return renderer\n        .slot(['default'], this.widgetMap, 'render')\n        .main('render')\n        .grid()\n        .exec()\n    }\n\n    return renderer.slot(['default'], this.widgetMap, 'render').main('render').exec()\n  }\n\n  code() {\n\n  }\n}\n",
+      "start": 1698982452642,
+      "end": 1698982452649,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982452649,
+      "end": 1698982452649,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import {\n  BaseEngine\n} from \"alioth-vue\";\nimport { h } from \"vue\";\nimport { renderer } from \"./renderer\";\nexport class Engine extends BaseEngine {\n  Renderer = renderer;\n  widgetMap = $alioth_interval.widgetMap;\n  text() {\n    return h(\"p\", {\n      class: \"preview-text\"\n    }, this.key);\n  }\n  edit(node) {\n    const renderer2 = this.createRenderer(node);\n    if (node.parent.parent?.id === \"root\") {\n      return renderer2.slot([\"default\"], this.widgetMap, \"edit\").main(\"edit\").addClass(\"innerBlock_edit\").grid().editAction().exec();\n    }\n    return renderer2.slot([\"default\"], this.widgetMap, \"edit\").main(\"edit\").addStyle({ pointerEvents: \"auto\" }).editAction().exec();\n  }\n  render(node) {\n    const renderer2 = this.createRenderer(node);\n    if (node.parent?.parent?.id === \"root\") {\n      return renderer2.slot([\"default\"], this.widgetMap, \"render\").main(\"render\").grid().exec();\n    }\n    return renderer2.slot([\"default\"], this.widgetMap, \"render\").main(\"render\").exec();\n  }\n  code() {\n  }\n}\n",
+      "start": 1698982452649,
+      "end": 1698982452707,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/engine.ts"
+        ],
+        "sourcesContent": [
+          "import {\n  BaseEngine,\n} from 'alioth-vue'\nimport type { VirtualNode } from 'alioth-vue'\nimport { h } from 'vue'\nimport { renderer } from './renderer'\nexport class Engine extends BaseEngine<typeof renderer> {\n  Renderer = renderer\n  widgetMap = $alioth_interval.widgetMap\n  text() {\n    return h('p', {\n      class: 'preview-text',\n    }, this.key)\n  }\n\n  edit(node: VirtualNode<any>) {\n    const renderer = this.createRenderer(node)\n    if (node.parent!.parent?.id === 'root') {\n      return renderer\n        .slot(['default'], this.widgetMap, 'edit')\n        .main('edit')\n        .addClass('innerBlock_edit')\n        .grid()\n        .editAction()\n        .exec()\n    }\n\n    return renderer.slot(['default'], this.widgetMap, 'edit').main('edit').addStyle({ pointerEvents: 'auto' }).editAction()\n      .exec()\n  }\n\n  render(node: any) {\n    const renderer = this.createRenderer(node)\n\n    if (node.parent?.parent?.id === 'root') {\n      return renderer\n        .slot(['default'], this.widgetMap, 'render')\n        .main('render')\n        .grid()\n        .exec()\n    }\n\n    return renderer.slot(['default'], this.widgetMap, 'render').main('render').exec()\n  }\n\n  code() {\n\n  }\n}\n"
+        ],
+        "mappings": "AAAA;AAAA,EACE;AAAA,OACK;AAEP,SAAS,SAAS;AAClB,SAAS,gBAAgB;AAClB,aAAM,eAAe,WAA4B;AAAA,EACtD,WAAW;AAAA,EACX,YAAY,iBAAiB;AAAA,EAC7B,OAAO;AACL,WAAO,EAAE,KAAK;AAAA,MACZ,OAAO;AAAA,IACT,GAAG,KAAK,GAAG;AAAA,EACb;AAAA,EAEA,KAAK,MAAwB;AAC3B,UAAMA,YAAW,KAAK,eAAe,IAAI;AACzC,QAAI,KAAK,OAAQ,QAAQ,OAAO,QAAQ;AACtC,aAAOA,UACJ,KAAK,CAAC,SAAS,GAAG,KAAK,WAAW,MAAM,EACxC,KAAK,MAAM,EACX,SAAS,iBAAiB,EAC1B,KAAK,EACL,WAAW,EACX,KAAK;AAAA,IACV;AAEA,WAAOA,UAAS,KAAK,CAAC,SAAS,GAAG,KAAK,WAAW,MAAM,EAAE,KAAK,MAAM,EAAE,SAAS,EAAE,eAAe,OAAO,CAAC,EAAE,WAAW,EACnH,KAAK;AAAA,EACV;AAAA,EAEA,OAAO,MAAW;AAChB,UAAMA,YAAW,KAAK,eAAe,IAAI;AAEzC,QAAI,KAAK,QAAQ,QAAQ,OAAO,QAAQ;AACtC,aAAOA,UACJ,KAAK,CAAC,SAAS,GAAG,KAAK,WAAW,QAAQ,EAC1C,KAAK,QAAQ,EACb,KAAK,EACL,KAAK;AAAA,IACV;AAEA,WAAOA,UAAS,KAAK,CAAC,SAAS,GAAG,KAAK,WAAW,QAAQ,EAAE,KAAK,QAAQ,EAAE,KAAK;AAAA,EAClF;AAAA,EAEA,OAAO;AAAA,EAEP;AACF;",
+        "names": [
+          "renderer"
+        ]
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982452707,
+      "end": 1698982452707,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982452707,
+      "end": 1698982452707,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982452707,
+      "end": 1698982452707,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982452707,
+      "end": 1698982452707,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982452707,
+      "end": 1698982452707,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982452707,
+      "end": 1698982452707,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982452707,
+      "end": 1698982452707,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982452707,
+      "end": 1698982452707,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982452708,
+      "end": 1698982452708,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982452708,
+      "end": 1698982452708,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982452708,
+      "end": 1698982452708,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982452708,
+      "end": 1698982452708,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982452708,
+      "end": 1698982452708,
+      "order": "normal"
+    }
+  ]
+}

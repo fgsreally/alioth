@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lib0@0.2.80/node_modules/lib0/set.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "/**\n * Utility module to work with sets.\n *\n * @module set\n */\n\nexport const create = () => new Set()\n\n/**\n * @template T\n * @param {Set<T>} set\n * @return {Array<T>}\n */\nexport const toArray = set => Array.from(set)\n\n/**\n * @template T\n * @param {Set<T>} set\n * @return {T}\n */\nexport const first = set =>\n  set.values().next().value || undefined\n\n/**\n * @template T\n * @param {Iterable<T>} entries\n * @return {Set<T>}\n */\nexport const from = entries => new Set(entries)\n",
+      "start": 1698982453815,
+      "end": 1698982454231,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454231,
+      "end": 1698982454231,
+      "order": "normal"
+    }
+  ]
+}

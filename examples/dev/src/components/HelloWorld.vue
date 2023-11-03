@@ -4,7 +4,9 @@ defineProps<{ msg: number }>()
 
 <template>
   <div style="width: 100px;height: 100px;background-color: red;">
-    {{ msg }}xxzza
+    <p style="user-select: none;">
+      {{ msg }}
+    </p>
   </div>
 </template>
 

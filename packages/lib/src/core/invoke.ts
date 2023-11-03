@@ -31,7 +31,7 @@ export function loadPresets(presets: string[]) {
           resolve(module)
         }
         catch (e) {
-          reject(url)
+          reject(e)
         }
       })
     }

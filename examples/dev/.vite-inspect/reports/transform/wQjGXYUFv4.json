@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseEachRight.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import baseForOwnRight from './_baseForOwnRight.js';\nimport createBaseEach from './_createBaseEach.js';\n\n/**\n * The base implementation of `_.forEachRight` without support for iteratee shorthands.\n *\n * @private\n * @param {Array|Object} collection The collection to iterate over.\n * @param {Function} iteratee The function invoked per iteration.\n * @returns {Array|Object} Returns `collection`.\n */\nvar baseEachRight = createBaseEach(baseForOwnRight, true);\n\nexport default baseEachRight;\n",
+      "start": 1698982454329,
+      "end": 1698982454379,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454379,
+      "end": 1698982454379,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454379,
+      "end": 1698982454379,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454379,
+      "end": 1698982454380,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454380,
+      "end": 1698982454380,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454380,
+      "end": 1698982454380,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454380,
+      "end": 1698982454380,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454380,
+      "end": 1698982454380,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454380,
+      "end": 1698982454380,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454380,
+      "end": 1698982454380,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454380,
+      "end": 1698982454380,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454380,
+      "end": 1698982454380,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454380,
+      "end": 1698982454380,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454380,
+      "end": 1698982454380,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454380,
+      "end": 1698982454380,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454380,
+      "end": 1698982454380,
+      "order": "normal"
+    }
+  ]
+}

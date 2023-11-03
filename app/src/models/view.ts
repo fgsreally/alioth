@@ -1,6 +1,7 @@
 import { useR, useV } from 'phecda-vue'
 import type { Component } from 'vue'
 import { BaseViewModel } from 'alioth-vue'
+import axios from 'axios'
 import { ImportModel } from './import'
 import { DocModel } from './doc'
 import { componentMap } from '@/views/zones'
@@ -11,7 +12,7 @@ import IconDownload from '~icons/lucide/download'
 import IconBookDown from '~icons/lucide/book-down'
 
 import { download } from '@/utils/download'
-import { createPresetBundleEntry } from '@/utils/bundle'
+import { createEntryFileCode } from '@/utils/bundle'
 // import { presets } from '@/config'
 
 interface Header {
@@ -56,18 +57,19 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
     }, {
       label: '依赖',
       component: IconBookDown,
-      handler() {
+      async handler() {
         const { graph, viteUrl } = useR(ImportModel)
 
         const doc = unref(useV(DocModel).doc)
-        fetch(new URL('/alioth/file', viteUrl).href, {
-          method: 'POST',
-          body: JSON.stringify({
-            file: 'entry.js',
-            content: createPresetBundleEntry(doc, graph, viteUrl),
-          }),
-        }).then(() => {
+        // const ret = await bundleWithEsbuild(createEntryFileCode(doc, graph, viteUrl), 'http://localhost:5173/')
+        // ret.forEach(({ text, path }) => {
+        //   download(path, text)
+        // })
 
+        axios.post(new URL('/alioth/action', viteUrl).href, {
+          entry: 'entry.js',
+          type: 'bundle',
+          content: createEntryFileCode(doc, graph, viteUrl),
         })
       },
     },

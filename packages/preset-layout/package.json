@@ -1,28 +1,23 @@
 {
   "name": "alioth-preset-layout",
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
   "exports": {
-
-    "./grid": {
-      "import": "./src/grid/index.ts"
-    },
-    "./relative": {
-      "import": "./src/relative/index.ts"
-    }
+    "./*": "./src/*"
   },
   "dependencies": {
     "alioth-dev": "workspace:*",
     "alioth-vue": "workspace:*",
     "grid-layout-plus": "^1.0.3",
     "lodash-es": "^4.17.21",
-    "phecda-vue": "2.0.0-alpha.5",
-    "vue": "^3.3.4"
+    "phecda-vue": "^2.0.3",
+    "vue": "^3.3.4",
+    "vuedraggable-es": "^4.1.1"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.7",

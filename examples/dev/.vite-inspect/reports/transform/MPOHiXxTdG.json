@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_createCompounder.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import arrayReduce from './_arrayReduce.js';\nimport deburr from './deburr.js';\nimport words from './words.js';\n\n/** Used to compose unicode capture groups. */\nvar rsApos = \"['\\u2019]\";\n\n/** Used to match apostrophes. */\nvar reApos = RegExp(rsApos, 'g');\n\n/**\n * Creates a function like `_.camelCase`.\n *\n * @private\n * @param {Function} callback The function to combine each word.\n * @returns {Function} Returns the new compounder function.\n */\nfunction createCompounder(callback) {\n  return function(string) {\n    return arrayReduce(words(deburr(string).replace(reApos, '')), callback, '');\n  };\n}\n\nexport default createCompounder;\n",
+      "start": 1698982454224,
+      "end": 1698982454283,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454283,
+      "end": 1698982454283,
+      "order": "normal"
+    }
+  ]
+}

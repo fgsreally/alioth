@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/kebabCase.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import createCompounder from './_createCompounder.js';\n\n/**\n * Converts `string` to\n * [kebab case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles).\n *\n * @static\n * @memberOf _\n * @since 3.0.0\n * @category String\n * @param {string} [string=''] The string to convert.\n * @returns {string} Returns the kebab cased string.\n * @example\n *\n * _.kebabCase('Foo Bar');\n * // => 'foo-bar'\n *\n * _.kebabCase('fooBar');\n * // => 'foo-bar'\n *\n * _.kebabCase('__FOO_BAR__');\n * // => 'foo-bar'\n */\nvar kebabCase = createCompounder(function(result, word, index) {\n  return result + (index ? '-' : '') + word.toLowerCase();\n});\n\nexport default kebabCase;\n",
+      "start": 1698982453342,
+      "end": 1698982453375,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453375,
+      "end": 1698982453375,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453375,
+      "end": 1698982453375,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453375,
+      "end": 1698982453375,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453375,
+      "end": 1698982453375,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453375,
+      "end": 1698982453375,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453375,
+      "end": 1698982453375,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453375,
+      "end": 1698982453375,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453375,
+      "end": 1698982453375,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453375,
+      "end": 1698982453375,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453375,
+      "end": 1698982453375,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453375,
+      "end": 1698982453376,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453376,
+      "end": 1698982453376,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453376,
+      "end": 1698982453376,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453376,
+      "end": 1698982453376,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453376,
+      "end": 1698982453376,
+      "order": "normal"
+    }
+  ]
+}

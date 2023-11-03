@@ -1,9 +1,7 @@
-import type { NodeAttrs, VirtualDocument } from 'alioth-vue'
+import type { NodeAttrs } from 'alioth-vue'
 import { Init, emitter, useO } from 'phecda-vue'
 import { BaseDocModel, Controller, interval, observeDoc } from 'alioth-vue'
-import { WebsocketProvider } from 'y-websocket'
 import { EventModel } from './event'
-// @ts-expect-error miss types
 
 export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
   containerAttrs = markRaw(
@@ -54,7 +52,7 @@ export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
     observeDoc(this.doc)
 
     // const wsProvider = new WebsocketProvider('ws://localhost:1234', 'alioth', this.doc.controller.ydoc)
-    const lastRecord = localStorage.getItem('alioth_doc_state')
+    // const lastRecord = localStorage.getItem('alioth_doc_state')
     // if (lastRecord) {
     //   const { data, activeId } = JSON.parse(lastRecord)
 

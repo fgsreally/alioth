@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_baseAssignValue.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import defineProperty from './_defineProperty.js';\n\n/**\n * The base implementation of `assignValue` and `assignMergeValue` without\n * value checks.\n *\n * @private\n * @param {Object} object The object to modify.\n * @param {string} key The key of the property to assign.\n * @param {*} value The value to assign.\n */\nfunction baseAssignValue(object, key, value) {\n  if (key == '__proto__' && defineProperty) {\n    defineProperty(object, key, {\n      'configurable': true,\n      'enumerable': true,\n      'value': value,\n      'writable': true\n    });\n  } else {\n    object[key] = value;\n  }\n}\n\nexport default baseAssignValue;\n",
+      "start": 1698982454232,
+      "end": 1698982454302,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982454302,
+      "end": 1698982454302,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982454302,
+      "end": 1698982454302,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982454302,
+      "end": 1698982454302,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982454302,
+      "end": 1698982454302,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982454302,
+      "end": 1698982454302,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982454302,
+      "end": 1698982454302,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982454302,
+      "end": 1698982454302,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982454302,
+      "end": 1698982454302,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982454302,
+      "end": 1698982454302,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982454302,
+      "end": 1698982454302,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982454302,
+      "end": 1698982454302,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982454302,
+      "end": 1698982454302,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982454303,
+      "end": 1698982454303,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982454303,
+      "end": 1698982454303,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982454303,
+      "end": 1698982454303,
+      "order": "normal"
+    }
+  ]
+}

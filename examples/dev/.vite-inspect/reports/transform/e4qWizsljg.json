@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/grid-layout-plus@1.0.3_vue@3.3.4/node_modules/grid-layout-plus/es/helpers/responsive.mjs",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import { cloneLayout as m, compact as p, correctBounds as h } from \"./common.mjs\";\nfunction y(t, e) {\n  const o = d(t);\n  let n = o[0];\n  for (let r = 1, c = o.length; r < c; r++) {\n    const i = o[r];\n    e > t[i] && (n = i);\n  }\n  return n;\n}\nfunction B(t, e) {\n  if (!e[t])\n    throw new Error(\"ResponsiveGridLayout: `cols` entry for breakpoint \" + t + \" is missing!\");\n  return e[t];\n}\nfunction v(t, e, o, n, r, c, i) {\n  if (e[n])\n    return m(e[n]);\n  let s = t;\n  const u = d(o), l = u.slice(u.indexOf(n));\n  for (let f = 0, g = l.length; f < g; f++) {\n    const a = l[f];\n    if (e[a]) {\n      s = e[a];\n      break;\n    }\n  }\n  return s = m(s || []), p(h(s, { cols: c }), i);\n}\nfunction d(t) {\n  return Object.keys(t).sort((o, n) => t[o] - t[n]);\n}\nexport {\n  v as findOrGenerateResponsiveLayout,\n  y as getBreakpointFromWidth,\n  B as getColsFromBreakpoint,\n  d as sortBreakpoints\n};\n//# sourceMappingURL=responsive.mjs.map\n",
+      "start": 1698982453762,
+      "end": 1698982453839,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453839,
+      "end": 1698982453839,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453839,
+      "end": 1698982453839,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453839,
+      "end": 1698982453839,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453839,
+      "end": 1698982453839,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453839,
+      "end": 1698982453839,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453839,
+      "end": 1698982453840,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453840,
+      "end": 1698982453840,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453840,
+      "end": 1698982453840,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453840,
+      "end": 1698982453840,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453840,
+      "end": 1698982453840,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453840,
+      "end": 1698982453840,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453840,
+      "end": 1698982453840,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453840,
+      "end": 1698982453840,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453840,
+      "end": 1698982453840,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453840,
+      "end": 1698982453840,
+      "order": "normal"
+    }
+  ]
+}

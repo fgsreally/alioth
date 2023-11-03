@@ -14,7 +14,7 @@ export class AiModel {
   agents: Agent[] = []
 
   openai = new OpenAI({
-    apiKey: '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',
+    apiKey: import.meta.env.VITE_OPENAI_KEY,
     dangerouslyAllowBrowser: true,
   })
 
@@ -35,6 +35,7 @@ export class AiModel {
       ],
       model: 'gpt-3.5-turbo',
     })
+    // eslint-disable-next-line no-console
     console.log(completion.choices[0].message.content)
   }
 

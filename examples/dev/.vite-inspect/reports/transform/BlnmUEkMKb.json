@@ -1,0 +1,102 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/nth.js",
+  "transforms": [
+    {
+      "name": "vite:load-fallback",
+      "result": "import baseNth from './_baseNth.js';\nimport toInteger from './toInteger.js';\n\n/**\n * Gets the element at index `n` of `array`. If `n` is negative, the nth\n * element from the end is returned.\n *\n * @static\n * @memberOf _\n * @since 4.11.0\n * @category Array\n * @param {Array} array The array to query.\n * @param {number} [n=0] The index of the element to return.\n * @returns {*} Returns the nth element of `array`.\n * @example\n *\n * var array = ['a', 'b', 'c', 'd'];\n *\n * _.nth(array, 1);\n * // => 'b'\n *\n * _.nth(array, -2);\n * // => 'c';\n */\nfunction nth(array, n) {\n  return (array && array.length) ? baseNth(array, toInteger(n)) : undefined;\n}\n\nexport default nth;\n",
+      "start": 1698982453422,
+      "end": 1698982453492,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1698982453492,
+      "end": 1698982453492,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1698982453492,
+      "end": 1698982453492,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1698982453492,
+      "end": 1698982453492,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1698982453492,
+      "end": 1698982453492,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1698982453492,
+      "end": 1698982453492,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1698982453492,
+      "end": 1698982453492,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1698982453492,
+      "end": 1698982453492,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1698982453492,
+      "end": 1698982453492,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1698982453492,
+      "end": 1698982453492,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1698982453492,
+      "end": 1698982453492,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1698982453492,
+      "end": 1698982453493,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1698982453493,
+      "end": 1698982453493,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1698982453493,
+      "end": 1698982453493,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1698982453493,
+      "end": 1698982453493,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1698982453493,
+      "end": 1698982453493,
+      "order": "normal"
+    }
+  ]
+}
