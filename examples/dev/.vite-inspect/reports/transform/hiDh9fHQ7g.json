@@ -2,105 +2,109 @@
   "resolvedId": "D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue",
   "transforms": [
     {
-      "name": "vite:load-fallback",
+      "name": "__load__",
       "result": "<script setup lang=\"ts\">\nimport { emitter, useV } from 'phecda-vue'\nimport { GridLayout } from 'grid-layout-plus'\nimport { computed, onBeforeUnmount, onMounted, ref } from 'vue'\n\nconst props = defineProps<{ a_mode: string }>()\n\nlet index = 0\nconst { doc, activePage } = useV(__PHECDA__.doc)\nfunction update() {\n  activePage.value.children.forEach((node) => {\n    node.set('layout.x', node.attrs.layout.x)\n    node.set('layout.y', node.attrs.layout.y)\n  })\n}\nconst layout = computed(() => {\n  return activePage.value.children.map(item => item.attrs.layout)\n})\nconst dom = ref<HTMLElement>(null as any)\n\nfunction addBlock(module: any, e: MouseEvent) {\n  const { clientX } = e\n  const { width, left } = dom.value.getBoundingClientRect()\n  const { key, label, meta } = module\n  const { hoverNode, root } = doc.value\n  // const index = createIndex(key)\n  const parent = hoverNode || activePage.value\n  const info = {\n    x: Math.floor(12 * (clientX - left) / width),\n    y: 0, // puts it at the bottom\n    w: 2,\n    h: 2,\n    i: `${index++}`,\n  }\n  const block = doc.value.createNode(Object.assign({\n    slot: 'default',\n    key,\n    index,\n    label,\n    propsData: {\n    },\n    layout: info,\n    level: parent === root ? 1 : parent.attrs.level + 1,\n    top: parent === activePage.value ? e.offsetY : 0,\n    left: parent === activePage.value ? e.offsetX : 0,\n  }, meta?.init || {}))\n  parent.insert(block)\n  emitter.emit('alioth:node-action', null)\n}\n\nconst { add, del } = useV(__PHECDA__.drag)\n\nonMounted(() => {\n  add(dom.value, addBlock)\n})\nonBeforeUnmount(() => {\n  del(dom.value)\n})\n</script>\n\n<template>\n  <section ref=\"dom\" class=\"a-container\" @click.stop.self=\"doc.cancel()\" @mouseup.stop>\n    <GridLayout\n      v-model:layout=\"layout\" :col-num=\"12\" :row-height=\"30\" :is-draggable=\"a_mode !== 'render'\"\n      :is-resizable=\"a_mode !== 'render'\" vertical-compact prevent-collision use-css-transforms\n      @layout-updated=\"update\"\n    >\n      <slot />\n    </GridLayout>\n  </section>\n</template>\n\n<style>\n.a-container {\n  min-width: 600px;\n  min-height: 300px;\n}\n</style>\n",
-      "start": 1698982452642,
-      "end": 1698982452649,
-      "sourcemaps": null
+      "start": 1699405180537,
+      "end": 1699405180537
     },
     {
       "name": "vite:css",
-      "start": 1698982452649,
-      "end": 1698982452649,
+      "start": 1699405180537,
+      "end": 1699405180537,
       "order": "normal"
     },
     {
       "name": "vite:esbuild",
-      "start": 1698982452649,
-      "end": 1698982452649,
+      "start": 1699405180537,
+      "end": 1699405180537,
       "order": "normal"
     },
     {
       "name": "vite:json",
-      "start": 1698982452650,
-      "end": 1698982452650,
+      "start": 1699405180537,
+      "end": 1699405180537,
       "order": "normal"
     },
     {
       "name": "vite:worker",
-      "start": 1698982452650,
-      "end": 1698982452650,
+      "start": 1699405180537,
+      "end": 1699405180537,
       "order": "normal"
     },
     {
       "name": "vite:vue",
-      "result": "import _sfc_main from \"D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue?vue&type=script&setup=true&lang.ts\";\nexport * from \"D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue?vue&type=script&setup=true&lang.ts\";\nimport \"D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue?vue&type=style&index=0&lang.css\";\nimport _export_sfc from \"\\0plugin-vue:export-helper\";\nexport default /* @__PURE__ */ _export_sfc(_sfc_main, [[\"__file\", \"D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue\"]]);\n",
-      "start": 1698982452650,
-      "end": 1698982452714,
+      "result": "import { defineComponent as _defineComponent } from \"vue\";\nimport { emitter, useV } from \"phecda-vue\";\nimport { GridLayout } from \"grid-layout-plus\";\nimport { computed, onBeforeUnmount, onMounted, ref } from \"vue\";\nconst _sfc_main = /* @__PURE__ */ _defineComponent({\n  __name: \"Container\",\n  props: {\n    a_mode: { type: String, required: true }\n  },\n  setup(__props, { expose: __expose }) {\n    __expose();\n    const props = __props;\n    let index = 0;\n    const { doc, activePage } = useV(__PHECDA__.doc);\n    function update() {\n      activePage.value.children.forEach((node) => {\n        node.set(\"layout.x\", node.attrs.layout.x);\n        node.set(\"layout.y\", node.attrs.layout.y);\n      });\n    }\n    const layout = computed(() => {\n      return activePage.value.children.map((item) => item.attrs.layout);\n    });\n    const dom = ref(null);\n    function addBlock(module, e) {\n      const { clientX } = e;\n      const { width, left } = dom.value.getBoundingClientRect();\n      const { key, label, meta } = module;\n      const { hoverNode, root } = doc.value;\n      const parent = hoverNode || activePage.value;\n      const info = {\n        x: Math.floor(12 * (clientX - left) / width),\n        y: 0,\n        // puts it at the bottom\n        w: 2,\n        h: 2,\n        i: `${index++}`\n      };\n      const block = doc.value.createNode(Object.assign({\n        slot: \"default\",\n        key,\n        index,\n        label,\n        propsData: {},\n        layout: info,\n        level: parent === root ? 1 : parent.attrs.level + 1,\n        top: parent === activePage.value ? e.offsetY : 0,\n        left: parent === activePage.value ? e.offsetX : 0\n      }, meta?.init || {}));\n      parent.insert(block);\n      emitter.emit(\"alioth:node-action\", null);\n    }\n    const { add, del } = useV(__PHECDA__.drag);\n    onMounted(() => {\n      add(dom.value, addBlock);\n    });\n    onBeforeUnmount(() => {\n      del(dom.value);\n    });\n    const __returned__ = { props, get index() {\n      return index;\n    }, set index(v) {\n      index = v;\n    }, doc, activePage, update, layout, dom, addBlock, add, del, get GridLayout() {\n      return GridLayout;\n    } };\n    Object.defineProperty(__returned__, \"__isScriptSetup\", { enumerable: false, value: true });\n    return __returned__;\n  }\n});\nimport { renderSlot as _renderSlot, withCtx as _withCtx, createVNode as _createVNode, withModifiers as _withModifiers, openBlock as _openBlock, createElementBlock as _createElementBlock } from \"vue\";\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  return _openBlock(), _createElementBlock(\n    \"section\",\n    {\n      ref: \"dom\",\n      class: \"a-container\",\n      onClick: _cache[1] || (_cache[1] = _withModifiers(($event) => $setup.doc.cancel(), [\"stop\", \"self\"])),\n      onMouseup: _cache[2] || (_cache[2] = _withModifiers(() => {\n      }, [\"stop\"]))\n    },\n    [\n      _createVNode($setup[\"GridLayout\"], {\n        layout: $setup.layout,\n        \"onUpdate:layout\": _cache[0] || (_cache[0] = ($event) => $setup.layout = $event),\n        \"col-num\": 12,\n        \"row-height\": 30,\n        \"is-draggable\": $props.a_mode !== \"render\",\n        \"is-resizable\": $props.a_mode !== \"render\",\n        \"vertical-compact\": \"\",\n        \"prevent-collision\": \"\",\n        \"use-css-transforms\": \"\",\n        onLayoutUpdated: $setup.update\n      }, {\n        default: _withCtx(() => [\n          _renderSlot(_ctx.$slots, \"default\")\n        ]),\n        _: 3\n        /* FORWARDED */\n      }, 8, [\"layout\", \"is-draggable\", \"is-resizable\"])\n    ],\n    544\n    /* HYDRATE_EVENTS, NEED_PATCH */\n  );\n}\nimport \"D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue?vue&type=style&index=0&lang.css\";\n_sfc_main.__hmrId = \"bf439992\";\ntypeof __VUE_HMR_RUNTIME__ !== \"undefined\" && __VUE_HMR_RUNTIME__.createRecord(_sfc_main.__hmrId, _sfc_main);\nimport.meta.hot.accept((mod) => {\n  if (!mod)\n    return;\n  const { default: updated, _rerender_only } = mod;\n  if (_rerender_only) {\n    __VUE_HMR_RUNTIME__.rerender(updated.__hmrId, updated.render);\n  } else {\n    __VUE_HMR_RUNTIME__.reload(updated.__hmrId, updated);\n  }\n});\nimport _export_sfc from \"\\0plugin-vue:export-helper\";\nexport default /* @__PURE__ */ _export_sfc(_sfc_main, [[\"render\", _sfc_render], [\"__file\", \"D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue\"]]);\n",
+      "start": 1699405180537,
+      "end": 1699405180611,
       "order": "normal",
       "sourcemaps": {
-        "mappings": ""
+        "version": 3,
+        "mappings": ";AACA,SAAS,SAAS,YAAY;AAC9B,SAAS,kBAAkB;AAC3B,SAAS,UAAU,iBAAiB,WAAW,WAAW;;;;;;;;;AAI1D,QAAI,QAAQ;AACZ,UAAM,EAAE,KAAK,WAAW,IAAI,KAAK,WAAW,GAAG;AAC/C,aAAS,SAAS;AAChB,iBAAW,MAAM,SAAS,QAAQ,CAAC,SAAS;AAC1C,aAAK,IAAI,YAAY,KAAK,MAAM,OAAO,CAAC;AACxC,aAAK,IAAI,YAAY,KAAK,MAAM,OAAO,CAAC;AAAA,MAC1C,CAAC;AAAA,IACH;AACA,UAAM,SAAS,SAAS,MAAM;AAC5B,aAAO,WAAW,MAAM,SAAS,IAAI,UAAQ,KAAK,MAAM,MAAM;AAAA,IAChE,CAAC;AACD,UAAM,MAAM,IAAiB,IAAW;AAExC,aAAS,SAAS,QAAa,GAAe;AAC5C,YAAM,EAAE,QAAQ,IAAI;AACpB,YAAM,EAAE,OAAO,KAAK,IAAI,IAAI,MAAM,sBAAsB;AACxD,YAAM,EAAE,KAAK,OAAO,KAAK,IAAI;AAC7B,YAAM,EAAE,WAAW,KAAK,IAAI,IAAI;AAEhC,YAAM,SAAS,aAAa,WAAW;AACvC,YAAM,OAAO;AAAA,QACX,GAAG,KAAK,MAAM,MAAM,UAAU,QAAQ,KAAK;AAAA,QAC3C,GAAG;AAAA;AAAA,QACH,GAAG;AAAA,QACH,GAAG;AAAA,QACH,GAAG,GAAG,OAAO;AAAA,MACf;AACA,YAAM,QAAQ,IAAI,MAAM,WAAW,OAAO,OAAO;AAAA,QAC/C,MAAM;AAAA,QACN;AAAA,QACA;AAAA,QACA;AAAA,QACA,WAAW,CACX;AAAA,QACA,QAAQ;AAAA,QACR,OAAO,WAAW,OAAO,IAAI,OAAO,MAAM,QAAQ;AAAA,QAClD,KAAK,WAAW,WAAW,QAAQ,EAAE,UAAU;AAAA,QAC/C,MAAM,WAAW,WAAW,QAAQ,EAAE,UAAU;AAAA,MAClD,GAAG,MAAM,QAAQ,CAAC,CAAC,CAAC;AACpB,aAAO,OAAO,KAAK;AACnB,cAAQ,KAAK,sBAAsB,IAAI;AAAA,IACzC;AAEA,UAAM,EAAE,KAAK,IAAI,IAAI,KAAK,WAAW,IAAI;AAEzC,cAAU,MAAM;AACd,UAAI,IAAI,OAAO,QAAQ;AAAA,IACzB,CAAC;AACD,oBAAgB,MAAM;AACpB,UAAI,IAAI,KAAK;AAAA,IACf,CAAC;;;;;;;;;;;;;;uBAIC;AAAA,IAQU;AAAA;AAAA,MARD,KAAI;AAAA,MAAM,OAAM;AAAA,MAAe,SAAK,qDAAY,WAAI,OAAM;AAAA,MAAK,WAAO,yCAAR;AAAA,SAAa;AAAA;;MAClF,aAMa;AAAA,QALH,QAAQ;AAAA,iFAAM;AAAA,QAAG,WAAS;AAAA,QAAK,cAAY;AAAA,QAAK,gBAAc,kBAAM;AAAA,QAC3E,gBAAc,kBAAM;AAAA,QAAe;AAAA,QAAiB;AAAA,QAAkB;AAAA,QACtE,iBAAgB;AAAA;0BAEjB,MAAQ;AAAA,UAAR,YAAQ;AAAA",
+        "names": [],
+        "sources": [
+          "Container.vue"
+        ],
+        "sourcesContent": [
+          "<script setup lang=\"ts\">\nimport { emitter, useV } from 'phecda-vue'\nimport { GridLayout } from 'grid-layout-plus'\nimport { computed, onBeforeUnmount, onMounted, ref } from 'vue'\n\nconst props = defineProps<{ a_mode: string }>()\n\nlet index = 0\nconst { doc, activePage } = useV(__PHECDA__.doc)\nfunction update() {\n  activePage.value.children.forEach((node) => {\n    node.set('layout.x', node.attrs.layout.x)\n    node.set('layout.y', node.attrs.layout.y)\n  })\n}\nconst layout = computed(() => {\n  return activePage.value.children.map(item => item.attrs.layout)\n})\nconst dom = ref<HTMLElement>(null as any)\n\nfunction addBlock(module: any, e: MouseEvent) {\n  const { clientX } = e\n  const { width, left } = dom.value.getBoundingClientRect()\n  const { key, label, meta } = module\n  const { hoverNode, root } = doc.value\n  // const index = createIndex(key)\n  const parent = hoverNode || activePage.value\n  const info = {\n    x: Math.floor(12 * (clientX - left) / width),\n    y: 0, // puts it at the bottom\n    w: 2,\n    h: 2,\n    i: `${index++}`,\n  }\n  const block = doc.value.createNode(Object.assign({\n    slot: 'default',\n    key,\n    index,\n    label,\n    propsData: {\n    },\n    layout: info,\n    level: parent === root ? 1 : parent.attrs.level + 1,\n    top: parent === activePage.value ? e.offsetY : 0,\n    left: parent === activePage.value ? e.offsetX : 0,\n  }, meta?.init || {}))\n  parent.insert(block)\n  emitter.emit('alioth:node-action', null)\n}\n\nconst { add, del } = useV(__PHECDA__.drag)\n\nonMounted(() => {\n  add(dom.value, addBlock)\n})\nonBeforeUnmount(() => {\n  del(dom.value)\n})\n</script>\n\n<template>\n  <section ref=\"dom\" class=\"a-container\" @click.stop.self=\"doc.cancel()\" @mouseup.stop>\n    <GridLayout\n      v-model:layout=\"layout\" :col-num=\"12\" :row-height=\"30\" :is-draggable=\"a_mode !== 'render'\"\n      :is-resizable=\"a_mode !== 'render'\" vertical-compact prevent-collision use-css-transforms\n      @layout-updated=\"update\"\n    >\n      <slot />\n    </GridLayout>\n  </section>\n</template>\n\n<style>\n.a-container {\n  min-width: 600px;\n  min-height: 300px;\n}\n</style>\n"
+        ],
+        "file": "D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue"
       }
     },
     {
+      "name": "alioth-connector",
+      "start": 1699405180611,
+      "end": 1699405180611,
+      "order": "normal"
+    },
+    {
       "name": "vite:define",
-      "start": 1698982452714,
-      "end": 1698982452714,
+      "start": 1699405180611,
+      "end": 1699405180611,
       "order": "normal"
     },
     {
       "name": "vite:css-post",
-      "start": 1698982452714,
-      "end": 1698982452714,
-      "order": "normal"
-    },
-    {
-      "name": "vite:build-html",
-      "start": 1698982452714,
-      "end": 1698982452714,
+      "start": 1699405180611,
+      "end": 1699405180611,
       "order": "normal"
     },
     {
       "name": "vite:worker-import-meta-url",
-      "start": 1698982452714,
-      "end": 1698982452714,
+      "start": 1699405180611,
+      "end": 1699405180611,
       "order": "normal"
     },
     {
       "name": "vite:asset-import-meta-url",
-      "start": 1698982452714,
-      "end": 1698982452714,
-      "order": "normal"
-    },
-    {
-      "name": "commonjs",
-      "start": 1698982452714,
-      "end": 1698982452714,
+      "start": 1699405180611,
+      "end": 1699405180611,
       "order": "normal"
     },
     {
       "name": "vite:dynamic-import-vars",
-      "start": 1698982452714,
-      "end": 1698982452714,
+      "start": 1699405180611,
+      "end": 1699405180611,
       "order": "normal"
     },
     {
       "name": "vite:import-glob",
-      "start": 1698982452714,
-      "end": 1698982452714,
+      "start": 1699405180611,
+      "end": 1699405180611,
       "order": "normal"
     },
     {
-      "name": "vite:build-import-analysis",
-      "start": 1698982452714,
-      "end": 1698982452714,
+      "name": "vite:client-inject",
+      "start": 1699405180611,
+      "end": 1699405180611,
       "order": "normal"
     },
     {
-      "name": "vite:reporter",
-      "start": 1698982452714,
-      "end": 1698982452714,
-      "order": "normal"
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/@fs/D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue\");import { defineComponent as _defineComponent } from \"http://localhost:4010/vue.mjs\";\nimport { emitter, useV } from \"http://localhost:4010/phecda-vue.mjs\";\nimport { GridLayout } from \"/node_modules/.vite/deps/grid-layout-plus.js?v=4de675e4\";\nimport { computed, onBeforeUnmount, onMounted, ref } from \"http://localhost:4010/vue.mjs\";\nconst _sfc_main = /* @__PURE__ */ _defineComponent({\n  __name: \"Container\",\n  props: {\n    a_mode: { type: String, required: true }\n  },\n  setup(__props, { expose: __expose }) {\n    __expose();\n    const props = __props;\n    let index = 0;\n    const { doc, activePage } = useV(__PHECDA__.doc);\n    function update() {\n      activePage.value.children.forEach((node) => {\n        node.set(\"layout.x\", node.attrs.layout.x);\n        node.set(\"layout.y\", node.attrs.layout.y);\n      });\n    }\n    const layout = computed(() => {\n      return activePage.value.children.map((item) => item.attrs.layout);\n    });\n    const dom = ref(null);\n    function addBlock(module, e) {\n      const { clientX } = e;\n      const { width, left } = dom.value.getBoundingClientRect();\n      const { key, label, meta } = module;\n      const { hoverNode, root } = doc.value;\n      const parent = hoverNode || activePage.value;\n      const info = {\n        x: Math.floor(12 * (clientX - left) / width),\n        y: 0,\n        // puts it at the bottom\n        w: 2,\n        h: 2,\n        i: `${index++}`\n      };\n      const block = doc.value.createNode(Object.assign({\n        slot: \"default\",\n        key,\n        index,\n        label,\n        propsData: {},\n        layout: info,\n        level: parent === root ? 1 : parent.attrs.level + 1,\n        top: parent === activePage.value ? e.offsetY : 0,\n        left: parent === activePage.value ? e.offsetX : 0\n      }, meta?.init || {}));\n      parent.insert(block);\n      emitter.emit(\"alioth:node-action\", null);\n    }\n    const { add, del } = useV(__PHECDA__.drag);\n    onMounted(() => {\n      add(dom.value, addBlock);\n    });\n    onBeforeUnmount(() => {\n      del(dom.value);\n    });\n    const __returned__ = { props, get index() {\n      return index;\n    }, set index(v) {\n      index = v;\n    }, doc, activePage, update, layout, dom, addBlock, add, del, get GridLayout() {\n      return GridLayout;\n    } };\n    Object.defineProperty(__returned__, \"__isScriptSetup\", { enumerable: false, value: true });\n    return __returned__;\n  }\n});\nimport { renderSlot as _renderSlot, withCtx as _withCtx, createVNode as _createVNode, withModifiers as _withModifiers, openBlock as _openBlock, createElementBlock as _createElementBlock } from \"http://localhost:4010/vue.mjs\";\nfunction _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {\n  return _openBlock(), _createElementBlock(\n    \"section\",\n    {\n      ref: \"dom\",\n      class: \"a-container\",\n      onClick: _cache[1] || (_cache[1] = _withModifiers(($event) => $setup.doc.cancel(), [\"stop\", \"self\"])),\n      onMouseup: _cache[2] || (_cache[2] = _withModifiers(() => {\n      }, [\"stop\"]))\n    },\n    [\n      _createVNode($setup[\"GridLayout\"], {\n        layout: $setup.layout,\n        \"onUpdate:layout\": _cache[0] || (_cache[0] = ($event) => $setup.layout = $event),\n        \"col-num\": 12,\n        \"row-height\": 30,\n        \"is-draggable\": $props.a_mode !== \"render\",\n        \"is-resizable\": $props.a_mode !== \"render\",\n        \"vertical-compact\": \"\",\n        \"prevent-collision\": \"\",\n        \"use-css-transforms\": \"\",\n        onLayoutUpdated: $setup.update\n      }, {\n        default: _withCtx(() => [\n          _renderSlot(_ctx.$slots, \"default\")\n        ]),\n        _: 3\n        /* FORWARDED */\n      }, 8, [\"layout\", \"is-draggable\", \"is-resizable\"])\n    ],\n    544\n    /* HYDRATE_EVENTS, NEED_PATCH */\n  );\n}\nimport \"/@fs/D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue?vue&type=style&index=0&lang.css\";\n_sfc_main.__hmrId = \"bf439992\";\ntypeof __VUE_HMR_RUNTIME__ !== \"undefined\" && __VUE_HMR_RUNTIME__.createRecord(_sfc_main.__hmrId, _sfc_main);\nimport.meta.hot.accept((mod) => {\n  if (!mod)\n    return;\n  const { default: updated, _rerender_only } = mod;\n  if (_rerender_only) {\n    __VUE_HMR_RUNTIME__.rerender(updated.__hmrId, updated.render);\n  } else {\n    __VUE_HMR_RUNTIME__.reload(updated.__hmrId, updated);\n  }\n});\nimport _export_sfc from \"/@id/__x00__plugin-vue:export-helper\";\nexport default /* @__PURE__ */ _export_sfc(_sfc_main, [[\"render\", _sfc_render], [\"__file\", \"D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue\"]]);\n",
+      "start": 1699405180611,
+      "end": 1699405180615,
+      "order": "normal",
+      "sourcemaps": null
     }
   ]
 }

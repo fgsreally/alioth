@@ -4,8 +4,8 @@
     {
       "name": "vite:vue",
       "result": "\n.a-container {\n  min-width: 600px;\n  min-height: 300px;\n}\n",
-      "start": 1698982452717,
-      "end": 1698982452717,
+      "start": 1699405180615,
+      "end": 1699405180615,
       "sourcemaps": {
         "version": 3,
         "sources": [
@@ -23,102 +23,98 @@
     {
       "name": "vite:css",
       "result": "\n.a-container {\n  min-width: 600px;\n  min-height: 300px;\n}\n",
-      "start": 1698982452718,
-      "end": 1698982453138,
+      "start": 1699405180616,
+      "end": 1699405180616,
       "order": "normal",
       "sourcemaps": null
     },
     {
       "name": "vite:esbuild",
-      "start": 1698982453138,
-      "end": 1698982453138,
+      "start": 1699405180616,
+      "end": 1699405180616,
       "order": "normal"
     },
     {
       "name": "vite:json",
-      "start": 1698982453138,
-      "end": 1698982453138,
+      "start": 1699405180616,
+      "end": 1699405180616,
       "order": "normal"
     },
     {
       "name": "vite:worker",
-      "start": 1698982453138,
-      "end": 1698982453138,
+      "start": 1699405180616,
+      "end": 1699405180616,
       "order": "normal"
     },
     {
       "name": "vite:vue",
       "result": "\n.a-container {\n  min-width: 600px;\n  min-height: 300px;\n}\n",
-      "start": 1698982453138,
-      "end": 1698982453142,
+      "start": 1699405180616,
+      "end": 1699405180617,
       "order": "normal",
       "sourcemaps": {
         "mappings": ""
       }
     },
     {
+      "name": "alioth-connector",
+      "start": 1699405180617,
+      "end": 1699405180617,
+      "order": "normal"
+    },
+    {
       "name": "vite:define",
-      "start": 1698982453142,
-      "end": 1698982453142,
+      "start": 1699405180617,
+      "end": 1699405180617,
       "order": "normal"
     },
     {
       "name": "vite:css-post",
-      "result": "export default ''",
-      "start": 1698982453142,
-      "end": 1698982453142,
+      "result": "import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue?vue&type=style&index=0&lang.css\"\nconst __vite__css = \"\\n.a-container {\\n  min-width: 600px;\\n  min-height: 300px;\\n}\\n\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nexport default __vite__css\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1699405180617,
+      "end": 1699405180617,
       "order": "normal",
       "sourcemaps": {
         "mappings": ""
       }
     },
     {
-      "name": "vite:build-html",
-      "start": 1698982453142,
-      "end": 1698982453142,
-      "order": "normal"
-    },
-    {
       "name": "vite:worker-import-meta-url",
-      "start": 1698982453142,
-      "end": 1698982453142,
+      "start": 1699405180617,
+      "end": 1699405180617,
       "order": "normal"
     },
     {
       "name": "vite:asset-import-meta-url",
-      "start": 1698982453142,
-      "end": 1698982453142,
-      "order": "normal"
-    },
-    {
-      "name": "commonjs",
-      "start": 1698982453142,
-      "end": 1698982453142,
+      "start": 1699405180617,
+      "end": 1699405180617,
       "order": "normal"
     },
     {
       "name": "vite:dynamic-import-vars",
-      "start": 1698982453142,
-      "end": 1698982453142,
+      "start": 1699405180617,
+      "end": 1699405180617,
       "order": "normal"
     },
     {
       "name": "vite:import-glob",
-      "start": 1698982453142,
-      "end": 1698982453142,
+      "start": 1699405180617,
+      "end": 1699405180617,
       "order": "normal"
     },
     {
-      "name": "vite:build-import-analysis",
-      "start": 1698982453142,
-      "end": 1698982453142,
+      "name": "vite:client-inject",
+      "start": 1699405180617,
+      "end": 1699405180617,
       "order": "normal"
     },
     {
-      "name": "vite:reporter",
-      "start": 1698982453142,
-      "end": 1698982453142,
-      "order": "normal"
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/@fs/D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue?vue&type=style&index=0&lang.css\");import { updateStyle as __vite__updateStyle, removeStyle as __vite__removeStyle } from \"/@vite/client\"\nconst __vite__id = \"D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue?vue&type=style&index=0&lang.css\"\nconst __vite__css = \"\\n.a-container {\\n  min-width: 600px;\\n  min-height: 300px;\\n}\\n\"\n__vite__updateStyle(__vite__id, __vite__css)\nimport.meta.hot.accept()\nexport default __vite__css\nimport.meta.hot.prune(() => __vite__removeStyle(__vite__id))",
+      "start": 1699405180617,
+      "end": 1699405180618,
+      "order": "normal",
+      "sourcemaps": null
     }
   ]
 }

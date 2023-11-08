@@ -2,28 +2,27 @@
   "resolvedId": "D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/index.ts",
   "transforms": [
     {
-      "name": "vite:load-fallback",
+      "name": "__load__",
       "result": "import component from './Container.vue'\nimport { Engine } from './engine'\nexport const container = {\n  alioth: 'widget',\n  data: {\n    key: 'root',\n    category: '',\n    component,\n  },\n}\n\nexport const engine = {\n  alioth: 'setEngine',\n  data: Engine,\n}\n",
-      "start": 1698982452290,
-      "end": 1698982452290,
-      "sourcemaps": null
+      "start": 1699405180456,
+      "end": 1699405180456
     },
     {
       "name": "vite:css",
-      "start": 1698982452291,
-      "end": 1698982452291,
+      "start": 1699405180456,
+      "end": 1699405180456,
       "order": "normal"
     },
     {
       "name": "vite:esbuild",
       "result": "import component from \"./Container.vue\";\nimport { Engine } from \"./engine\";\nexport const container = {\n  alioth: \"widget\",\n  data: {\n    key: \"root\",\n    category: \"\",\n    component\n  }\n};\nexport const engine = {\n  alioth: \"setEngine\",\n  data: Engine\n};\n",
-      "start": 1698982452291,
-      "end": 1698982452636,
+      "start": 1699405180456,
+      "end": 1699405180502,
       "order": "normal",
       "sourcemaps": {
         "version": 3,
         "sources": [
-          "D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/index.ts"
+          "index.ts"
         ],
         "sourcesContent": [
           "import component from './Container.vue'\nimport { Engine } from './engine'\nexport const container = {\n  alioth: 'widget',\n  data: {\n    key: 'root',\n    category: '',\n    component,\n  },\n}\n\nexport const engine = {\n  alioth: 'setEngine',\n  data: Engine,\n}\n"
@@ -34,81 +33,77 @@
     },
     {
       "name": "vite:json",
-      "start": 1698982452636,
-      "end": 1698982452636,
+      "start": 1699405180502,
+      "end": 1699405180502,
       "order": "normal"
     },
     {
       "name": "vite:worker",
-      "start": 1698982452636,
-      "end": 1698982452636,
+      "start": 1699405180502,
+      "end": 1699405180502,
       "order": "normal"
     },
     {
       "name": "vite:vue",
-      "start": 1698982452636,
-      "end": 1698982452636,
+      "start": 1699405180502,
+      "end": 1699405180502,
+      "order": "normal"
+    },
+    {
+      "name": "alioth-connector",
+      "start": 1699405180502,
+      "end": 1699405180502,
       "order": "normal"
     },
     {
       "name": "vite:define",
-      "start": 1698982452636,
-      "end": 1698982452636,
+      "start": 1699405180502,
+      "end": 1699405180502,
       "order": "normal"
     },
     {
       "name": "vite:css-post",
-      "start": 1698982452636,
-      "end": 1698982452636,
-      "order": "normal"
-    },
-    {
-      "name": "vite:build-html",
-      "start": 1698982452636,
-      "end": 1698982452636,
+      "start": 1699405180502,
+      "end": 1699405180502,
       "order": "normal"
     },
     {
       "name": "vite:worker-import-meta-url",
-      "start": 1698982452636,
-      "end": 1698982452636,
+      "start": 1699405180503,
+      "end": 1699405180503,
       "order": "normal"
     },
     {
       "name": "vite:asset-import-meta-url",
-      "start": 1698982452636,
-      "end": 1698982452636,
-      "order": "normal"
-    },
-    {
-      "name": "commonjs",
-      "start": 1698982452636,
-      "end": 1698982452636,
+      "start": 1699405180503,
+      "end": 1699405180503,
       "order": "normal"
     },
     {
       "name": "vite:dynamic-import-vars",
-      "start": 1698982452636,
-      "end": 1698982452636,
+      "start": 1699405180503,
+      "end": 1699405180503,
       "order": "normal"
     },
     {
       "name": "vite:import-glob",
-      "start": 1698982452636,
-      "end": 1698982452636,
+      "start": 1699405180503,
+      "end": 1699405180503,
       "order": "normal"
     },
     {
-      "name": "vite:build-import-analysis",
-      "start": 1698982452636,
-      "end": 1698982452638,
+      "name": "vite:client-inject",
+      "start": 1699405180503,
+      "end": 1699405180503,
       "order": "normal"
     },
     {
-      "name": "vite:reporter",
-      "start": 1698982452638,
-      "end": 1698982452638,
-      "order": "normal"
+      "name": "vite:import-analysis",
+      "result": "import component from \"/@fs/D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/Container.vue\";\nimport { Engine } from \"/@fs/D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/engine.ts\";\nexport const container = {\n  alioth: \"widget\",\n  data: {\n    key: \"root\",\n    category: \"\",\n    component\n  }\n};\nexport const engine = {\n  alioth: \"setEngine\",\n  data: Engine\n};\n",
+      "start": 1699405180503,
+      "end": 1699405180508,
+      "order": "normal",
+      "sourcemaps": null
     }
   ]
 }

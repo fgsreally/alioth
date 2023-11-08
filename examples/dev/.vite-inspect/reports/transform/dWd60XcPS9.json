@@ -1,0 +1,98 @@
+{
+  "resolvedId": "D:/MyProject/5/alioth/examples/dev/node_modules/.vite/deps/eventemitter3.js?v=4de675e4",
+  "transforms": [
+    {
+      "name": "vite:optimized-deps",
+      "result": "import {\n  __commonJS,\n  __toESM\n} from \"./chunk-UXIASGQL.js\";\n\n// ../../node_modules/.pnpm/eventemitter3@5.0.1/node_modules/eventemitter3/index.js\nvar require_eventemitter3 = __commonJS({\n  \"../../node_modules/.pnpm/eventemitter3@5.0.1/node_modules/eventemitter3/index.js\"(exports, module) {\n    \"use strict\";\n    var has = Object.prototype.hasOwnProperty;\n    var prefix = \"~\";\n    function Events() {\n    }\n    if (Object.create) {\n      Events.prototype = /* @__PURE__ */ Object.create(null);\n      if (!new Events().__proto__)\n        prefix = false;\n    }\n    function EE(fn, context, once) {\n      this.fn = fn;\n      this.context = context;\n      this.once = once || false;\n    }\n    function addListener(emitter, event, fn, context, once) {\n      if (typeof fn !== \"function\") {\n        throw new TypeError(\"The listener must be a function\");\n      }\n      var listener = new EE(fn, context || emitter, once), evt = prefix ? prefix + event : event;\n      if (!emitter._events[evt])\n        emitter._events[evt] = listener, emitter._eventsCount++;\n      else if (!emitter._events[evt].fn)\n        emitter._events[evt].push(listener);\n      else\n        emitter._events[evt] = [emitter._events[evt], listener];\n      return emitter;\n    }\n    function clearEvent(emitter, evt) {\n      if (--emitter._eventsCount === 0)\n        emitter._events = new Events();\n      else\n        delete emitter._events[evt];\n    }\n    function EventEmitter2() {\n      this._events = new Events();\n      this._eventsCount = 0;\n    }\n    EventEmitter2.prototype.eventNames = function eventNames() {\n      var names = [], events, name;\n      if (this._eventsCount === 0)\n        return names;\n      for (name in events = this._events) {\n        if (has.call(events, name))\n          names.push(prefix ? name.slice(1) : name);\n      }\n      if (Object.getOwnPropertySymbols) {\n        return names.concat(Object.getOwnPropertySymbols(events));\n      }\n      return names;\n    };\n    EventEmitter2.prototype.listeners = function listeners(event) {\n      var evt = prefix ? prefix + event : event, handlers = this._events[evt];\n      if (!handlers)\n        return [];\n      if (handlers.fn)\n        return [handlers.fn];\n      for (var i = 0, l = handlers.length, ee = new Array(l); i < l; i++) {\n        ee[i] = handlers[i].fn;\n      }\n      return ee;\n    };\n    EventEmitter2.prototype.listenerCount = function listenerCount(event) {\n      var evt = prefix ? prefix + event : event, listeners = this._events[evt];\n      if (!listeners)\n        return 0;\n      if (listeners.fn)\n        return 1;\n      return listeners.length;\n    };\n    EventEmitter2.prototype.emit = function emit(event, a1, a2, a3, a4, a5) {\n      var evt = prefix ? prefix + event : event;\n      if (!this._events[evt])\n        return false;\n      var listeners = this._events[evt], len = arguments.length, args, i;\n      if (listeners.fn) {\n        if (listeners.once)\n          this.removeListener(event, listeners.fn, void 0, true);\n        switch (len) {\n          case 1:\n            return listeners.fn.call(listeners.context), true;\n          case 2:\n            return listeners.fn.call(listeners.context, a1), true;\n          case 3:\n            return listeners.fn.call(listeners.context, a1, a2), true;\n          case 4:\n            return listeners.fn.call(listeners.context, a1, a2, a3), true;\n          case 5:\n            return listeners.fn.call(listeners.context, a1, a2, a3, a4), true;\n          case 6:\n            return listeners.fn.call(listeners.context, a1, a2, a3, a4, a5), true;\n        }\n        for (i = 1, args = new Array(len - 1); i < len; i++) {\n          args[i - 1] = arguments[i];\n        }\n        listeners.fn.apply(listeners.context, args);\n      } else {\n        var length = listeners.length, j;\n        for (i = 0; i < length; i++) {\n          if (listeners[i].once)\n            this.removeListener(event, listeners[i].fn, void 0, true);\n          switch (len) {\n            case 1:\n              listeners[i].fn.call(listeners[i].context);\n              break;\n            case 2:\n              listeners[i].fn.call(listeners[i].context, a1);\n              break;\n            case 3:\n              listeners[i].fn.call(listeners[i].context, a1, a2);\n              break;\n            case 4:\n              listeners[i].fn.call(listeners[i].context, a1, a2, a3);\n              break;\n            default:\n              if (!args)\n                for (j = 1, args = new Array(len - 1); j < len; j++) {\n                  args[j - 1] = arguments[j];\n                }\n              listeners[i].fn.apply(listeners[i].context, args);\n          }\n        }\n      }\n      return true;\n    };\n    EventEmitter2.prototype.on = function on(event, fn, context) {\n      return addListener(this, event, fn, context, false);\n    };\n    EventEmitter2.prototype.once = function once(event, fn, context) {\n      return addListener(this, event, fn, context, true);\n    };\n    EventEmitter2.prototype.removeListener = function removeListener(event, fn, context, once) {\n      var evt = prefix ? prefix + event : event;\n      if (!this._events[evt])\n        return this;\n      if (!fn) {\n        clearEvent(this, evt);\n        return this;\n      }\n      var listeners = this._events[evt];\n      if (listeners.fn) {\n        if (listeners.fn === fn && (!once || listeners.once) && (!context || listeners.context === context)) {\n          clearEvent(this, evt);\n        }\n      } else {\n        for (var i = 0, events = [], length = listeners.length; i < length; i++) {\n          if (listeners[i].fn !== fn || once && !listeners[i].once || context && listeners[i].context !== context) {\n            events.push(listeners[i]);\n          }\n        }\n        if (events.length)\n          this._events[evt] = events.length === 1 ? events[0] : events;\n        else\n          clearEvent(this, evt);\n      }\n      return this;\n    };\n    EventEmitter2.prototype.removeAllListeners = function removeAllListeners(event) {\n      var evt;\n      if (event) {\n        evt = prefix ? prefix + event : event;\n        if (this._events[evt])\n          clearEvent(this, evt);\n      } else {\n        this._events = new Events();\n        this._eventsCount = 0;\n      }\n      return this;\n    };\n    EventEmitter2.prototype.off = EventEmitter2.prototype.removeListener;\n    EventEmitter2.prototype.addListener = EventEmitter2.prototype.on;\n    EventEmitter2.prefixed = prefix;\n    EventEmitter2.EventEmitter = EventEmitter2;\n    if (\"undefined\" !== typeof module) {\n      module.exports = EventEmitter2;\n    }\n  }\n});\n\n// ../../node_modules/.pnpm/eventemitter3@5.0.1/node_modules/eventemitter3/index.mjs\nvar import_index = __toESM(require_eventemitter3(), 1);\nvar eventemitter3_default = import_index.default;\nvar export_EventEmitter = import_index.default;\nexport {\n  export_EventEmitter as EventEmitter,\n  eventemitter3_default as default\n};\n//# sourceMappingURL=eventemitter3.js.map\n",
+      "start": 1699405180683,
+      "end": 1699405180687,
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:css",
+      "start": 1699405180687,
+      "end": 1699405180687,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1699405180687,
+      "end": 1699405180687,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1699405180687,
+      "end": 1699405180687,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1699405180687,
+      "end": 1699405180687,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1699405180687,
+      "end": 1699405180687,
+      "order": "normal"
+    },
+    {
+      "name": "alioth-connector",
+      "start": 1699405180687,
+      "end": 1699405180687,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1699405180687,
+      "end": 1699405180687,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1699405180687,
+      "end": 1699405180687,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1699405180687,
+      "end": 1699405180687,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1699405180687,
+      "end": 1699405180687,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1699405180687,
+      "end": 1699405180687,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1699405180687,
+      "end": 1699405180687,
+      "order": "normal"
+    },
+    {
+      "name": "vite:client-inject",
+      "start": 1699405180687,
+      "end": 1699405180687,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-analysis",
+      "result": "import {\n  __commonJS,\n  __toESM\n} from \"/node_modules/.vite/deps/chunk-UXIASGQL.js?v=4de675e4\";\n\n// ../../node_modules/.pnpm/eventemitter3@5.0.1/node_modules/eventemitter3/index.js\nvar require_eventemitter3 = __commonJS({\n  \"../../node_modules/.pnpm/eventemitter3@5.0.1/node_modules/eventemitter3/index.js\"(exports, module) {\n    \"use strict\";\n    var has = Object.prototype.hasOwnProperty;\n    var prefix = \"~\";\n    function Events() {\n    }\n    if (Object.create) {\n      Events.prototype = /* @__PURE__ */ Object.create(null);\n      if (!new Events().__proto__)\n        prefix = false;\n    }\n    function EE(fn, context, once) {\n      this.fn = fn;\n      this.context = context;\n      this.once = once || false;\n    }\n    function addListener(emitter, event, fn, context, once) {\n      if (typeof fn !== \"function\") {\n        throw new TypeError(\"The listener must be a function\");\n      }\n      var listener = new EE(fn, context || emitter, once), evt = prefix ? prefix + event : event;\n      if (!emitter._events[evt])\n        emitter._events[evt] = listener, emitter._eventsCount++;\n      else if (!emitter._events[evt].fn)\n        emitter._events[evt].push(listener);\n      else\n        emitter._events[evt] = [emitter._events[evt], listener];\n      return emitter;\n    }\n    function clearEvent(emitter, evt) {\n      if (--emitter._eventsCount === 0)\n        emitter._events = new Events();\n      else\n        delete emitter._events[evt];\n    }\n    function EventEmitter2() {\n      this._events = new Events();\n      this._eventsCount = 0;\n    }\n    EventEmitter2.prototype.eventNames = function eventNames() {\n      var names = [], events, name;\n      if (this._eventsCount === 0)\n        return names;\n      for (name in events = this._events) {\n        if (has.call(events, name))\n          names.push(prefix ? name.slice(1) : name);\n      }\n      if (Object.getOwnPropertySymbols) {\n        return names.concat(Object.getOwnPropertySymbols(events));\n      }\n      return names;\n    };\n    EventEmitter2.prototype.listeners = function listeners(event) {\n      var evt = prefix ? prefix + event : event, handlers = this._events[evt];\n      if (!handlers)\n        return [];\n      if (handlers.fn)\n        return [handlers.fn];\n      for (var i = 0, l = handlers.length, ee = new Array(l); i < l; i++) {\n        ee[i] = handlers[i].fn;\n      }\n      return ee;\n    };\n    EventEmitter2.prototype.listenerCount = function listenerCount(event) {\n      var evt = prefix ? prefix + event : event, listeners = this._events[evt];\n      if (!listeners)\n        return 0;\n      if (listeners.fn)\n        return 1;\n      return listeners.length;\n    };\n    EventEmitter2.prototype.emit = function emit(event, a1, a2, a3, a4, a5) {\n      var evt = prefix ? prefix + event : event;\n      if (!this._events[evt])\n        return false;\n      var listeners = this._events[evt], len = arguments.length, args, i;\n      if (listeners.fn) {\n        if (listeners.once)\n          this.removeListener(event, listeners.fn, void 0, true);\n        switch (len) {\n          case 1:\n            return listeners.fn.call(listeners.context), true;\n          case 2:\n            return listeners.fn.call(listeners.context, a1), true;\n          case 3:\n            return listeners.fn.call(listeners.context, a1, a2), true;\n          case 4:\n            return listeners.fn.call(listeners.context, a1, a2, a3), true;\n          case 5:\n            return listeners.fn.call(listeners.context, a1, a2, a3, a4), true;\n          case 6:\n            return listeners.fn.call(listeners.context, a1, a2, a3, a4, a5), true;\n        }\n        for (i = 1, args = new Array(len - 1); i < len; i++) {\n          args[i - 1] = arguments[i];\n        }\n        listeners.fn.apply(listeners.context, args);\n      } else {\n        var length = listeners.length, j;\n        for (i = 0; i < length; i++) {\n          if (listeners[i].once)\n            this.removeListener(event, listeners[i].fn, void 0, true);\n          switch (len) {\n            case 1:\n              listeners[i].fn.call(listeners[i].context);\n              break;\n            case 2:\n              listeners[i].fn.call(listeners[i].context, a1);\n              break;\n            case 3:\n              listeners[i].fn.call(listeners[i].context, a1, a2);\n              break;\n            case 4:\n              listeners[i].fn.call(listeners[i].context, a1, a2, a3);\n              break;\n            default:\n              if (!args)\n                for (j = 1, args = new Array(len - 1); j < len; j++) {\n                  args[j - 1] = arguments[j];\n                }\n              listeners[i].fn.apply(listeners[i].context, args);\n          }\n        }\n      }\n      return true;\n    };\n    EventEmitter2.prototype.on = function on(event, fn, context) {\n      return addListener(this, event, fn, context, false);\n    };\n    EventEmitter2.prototype.once = function once(event, fn, context) {\n      return addListener(this, event, fn, context, true);\n    };\n    EventEmitter2.prototype.removeListener = function removeListener(event, fn, context, once) {\n      var evt = prefix ? prefix + event : event;\n      if (!this._events[evt])\n        return this;\n      if (!fn) {\n        clearEvent(this, evt);\n        return this;\n      }\n      var listeners = this._events[evt];\n      if (listeners.fn) {\n        if (listeners.fn === fn && (!once || listeners.once) && (!context || listeners.context === context)) {\n          clearEvent(this, evt);\n        }\n      } else {\n        for (var i = 0, events = [], length = listeners.length; i < length; i++) {\n          if (listeners[i].fn !== fn || once && !listeners[i].once || context && listeners[i].context !== context) {\n            events.push(listeners[i]);\n          }\n        }\n        if (events.length)\n          this._events[evt] = events.length === 1 ? events[0] : events;\n        else\n          clearEvent(this, evt);\n      }\n      return this;\n    };\n    EventEmitter2.prototype.removeAllListeners = function removeAllListeners(event) {\n      var evt;\n      if (event) {\n        evt = prefix ? prefix + event : event;\n        if (this._events[evt])\n          clearEvent(this, evt);\n      } else {\n        this._events = new Events();\n        this._eventsCount = 0;\n      }\n      return this;\n    };\n    EventEmitter2.prototype.off = EventEmitter2.prototype.removeListener;\n    EventEmitter2.prototype.addListener = EventEmitter2.prototype.on;\n    EventEmitter2.prefixed = prefix;\n    EventEmitter2.EventEmitter = EventEmitter2;\n    if (\"undefined\" !== typeof module) {\n      module.exports = EventEmitter2;\n    }\n  }\n});\n\n// ../../node_modules/.pnpm/eventemitter3@5.0.1/node_modules/eventemitter3/index.mjs\nvar import_index = __toESM(require_eventemitter3(), 1);\nvar eventemitter3_default = import_index.default;\nvar export_EventEmitter = import_index.default;\nexport {\n  export_EventEmitter as EventEmitter,\n  eventemitter3_default as default\n};\n//# sourceMappingURL=eventemitter3.js.map\n",
+      "start": 1699405180687,
+      "end": 1699405180688,
+      "order": "normal",
+      "sourcemaps": null
+    }
+  ]
+}

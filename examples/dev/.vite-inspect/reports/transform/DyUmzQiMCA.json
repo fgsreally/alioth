@@ -2,28 +2,27 @@
   "resolvedId": "D:/MyProject/5/alioth/examples/dev/src/entry.editor.ts",
   "transforms": [
     {
-      "name": "vite:load-fallback",
+      "name": "__load__",
       "result": "import { useR } from 'phecda-vue'\nimport type { AliothEventStack } from 'alioth-vue'\nimport 'alioth-preset-elementplus/dist/style.css'\n\n// import 'alioth-preset-elementplus/dist/style.css'\n\n// engine should be exported before all widgets,so it starts with '_'\nexport { engine as _engine, container } from 'alioth-preset-layout/grid/editor/index.ts'\nexport const event_test: AliothEventStack = {\n  alioth: 'eventStack',\n  data: {\n    keyboard: 'ctrl+a',\n    name: 'show-material',\n    execute() {\n      const { zones } = useR(__PHECDA__.view)\n      const zone = zones.find(item => item.name === 'Material')\n      zone.hidden = !zone.hidden\n    },\n    pushQueue: false,\n  },\n}\nexport * from 'alioth-preset-elementplus'\n",
-      "start": 1698982452260,
-      "end": 1698982452262,
-      "sourcemaps": null
+      "start": 1699405180396,
+      "end": 1699405180396
     },
     {
       "name": "vite:css",
-      "start": 1698982452263,
-      "end": 1698982452263,
+      "start": 1699405180396,
+      "end": 1699405180397,
       "order": "normal"
     },
     {
       "name": "vite:esbuild",
       "result": "import { useR } from \"phecda-vue\";\nimport \"alioth-preset-elementplus/dist/style.css\";\nexport { engine as _engine, container } from \"alioth-preset-layout/grid/editor/index.ts\";\nexport const event_test = {\n  alioth: \"eventStack\",\n  data: {\n    keyboard: \"ctrl+a\",\n    name: \"show-material\",\n    execute() {\n      const { zones } = useR(__PHECDA__.view);\n      const zone = zones.find((item) => item.name === \"Material\");\n      zone.hidden = !zone.hidden;\n    },\n    pushQueue: false\n  }\n};\nexport * from \"alioth-preset-elementplus\";\n",
-      "start": 1698982452263,
-      "end": 1698982452273,
+      "start": 1699405180397,
+      "end": 1699405180443,
       "order": "normal",
       "sourcemaps": {
         "version": 3,
         "sources": [
-          "D:/MyProject/5/alioth/examples/dev/src/entry.editor.ts"
+          "entry.editor.ts"
         ],
         "sourcesContent": [
           "import { useR } from 'phecda-vue'\nimport type { AliothEventStack } from 'alioth-vue'\nimport 'alioth-preset-elementplus/dist/style.css'\n\n// import 'alioth-preset-elementplus/dist/style.css'\n\n// engine should be exported before all widgets,so it starts with '_'\nexport { engine as _engine, container } from 'alioth-preset-layout/grid/editor/index.ts'\nexport const event_test: AliothEventStack = {\n  alioth: 'eventStack',\n  data: {\n    keyboard: 'ctrl+a',\n    name: 'show-material',\n    execute() {\n      const { zones } = useR(__PHECDA__.view)\n      const zone = zones.find(item => item.name === 'Material')\n      zone.hidden = !zone.hidden\n    },\n    pushQueue: false,\n  },\n}\nexport * from 'alioth-preset-elementplus'\n"
@@ -34,81 +33,79 @@
     },
     {
       "name": "vite:json",
-      "start": 1698982452273,
-      "end": 1698982452274,
+      "start": 1699405180443,
+      "end": 1699405180443,
       "order": "normal"
     },
     {
       "name": "vite:worker",
-      "start": 1698982452274,
-      "end": 1698982452274,
+      "start": 1699405180443,
+      "end": 1699405180443,
       "order": "normal"
     },
     {
       "name": "vite:vue",
-      "start": 1698982452274,
-      "end": 1698982452274,
+      "start": 1699405180443,
+      "end": 1699405180443,
       "order": "normal"
     },
     {
+      "name": "alioth-connector",
+      "result": "import { useR } from \"phecda-vue\";\nimport \"alioth-preset-elementplus/dist/style.css\";\nexport { engine as _engine, container } from \"alioth-preset-layout/grid/editor/index.ts\";\nexport const event_test = {\n  alioth: \"eventStack\",\n  data: {\n    keyboard: \"ctrl+a\",\n    name: \"show-material\",\n    execute() {\n      const { zones } = useR(__PHECDA__.view);\n      const zone = zones.find((item) => item.name === \"Material\");\n      zone.hidden = !zone.hidden;\n    },\n    pushQueue: false\n  }\n};\nexport * from \"alioth-preset-elementplus\";\n\nif (import.meta.hot) {\n    import.meta.hot.accept((newModule) => {\n      if(window.$alioth_update)window.$alioth_update(import.meta.url,newModule)\n    })\n  }",
+      "start": 1699405180443,
+      "end": 1699405180443,
+      "order": "normal",
+      "sourcemaps": null
+    },
+    {
       "name": "vite:define",
-      "start": 1698982452274,
-      "end": 1698982452274,
+      "start": 1699405180443,
+      "end": 1699405180443,
       "order": "normal"
     },
     {
       "name": "vite:css-post",
-      "start": 1698982452274,
-      "end": 1698982452274,
-      "order": "normal"
-    },
-    {
-      "name": "vite:build-html",
-      "start": 1698982452274,
-      "end": 1698982452274,
+      "start": 1699405180443,
+      "end": 1699405180443,
       "order": "normal"
     },
     {
       "name": "vite:worker-import-meta-url",
-      "start": 1698982452274,
-      "end": 1698982452274,
+      "start": 1699405180443,
+      "end": 1699405180443,
       "order": "normal"
     },
     {
       "name": "vite:asset-import-meta-url",
-      "start": 1698982452274,
-      "end": 1698982452274,
-      "order": "normal"
-    },
-    {
-      "name": "commonjs",
-      "start": 1698982452275,
-      "end": 1698982452275,
+      "start": 1699405180443,
+      "end": 1699405180443,
       "order": "normal"
     },
     {
       "name": "vite:dynamic-import-vars",
-      "start": 1698982452275,
-      "end": 1698982452275,
+      "start": 1699405180443,
+      "end": 1699405180443,
       "order": "normal"
     },
     {
       "name": "vite:import-glob",
-      "start": 1698982452275,
-      "end": 1698982452275,
+      "start": 1699405180443,
+      "end": 1699405180443,
       "order": "normal"
     },
     {
-      "name": "vite:build-import-analysis",
-      "start": 1698982452275,
-      "end": 1698982452275,
+      "name": "vite:client-inject",
+      "start": 1699405180443,
+      "end": 1699405180443,
       "order": "normal"
     },
     {
-      "name": "vite:reporter",
-      "start": 1698982452275,
-      "end": 1698982452275,
-      "order": "normal"
+      "name": "vite:import-analysis",
+      "result": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/entry.editor.ts\");import { useR } from \"http://localhost:4010/phecda-vue.mjs\";\nimport \"/@fs/D:/MyProject/5/alioth/packages/preset-element-plus/dist/style.css\";\nexport { engine as _engine, container } from \"/@fs/D:/MyProject/5/alioth/packages/preset-layout/src/grid/editor/index.ts\";\nexport const event_test = {\n  alioth: \"eventStack\",\n  data: {\n    keyboard: \"ctrl+a\",\n    name: \"show-material\",\n    execute() {\n      const { zones } = useR(__PHECDA__.view);\n      const zone = zones.find((item) => item.name === \"Material\");\n      zone.hidden = !zone.hidden;\n    },\n    pushQueue: false\n  }\n};\nexport * from \"/@fs/D:/MyProject/5/alioth/packages/preset-element-plus/dist/index.js\";\n\nif (import.meta.hot) {\n    import.meta.hot.accept((newModule) => {\n      if(window.$alioth_update)window.$alioth_update(import.meta.url,newModule)\n    })\n  }",
+      "start": 1699405180443,
+      "end": 1699405180451,
+      "order": "normal",
+      "sourcemaps": null
     }
   ]
 }
