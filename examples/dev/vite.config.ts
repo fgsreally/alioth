@@ -1,19 +1,20 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { Alioth } from 'alioth-dev'
-import { visualizer } from 'rollup-plugin-visualizer'
-import Inspect from 'vite-plugin-inspect'
-
+// import { visualizer } from 'rollup-plugin-visualizer'
+// import Inspect from 'vite-plugin-inspect'
+// import Compress from 'vite-plugin-compression'
 // https://vitejs.dev/config/
 export default defineConfig({
   define: {
 
   },
   plugins: [vue(),
-    Inspect({
-      build: true,
-    }),
-    visualizer(),
+    // Compress(),
+    // Inspect({
+    //   build: true,
+    // }),
+    // visualizer(),
     Alioth({
       website: 'http://localhost:4010/',
       project: 'alioth',

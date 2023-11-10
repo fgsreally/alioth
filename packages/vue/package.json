@@ -5,8 +5,12 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "bin": {
+    "create-al":"cli/index.js"
+  },
   "files": [
-    "dist"
+    "dist",
+    "cli"
   ],
   "scripts": {
     "dev": "tsup --watch",
@@ -17,7 +21,8 @@
   "license": "MIT",
   "dependencies": {
     "alioth-lib": "workspace:*",
-    "phecda-vue": "^2.0.3",    "vue": "^3.3.4"
+    "phecda-vue": "^2.0.3",
+    "vue": "^3.3.4"
   },
   "devDependencies": {
     "tsup": "^6.5.0"
