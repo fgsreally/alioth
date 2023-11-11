@@ -1,9 +1,11 @@
 import type {
   Component,
+  ComputedRef,
   DefineComponent,
   VNode,
 } from 'vue'
 import {
+  computed,
   h,
   render,
 
@@ -31,14 +33,14 @@ export interface defaultDecorator {
 }
 
 export class BaseRenderer<
-NodeAttrs extends Record<string, any>,
-  > {
+  NodeAttrs extends Record<string, any>,
+> {
   protected _vnode: VNode | VNode[] | undefined = undefined
 
   // stack: { funcName: string; property: any }[];
   renderType: string
   // slotVNode: { [key in string]: Function };
-  constructor(protected node: VirtualNode<NodeAttrs>, protected comp: Component) {}
+  constructor(public node: VirtualNode<NodeAttrs>, public comp: Component, public scope: ComputedRef<any>) { }
   exec() {
     return this._vnode
   }
@@ -54,7 +56,7 @@ NodeAttrs extends Record<string, any>,
     const slots: { [key in string]: Function } = {}
     slotSet.forEach((templateName) => {
       slots[templateName] = (slotProps: any) =>
-      // eslint-disable-next-line array-callback-return
+        // eslint-disable-next-line array-callback-return
         this.node.children.map((node: VirtualNode<any>) => {
           if ((node.attrs.slot || 'default') === templateName) {
             const widget = (allWidgetMap as any)
@@ -62,7 +64,7 @@ NodeAttrs extends Record<string, any>,
             if (!widget)
               throw new Error(`miss widget "${node.attrs.key}"`)
 
-            const ret = widget[renderType](node, slotProps)
+            const ret = widget[renderType](node, { slot: slotProps, scope: this.scope })
 
             return ret
           }
@@ -73,9 +75,9 @@ NodeAttrs extends Record<string, any>,
   }
 
   slot(
-      slotSet: string[] = ['default'],
-      allWidgetMap: Map<RegisterKey, RegisterType>,
-      renderType = 'render',
+    slotSet: string[] = ['default'],
+    allWidgetMap: Map<RegisterKey, RegisterType>,
+    renderType = 'render',
   ) {
     this._vnode = this.createSlots(
       slotSet,
@@ -165,5 +167,14 @@ NodeAttrs extends Record<string, any>,
   box() {
     this._vnode = h('div', { default: () => [this._vnode] })
     return this
+  }
+
+  vFor(list: any[] = []) {
+    return list.map((item, i) => {
+      console.log(Object.getPrototypeOf(this))
+      return new (Object.getPrototypeOf(this))(this.node, this.comp, computed(() => {
+        return { ...this.scope.value, item, i }
+      }))
+    })
   }
 }

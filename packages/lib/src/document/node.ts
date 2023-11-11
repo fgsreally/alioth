@@ -22,6 +22,10 @@ export class VirtualNode<A extends NodeAttrs> {
     return clone(this.children)
   }
 
+  // get scope(){
+
+  // }
+
   get index() {
     return this.parent?.children.findIndex(node => node.id === this.id)
   }

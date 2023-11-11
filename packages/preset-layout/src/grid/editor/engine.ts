@@ -13,16 +13,17 @@ export class Engine extends BaseEngine<typeof renderer> {
     }, this.key)
   }
 
-  edit(node: VirtualNode<any>) {
-    const renderer = this.createRenderer(node)
+  edit(node: VirtualNode<any>, { scope }: any) {
+    const renderer = this.createRenderer(node, scope)
     if (node.parent!.parent?.id === 'root') {
-      return renderer
-        .slot(['default'], this.widgetMap, 'edit')
-        .main('edit')
-        .addClass('innerBlock_edit')
-        .grid()
-        .editAction()
-        .exec()
+      return renderer.vFor(['1', '2']).map((r) => {
+        return r.slot(['default'], this.widgetMap, 'edit')
+          .main('edit')
+          .addClass('innerBlock_edit')
+          .grid()
+          .editAction()
+          .exec()
+      })
     }
 
     return renderer.slot(['default'], this.widgetMap, 'edit').main('edit').addStyle({ pointerEvents: 'auto' }).editAction()

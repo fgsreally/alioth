@@ -20,22 +20,18 @@ interface Header {
   label: string
   handler: (param: { useLayer: typeof useLayer }) => void
 }
-interface Zone {
-  component: string
-  label: string
-  name: string
-  isActive: (...args: any) => boolean
+interface ZoneProps {
+
   hidden: boolean
   x: number
   y: number
   fix?: boolean
   transition: string
-  props: any
 }
 
-export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any> {
+export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any, ZoneProps> {
   componentMap = componentMap as Record<string, Component>
-  headers: Header[] = [
+  headers = [
     {
       label: '实时预览',
       component: IconEye,
@@ -75,7 +71,7 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
     },
   ]
 
-  zones: Zone[] = [
+  zones = [
 
     {
       component: 'Property',

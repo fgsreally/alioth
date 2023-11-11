@@ -1,7 +1,7 @@
 // import { cloneDeep, isSymbol } from 'lodash-es'
 import { BaseRenderer } from 'alioth-vue'
 import type { DefineComponent } from 'vue'
-import { h } from 'vue'
+import { h, inject, provide } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { emitter, useV } from 'phecda-vue'
 import { GridItem } from 'grid-layout-plus'
@@ -47,15 +47,18 @@ export class renderer extends BaseRenderer<any> {
       )
       return this
     }
+
     const ret = $alioth_interval.filter(cloneDeep(this.node.attrs.propsData))
     if (type === 'render' && this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
       (this._vnode = h(
         this.comp as DefineComponent,
         {
           ...ret,
+
           'onUpdate:modelValue': (v: any) => {
             ret.modelValue = v
           },
+
         },
         this._vnode))
     }
