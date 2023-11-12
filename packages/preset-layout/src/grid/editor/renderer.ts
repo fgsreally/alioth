@@ -3,7 +3,7 @@ import { BaseRenderer } from 'alioth-vue'
 import type { DefineComponent } from 'vue'
 import { h, inject, provide } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { emitter, useV } from 'phecda-vue'
+import { createFilter, emitter, useV } from 'phecda-vue'
 import { GridItem } from 'grid-layout-plus'
 
 const { doc, activePage } = useV(__PHECDA__.doc)
@@ -38,7 +38,7 @@ export class renderer extends BaseRenderer<any> {
     return this
   }
 
-  main(type: string) {
+  main(type: string, scope: any, key?: any) {
     if (this.node.parent?.id === 'root') {
       this._vnode = h(
         this.comp as DefineComponent,
@@ -47,8 +47,9 @@ export class renderer extends BaseRenderer<any> {
       )
       return this
     }
-
-    const ret = $alioth_interval.filter(cloneDeep(this.node.attrs.propsData))
+    console.log('scope', scope)
+    const { filter } = createFilter(scope)
+    const ret = filter(cloneDeep(this.node.attrs.propsData))
     if (type === 'render' && this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
       (this._vnode = h(
         this.comp as DefineComponent,
@@ -65,7 +66,7 @@ export class renderer extends BaseRenderer<any> {
     else {
       (this._vnode = h(
         this.comp as DefineComponent,
-        { ...ret, a_mode: type, a_node: this.node },
+        { ...ret, a_mode: type, a_node: this.node, ref_key: key },
         this._vnode))
     }
 

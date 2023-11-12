@@ -2,6 +2,7 @@ import { defineComponent } from 'vue'
 import type { DefineComponent, PropType } from 'vue'
 import type { NodeAttrs, VirtualNode } from 'alioth-lib'
 import { type BaseEngine } from './register'
+import { interval } from './interval'
 
 export function createRenderComponent<N extends NodeAttrs, R extends BaseEngine<any>>(): DefineComponent<{ value: R; type: keyof R; node?: VirtualNode<N> }> {
   return defineComponent({
@@ -23,7 +24,7 @@ export function createRenderComponent<N extends NodeAttrs, R extends BaseEngine<
     setup(props) {
       return () => {
         // @ts-expect-error it will work after creating register
-        return props.value[props.type](props.node)
+        return props.value[props.type](props.node, { scope: interval.data.value })
       }
     },
   }) as any

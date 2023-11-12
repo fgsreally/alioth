@@ -14,19 +14,40 @@ export class Engine extends BaseEngine<typeof renderer> {
   }
 
   edit(node: VirtualNode<any>, { scope }: any) {
-    const renderer = this.createRenderer(node, scope)
+    const renderer = this.createRenderer(node, 'edit')
+
     if (node.parent!.parent?.id === 'root') {
-      return renderer.vFor(['1', '2']).map((r) => {
-        return r.slot(['default'], this.widgetMap, 'edit')
-          .main('edit')
-          .addClass('innerBlock_edit')
-          .grid()
-          .editAction()
-          .exec()
-      })
+      if (node.attrs.propsData.vfor && node.attrs.propsData.vfor in scope) {
+        const key = node.attrs.propsData.vfor
+        const vnode = Object.entries(scope[key]).map(([k, v]: any) => {
+          return this.createRenderer(node, 'edit').slot(['default'], this.widgetMap, {
+            ...scope,
+            [`${key}Item`]: v,
+            [`${key}Index`]: k,
+
+          })
+            .main('edit', {
+              ...scope,
+              [`${key}Item`]: v,
+              [`${key}Index`]: k,
+
+            }, k)
+            .addClass('innerBlock_edit')
+            .grid()
+            .editAction()
+            .exec()
+        })
+        return vnode
+      }
+      return renderer.slot(['default'], this.widgetMap, scope)
+        .main('edit', scope)
+        .addClass('innerBlock_edit')
+        .grid()
+        .editAction()
+        .exec()
     }
 
-    return renderer.slot(['default'], this.widgetMap, 'edit').main('edit').addStyle({ pointerEvents: 'auto' }).editAction()
+    return renderer.slot(['default'], this.widgetMap, scope).main('edit', scope).addStyle({ pointerEvents: 'auto' }).editAction()
       .exec()
   }
 

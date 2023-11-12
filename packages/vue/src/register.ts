@@ -60,7 +60,7 @@ export abstract class BaseEngine<R extends typeof BaseRenderer<VirtualNode<any>>
   ) {
   }
 
-  createRenderer(node?: VirtualNode<any>, scope: any) {
-    return new this.Renderer(node!, this.comp, scope) as InstanceType<R>
+  createRenderer(node: VirtualNode<any>, mode: string) {
+    return new this.Renderer(node!, this.comp, mode) as InstanceType<R>
   }
 }

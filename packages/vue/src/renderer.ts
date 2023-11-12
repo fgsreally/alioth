@@ -40,7 +40,7 @@ export class BaseRenderer<
   // stack: { funcName: string; property: any }[];
   renderType: string
   // slotVNode: { [key in string]: Function };
-  constructor(public node: VirtualNode<NodeAttrs>, public comp: Component, public scope: ComputedRef<any>) { }
+  constructor(public node: VirtualNode<NodeAttrs>, public comp: Component, public mode: string) { }
   exec() {
     return this._vnode
   }
@@ -48,7 +48,7 @@ export class BaseRenderer<
   createSlots(
     slotSet: string[],
     allWidgetMap: Map<RegisterKey, RegisterType>,
-    renderType: string,
+    scope: any,
   ) {
     if (!this.node.children.length)
       return undefined
@@ -64,7 +64,7 @@ export class BaseRenderer<
             if (!widget)
               throw new Error(`miss widget "${node.attrs.key}"`)
 
-            const ret = widget[renderType](node, { slot: slotProps, scope: this.scope })
+            const ret = widget[this.mode](node, { slot: slotProps, scope })
 
             return ret
           }
@@ -77,12 +77,12 @@ export class BaseRenderer<
   slot(
     slotSet: string[] = ['default'],
     allWidgetMap: Map<RegisterKey, RegisterType>,
-    renderType = 'render',
+    scope: any,
   ) {
     this._vnode = this.createSlots(
       slotSet,
       allWidgetMap,
-      renderType,
+      scope,
     ) as any
     return this
   }
@@ -169,12 +169,12 @@ export class BaseRenderer<
     return this
   }
 
-  vFor(list: any[] = []) {
-    return list.map((item, i) => {
-      console.log(Object.getPrototypeOf(this))
-      return new (Object.getPrototypeOf(this))(this.node, this.comp, computed(() => {
-        return { ...this.scope.value, item, i }
-      }))
-    })
-  }
+  // vFor(list: any[] = []) {
+  //   return list.map((item, i) => {
+  //     console.log(Object.getPrototypeOf(this))
+  //     return new (Object.getPrototypeOf(this))(this.node, this.comp, computed(() => {
+  //       return { ...this.scope.value, item, i }
+  //     }))
+  //   })
+  // }
 }
