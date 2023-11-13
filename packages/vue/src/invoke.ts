@@ -1,10 +1,9 @@
 import { markRaw } from 'vue'
 import type { Component } from 'vue'
 import { interval } from './interval'
-import type { BaseEngine } from './register'
-import { getNamespace } from './register'
+import type { RenderFn } from './register'
+import { getNamespace, setRenderFn } from './register'
 let isLoad = false
-let isRegister = false
 export async function init() {
   if (isLoad)
     return
@@ -16,25 +15,18 @@ export async function init() {
       meta?: any
     },
   ) {
-    isRegister = true
     // @ts-expect-error is not a abstract
-    // eslint-disable-next-line new-cap
-    getNamespace(category).register?.(markRaw(new interval.engine(category, key, component, meta)))
+
+    getNamespace(category).register?.(markRaw({
+      category, key, component, meta,
+    }))
   }
   window.$alioth_widget = registerWidget
-  window.$alioth_setEngine = setEngine
+  window.$alioth_setRenderFn = ({ mode, fn }: { mode: string; fn: RenderFn }) => setRenderFn(mode, fn)
   window.$alioth_interval = interval
-  window.$alioth_state = ({ key, value }: any) => {
-    interval.setState(key, value)
+  window.$alioth_state = ({ key, value, meta }: any) => {
+    interval.scope.add(key, { value, meta })
   }
 
   isLoad = true
-}
-
-export function setEngine<R extends typeof BaseEngine<any, any>>(engine: R) {
-  if (isRegister) {
-    console.warn('Alioth: must setEngine before register widget')
-    return
-  }
-  interval.engine = engine
 }

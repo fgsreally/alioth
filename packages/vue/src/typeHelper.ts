@@ -1,6 +1,7 @@
 import type { Component } from 'vue'
 import type { Command, DefaultEvent } from 'alioth-lib'
 import type { Header, Zone } from './model'
+import type { RenderFn } from './register'
 export interface BasePreset<T, D> {
   alioth: T
   data: D
@@ -17,6 +18,13 @@ export interface AliothState extends BasePreset<'state', {
   key: string
   value: any
   meta: any
+}> {
+
+}
+
+export interface AliothRenderFn extends BasePreset<'setRenderFn', {
+  mode: string
+  fn: RenderFn
 }> {
 
 }

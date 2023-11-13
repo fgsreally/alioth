@@ -7,7 +7,7 @@ declare global {
         $alioth_zone: any
         $alioth_header:any
         $alioth_eventStack:any
-        $alioth_setEngine:any
+        $alioth_setRenderFn:any
         $alioth_interval:any
         $alioth_error:any
         __PHECDA__:any

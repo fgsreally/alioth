@@ -1,36 +1,16 @@
 import type {
-  Component,
-  ComputedRef,
-  DefineComponent,
   VNode,
 } from 'vue'
 import {
-  computed,
   h,
   render,
 
 } from 'vue'
 import type { VirtualNode } from 'alioth-lib'
-import type { RegisterKey, RegisterType } from './register'
+import { type Widget, getRenderFn, getWidget } from './register'
+import type { Scope } from './interval'
 
 export type CompList<RegisterBlock> = Map<string, RegisterBlock>
-
-const decorator = (deco: defaultDecorator) => {
-  return (content: VNode) =>
-    h(
-      deco.comp,
-      { ...deco.propsData },
-      {
-        [deco.dirct]: content,
-      },
-    )
-}
-
-export interface defaultDecorator {
-  comp: Component
-  propsData: any
-  dirct: string
-}
 
 export class BaseRenderer<
   NodeAttrs extends Record<string, any>,
@@ -40,61 +20,39 @@ export class BaseRenderer<
   // stack: { funcName: string; property: any }[];
   renderType: string
   // slotVNode: { [key in string]: Function };
-  constructor(public node: VirtualNode<NodeAttrs>, public comp: Component, public mode: string) { }
+  constructor(
+    public mode: string,
+    public node: VirtualNode<NodeAttrs>,
+    public widget: Widget,
+    public scope: Scope,
+  ) {
+
+  }
+
   exec() {
     return this._vnode
   }
 
-  createSlots(
-    slotSet: string[],
-    allWidgetMap: Map<RegisterKey, RegisterType>,
-    scope: any,
+  slot(
+    slotNames: string[],
   ) {
     if (!this.node.children.length)
-      return undefined
-
+      return this
     const slots: { [key in string]: Function } = {}
-    slotSet.forEach((templateName) => {
-      slots[templateName] = (slotProps: any) =>
+    slotNames.forEach((templateName) => {
+      slots[templateName] = (props: any) =>
         // eslint-disable-next-line array-callback-return
         this.node.children.map((node: VirtualNode<any>) => {
           if ((node.attrs.slot || 'default') === templateName) {
-            const widget = (allWidgetMap as any)
-              .get(node.attrs.key)
+            const widget = $alioth_interval.widgetMap.get(node.attrs.key)
             if (!widget)
               throw new Error(`miss widget "${node.attrs.key}"`)
 
-            const ret = widget[this.mode](node, { slot: slotProps, scope })
-
-            return ret
+            return $alioth_interval.renderFnMap.get(this.mode)!({ props, scope: this.scope, node, widget })
           }
         })
     })
-
-    return slots
-  }
-
-  slot(
-    slotSet: string[] = ['default'],
-    allWidgetMap: Map<RegisterKey, RegisterType>,
-    scope: any,
-  ) {
-    this._vnode = this.createSlots(
-      slotSet,
-      allWidgetMap,
-      scope,
-    ) as any
-    return this
-  }
-
-  main(propsData?: any) {
-    this._vnode = h(
-      this.comp as DefineComponent,
-      {
-        ...(propsData || {}),
-      },
-      this._vnode || undefined,
-    )
+    this._vnode = slots as any
     return this
   }
 
@@ -103,16 +61,6 @@ export class BaseRenderer<
       return this
 
     render(this._vnode as any, dom)
-    return this
-  }
-
-  useDecorator() {
-    this._vnode = (this.node as any).decorators.reduce(
-      (arr: any, cur: any) => {
-        return decorator(cur)(arr as VNode)
-      },
-      this._vnode,
-    )
     return this
   }
 
@@ -165,16 +113,7 @@ export class BaseRenderer<
   }
 
   box() {
-    this._vnode = h('div', { default: () => [this._vnode] })
+    this._vnode = h('div', { default: () => this._vnode })
     return this
   }
-
-  // vFor(list: any[] = []) {
-  //   return list.map((item, i) => {
-  //     console.log(Object.getPrototypeOf(this))
-  //     return new (Object.getPrototypeOf(this))(this.node, this.comp, computed(() => {
-  //       return { ...this.scope.value, item, i }
-  //     }))
-  //   })
-  // }
 }

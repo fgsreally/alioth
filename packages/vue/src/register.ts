@@ -1,66 +1,65 @@
-import type { Component } from 'vue'
+import type { Component, VNode } from 'vue'
 import { reactive } from 'vue'
 
-import type { VirtualNode } from 'alioth-lib'
-import type { BaseRenderer } from './renderer'
+import type { VirtualNode } from 'alioth-lib/*'
+import type { Scope } from './interval'
 
-export type RegisterKey = string | symbol
-export interface RegisterType extends BaseEngine<any> {
-
+export interface Widget<M = any> {
+  category: string
+  key: string
+  component: Component
+  meta: M
 }
 
-export const allWidgetMap = reactive(new Map()) as Map<RegisterKey, RegisterType>
+export const allWidgetMap = reactive(new Map()) as Map<string, Widget>
 export const NameSpaceStore = reactive<{ [key: string]: ReturnType<typeof createNameSpace> }>({})
 
-export function getWidget<
-  registerWidget extends BaseEngine<any>,
->(key?: string) {
+export function getWidget(key?: string) {
   if (key)
-    return allWidgetMap.has(key) ? (allWidgetMap as Map<string, registerWidget>).get(key) : null
+    return allWidgetMap.has(key) ? (allWidgetMap as Map<string, Widget>).get(key) : null
 }
 
-export function createNameSpace<
-  registerWidget extends BaseEngine<any>,
->() {
+export function createNameSpace() {
   // 分区注册
-  const widgetMap: Map<RegisterKey, registerWidget> = reactive(new Map())
+  const widgetMap: Map<string, Widget> = reactive(new Map())
   return {
     widgetMap,
-    cancel: (key: RegisterKey) => {
+    cancel: (key: string) => {
       const comp = allWidgetMap.get(key)
       if (comp) {
         widgetMap.delete(key)
         allWidgetMap.delete(key)
       }
     },
-    getWidget(key: RegisterKey) {
+    getWidget(key: string) {
       return widgetMap.get(key)
     },
 
-    register: (module: registerWidget) => {
+    register: (module: Widget) => {
       widgetMap.set(module.key, module)
       allWidgetMap.set(module.key, module)
     },
   }
 }
 
-export function getNamespace<registerWidget extends BaseEngine<any>>(key: string) {
+export function getNamespace(key: string) {
   if (!NameSpaceStore[key])
     NameSpaceStore[key] = createNameSpace()
-  return NameSpaceStore[key] as unknown as ReturnType<typeof createNameSpace<registerWidget>>
+  return NameSpaceStore[key] as unknown as ReturnType<typeof createNameSpace>
 }
 
-export abstract class BaseEngine<R extends typeof BaseRenderer<VirtualNode<any>>, M = any> {
-  abstract Renderer: R
-  constructor(
-    public category: string,
-    public key: RegisterKey,
-    public comp: Component,
-    public meta: M = {} as any,
-  ) {
-  }
+export const renderFnMap = new Map<string, RenderFn>()
 
-  createRenderer(node: VirtualNode<any>, mode: string) {
-    return new this.Renderer(node!, this.comp, mode) as InstanceType<R>
-  }
+export function setRenderFn(mode: string, fn: RenderFn) {
+  renderFnMap.set(mode, fn)
 }
+export function getRenderFn(mode: string) {
+  return renderFnMap.get(mode)
+}
+
+export type RenderFn = (arg: {
+  node: VirtualNode<any>
+  widget: Widget
+  scope: Scope
+  props?: any
+}) => VNode | VNode[] | undefined

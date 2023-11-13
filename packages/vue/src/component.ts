@@ -1,31 +1,25 @@
 import { defineComponent } from 'vue'
-import type { DefineComponent, PropType } from 'vue'
-import type { NodeAttrs, VirtualNode } from 'alioth-lib'
-import { type BaseEngine } from './register'
+import type { PropType } from 'vue'
+import type { VirtualNode } from 'alioth-lib'
 import { interval } from './interval'
+import { getRenderFn, getWidget } from './register'
 
-export function createRenderComponent<N extends NodeAttrs, R extends BaseEngine<any>>(): DefineComponent<{ value: R; type: keyof R; node?: VirtualNode<N> }> {
-  return defineComponent({
-    name: 'AliothRender',
-    inheritAttrs: false,
-    props: {
-      value: {
-        type: Object as PropType<R>,
-      },
-      type: {
-        type: String as PropType<keyof R>,
-        required: true,
-      },
-      node: {
-        type: Object as PropType<VirtualNode<N>>,
-        required: false,
-      },
+export const AliothRender = defineComponent({
+  name: 'AliothRender',
+  inheritAttrs: false,
+  props: {
+    mode: {
+      type: String,
+      required: true,
     },
-    setup(props) {
-      return () => {
-        // @ts-expect-error it will work after creating register
-        return props.value[props.type](props.node, { scope: interval.data.value })
-      }
+    node: {
+      type: Object as PropType<VirtualNode<any>>,
+      required: true,
     },
-  }) as any
-}
+  },
+  setup(props) {
+    return () => {
+      return getRenderFn(props.mode)!({ scope: interval.scope, node: props.node, widget: getWidget(props.node.attrs.key)! })
+    }
+  },
+})

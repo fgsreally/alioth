@@ -60,6 +60,6 @@ export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
     //   this.load(data)
     //   this.active(activeId)
     // }
-    interval.setState('$doc', this)
+    // interval.scope.add('$doc', this)
   }
 }

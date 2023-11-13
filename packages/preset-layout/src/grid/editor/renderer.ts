@@ -1,14 +1,14 @@
 // import { cloneDeep, isSymbol } from 'lodash-es'
 import { BaseRenderer } from 'alioth-vue'
 import type { DefineComponent } from 'vue'
-import { h, inject, provide } from 'vue'
+import { h, inject, provide, reactive } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { createFilter, emitter, useV } from 'phecda-vue'
 import { GridItem } from 'grid-layout-plus'
 
 const { doc, activePage } = useV(__PHECDA__.doc)
 
-export class renderer extends BaseRenderer<any> {
+export class Renderer extends BaseRenderer<any> {
   propsData: any
 
   grid() {
@@ -38,19 +38,20 @@ export class renderer extends BaseRenderer<any> {
     return this
   }
 
-  main(type: string, scope: any, key?: any) {
+  main(key?: any) {
+    const comp = this.widget.component
     if (this.node.parent?.id === 'root') {
       this._vnode = h(
-        this.comp as DefineComponent,
-        { ...this.node.attrs, a_mode: type, a_node: this.node },
+        comp,
+        { ...this.node.attrs, a_node: this.node, a_mode: this.mode },
         this._vnode,
       )
       return this
     }
-    console.log('scope', scope)
-    const { filter } = createFilter(scope)
+    const { filter } = createFilter(this.scope.data)
     const ret = filter(cloneDeep(this.node.attrs.propsData))
-    if (type === 'render' && this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
+    console.log(this.scope.data)
+    if (this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
       (this._vnode = h(
         this.comp as DefineComponent,
         {
@@ -65,8 +66,8 @@ export class renderer extends BaseRenderer<any> {
     }
     else {
       (this._vnode = h(
-        this.comp as DefineComponent,
-        { ...ret, a_mode: type, a_node: this.node, ref_key: key },
+        comp as DefineComponent,
+        { ...ret, a_mode: this.mode, a_node: this.node, ref_key: key },
         this._vnode))
     }
 

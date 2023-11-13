@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { BaseDocModel, getWidget } from 'alioth-vue'
-import { RenderBlock } from '@/components/base/renderBlock'
 const instance: any = reactive(new BaseDocModel())
 
 const isLoading = ref(false)
@@ -22,7 +21,7 @@ async function change(e: any) {
 
 <template>
   <div v-if="isLoading">
-    <RenderBlock :node="instance.activeDoc.root!" type="render" :value="getWidget('root')!" />
+    <!-- <RenderBlock :node="instance.activeDoc.root!" type="render" :value="getWidget('root')!" /> -->
   </div>
   <div v-else>
     <input type="file" @change="change">

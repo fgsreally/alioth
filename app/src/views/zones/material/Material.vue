@@ -9,6 +9,7 @@ const { compList, type } = defineProps<{
 const { dragStart, dragEnd } = useV(DragModel)
 
 function dragstart(module: any) {
+  console.log(module)
   dragStart(module)
 }
 
@@ -31,12 +32,9 @@ function dragend() {
         }
       "
     >
-      <RenderBlock
-        :value="module"
-        :type="(type as any)"
-
-        class="preview-section__block"
-      />
+      <p class="preview-text">
+        {{ module.key }}
+      </p>
     </div>
   </section>
 </template>

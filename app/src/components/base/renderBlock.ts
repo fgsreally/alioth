@@ -1,8 +1,3 @@
-import { createRenderComponent } from 'alioth-vue'
-import type { NodeAttrs } from '@/engine/types'
-import type { Register } from '@/engine/engine'
-export const RenderBlock = createRenderComponent<NodeAttrs, Register>()
-
 // export const DocRenderBlock = defineComponent({
 //   name: 'AliothDocRender',
 //   inheritAttrs: true,

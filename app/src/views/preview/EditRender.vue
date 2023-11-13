@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getWidget } from 'alioth-vue'
+import { AliothRender, getWidget } from 'alioth-vue'
 import { emitter, useV } from 'phecda-vue'
 import { applyUpdate, encodeStateAsUpdate } from 'yjs'
 import { RenderBlock } from '@/components/base/renderBlock'
@@ -32,7 +32,7 @@ function load(e: any) {
 <template>
   <div flex justify-center items-center w-full h-full>
     <section v-if="!!activePage" class="al-window">
-      <RenderBlock :node="activePage" type="edit" :value="getWidget('root')!" />
+      <AliothRender :node="activePage" mode="edit" />
     </section>
   </div>
 </template>
