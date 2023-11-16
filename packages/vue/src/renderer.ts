@@ -4,18 +4,16 @@ import type {
 import {
   h,
   render,
-
 } from 'vue'
-import type { VirtualNode } from 'alioth-lib'
-import { type Widget, getRenderFn, getWidget } from './register'
-import type { Scope } from './interval'
+import type { Scope, VirtualNode } from 'alioth-lib'
+import { type Widget } from './register'
 
 export type CompList<RegisterBlock> = Map<string, RegisterBlock>
 
 export class BaseRenderer<
   NodeAttrs extends Record<string, any>,
 > {
-  protected _vnode: VNode | VNode[] | undefined = undefined
+  protected _vnode: VNode | any
 
   // stack: { funcName: string; property: any }[];
   renderType: string
@@ -30,7 +28,7 @@ export class BaseRenderer<
   }
 
   exec() {
-    return this._vnode
+    return this._vnode as VNode
   }
 
   slot(

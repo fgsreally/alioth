@@ -1,22 +1,24 @@
 import { omit } from 'lodash-es'
 import type { Transaction, YEvent } from 'yjs'
 import { UndoManager, Map as YMap } from 'yjs'
-import { nanoid } from 'nanoid'
-import EventEmitter from 'eventemitter3'
-import type { NodeAttrs } from './node'
 import { VirtualNode } from './node'
 import type { Controller } from './controller'
-export class VirtualDocument<A extends NodeAttrs> extends EventEmitter {
+import { Emitter } from './emitter'
+export class VirtualDocument<A extends Record<string, any>> extends Emitter {
   blockMap: Map<string, VirtualNode<A>> = new Map()
   controller: Controller
   root: VirtualNode<A>
-  activeNode?: VirtualNode<A>
-  hoverNode?: VirtualNode<A>
+
   data = {} as Record<string, any>
 
-  constructor(initAttrs?: A, public id = nanoid()) {
+  constructor(initAttrs?: A) {
     super()
     this.root = this.createNode(initAttrs, 'root')
+    this.root.level = 0
+  }
+
+  get activeNode() {
+    return this.get(this.root.attrs.id)
   }
 
   // 从所有block中找
@@ -46,7 +48,8 @@ export class VirtualDocument<A extends NodeAttrs> extends EventEmitter {
     if (id === 'root')
       this.root = node
     this.blockMap.set(node.id, node)
-    this.emit('create', id)
+
+    this.emit('create', { node })
     return node
   }
 
@@ -62,12 +65,12 @@ export class VirtualDocument<A extends NodeAttrs> extends EventEmitter {
     if (id === 'root')
       this.root = node
     this.blockMap.set(node.id, node)
-    this.emit('create', id)
+    this.emit('create', { node })
 
     return node
   }
 
-  removeNode(node: VirtualNode<NodeAttrs>) {
+  removeNode(node: VirtualNode<A>) {
     if (node.parent) {
       node.parent.remove(node.index!)
 
@@ -75,7 +78,7 @@ export class VirtualDocument<A extends NodeAttrs> extends EventEmitter {
     }
   }
 
-  _removeNode(node: VirtualNode<NodeAttrs>) {
+  _removeNode(node: VirtualNode<A>) {
     if (node.parent) {
       node.parent._remove(node.index!)
       this.blockMap.delete(node.id)
@@ -83,14 +86,6 @@ export class VirtualDocument<A extends NodeAttrs> extends EventEmitter {
     else {
       this.blockMap.delete(node.id)
     }
-  }
-
-  select(node: VirtualNode<A>, type: 'activeNode' | 'hoverNode' = 'activeNode') {
-    return this[type] = node
-  }
-
-  cancel(type: 'activeNode' | 'hoverNode' = 'activeNode') {
-    return this[type] = undefined
   }
 
   load(data: any) {

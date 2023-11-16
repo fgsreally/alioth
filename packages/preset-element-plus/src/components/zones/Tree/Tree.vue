@@ -2,8 +2,10 @@
 import type { VirtualNode } from 'alioth-vue'
 import { emitter, useV } from 'phecda-vue'
 const { activePage, doc } = $(useV(__PHECDA__.doc))
+let { selectNode } = $(useV(__PHECDA__.selection))
+
 function nodeClick(node: any) {
-  doc.select(node)
+  selectNode = node
 }
 
 function drop(draggingNode: any,
@@ -35,7 +37,7 @@ function drop(draggingNode: any,
 <template>
   <el-scrollbar>
     <el-tree
-      class="tree" :data="activePage.cloneChilds" default-expand-all node-key="id"
+      class="tree" :data="activePage!.cloneChilds" default-expand-all node-key="id"
       :props="{ children: 'cloneChilds', label: (data:any) => data.attrs.key }"
       draggable
       @node-click="nodeClick"

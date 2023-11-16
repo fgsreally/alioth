@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useV } from 'phecda-vue'
 import { DocModel } from '@/models/doc'
-const { remove, doc, add, active, activeId, pages } = $(useV(DocModel))
+const { remove, doc, add, switchPage, activeId, pages } = $(useV(DocModel))
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const { remove, doc, add, active, activeId, pages } = $(useV(DocModel))
       :class="{
         'border-b-none border-p color-on-p': item.id === activeId,
 
-      }" @click="active(item.id)"
+      }" @click="switchPage(item.id)"
     >
       <Editable v-model="item.attrs.title" class="m-x-2" />
       <IconClose

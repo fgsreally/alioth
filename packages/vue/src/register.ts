@@ -1,8 +1,7 @@
 import type { Component, VNode } from 'vue'
 import { reactive } from 'vue'
 
-import type { VirtualNode } from 'alioth-lib/*'
-import type { Scope } from './interval'
+import type { Scope, VirtualNode } from 'alioth-lib'
 
 export interface Widget<M = any> {
   category: string
@@ -62,4 +61,4 @@ export type RenderFn = (arg: {
   widget: Widget
   scope: Scope
   props?: any
-}) => VNode | VNode[] | undefined
+}) => VNode | (VNode | undefined)[] | undefined

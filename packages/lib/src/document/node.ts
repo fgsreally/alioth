@@ -3,16 +3,14 @@ import { clone, set } from 'lodash-es'
 import type { VirtualDocument } from './document'
 // import type { HistoryController } from './history'
 
-export interface NodeAttrs {
-  [key: string]: any
-}
-export class VirtualNode<A extends NodeAttrs> {
+export class VirtualNode<A extends Record<string, any>> {
   id = nanoid()
   parent: VirtualNode<A> | null
   children: VirtualNode<A>[] = []
   timeout = 800
   doc: VirtualDocument<A>
   attrs: A
+  level: number
   constructor(initAttrs?: A,
   ) {
     this.attrs = initAttrs || {} as any
@@ -36,7 +34,7 @@ export class VirtualNode<A extends NodeAttrs> {
       this.doc.controller.create(this.id, this.attrs)
   }
 
-  setAttributes(values: Record<keyof NodeAttrs, NodeAttrs[keyof NodeAttrs]>) {
+  setAttributes(values: Record<keyof A, A[keyof A]>) {
     for (const key in values)
       this.set(key, values[key])
   }
@@ -65,7 +63,7 @@ export class VirtualNode<A extends NodeAttrs> {
         * 仅被HC调用
         */
   _set(path: string, value: any) {
-    this.doc.emit('set', { path, value })
+    this.doc.emit('set', { node: this, path, value })
     set(this.attrs, path, value)
   }
 
@@ -82,17 +80,15 @@ export class VirtualNode<A extends NodeAttrs> {
   }
 
   _insert(node: VirtualNode<A>, index: number) {
-    // if (this.children.find(item => item.id === node.id))
-
-    //   return
     node.parent = this
-    this.doc.emit('insert', { parent: this, child: node, index })
+
+    node.level = this.level + 1
 
     this.children.splice(index, 0, node)
+    this.doc.emit('insert', { parent: this, child: node, index })
   }
 
   public remove(index: number) {
-    // this.HC.emitter.emit(ALIOTH_EVENT.REMOVE_NODE, { id: this.id, index })
     const node = this._remove(index)
 
     if (this.doc?.controller && node)
@@ -109,10 +105,12 @@ export class VirtualNode<A extends NodeAttrs> {
     function traverse(node: VirtualNode<any>) {
       if (!node)
         return
+      node.level = undefined as any
+
       doc.blockMap.delete(node.id)
-      doc.emit('remove', { node })
       node.parent = null
       node.children.forEach(traverse)
+      doc.emit('remove', { node })
     }
 
     traverse(removeBlock)
@@ -134,7 +132,7 @@ export class VirtualNode<A extends NodeAttrs> {
     return this.id === VirtualNode.id || !!this.findById(VirtualNode.id)
   }
 
-  findByAttrs(filter: (params: NodeAttrs) => boolean | void): VirtualNode<A>[] {
+  findByAttrs(filter: (params: A) => boolean | void): VirtualNode<A>[] {
     const blocks = [] as VirtualNode<A>[]
     for (const VirtualNode of this.children) {
       if (filter(VirtualNode.attrs))

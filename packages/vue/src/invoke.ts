@@ -4,7 +4,7 @@ import { interval } from './interval'
 import type { RenderFn } from './register'
 import { getNamespace, setRenderFn } from './register'
 let isLoad = false
-export async function init() {
+export async function init(mode: 'dev' | 'prod') {
   if (isLoad)
     return
   function registerWidget(
@@ -21,6 +21,7 @@ export async function init() {
       category, key, component, meta,
     }))
   }
+  window.$alioth_mode = mode
   window.$alioth_widget = registerWidget
   window.$alioth_setRenderFn = ({ mode, fn }: { mode: string; fn: RenderFn }) => setRenderFn(mode, fn)
   window.$alioth_interval = interval

@@ -1,3 +1,4 @@
+import { useR } from 'phecda-vue'
 import Tree from './Tree.vue'
 export const view_tree = {
   alioth: 'view',
@@ -13,12 +14,15 @@ export const zone_tree = {
     component: 'Tree',
     label: '树图',
     name: 'tree',
-    isActive: ({ activePage }) => !!activePage,
-    props: {
+    isActive: () => {
+      return !!useR(__PHECDA__.doc).activePage
     },
-    x: 400,
-    y: 300,
-    transition: 'right',
-    hidden: false,
+    props: {
+      x: 400,
+      y: 300,
+      transition: 'right',
+      hidden: false,
+    },
+
   },
 }

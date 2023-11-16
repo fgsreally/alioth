@@ -1,13 +1,13 @@
 // import { cloneDeep, isSymbol } from 'lodash-es'
 import { BaseRenderer } from 'alioth-vue'
 import type { DefineComponent } from 'vue'
-import { h, inject, provide, reactive } from 'vue'
+import { h } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { createFilter, emitter, useV } from 'phecda-vue'
 import { GridItem } from 'grid-layout-plus'
 
-const { doc, activePage } = useV(__PHECDA__.doc)
-
+const { activePage } = useV(__PHECDA__.doc)
+const { selectNode, hoverNode, selectScope } = useV(__PHECDA__.selection)
 export class Renderer extends BaseRenderer<any> {
   propsData: any
 
@@ -50,7 +50,6 @@ export class Renderer extends BaseRenderer<any> {
     }
     const { filter } = createFilter(this.scope.data)
     const ret = filter(cloneDeep(this.node.attrs.propsData))
-    console.log(this.scope.data)
     if (this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
       (this._vnode = h(
         this.comp as DefineComponent,
@@ -76,24 +75,24 @@ export class Renderer extends BaseRenderer<any> {
 
   editAction() {
     if (!this._vnode)
-      return this;
-    (this._vnode as any).props.onMousedown = (e) => {
+      return this
+    this._vnode.props.onMousedown = (e) => {
       e.stopPropagation()
+      selectNode.value = this.node
+      selectScope.value = this.scope
+    }
+    this._vnode.props.onDragoverCapture = () => {
+      hoverNode.value = this.node
+    }
+    this._vnode.props.onDragleave = () => {
+      hoverNode.value = undefined
+    }
+    this._vnode.props.onMouseenter = () => {
+      hoverNode.value = this.node
+    }
 
-      doc.value.select(this.node)
-    }
-    (this._vnode as any).props.onDragoverCapture = () => {
-      doc.value.select(this.node, 'hoverNode')
-    };
-    (this._vnode as any).props.onDragleave = () => {
-      doc.value.cancel('hoverNode')
-    }
-    (this._vnode as any).props.onMouseenter = () => {
-      doc.value.select(this.node, 'hoverNode')
-    }
-
-    (this._vnode as any).props.onMouseleave = () => {
-      doc.value.cancel('hoverNode')
+    this._vnode.props.onMouseleave = () => {
+      hoverNode.value = undefined
     }
 
     return this

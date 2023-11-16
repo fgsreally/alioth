@@ -6,9 +6,6 @@ export const { connect, dynamicImport, urlMap, projectMap } = createConnector()
 @Global
 @Tag('import')
 export class BaseImportModel {
-  /**
-   * @extend
-   */
   graph: Record<string, any> = {}
 
   @Init

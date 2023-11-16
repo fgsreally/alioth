@@ -5,7 +5,7 @@ import { Renderer } from './renderer'
 export const container = {
   alioth: 'widget',
   data: {
-    key: 'root',
+    key: 'page',
     category: '',
     component,
   },
@@ -17,7 +17,6 @@ export const engine: AliothRenderFn = {
     mode: 'edit',
     fn: ({ node, scope, widget }) => {
       const renderer = new Renderer('edit', node, widget, scope)
-
       if (node.parent!.parent?.id === 'root') {
         if (node.attrs.propsData.vfor && scope.keys.includes(node.attrs.propsData.vfor)) {
           const key = node.attrs.propsData.vfor

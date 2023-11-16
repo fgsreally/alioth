@@ -8,7 +8,7 @@ export class BaseEventModel {
   public register = register
 
   constructor() {
-    window.$alioth_eventStack = register
+    window.$alioth_event = register
     initialize()
   }
 }

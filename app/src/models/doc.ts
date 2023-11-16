@@ -1,6 +1,6 @@
 import type { NodeAttrs } from 'alioth-vue'
 import { Init, emitter, useO } from 'phecda-vue'
-import { BaseDocModel, Controller, interval, observeDoc } from 'alioth-vue'
+import { BaseDocModel, Controller, observeDoc } from 'alioth-vue'
 import { EventModel } from './event'
 
 export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
@@ -30,13 +30,13 @@ export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
   add() {
     emitter.emit('alioth:node-action', null)
 
-    return super.add()
+    return super.addPage()
   }
 
   remove(id: string) {
     emitter.emit('alioth:node-action', null)
 
-    return super.remove(id)
+    return super.removePage(id)
   }
 
   @Init

@@ -2,16 +2,16 @@
 import { AliothRender, getWidget } from 'alioth-vue'
 import { emitter, useV } from 'phecda-vue'
 import { applyUpdate, encodeStateAsUpdate } from 'yjs'
-import { RenderBlock } from '@/components/base/renderBlock'
 
 import { DocModel } from '@/models/doc'
 import { useDocumentClick } from '@/composables/click'
-import { useDragSingle } from '@/composables/drag'
-import type { AliothAttrs } from '@/engine/types'
-import { createIndex } from '@/utils/handleIndex'
+
+import { SelectionModel } from '@/models/selection'
 const { activePage, doc, activeId } = $(useV(DocModel))
+
+let { selectNode } = $(useV(SelectionModel))
 useDocumentClick(() => {
-  doc.cancel()
+  selectNode = undefined
 })
 
 function load(e: any) {
