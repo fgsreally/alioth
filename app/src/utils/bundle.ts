@@ -68,7 +68,7 @@ export function createEntryFileCode(doc: VirtualDocument<NodeAttrs>, graph: Reco
         parseAttrs(attrs[i])
         continue
       }
-      if (typeof attrs[i] === 'string' && /^{{(.*)}}$/.test(attrs[i])) {
+      if (typeof attrs[i] === 'string' && /{{(.*)}}/.test(attrs[i])) {
         const vars = extractVariables(attrs[i])
         vars.forEach(item => stateSet.add(item))
       }
@@ -94,7 +94,7 @@ export function createEntryFileCode(doc: VirtualDocument<NodeAttrs>, graph: Reco
       const exports = graph[url][key]
 
       if (typeof exports === 'object' && exports.alioth) {
-        if (exports.alioth === 'setEngine')
+        if (exports.alioth === 'setRenderFn' && exports.data.mode === 'runtime')
           dependences[url].push(key)
 
         if (exports.alioth === 'widget' && componentSet.has(exports.data.key))

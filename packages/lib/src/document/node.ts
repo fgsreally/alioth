@@ -20,10 +20,6 @@ export class VirtualNode<A extends Record<string, any>> {
     return clone(this.children)
   }
 
-  // get scope(){
-
-  // }
-
   get index() {
     return this.parent?.children.findIndex(node => node.id === this.id)
   }

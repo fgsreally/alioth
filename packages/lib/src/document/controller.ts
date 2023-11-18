@@ -32,19 +32,15 @@ export class Controller<MapType = any> {
   }
 
   insert(parent: string, child: string, index: number) {
-    this.ydoc.transact(() => {
-      const arr = (this.map.get(parent) as any).get('children')
-      arr.insert(index, [child])
-    })
+    const arr = (this.map.get(parent) as any).get('children')
+    arr.insert(index, [child])
   }
 
   delete(parent: string, child: string, index: number) {
-    this.ydoc.transact(() => {
-      const arr = (this.map.get(parent) as any).get('children') as YArray<string>
+    const arr = (this.map.get(parent) as any).get('children') as YArray<string>
 
-      arr.delete(index, 1)
-      this.map.delete(child)
-    })
+    arr.delete(index, 1)
+    this.map.delete(child)
   }
 
   set(id: string, path: string, value: any) {
@@ -57,8 +53,6 @@ export class Controller<MapType = any> {
       structure = structure.get(p)
     })
 
-    this.ydoc.transact(() => {
-    })
     structure.set(key, traverse(value))
   }
 }
