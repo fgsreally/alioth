@@ -26,10 +26,10 @@ export class VirtualDocument<A extends Record<string, any>> extends Emitter {
     return this.blockMap.get(id)
   }
 
-  // bind(controller: Controller) {
-  //   this.controller = controller
-  //   this.root.bind(this)
-  // }
+  bind(controller: Controller) {
+    this.controller = controller
+    this.root.bind(this)
+  }
 
   // 回收不在document中的block，垃圾回收
   clean() {

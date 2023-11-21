@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AliothRender, getWidget } from 'alioth-vue'
+import { AliothRender, IframeCanvas, getWidget } from 'alioth-vue'
 import { emitter, useV } from 'phecda-vue'
 import { applyUpdate, encodeStateAsUpdate } from 'yjs'
 
@@ -9,10 +9,10 @@ import { useDocumentClick } from '@/composables/click'
 import { SelectionModel } from '@/models/selection'
 const { activePage, doc, activeId } = $(useV(DocModel))
 
-let { selectNode } = $(useV(SelectionModel))
-useDocumentClick(() => {
-  selectNode = undefined
-})
+const { selectNode } = $(useV(SelectionModel))
+// useDocumentClick(() => {
+//   selectNode = undefined
+// })
 
 function load(e: any) {
   const i = e.target.contentWindow
@@ -32,6 +32,8 @@ function load(e: any) {
 <template>
   <div flex justify-center items-center w-full h-full>
     <section v-if="!!activePage" class="al-window">
+      <!-- <IframeCanvas>
+      </IframeCanvas> -->
       <AliothRender :node="activePage" mode="edit" />
     </section>
   </div>

@@ -4,7 +4,7 @@ import { cloneDeep } from 'lodash-es'
 import type { DefineComponent } from 'vue'
 import { h } from 'vue'
 
-export class renderer extends BaseRenderer<any> {
+export class Renderer extends BaseRenderer<any> {
   main(type: string) {
     if (this.node.parent?.id === 'root') {
       this._vnode = h(

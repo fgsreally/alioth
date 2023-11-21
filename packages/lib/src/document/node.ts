@@ -8,7 +8,7 @@ export class VirtualNode<A extends Record<string, any>> {
   parent: VirtualNode<A> | null
   children: VirtualNode<A>[] = []
   timeout = 800
-  doc: VirtualDocument<A>
+  doc?: VirtualDocument<A>
   attrs: A
   level: number
   constructor(initAttrs?: A,
@@ -51,15 +51,14 @@ export class VirtualNode<A extends Record<string, any>> {
     //   return
 
     this._set(path, value)
-    if (this.doc?.controller)
-      this.doc.controller.set(this.id, path as string, value)
+    this.doc?.controller?.set(this.id, path as string, value)
   }
 
   /**
         * 仅被HC调用
         */
   _set(path: string, value: any) {
-    this.doc.emit('set', { node: this, path, value })
+    this.doc?.emit('set', { node: this, path, value })
     set(this.attrs, path, value)
   }
 
@@ -81,14 +80,14 @@ export class VirtualNode<A extends Record<string, any>> {
     node.level = this.level + 1
 
     this.children.splice(index, 0, node)
-    this.doc.emit('insert', { parent: this, child: node, index })
+    this.doc?.emit('insert', { parent: this, child: node, index })
   }
 
   public remove(index: number) {
     const node = this._remove(index)
 
-    if (this.doc?.controller && node)
-      this.doc.controller.delete(this.id, node.id, index)
+    if (node)
+      this.doc?.controller.delete(this.id, node.id, index)
   }
 
   _removeNode(node: VirtualNode<any>) {
@@ -103,10 +102,10 @@ export class VirtualNode<A extends Record<string, any>> {
         return
       node.level = undefined as any
 
-      doc.blockMap.delete(node.id)
+      doc?.blockMap.delete(node.id)
       node.parent = null
       node.children.forEach(traverse)
-      doc.emit('remove', { node })
+      doc?.emit('remove', { node })
     }
 
     traverse(removeBlock)

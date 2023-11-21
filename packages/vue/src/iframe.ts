@@ -54,7 +54,7 @@ function proxyEvents(iframe: HTMLIFrameElement) {
 
   const { x, y } = iframe.getBoundingClientRect();
   // 'click', 'mousedown', 'mousemove', 'mouseup',
-  ['pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'pointerenter', 'pointerleave', 'pointerover', 'pointerout', 'gotpointercapture', 'lostpointercapture', 'click'].forEach((ev) => {
+  ['pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'pointerenter', 'pointerleave', 'pointerover', 'pointerout', 'gotpointercapture', 'lostpointercapture', 'click', 'contextmenu'].forEach((ev) => {
     iframeWindow.addEventListener(ev, (e) => {
       const proxyEvent = mouseProxy(e as MouseEvent);
 
@@ -75,19 +75,14 @@ function proxyEvents(iframe: HTMLIFrameElement) {
   })
 }
 
-const iframeLib: Record<string, HTMLIFrameElement> = {}
-
 /**
  * @description 通过iframe实现样式隔离
  */
-export const iframeBox = defineComponent({
+export const IframeCanvas = defineComponent({
   props: {
-    uuid: String,
-    styleSheet: String,
-    width: { type: Number, required: true },
-    height: { type: Number, required: true },
+
   },
-  setup(props, { slots }: SetupContext) {
+  setup(props, { slots, attrs }: SetupContext) {
     if (!slots.default)
       return null
     let isLoad = false
@@ -142,24 +137,15 @@ export const iframeBox = defineComponent({
       }
       render(childrenId[0] as any, iframe.contentWindow?.document.body as HTMLElement)
     }
-    if (!iframeLib[props.uuid as string]) {
-      iframeLib[props.uuid as string] = document.createElement('iframe')
-      iframeLib[props.uuid as string].onload = onload
-      iframeLib[props.uuid as string].classList.add('iframebox')// al-editor__iframe
-    }
+    // const iframe = document.createElement('iframe')
+    // iframe.onload = onload
+    // iframe.classList.add('iframebox')// al-editor__iframe
 
-    watch(() => [props.width, props.height], (n) => {
-      iframeLib[props.uuid as string].width = `${n[0]}`
-      iframeLib[props.uuid as string].height = `${n[1]}`
-    }, {
-      immediate: true,
-    })
     return () => {
-      return h('div', {
-        class: 'al-window',
-        onVnodeMounted(vnode) {
-          (vnode.el as HTMLElement).appendChild(iframeLib[props.uuid as string])
-        },
+      return h('iframe', {
+        onload,
+        ...attrs,
+
       })
     }
   },

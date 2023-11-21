@@ -1,11 +1,11 @@
 import { useR } from 'phecda-vue'
-import type { AliothEvent } from 'alioth-vue'
+import type { AliothEvent, AliothNodeEvent } from 'alioth-vue'
 import 'alioth-preset-elementplus/dist/style.css'
 
 // import 'alioth-preset-elementplus/dist/style.css'
 
 // engine should be exported before all widgets,so it starts with '_'
-export { engine as _engine, container } from 'alioth-preset-layout/grid/editor/index.ts'
+export { engine as _engine, container } from 'alioth-preset-layout/relative/editor/index.ts'
 export const event_test: AliothEvent = {
   alioth: 'event',
   data: {
@@ -20,3 +20,35 @@ export const event_test: AliothEvent = {
   },
 }
 export * from 'alioth-preset-elementplus'
+
+export const page_event: AliothNodeEvent = {
+  alioth: 'node_event',
+  data: {
+    event: 'create',
+    cb({ node }) {
+      if (node.attrs.key === 'page') {
+        node.attrs = {
+          title: '11',
+          key: 'page',
+          page: true,
+          width: 480,
+          height: 400,
+          fontSize: 16,
+          backgroundColor: 'rgb(102, 107, 226)',
+          gridColor: '#ff00006b',
+          gridNum: 10,
+          gridGap: 20,
+          margin: 0,
+          radius: 0,
+          isContainer: true,
+          isFull: false,
+          isGrid: true,
+          mode: 'normal',
+          wLimit: [375, 2000],
+          hLimit: [600, 4000],
+        }
+      }
+      console.log(node)
+    },
+  },
+}

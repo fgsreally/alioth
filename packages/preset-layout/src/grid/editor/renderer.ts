@@ -7,7 +7,6 @@ import { createFilter, emitter, useV } from 'phecda-vue'
 import { GridItem } from 'grid-layout-plus'
 
 const { activePage } = useV(__PHECDA__.doc)
-const { selectNode, hoverNode, selectScope } = useV(__PHECDA__.selection)
 export class Renderer extends BaseRenderer<any> {
   propsData: any
 
@@ -76,6 +75,8 @@ export class Renderer extends BaseRenderer<any> {
   editAction() {
     if (!this._vnode)
       return this
+    const { selectNode, hoverNode, selectScope } = useV(__PHECDA__.selection)
+
     this._vnode.props.onMousedown = (e) => {
       e.stopPropagation()
       selectNode.value = this.node

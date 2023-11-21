@@ -18,6 +18,7 @@ export const AliothRender = defineComponent({
     },
   },
   setup(props) {
+    console.log(interval.widgetMap)
     return () => {
       return getRenderFn(props.mode)!({ scope: interval.scope, node: props.node, widget: interval.widgetMap.get(props.node.attrs.key)! })
     }

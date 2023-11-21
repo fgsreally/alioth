@@ -3,12 +3,10 @@ import { BaseRenderer } from 'alioth-vue'
 import type { DefineComponent, VNode } from 'vue'
 import { h } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { useV } from 'phecda-vue'
+import { createFilter, useV } from 'phecda-vue'
 import DragBox from './DragBox.vue'
 
-const { doc } = useV(__PHECDA__.doc)
-
-export class renderer extends BaseRenderer<any> {
+export class Renderer extends BaseRenderer<any> {
   propsData: any
 
   getSize() {
@@ -84,22 +82,26 @@ export class renderer extends BaseRenderer<any> {
     return this
   }
 
-  main(type: string) {
+  main() {
+    const comp = this.widget.component
     if (this.node.parent?.id === 'root') {
+      console.log(this.node.attrs)
       this._vnode = h(
-        this.comp as DefineComponent,
-        { ...this.node.attrs, a_mode: type, a_node: this.node },
+        comp as DefineComponent,
+        { ...this.node.attrs, a_mode: this.mode, a_node: this.node },
         this._vnode || undefined,
       )
       return this
     }
-    const ret = $alioth_interval.filter(cloneDeep(this.node.attrs.propsData))
-    if (type === 'render' && 'modelValue' in this.node.attrs.propsData)
+    const { filter } = createFilter(this.scope.data)
+
+    const ret = filter(cloneDeep(this.node.attrs.propsData))
+    if (this.mode === 'render' && 'modelValue' in this.node.attrs.propsData)
       ret['onUpdate:modelValue'] = (v: any) => ret.modelValue = v
       ;
     (this._vnode = h(
-      this.comp as DefineComponent,
-      { ...ret, a_mode: type, a_node: this.node },
+      comp as DefineComponent,
+      { ...ret, a_mode: this.mode, a_node: this.node },
       this._vnode || undefined,
     ))
 
@@ -108,26 +110,28 @@ export class renderer extends BaseRenderer<any> {
 
   editAction() {
     if (!this._vnode)
-      return this;
-    (this._vnode as any).props.onMousedownCapture = () => {
-      doc.value.select(this.node)
-    }
+      return this
 
-    (this._vnode as any).props.onclick = (e) => {
+    const { selectNode, hoverNode, selectScope } = useV(__PHECDA__.selection)
+
+    this._vnode.props.onMousedown = (e) => {
       e.stopPropagation()
+      console.log('mousedown')
+      selectNode.value = this.node
+      selectScope.value = this.scope
     }
-    (this._vnode as any).props.onDragoverCapture = () => {
-      doc.value.select(this.node, 'hoverNode')
-    };
-    (this._vnode as any).props.onDragleave = () => {
-      doc.value.cancel('hoverNode')
+    this._vnode.props.onDragoverCapture = () => {
+      hoverNode.value = this.node
     }
-    (this._vnode as any).props.onMouseenter = () => {
-      doc.value.select(this.node, 'hoverNode')
+    this._vnode.props.onDragleave = () => {
+      hoverNode.value = undefined
+    }
+    this._vnode.props.onMouseenter = () => {
+      hoverNode.value = this.node
     }
 
-    (this._vnode as any).props.onMouseleave = () => {
-      doc.value.cancel('hoverNode')
+    this._vnode.props.onMouseleave = () => {
+      hoverNode.value = undefined
     }
 
     return this

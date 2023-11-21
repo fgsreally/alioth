@@ -8,3 +8,4 @@ export * from './typeHelper'
 export * from './model'
 // eslint-disable-next-line import/export
 export * from 'alioth-lib'
+export * from './background'

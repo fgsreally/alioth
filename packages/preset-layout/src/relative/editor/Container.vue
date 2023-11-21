@@ -18,11 +18,12 @@ const props = defineProps<{
   wLimit: [number, number]
   hLimit: [number, number]
 }>()
+const { hoverNode, selectNode } = useV(__PHECDA__.selection)
+
 const { doc, activePage } = useV(__PHECDA__.doc)
 function addBlock(module: any, e: MouseEvent) {
   const { key, label, meta } = module
-  const { hoverNode } = doc.value
-  const parent = hoverNode || activePage.value
+  const parent = hoverNode!.value || activePage.value!
   const block = doc.value.createNode(Object.assign({
     slot: 'default',
     key,
@@ -61,7 +62,7 @@ onBeforeUnmount(() => {
       `
 
     "
-    @click.self.stop="doc.cancel()"
+    @click.self.stop="selectNode = undefined"
   >
     <slot />
   </div>

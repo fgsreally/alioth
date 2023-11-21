@@ -5,7 +5,7 @@ import { emitter, useV } from 'phecda-vue'
 import { computed } from 'vue'
 const { node } = defineProps<{ node: Object }>()
 
-const { activeNode } = useV(__PHECDA__.doc)
+const { selectNode: activeNode } = useV(__PHECDA__.selection)
 const isActive = computed(() => node === activeNode.value)
 const moveBlocks = ['tl', 'tr', 'bl', 'br']
 
@@ -22,8 +22,8 @@ async function startMove(e: MouseEvent) {
         y = e.clientY
       }
 
-      activeNode.value.set('left', initX + e.clientX - x)
-      activeNode.value.set('top', initY + e.clientY - y)
+      activeNode.value!.set('left', initX + e.clientX - x)
+      activeNode.value!.set('top', initY + e.clientY - y)
     },
     up: (e) => {
       emitter.emit('alioth:node-action', null)
@@ -47,18 +47,18 @@ function transform(evt: MouseEvent, item: string) {
       const offsetY = Math.trunc(e.clientY - y)
       const offsetX = Math.trunc(e.clientX - x)
       if (item.includes('t')) {
-        activeNode.value.set('top', initY + offsetY)
-        activeNode.value.set('height', h - offsetY)
+        activeNode.value!.set('top', initY + offsetY)
+        activeNode.value!.set('height', h - offsetY)
       }
       if (item.includes('l')) {
-        activeNode.value.set('left', initX + offsetX)
-        activeNode.value.set('width', w - offsetX)
+        activeNode.value!.set('left', initX + offsetX)
+        activeNode.value!.set('width', w - offsetX)
       }
       if (item.includes('r'))
-        activeNode.value.set('width', w + offsetX)
+        activeNode.value!.set('width', w + offsetX)
 
       if (item.includes('b'))
-        activeNode.value.set('height', h + offsetY)
+        activeNode.value!.set('height', h + offsetY)
     },
     up(e) {
       emitter.emit('alioth:node-action', null)
