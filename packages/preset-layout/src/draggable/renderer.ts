@@ -1,28 +1,28 @@
 // import { cloneDeep, isSymbol } from 'lodash-es'
 import { BaseRenderer } from 'alioth-vue'
-import type { DefineComponent } from 'vue'
 import { h } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { useV } from 'phecda-vue'
+import { createFilter, useV } from 'phecda-vue'
 
-const { doc } = useV(__PHECDA__.doc)
-
-export class renderer extends BaseRenderer<any> {
+export class Renderer extends BaseRenderer<any> {
   propsData: any
 
-  main(type: string) {
+  main() {
+    const { component } = this.widget
     if (this.node.parent?.id === 'root') {
       this._vnode = h(
-        this.comp as DefineComponent,
-        { ...this.node.attrs, a_mode: type, a_node: this.node },
+        component,
+        { ...this.node.attrs, a_mode: this.mode, a_node: this.node },
         this._vnode,
       )
       return this
     }
-    const ret = $alioth_interval.filter(cloneDeep(this.node.attrs.propsData))
-    if (type === 'render' && this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
+    const { filter } = createFilter(this.scope.data)
+
+    const ret = filter(cloneDeep(this.node.attrs.propsData))
+    if (this.mode === 'render' && this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
       (this._vnode = h(
-        this.comp as DefineComponent,
+        component,
         {
           ...ret,
           'onUpdate:modelValue': (v: any) => {
@@ -33,8 +33,8 @@ export class renderer extends BaseRenderer<any> {
     }
     else {
       (this._vnode = h(
-        this.comp as DefineComponent,
-        { ...ret, a_mode: type, a_node: this.node },
+        component,
+        { ...ret, a_mode: this.mode, a_node: this.node },
         this._vnode))
     }
 
@@ -43,24 +43,26 @@ export class renderer extends BaseRenderer<any> {
 
   editAction() {
     if (!this._vnode)
-      return this;
+      return this
+    const { selectNode, hoverNode, selectScope } = useV(__PHECDA__.selection);
+
     (this._vnode as any).props.onMousedown = (e) => {
       e.stopPropagation()
-
-      doc.value.select(this.node)
+      selectNode.value = this.node
+      selectScope.value = this.scope
     }
     (this._vnode as any).props.onDragoverCapture = () => {
-      doc.value.select(this.node, 'hoverNode')
+      hoverNode.value = this.node
     };
     (this._vnode as any).props.onDragleave = () => {
-      doc.value.cancel('hoverNode')
+      hoverNode.value = undefined
     }
     (this._vnode as any).props.onMouseenter = () => {
-      doc.value.select(this.node, 'hoverNode')
+      hoverNode.value = this.node
     }
 
     (this._vnode as any).props.onMouseleave = () => {
-      doc.value.cancel('hoverNode')
+      hoverNode.value = undefined
     }
 
     return this

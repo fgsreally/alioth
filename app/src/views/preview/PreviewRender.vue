@@ -7,6 +7,6 @@ const { activePage } = $(useV(DocModel))
 
 <template>
   <section w="100vw" h="100vh" l-flex border-1 border-solid border-font-t>
-    <AliothRender :node="activePage" mode="render" />
+    <AliothRender :node="activePage" mode="runtime" />
   </section>
 </template>

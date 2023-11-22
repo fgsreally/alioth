@@ -85,7 +85,6 @@ export class Renderer extends BaseRenderer<any> {
   main() {
     const comp = this.widget.component
     if (this.node.parent?.id === 'root') {
-      console.log(this.node.attrs)
       this._vnode = h(
         comp as DefineComponent,
         { ...this.node.attrs, a_mode: this.mode, a_node: this.node },
@@ -116,7 +115,6 @@ export class Renderer extends BaseRenderer<any> {
 
     this._vnode.props.onMousedown = (e) => {
       e.stopPropagation()
-      console.log('mousedown')
       selectNode.value = this.node
       selectScope.value = this.scope
     }

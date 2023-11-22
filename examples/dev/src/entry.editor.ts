@@ -5,7 +5,7 @@ import 'alioth-preset-elementplus/dist/style.css'
 // import 'alioth-preset-elementplus/dist/style.css'
 
 // engine should be exported before all widgets,so it starts with '_'
-export { engine as _engine, container } from 'alioth-preset-layout/relative/editor/index.ts'
+export * from 'alioth-preset-layout/draggable/index.ts'
 export const event_test: AliothEvent = {
   alioth: 'event',
   data: {
@@ -48,7 +48,6 @@ export const page_event: AliothNodeEvent = {
           hLimit: [600, 4000],
         }
       }
-      console.log(node)
     },
   },
 }

@@ -55,6 +55,12 @@ export async function bundleWithEsbuild(rawCode: string) {
   return result.outputFiles
 }
 
+function getDoubleBrackets(str: string) {
+  const regex = /\{\{([^}]+)\}\}/g
+  const matches = str.match(regex)
+  return matches ? matches.map(match => match.slice(2, -2)) : []
+}
+
 // work for treeshake
 // only includes widget
 export function createEntryFileCode(doc: VirtualDocument<NodeAttrs>, graph: Record<string, Record<string, any>>, baseUrl: string) {
@@ -69,8 +75,10 @@ export function createEntryFileCode(doc: VirtualDocument<NodeAttrs>, graph: Reco
         continue
       }
       if (typeof attrs[i] === 'string' && /{{(.*)}}/.test(attrs[i])) {
-        const vars = extractVariables(attrs[i])
-        vars.forEach(item => stateSet.add(item))
+        getDoubleBrackets(attrs[i]).forEach((str) => {
+          const vars = extractVariables(str)
+          vars.forEach(item => stateSet.add(item))
+        })
       }
     }
   }
@@ -97,9 +105,10 @@ export function createEntryFileCode(doc: VirtualDocument<NodeAttrs>, graph: Reco
         if (exports.alioth === 'setRenderFn' && exports.data.mode === 'runtime')
           dependences[url].push(key)
 
-        if (exports.alioth === 'widget' && componentSet.has(exports.data.key))
-
-          dependences[url].push(key)
+        if (exports.alioth === 'widget' && componentSet.has(exports.data.key)) {
+          if (!exports.data.mode || exports.data.mode === 'runtime')
+            dependences[url].push(key)
+        }
 
         if (exports.alioth === 'state' && stateSet.has(exports.data.key))
 

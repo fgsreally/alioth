@@ -1,7 +1,5 @@
 export * from './iframe'
 export * from './interval'
-export * from './invoke'
-export * from './register'
 export * from './renderer'
 export * from './component'
 export * from './typeHelper'

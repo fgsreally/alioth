@@ -3,14 +3,13 @@ import { emitter, useV } from 'phecda-vue'
 import draggable from 'vuedraggable-es'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 
-const props = defineProps<{ height: number; width: number; a_mode: string }>()
-
 const { doc, activePage } = useV(__PHECDA__.doc)
+const { hoverNode, selectNode } = useV(__PHECDA__.selection)
+
 const drag = ref(false)
 function addBlock(module: any) {
   const { key, label, meta } = module
-  const { hoverNode } = doc.value
-  const parent = hoverNode || activePage.value
+  const parent = hoverNode.value || activePage.value!
   const block = doc.value.createNode(Object.assign({
     slot: 'default',
     key,
@@ -36,11 +35,10 @@ onBeforeUnmount(() => {
 
 <template>
   <section
-    ref="dom" class="a-container" @click.stop.self="doc.cancel()" @mouseup.stop
+    ref="dom" class="a-container" @click.stop.self="selectNode = undefined"
   >
     <draggable
-      v-if="a_mode === 'edit'"
-      v-model="activePage.children" item-key="id"
+      v-model="activePage!.children" item-key="id"
       @start="drag = true"
       @end="drag = false"
     >
@@ -50,9 +48,6 @@ onBeforeUnmount(() => {
         </div>
       </template>
     </draggable>
-    <div v-else>
-      <slot />
-    </div>
   </section>
 </template>
 

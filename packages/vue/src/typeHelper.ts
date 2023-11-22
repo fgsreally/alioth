@@ -1,7 +1,7 @@
 import type { Component } from 'vue'
 import type { Command, DefaultEvent, VirtualNode } from 'alioth-lib'
 import type { Header, Zone } from './model'
-import type { RenderFn } from './register'
+import type { RenderFn } from './interval'
 export interface BasePreset<T, D> {
   alioth: T
   data: D
@@ -9,7 +9,7 @@ export interface BasePreset<T, D> {
 
 export type NodeAttrs = Record<string, any>
 export interface AliothWidget<Meta = any> extends BasePreset<'widget', {
-  category: string
+  mode?: string
   key: string
   component: Component
   meta?: Meta

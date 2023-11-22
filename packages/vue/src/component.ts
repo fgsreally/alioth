@@ -1,8 +1,7 @@
 import { defineComponent } from 'vue'
 import type { PropType } from 'vue'
 import type { VirtualNode } from 'alioth-lib'
-import { interval } from './interval'
-import { getRenderFn } from './register'
+import { getRenderFn, getWidget, interval } from './interval'
 
 export const AliothRender = defineComponent({
   name: 'AliothRender',
@@ -10,7 +9,6 @@ export const AliothRender = defineComponent({
   props: {
     mode: {
       type: String,
-      required: true,
     },
     node: {
       type: Object as PropType<VirtualNode<any>>,
@@ -18,9 +16,8 @@ export const AliothRender = defineComponent({
     },
   },
   setup(props) {
-    console.log(interval.widgetMap)
     return () => {
-      return getRenderFn(props.mode)!({ scope: interval.scope, node: props.node, widget: interval.widgetMap.get(props.node.attrs.key)! })
+      return getRenderFn(props.mode)!({ scope: interval.scope, node: props.node, widget: getWidget(props.node.attrs.key, props.mode)!, mode: props.mode || interval.mode })
     }
   },
 })

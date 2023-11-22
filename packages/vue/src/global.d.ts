@@ -1,6 +1,5 @@
 declare global {
     interface Window {
-        $alioth_mode:'dev'|'prod'
         $alioth_update: any
         $alioth_state: any
         $alioth_widget: any

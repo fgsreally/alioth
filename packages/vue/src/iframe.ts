@@ -1,5 +1,5 @@
 import type { SetupContext } from 'vue'
-import { defineComponent, h, onBeforeUnmount, render, watch } from 'vue'
+import { defineComponent, h, onBeforeUnmount, render } from 'vue'
 
 function cloneStyleNode(): Node[] {
   const arr = []

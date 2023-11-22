@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AliothRender, IframeCanvas, getWidget } from 'alioth-vue'
+import { AliothRender } from 'alioth-vue'
 import { emitter, useV } from 'phecda-vue'
 import { applyUpdate, encodeStateAsUpdate } from 'yjs'
 
@@ -34,7 +34,7 @@ function load(e: any) {
     <section v-if="!!activePage" class="al-window">
       <!-- <IframeCanvas>
       </IframeCanvas> -->
-      <AliothRender :node="activePage" mode="edit" />
+      <AliothRender :node="activePage" mode="editor" />
     </section>
   </div>
 </template>

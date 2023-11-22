@@ -35,7 +35,7 @@ declare global {
 
   declare const $alioth_state: typeof import('./dist').interval.setState
   declare const $alioth_widget: (data: {
-    category: string
+    mode?: string
     key: string | symbol
     component: Component
     meta?: any

@@ -1,6 +1,5 @@
 import { Global, Init, Tag } from 'phecda-vue'
 import type { Component } from 'vue'
-import { getWidget } from '../register'
 
 export interface Header<C = any> {
   component: Component
@@ -17,7 +16,6 @@ export interface Zone<C = any, P = any> {
 @Global
 @Tag('view')
 export class BaseViewModel<HeaderCtx = any, ZoneCtx = any, ZoneProps = any> {
-  getWidget = getWidget
   componentMap: Record<string, Component> = {}
 
   headers: Header<HeaderCtx>[] = []

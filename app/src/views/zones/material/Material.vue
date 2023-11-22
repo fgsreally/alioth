@@ -9,7 +9,6 @@ const { compList, type } = defineProps<{
 const { dragStart, dragEnd } = useV(DragModel)
 
 function dragstart(module: any) {
-  console.log(module)
   dragStart(module)
 }
 
