@@ -27,7 +27,7 @@ declare global {
     event: typeof import('./dist').BaseEventModel
     import: typeof import('./dist').BaseImportModel
     drag: typeof import('./dist').BaseDragModel
-
+    selection:typeof import('./dist').BaseSelectionModel
   }
 
 
@@ -35,7 +35,7 @@ declare global {
 
   declare const $alioth_state: typeof import('./dist').interval.setState
   declare const $alioth_widget: (data: {
-    category: string
+    mode?: string
     key: string | symbol
     component: Component
     meta?: any
@@ -49,7 +49,7 @@ declare global {
 
   declare const $alioth_header: (data: typeof import('./dist').Header) => void
   declare const $alioth_zone: (data: typeof import('./dist').Zone) => void
-  declare const $alioth_eventStack: (data: typeof import('./dist').DefaultEvent) => void
+  declare const $alioth_event: (data: typeof import('./dist').DefaultEvent) => void
 
 }
 

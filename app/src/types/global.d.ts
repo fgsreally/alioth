@@ -15,7 +15,7 @@ declare global {
         $alioth_view: any
         $alioth_zone: any
         $alioth_header:any
-        $alioth_eventStack:any
+        $alioth_event:any
     }
 }
 export { }

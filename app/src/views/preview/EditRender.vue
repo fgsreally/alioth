@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { getWidget } from 'alioth-vue'
+import { AliothRender } from 'alioth-vue'
 import { emitter, useV } from 'phecda-vue'
 import { applyUpdate, encodeStateAsUpdate } from 'yjs'
-import { RenderBlock } from '@/components/base/renderBlock'
 
 import { DocModel } from '@/models/doc'
 import { useDocumentClick } from '@/composables/click'
-import { useDragSingle } from '@/composables/drag'
-import type { AliothAttrs } from '@/engine/types'
-import { createIndex } from '@/utils/handleIndex'
+
+import { SelectionModel } from '@/models/selection'
 const { activePage, doc, activeId } = $(useV(DocModel))
-useDocumentClick(() => {
-  doc.cancel()
-})
+
+const { selectNode } = $(useV(SelectionModel))
+// useDocumentClick(() => {
+//   selectNode = undefined
+// })
 
 function load(e: any) {
   const i = e.target.contentWindow
@@ -32,7 +32,9 @@ function load(e: any) {
 <template>
   <div flex justify-center items-center w-full h-full>
     <section v-if="!!activePage" class="al-window">
-      <RenderBlock :node="activePage" type="edit" :value="getWidget('root')!" />
+      <!-- <IframeCanvas>
+      </IframeCanvas> -->
+      <AliothRender :node="activePage" mode="editor" />
     </section>
   </div>
 </template>

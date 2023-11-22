@@ -7,9 +7,10 @@ import { watch } from 'vue'
 import { DragModel } from '@/models/drag'
 import type { NodeAttrs } from '@/types/node'
 import { DocModel } from '@/models/doc'
+import { SelectionModel } from '@/models/selection'
 
 const { type } = defineProps<{ type: 'props' | 'events' }>()
-const { activeNode } = $(useV(DocModel))
+const { selectNode } = $(useV(SelectionModel))
 const { add, del } = useV(DragModel)
 let args = $ref<{ data: any; config: any }>({} as any)
 let isShow = $ref(true)
@@ -18,7 +19,7 @@ function setProps(node: VirtualNode<NodeAttrs>, key: string, value: any) {
   node.set(`propsData.${key}`, value)
 }
 
-watch(() => activeNode as VirtualNode<NodeAttrs>, async (n, o) => {
+watch(() => selectNode as VirtualNode<NodeAttrs>, async (n, o) => {
   if (!n)
     return
   if (o && n.attrs.key !== o.attrs.key) {
@@ -47,7 +48,7 @@ watch(() => activeNode as VirtualNode<NodeAttrs>, async (n, o) => {
   <pane-form
     v-if="isShow"
     :data="args.data" :config="args.config"
-    :on-update="(key:string, v:any) => setProps(activeNode!, key, v)"
+    :on-update="(key:string, v:any) => setProps(selectNode!, key, v)"
   />
 </template>
 

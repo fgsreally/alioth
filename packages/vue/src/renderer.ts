@@ -1,98 +1,55 @@
 import type {
-  Component,
-  DefineComponent,
   VNode,
 } from 'vue'
 import {
   h,
   render,
-
 } from 'vue'
-import type { VirtualNode } from 'alioth-lib'
-import type { RegisterKey, RegisterType } from './register'
+import type { Scope, VirtualNode } from 'alioth-lib'
+import { type Widget } from './interval'
 
 export type CompList<RegisterBlock> = Map<string, RegisterBlock>
 
-const decorator = (deco: defaultDecorator) => {
-  return (content: VNode) =>
-    h(
-      deco.comp,
-      { ...deco.propsData },
-      {
-        [deco.dirct]: content,
-      },
-    )
-}
-
-export interface defaultDecorator {
-  comp: Component
-  propsData: any
-  dirct: string
-}
-
 export class BaseRenderer<
-NodeAttrs extends Record<string, any>,
-  > {
-  protected _vnode: VNode | VNode[] | undefined = undefined
+  NodeAttrs extends Record<string, any>,
+> {
+  protected _vnode: VNode | any
 
   // stack: { funcName: string; property: any }[];
   renderType: string
   // slotVNode: { [key in string]: Function };
-  constructor(protected node: VirtualNode<NodeAttrs>, protected comp: Component) {}
-  exec() {
-    return this._vnode
+  constructor(
+    public mode: string,
+    public node: VirtualNode<NodeAttrs>,
+    public widget: Widget,
+    public scope: Scope,
+  ) {
+
   }
 
-  createSlots(
-    slotSet: string[],
-    allWidgetMap: Map<RegisterKey, RegisterType>,
-    renderType: string,
-  ) {
-    if (!this.node.children.length)
-      return undefined
-
-    const slots: { [key in string]: Function } = {}
-    slotSet.forEach((templateName) => {
-      slots[templateName] = (slotProps: any) =>
-      // eslint-disable-next-line array-callback-return
-        this.node.children.map((node: VirtualNode<any>) => {
-          if ((node.attrs.slot || 'default') === templateName) {
-            const widget = (allWidgetMap as any)
-              .get(node.attrs.key)
-            if (!widget)
-              throw new Error(`miss widget "${node.attrs.key}"`)
-
-            const ret = widget[renderType](node, slotProps)
-
-            return ret
-          }
-        })
-    })
-
-    return slots
+  exec() {
+    return this._vnode as VNode
   }
 
   slot(
-      slotSet: string[] = ['default'],
-      allWidgetMap: Map<RegisterKey, RegisterType>,
-      renderType = 'render',
+    slotNames: string[],
   ) {
-    this._vnode = this.createSlots(
-      slotSet,
-      allWidgetMap,
-      renderType,
-    ) as any
-    return this
-  }
-
-  main(propsData?: any) {
-    this._vnode = h(
-      this.comp as DefineComponent,
-      {
-        ...(propsData || {}),
-      },
-      this._vnode || undefined,
-    )
+    if (!this.node.children.length)
+      return this
+    const slots: { [key in string]: Function } = {}
+    slotNames.forEach((templateName) => {
+      slots[templateName] = (props: any) =>
+        // eslint-disable-next-line array-callback-return
+        this.node.children.map((node: VirtualNode<any>) => {
+          if ((node.attrs.slot || 'default') === templateName) {
+            const widget = $alioth_interval.getWidget(node.attrs.key)
+            if (!widget)
+              throw new Error(`miss widget "${node.attrs.key}"`)
+            return $alioth_interval.renderFnMap.get(this.mode)!({ props, scope: this.scope, node, widget, mode: this.mode })
+          }
+        })
+    })
+    this._vnode = slots as any
     return this
   }
 
@@ -101,16 +58,6 @@ NodeAttrs extends Record<string, any>,
       return this
 
     render(this._vnode as any, dom)
-    return this
-  }
-
-  useDecorator() {
-    this._vnode = (this.node as any).decorators.reduce(
-      (arr: any, cur: any) => {
-        return decorator(cur)(arr as VNode)
-      },
-      this._vnode,
-    )
     return this
   }
 
@@ -163,7 +110,7 @@ NodeAttrs extends Record<string, any>,
   }
 
   box() {
-    this._vnode = h('div', { default: () => [this._vnode] })
+    this._vnode = h('div', { default: () => this._vnode })
     return this
   }
 }

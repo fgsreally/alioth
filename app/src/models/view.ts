@@ -4,6 +4,7 @@ import { BaseViewModel } from 'alioth-vue'
 import axios from 'axios'
 import { ImportModel } from './import'
 import { DocModel } from './doc'
+import { SelectionModel } from './selection'
 import { componentMap } from '@/views/zones'
 import { useLayer } from '@/composables/layer'
 import PreviewRenderVue from '@/views/preview/PreviewRender.vue'
@@ -15,27 +16,18 @@ import { download } from '@/utils/download'
 import { createEntryFileCode } from '@/utils/bundle'
 // import { presets } from '@/config'
 
-interface Header {
-  component: Component
-  label: string
-  handler: (param: { useLayer: typeof useLayer }) => void
-}
-interface Zone {
-  component: string
-  label: string
-  name: string
-  isActive: (...args: any) => boolean
+interface ZoneProps {
+
   hidden: boolean
   x: number
   y: number
   fix?: boolean
   transition: string
-  props: any
 }
 
-export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any> {
+export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any, ZoneProps> {
   componentMap = componentMap as Record<string, Component>
-  headers: Header[] = [
+  headers = [
     {
       label: '实时预览',
       component: IconEye,
@@ -75,22 +67,23 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
     },
   ]
 
-  zones: Zone[] = [
+  zones = [
 
     {
       component: 'Property',
       label: '组件property',
       name: 'Property',
-      isActive: ({ instance }) => {
-        return !!instance?.activeNode
+      isActive: () => {
+        return !!useR(SelectionModel).selectNode
       },
       props: {
+        x: 600,
+        y: 600,
+        transition: 'left',
+        hidden: false,
         type: 'props',
       },
-      x: 600,
-      y: 600,
-      transition: 'left',
-      hidden: false,
+
     },
     {
       component: 'Terminal',
@@ -98,11 +91,12 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       name: 'terminal',
       isActive: () => true,
       props: {
+        x: 100,
+        y: 300,
+        transition: 'left',
+        hidden: false,
       },
-      x: 100,
-      y: 300,
-      transition: 'left',
-      hidden: false,
+
     },
     {
       component: 'Material',
@@ -110,11 +104,11 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       name: 'Material',
       isActive: () => true,
       props: {
+        x: 100,
+        y: 300,
+        transition: 'left',
+        hidden: false,
       },
-      x: 100,
-      y: 300,
-      transition: 'left',
-      hidden: false,
 
     },
 
@@ -122,16 +116,16 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       component: 'Property',
       label: '事件',
       name: 'Event',
-      isActive: ({ instance }) => {
-        return !!instance?.activeNode
+      isActive: () => {
+        return !!useR(SelectionModel).selectNode
       },
       props: {
         type: 'events',
+        x: 600,
+        y: 600,
+        transition: 'left',
+        hidden: false,
       },
-      x: 600,
-      y: 600,
-      transition: 'left',
-      hidden: false,
 
     },
     {
@@ -139,13 +133,12 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any>
       label: '引入',
       name: 'importFunc',
       props: {
-
+        x: 400,
+        y: 580,
+        transition: 'bottom',
+        hidden: false,
       },
       isActive: () => true,
-      x: 400,
-      y: 580,
-      transition: 'bottom',
-      hidden: false,
 
     },
 

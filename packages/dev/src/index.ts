@@ -114,7 +114,13 @@ export function Connector(options: ConnectorOpts): PluginOption {
           const { type, content, entry = 'entry.js' } = await reqToJSON(req)
           if (type === 'bundle') {
             fs.writeFileSync(entry, content)
-            const worker = new Worker(resolve(__dirname, './worker.js'))
+            const worker = new Worker(resolve(__dirname, './worker.js'), {
+              env: {
+                ...process.env,
+                NODE_ENV: 'production',
+                ALIOTH: 'bundle',
+              },
+            })
 
             worker.postMessage('entry.js')
             worker.once('message', (msg) => {

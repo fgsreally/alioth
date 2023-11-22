@@ -12,6 +12,16 @@ export const state_c = {
   },
 }
 
+const arr = ref(['a', 'b'])
+
+export const state_arr = {
+  alioth: 'state',
+  data: {
+    key: 'arr',
+    value: arr,
+  },
+}
+
 export const state_changeC = {
   alioth: 'state',
   data: {
@@ -52,7 +62,14 @@ export const widget_test: AliothWidget = {
     component: TestVue,
     meta: {
       props: {
-
+        msg: {
+          _component: 'Input',
+          _formItem: { label: '绑定数据' },
+        },
+        vfor: {
+          _component: 'Input',
+          _formItem: { label: '循环' },
+        },
       },
       events: {
         onClick: {

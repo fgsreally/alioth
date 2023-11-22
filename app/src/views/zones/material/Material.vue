@@ -31,12 +31,9 @@ function dragend() {
         }
       "
     >
-      <RenderBlock
-        :value="module"
-        :type="(type as any)"
-
-        class="preview-section__block"
-      />
+      <p class="preview-text">
+        {{ module.key }}
+      </p>
     </div>
   </section>
 </template>
