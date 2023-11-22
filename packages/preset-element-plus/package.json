@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "main": "./dist/index.js",
-  "module":"./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
@@ -18,7 +18,8 @@
     "@vueuse/core": "^10.1.2",
     "alioth-vue": "workspace:^",
     "element-plus": "^2.2.29",
-    "phecda-vue": "^2.0.3",    "vue": "^3.3.4"
+    "phecda-vue": "^2.0.3",
+    "vue": "^3.3.4"
   },
   "devDependencies": {
     "@iconify-json/lucide": "^1.1.96",
