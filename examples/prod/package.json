@@ -11,7 +11,7 @@
   "dependencies": {
     "alioth-dev": "workspace:*",
     "alioth-lib": "workspace:*",
-    "alioth-vue": "workspace:0.0.1-alpha.0",
+    "alioth-vue": "workspace:0.1.0-alpha.1",
     "vue": "^3.3.4"
   },
   "devDependencies": {

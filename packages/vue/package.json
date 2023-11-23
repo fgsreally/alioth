@@ -1,12 +1,12 @@
 {
   "name": "alioth-vue",
-  "version": "0.0.1-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "bin": {
-    "create-al":"cli/index.js"
+    "create-al": "cli/index.js"
   },
   "files": [
     "dist",

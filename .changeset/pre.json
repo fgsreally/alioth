@@ -6,9 +6,21 @@
     "example-prod": "0.0.0",
     "alioth-dev": "0.0.0",
     "alioth-lib": "0.0.0",
-    "alioth-vue": "0.0.0"
+    "alioth-vue": "0.0.0",
+    "app": "0.0.0",
+    "alioth-preset-arco": "0.0.0",
+    "alioth-preset-elementplus": "0.0.0",
+    "alioth-preset-layout": "0.0.0",
+    "alioth-preset-shadcn": "0.0.0"
   },
   "changesets": [
-    "nervous-vans-wave"
+    "eleven-trainers-check",
+    "flat-scissors-greet",
+    "happy-icons-judge",
+    "hot-months-mate",
+    "nervous-vans-wave",
+    "new-coins-help",
+    "spotty-islands-retire",
+    "violet-spies-grin"
   ]
 }
