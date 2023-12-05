@@ -14,15 +14,15 @@ export const container = {
 export const engine: AliothRenderFn = {
   alioth: 'setRenderFn',
   data: {
-    mode: 'edit',
-    fn: ({ node, scope, widget }) => {
-      const renderer = new Renderer('edit', node, widget, scope)
+    mode: 'editor',
+    fn: ({ node, scope, widget, mode }) => {
+      const renderer = new Renderer(mode, node, widget, scope)
       if (node.parent!.parent?.id === 'root') {
         if (node.attrs.propsData.vfor && scope.keys.includes(node.attrs.propsData.vfor)) {
           const key = node.attrs.propsData.vfor
 
           const vnode = Object.entries(toRaw(scope.data[key])).map(([k, v]: any) => {
-            return new Renderer('edit', node, widget, scope.create({
+            return new Renderer(mode, node, widget, scope.create({
               [`${key}Item`]: {
                 from: node.id,
                 value: v,

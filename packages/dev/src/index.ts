@@ -106,7 +106,7 @@ export function Connector(options: ConnectorOpts): PluginOption {
           const { file, content } = await reqToJSON(req)
           fs.writeFileSync(file, content)
           log(`create file ${file}`)
-          res.end('1')
+          res.end('0')
 
           return
         }
