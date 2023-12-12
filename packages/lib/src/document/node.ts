@@ -1,16 +1,14 @@
 import { nanoid } from 'nanoid'
-import { clone, set } from 'lodash-es'
-import type { VirtualDocument } from './document'
+import { clone, get, set } from 'lodash-es'
+import { emitter } from './emitter'
 // import type { HistoryController } from './history'
 
 export class VirtualNode<A extends Record<string, any>> {
   id = nanoid()
   parent: VirtualNode<A> | null
   children: VirtualNode<A>[] = []
-  timeout = 800
-  doc?: VirtualDocument<A>
   attrs: A
-  level: number
+  emitter = emitter
   constructor(initAttrs?: A,
   ) {
     this.attrs = initAttrs || {} as any
@@ -22,12 +20,6 @@ export class VirtualNode<A extends Record<string, any>> {
 
   get index() {
     return this.parent?.children.findIndex(node => node.id === this.id)
-  }
-
-  bind(doc: VirtualDocument<A>) {
-    this.doc = doc
-    if (this.doc.controller)
-      this.doc.controller.create(this.id, this.attrs)
   }
 
   setAttributes(values: Record<keyof A, A[keyof A]>) {
@@ -47,18 +39,24 @@ export class VirtualNode<A extends Record<string, any>> {
         * 外部调用
         */
   public set(path: string, value: any) {
-    // if (this.attrs[key] === value)
-    //   return
+    const oldValue = get(this.attrs, path)
+    if (get(this.attrs, path) === value)
+      return
+
+    this.emitter.emit('set', {
+      node: this,
+      path,
+      value,
+      oldValue,
+    })
 
     this._set(path, value)
-    this.doc?.controller?.set(this.id, path as string, value)
   }
 
   /**
         * 仅被HC调用
         */
   _set(path: string, value: any) {
-    this.doc?.emit('set', { node: this, path, value })
     set(this.attrs, path, value)
   }
 
@@ -70,45 +68,34 @@ export class VirtualNode<A extends Record<string, any>> {
 
     this._insert(node, index)
 
-    if (this.doc?.controller)
-      this.doc.controller.insert(this.id, node.id, index)
+    this.emitter.emit('insert', {
+      node,
+      parent: this,
+      index,
+    })
   }
 
   _insert(node: VirtualNode<A>, index: number) {
     node.parent = this
 
-    node.level = this.level + 1
-
     this.children.splice(index, 0, node)
-    this.doc?.emit('insert', { parent: this, child: node, index })
   }
 
   public remove(index: number) {
     const node = this._remove(index)
 
-    if (node)
-      this.doc?.controller.delete(this.id, node.id, index)
-  }
-
-  _removeNode(node: VirtualNode<any>) {
-    this.children.splice(this.children.findIndex(item => item.id === node.id), 1)
+    if (node) {
+      this.emitter.emit('remove', {
+        node,
+        parent: this,
+        index,
+      })
+    }
   }
 
   _remove(index: number) {
     const removeBlock = this.children.splice(index, 1)[0]
-    const { doc } = this
-    function traverse(node: VirtualNode<any>) {
-      if (!node)
-        return
-      node.level = undefined as any
 
-      doc?.blockMap.delete(node.id)
-      node.parent = null
-      node.children.forEach(traverse)
-      doc?.emit('remove', { node })
-    }
-
-    traverse(removeBlock)
     return removeBlock
   }
 
@@ -120,20 +107,5 @@ export class VirtualNode<A extends Record<string, any>> {
       if (VirtualNode.findById(id))
         return VirtualNode.findById(id)
     }
-  }
-
-  // 是否含有某block
-  contains(VirtualNode: VirtualNode<A>) {
-    return this.id === VirtualNode.id || !!this.findById(VirtualNode.id)
-  }
-
-  findByAttrs(filter: (params: A) => boolean | void): VirtualNode<A>[] {
-    const blocks = [] as VirtualNode<A>[]
-    for (const VirtualNode of this.children) {
-      if (filter(VirtualNode.attrs))
-        blocks.push(VirtualNode)
-      blocks.push(...VirtualNode.findByAttrs(filter))
-    }
-    return blocks
   }
 }

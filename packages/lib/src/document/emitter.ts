@@ -17,3 +17,5 @@ export class Emitter {
     this.record[event].delete(cb)
   }
 }
+
+export const emitter = new Emitter()
