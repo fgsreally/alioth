@@ -1,17 +1,20 @@
 import { nanoid } from 'nanoid'
-import { clone, get, set } from 'lodash-es'
-import { emitter } from './emitter'
+import { clone, cloneDeep, get, set } from 'lodash-es'
+import { Emitter, emitter } from './emitter'
 // import type { HistoryController } from './history'
 
-export class VirtualNode<A extends Record<string, any>> {
-  id = nanoid()
+export class VirtualNode<A extends Record<string, any> = any> {
   parent: VirtualNode<A> | null
   children: VirtualNode<A>[] = []
   attrs: A
-  emitter = emitter
-  constructor(initAttrs?: A,
+  isRoot = false
+  protected oldAttrs: A
+  emitter: Emitter
+  constructor(initAttrs?: A, public id = nanoid(),
   ) {
     this.attrs = initAttrs || {} as any
+    this.emitter = new Emitter()
+    this.oldAttrs = cloneDeep(this.attrs)
   }
 
   get cloneChilds() {
@@ -35,11 +38,23 @@ export class VirtualNode<A extends Record<string, any>> {
     }
   }
 
+  load(data: NodeData) {
+    this.attrs = data.attrs
+    this.oldAttrs = cloneDeep(this.attrs)
+    this.id = data.id
+    data.children.forEach((d) => {
+      const node = new VirtualNode()
+      node.parent = this
+      node.emitter = this.emitter
+      this.children.push(node)
+      node.load(d)
+    })
+  }
+
   /**
         * 外部调用
         */
   public set(path: string, value: any) {
-    const oldValue = get(this.attrs, path)
     if (get(this.attrs, path) === value)
       return
 
@@ -47,26 +62,24 @@ export class VirtualNode<A extends Record<string, any>> {
       node: this,
       path,
       value,
-      oldValue,
+      oldValue: get(this.oldAttrs, path),
     })
 
     this._set(path, value)
   }
 
-  /**
-        * 仅被HC调用
-        */
   _set(path: string, value: any) {
+    set(this.oldAttrs, path, value)
+
     set(this.attrs, path, value)
   }
 
   // 在父block的children中的位置
 
   public insert(node: VirtualNode<A>, index?: number) {
-    if ((!index) && index !== 0)
-      index = this.children.length
-
     this._insert(node, index)
+    if (!this.parent && !this.isRoot)
+      return
 
     this.emitter.emit('insert', {
       node,
@@ -75,21 +88,24 @@ export class VirtualNode<A extends Record<string, any>> {
     })
   }
 
-  _insert(node: VirtualNode<A>, index: number) {
+  _insert(node: VirtualNode<A>, index?: number) {
+    if ((!index) && index !== 0)
+      index = this.children.length
     node.parent = this
-
+    node.emitter = this.emitter
     this.children.splice(index, 0, node)
   }
 
-  public remove(index: number) {
-    const node = this._remove(index)
+  public remove(node: VirtualNode<A>) {
+    const index = this.children.findIndex(item => item.id === node.id)
 
-    if (node) {
+    if (index >= 0) {
       this.emitter.emit('remove', {
         node,
         parent: this,
         index,
       })
+      this._remove(index)
     }
   }
 
@@ -101,11 +117,52 @@ export class VirtualNode<A extends Record<string, any>> {
 
   // 从子block中寻找
   findById(id: string): VirtualNode<A> | void {
-    for (const VirtualNode of this.children) {
-      if (VirtualNode.id === id)
-        return VirtualNode
-      if (VirtualNode.findById(id))
-        return VirtualNode.findById(id)
+    if (id === this.id)
+      return this
+
+    for (const n of this.children) {
+      const node = n.findById(id)
+      if (node)
+        return node
     }
   }
+
+  clone() {
+    const cloneNode = new VirtualNode(cloneDeep(this.attrs), this.id)
+    cloneNode.children = this.children.map((item) => {
+      const child = item.clone()
+      child.parent = cloneNode
+      child.emitter = cloneNode.emitter
+      return child
+    })
+    return cloneNode
+  }
+
+  public swap(to: number) {
+    if (to < 0)
+      throw new Error('param "to" should gte 0')
+    const index = this.index!
+    if (index === to)
+      return
+
+    this.emitter.emit('swap', {
+      parent: this.parent,
+      from: index,
+      to,
+      node: this,
+    })
+    this._swap(index, to)
+  }
+
+  _swap(from: number, to: number) {
+    const children = this.parent!.children
+    children.splice(from, 1)
+    children.splice(to, 0, this)
+  }
+}
+
+export interface NodeData {
+  attrs: any
+  id: string
+  children: NodeData[]
 }
