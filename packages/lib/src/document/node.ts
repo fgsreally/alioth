@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
-import { clone, cloneDeep, get, set } from 'lodash-es'
-import { Emitter, emitter } from './emitter'
+import { clone, cloneDeep } from 'lodash-es'
+import { EventEmitter } from './emitter'
 // import type { HistoryController } from './history'
 
 export class VirtualNode<A extends Record<string, any> = any> {
@@ -8,12 +8,14 @@ export class VirtualNode<A extends Record<string, any> = any> {
   children: VirtualNode<A>[] = []
   attrs: A
   isRoot = false
+
+  protected eventEmitter: EventEmitter
   protected oldAttrs: A
-  emitter: Emitter
+
   constructor(initAttrs?: A, public id = nanoid(),
   ) {
     this.attrs = initAttrs || {} as any
-    this.emitter = new Emitter()
+
     this.oldAttrs = cloneDeep(this.attrs)
   }
 
@@ -25,10 +27,19 @@ export class VirtualNode<A extends Record<string, any> = any> {
     return this.parent?.children.findIndex(node => node.id === this.id)
   }
 
-  setAttributes(values: Record<keyof A, A[keyof A]>) {
-    for (const key in values)
-      this.set(key, values[key])
+  get emitter(): EventEmitter {
+    return this.eventEmitter || this.parent?.emitter
   }
+
+  root(isRoot = true) {
+    this.isRoot = isRoot
+    this.eventEmitter = new EventEmitter()
+  }
+
+  // setAttributes(values: Record<keyof A, A[keyof A]>) {
+  //   for (const key in values)
+  //     this.set(key, values[key])
+  // }
 
   toJSON(): any {
     return {
@@ -45,7 +56,6 @@ export class VirtualNode<A extends Record<string, any> = any> {
     data.children.forEach((d) => {
       const node = new VirtualNode()
       node.parent = this
-      node.emitter = this.emitter
       this.children.push(node)
       node.load(d)
     })
@@ -54,24 +64,24 @@ export class VirtualNode<A extends Record<string, any> = any> {
   /**
         * 外部调用
         */
-  public set(path: string, value: any) {
-    if (get(this.attrs, path) === value)
+  public set<K extends keyof A>(key: K, value: A[K]) {
+    if (this.attrs[key] === value)
       return
 
     this.emitter.emit('set', {
       node: this,
-      path,
+      key,
       value,
-      oldValue: get(this.oldAttrs, path),
+      oldValue: this.oldAttrs[key],
     })
 
-    this._set(path, value)
+    this._set(key, value)
   }
 
-  _set(path: string, value: any) {
-    set(this.oldAttrs, path, value)
+  _set<K extends keyof A>(key: K, value: A[K]) {
+    this.oldAttrs[key] = cloneDeep(value)
 
-    set(this.attrs, path, value)
+    this.attrs[key] = value
   }
 
   // 在父block的children中的位置
@@ -92,7 +102,7 @@ export class VirtualNode<A extends Record<string, any> = any> {
     if ((!index) && index !== 0)
       index = this.children.length
     node.parent = this
-    node.emitter = this.emitter
+
     this.children.splice(index, 0, node)
   }
 
@@ -127,17 +137,6 @@ export class VirtualNode<A extends Record<string, any> = any> {
     }
   }
 
-  clone() {
-    const cloneNode = new VirtualNode(cloneDeep(this.attrs), this.id)
-    cloneNode.children = this.children.map((item) => {
-      const child = item.clone()
-      child.parent = cloneNode
-      child.emitter = cloneNode.emitter
-      return child
-    })
-    return cloneNode
-  }
-
   public swap(to: number) {
     if (to < 0)
       throw new Error('param "to" should gte 0')
@@ -158,6 +157,26 @@ export class VirtualNode<A extends Record<string, any> = any> {
     const children = this.parent!.children
     children.splice(from, 1)
     children.splice(to, 0, this)
+  }
+
+  clone() {
+    const cloneNode = new VirtualNode(cloneDeep(this.attrs), this.id)
+    cloneNode.children = this.children.map((item) => {
+      const child = item.clone()
+      child.parent = cloneNode
+      return child
+    })
+    return cloneNode
+  }
+
+  copy() {
+    const cloneNode = new VirtualNode(cloneDeep(this.attrs))
+    cloneNode.children = this.children.map((item) => {
+      const child = item.copy()
+      child.parent = cloneNode
+      return child
+    })
+    return cloneNode
   }
 }
 

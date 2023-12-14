@@ -21,14 +21,14 @@ export class EventModel extends BaseEventModel {
       },
 
       execute() {
-        const { doc } = useR(DocModel)
+        const { controller } = useR(DocModel)
 
         return {
           undo() {
-            doc.controller.undo()
+            controller.undo()
           },
           redo() {
-            doc.controller.redo()
+            controller.redo()
           },
         }
       },

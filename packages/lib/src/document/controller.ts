@@ -1,79 +1,8 @@
 // import { Doc, UndoManager, Array as YArray, Map as YMap } from 'yjs'
 
 import { nanoid } from 'nanoid'
-import { cloneDeep, isEqual, set } from 'lodash-es'
+import { cloneDeep, isEqual } from 'lodash-es'
 import { VirtualNode } from './node'
-
-// export class Controller<MapType = any> {
-//   ydoc = new Doc()
-//   manager: UndoManager
-//   map: YMap<MapType>
-//   // origin = 'a-c'// alioth-controller
-//   constructor(public options: ConstructorParameters<typeof UndoManager>[1] = {}) {
-//     this.map = this.ydoc.getMap('nodes')
-//     this.manager = new UndoManager(this.map, this.options)
-//   }
-
-//   toJSON() {
-//     return this.map.toJSON()
-//   }
-
-//   undo() {
-//     this.manager.undo()
-//   }
-
-//   redo() {
-//     this.manager.redo()
-//   }
-
-//   create(id: string, data: any) {
-//     this.ydoc.transact(() => {
-//       const map = traverse({ ...data, id, _is_node: true })
-//       // new YMap(Object.entries({ ...data, id, children: new YArray(), _is_node: true }))
-//       map.set('children', new YArray())
-//       this.map.set(id, map as any)
-//     })
-//   }
-
-//   insert(parent: string, child: string, index: number) {
-//     const arr = (this.map.get(parent) as any).get('children')
-//     arr.insert(index, [child])
-//   }
-
-//   delete(parent: string, child: string, index: number) {
-//     const arr = (this.map.get(parent) as any).get('children') as YArray<string>
-
-//     arr.delete(index, 1)
-//     this.map.delete(child)
-//   }
-
-//   set(id: string, path: string, value: any) {
-//     const map = this.map.get(id) as any
-//     const paths = path.split('.')
-//     let structure = map
-//     const key = paths.pop()
-
-//     paths.forEach((p) => {
-//       structure = structure.get(p)
-//     })
-
-//     structure.set(key, traverse(value))
-//   }
-// }
-
-// function traverse(value: any): any {
-//   if (Array.isArray(value))
-//     return YArray.from(value.map(traverse))
-
-//   if (typeof value === 'object') {
-//     const obj = {} as any
-//     for (const i in value)
-//       obj[i] = traverse(value[i])
-
-//     return new YMap(Object.entries(obj))
-//   }
-//   return value
-// }
 
 interface Options {
   length: number
@@ -131,10 +60,10 @@ export class Controller {
       })
     })
 
-    node.emitter.on('set', ({ node, path, value, oldValue }: any) => {
+    node.emitter.on('set', ({ node, key, value, oldValue }: any) => {
       this.redoStack = []
       this.addEvent({
-        path,
+        key,
         value: cloneDeep(value),
         type: 'set',
         oldValue: cloneDeep(oldValue),
@@ -149,7 +78,6 @@ export class Controller {
   }
 
   addEvent(event: NodeEvent, stack: 'undoStack' | 'redoStack' = 'undoStack') {
-    console.log(event)
     if (this[stack].length >= this.options.length)
       this[stack].shift()
 
@@ -159,52 +87,32 @@ export class Controller {
 
   undo() {
     const event = this.undoStack.pop()
+    if (event) {
+      const { event: newEvent, isWork } = this.handleUndoEvent(event)
 
-    if (event)
+      this.addEvent(newEvent, 'redoStack')
+      return isWork
+    }
 
-      this.addEvent(this.handleUndoEvent(event), 'redoStack')
-
-    return !!event
+    return false
   }
 
   redo() {
     const event = this.redoStack.pop()
-    if (event)
-      this.addEvent(this.handleUndoEvent(event), 'undoStack')
-    return !!event
+    if (event) {
+      const { event: newEvent, isWork } = this.handleUndoEvent(event)
+
+      this.addEvent(newEvent, 'undoStack')
+      return isWork
+    }
+    return false
   }
 
   applyEvent(event: NodeEvent) {
-    if (event.type === 'insert') {
-      const parentNode = this.node.findById(event.parent)!
-      const newNode = new VirtualNode(event.attrs)
-      newNode.id = event.nodeId
-      parentNode._insert(newNode, event.index)
-      event.children.forEach((r) => {
-        insertToNode(newNode, r)
-      })
-      return
-    }
-
-    if (event.type === 'remove') {
-      const parentNode = this.node.findById(event.parent)!
-
-      parentNode._remove(parentNode.findById(event.nodeId)!.index!)
-      return
-    }
-    if (event.type === 'swap') {
-      const node = this.node.findById(event.nodeId)!
-      node._swap(node.index!, event.to)
-      return
-    }
-
-    if (event.type === 'set') {
-      const node = this.node.findById(event.nodeId)!
-      node._set(event.path, event.value)
-    }
+    return applyEventToNode(this.node, event)
   }
 
-  handleUndoEvent(event: NodeEvent): NodeEvent {
+  handleUndoEvent(event: NodeEvent) {
     switch (event.type) {
       case 'insert':
         event = {
@@ -244,15 +152,61 @@ export class Controller {
           type: 'set',
           eventId: event.eventId,
           nodeId: event.nodeId,
-          path: event.path,
+          key: event.key,
           value: event.oldValue,
           oldValue: event.value,
 
         }
     }
 
-    this.applyEvent(event)
-    return event
+    return {
+      isWork: this.applyEvent(event)!,
+      event,
+    }
+  }
+}
+
+export function applyEventToNode(node: VirtualNode, event: NodeEvent) {
+  if (event.type === 'insert') {
+    const parentNode = node.findById(event.parent)
+    if (!parentNode)
+      return false
+
+    const newNode = new VirtualNode(event.attrs, event.nodeId)
+    parentNode._insert(newNode, event.index)
+    event.children.forEach((r) => {
+      insertToNode(newNode, r)
+    })
+    return true
+  }
+
+  if (event.type === 'remove') {
+    const parentNode = node.findById(event.parent)!
+    if (!parentNode)
+      return false
+    const newNode = parentNode.findById(event.nodeId)
+    if (!newNode)
+      return false
+    parentNode._remove(newNode.index!)
+    return true
+  }
+  if (event.type === 'swap') {
+    const newNode = node.findById(event.nodeId)
+    if (!newNode)
+      return false
+
+    newNode._swap(node.index!, event.to)
+    return true
+  }
+
+  if (event.type === 'set') {
+    const newNode = node.findById(event.nodeId)
+    if (!newNode)
+      return false
+
+    newNode._set(event.key, event.value)
+
+    return true
   }
 }
 
@@ -299,7 +253,7 @@ export interface RemoveEvent extends BaseEvent {
 
 export interface SetEvent extends BaseEvent {
   type: 'set'
-  path: string
+  key: string
   oldValue: any
   value: any
 
@@ -307,7 +261,7 @@ export interface SetEvent extends BaseEvent {
 
 export type NodeEvent = SetEvent | InsertEvent | RemoveEvent | SwapEvent
 
-export function diff(node1: VirtualNode<any>, node2: VirtualNode<any>): NodeEvent[] {
+export function diff(node1: VirtualNode, node2: VirtualNode): NodeEvent[] {
   const events = [] as NodeEvent[]
   const oldNodes1 = [] as VirtualNode[]
   const oldNodes2 = [] as VirtualNode[]
@@ -366,7 +320,7 @@ export function diff(node1: VirtualNode<any>, node2: VirtualNode<any>): NodeEven
           nodeId: n.id,
           eventId: nanoid(),
           type: 'set',
-          path: key,
+          key,
           oldValue: n.attrs[key],
           value: n2.attrs[key],
         })
@@ -376,4 +330,27 @@ export function diff(node1: VirtualNode<any>, node2: VirtualNode<any>): NodeEven
   })
 
   return events
+}
+
+export function merge(commit: VirtualNode, branch1: VirtualNode, branch2: VirtualNode) {
+  if (!(commit.id === branch1.id && branch1.id === branch2.id))
+    throw new Error('node id must be the same in merging')
+  const diffEvents = diff(commit, branch2)
+  const conflict = [] as NodeEvent[]
+
+  diffEvents.forEach((e) => {
+    if (e.type === 'set') {
+      const node = branch1.findById(e.eventId)
+      if (node && node.attrs[e.key] !== e.value) {
+        conflict.push(e)
+
+        return
+      }
+    }
+
+    if (!applyEventToNode(branch1, e))
+      conflict.push(e)
+  })
+
+  return conflict
 }

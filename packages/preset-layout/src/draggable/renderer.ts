@@ -19,8 +19,8 @@ export class Renderer extends BaseRenderer<any> {
     }
     const { filter } = createFilter(this.scope.data)
 
-    const ret = filter(cloneDeep(this.node.attrs.propsData))
-    if (this.mode === 'render' && this.node.attrs.propsData && 'modelValue' in this.node.attrs.propsData) {
+    const ret = filter(cloneDeep(this.node.attrs))
+    if (this.mode === 'render' && 'modelValue' in this.node.attrs) {
       (this._vnode = h(
         component,
         {

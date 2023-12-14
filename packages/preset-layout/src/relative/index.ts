@@ -36,7 +36,7 @@ export const container = {
   alioth: 'widget',
   data: {
     key: 'page',
-    category: '',
+    mode: 'default',
     component,
   },
 }

@@ -1,24 +1,22 @@
 import { Global, Init, Tag } from 'phecda-core'
 import type { NodeData } from '../document'
-import { VirtualNode } from '../document'
+import { Controller, VirtualNode } from '../document'
 
 @Global
 @Tag('doc')
 export class BaseDocModel<T extends Record<string, any>> {
   activeId: string
   root: VirtualNode<T>
-
+  controller: Controller
   selectNode: VirtualNode<T> | undefined
-
   hoverNode: VirtualNode<T> | undefined
-
-  activePage: VirtualNode<T>
+  activePage: VirtualNode<T> | undefined
 
   constructor() {
-    this.root = new VirtualNode()
-    this.root.isRoot = true
-
-    this.activePage = this.addPage()
+    this.root = new VirtualNode({} as any, '0')
+    this.root.root()
+    this.controller = new Controller(this.root)
+    // this.activePage = this.addPage()
   }
 
   @Init
@@ -45,7 +43,7 @@ export class BaseDocModel<T extends Record<string, any>> {
   }
 
   addPage() {
-    const newNode = new VirtualNode()
+    const newNode = new VirtualNode({ key: 'page' } as any)
 
     this.root.insert(newNode)
     return newNode

@@ -2,24 +2,22 @@
 import { emitter, useV } from 'phecda-vue'
 import draggable from 'vuedraggable-es'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { VirtualNode } from 'alioth-vue'
 
-const { doc, activePage } = useV(__PHECDA__.doc)
+const { activePage } = useV(__PHECDA__.doc)
 const { hoverNode, selectNode } = useV(__PHECDA__.selection)
 
 const drag = ref(false)
 function addBlock(module: any) {
   const { key, label, meta } = module
   const parent = hoverNode.value || activePage.value!
-  const block = doc.value.createNode(Object.assign({
+  const node = new VirtualNode(Object.assign({
     slot: 'default',
     key,
     label,
-    propsData: {
-    },
 
   }, meta?.init || {}))
-  parent.insert(block)
-  emitter.emit('alioth:node-action', null)
+  parent.insert(node)
 }
 const dom = ref<HTMLElement>(null as any)
 

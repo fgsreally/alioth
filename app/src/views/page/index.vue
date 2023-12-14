@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useV } from 'phecda-vue'
 import { DocModel } from '@/models/doc'
-const { remove, doc, add, switchPage, activeId, pages } = $(useV(DocModel))
+const { remove, doc, addPage, switchPage, activeId, pages } = $(useV(DocModel))
 </script>
 
 <template>
@@ -28,7 +28,7 @@ const { remove, doc, add, switchPage, activeId, pages } = $(useV(DocModel))
     <div
 
       i-lucide-plus-square hover:color-p cursor-pointer
-      @click="add()"
+      @click="addPage()"
     />
   </section>
 </template>
