@@ -28,6 +28,7 @@ export class VirtualNode<A extends Record<string, any> = any> {
   }
 
   get emitter(): EventEmitter {
+    console.log(this.attrs, this.eventEmitter)
     return this.eventEmitter || this.parent?.emitter
   }
 
@@ -35,11 +36,6 @@ export class VirtualNode<A extends Record<string, any> = any> {
     this.isRoot = isRoot
     this.eventEmitter = new EventEmitter()
   }
-
-  // setAttributes(values: Record<keyof A, A[keyof A]>) {
-  //   for (const key in values)
-  //     this.set(key, values[key])
-  // }
 
   toJSON(): any {
     return {
@@ -137,21 +133,21 @@ export class VirtualNode<A extends Record<string, any> = any> {
     }
   }
 
-  public swap(to: number) {
-    if (to < 0)
-      throw new Error('param "to" should gte 0')
-    const index = this.index!
-    if (index === to)
-      return
+  // public swap(to: number) {
+  //   if (to < 0)
+  //     throw new Error('param "to" should gte 0')
+  //   const index = this.index!
+  //   if (index === to)
+  //     return
 
-    this.emitter.emit('swap', {
-      parent: this.parent,
-      from: index,
-      to,
-      node: this,
-    })
-    this._swap(index, to)
-  }
+  //   this.emitter.emit('swap', {
+  //     parent: this.parent,
+  //     from: index,
+  //     to,
+  //     node: this,
+  //   })
+  //   this._swap(index, to)
+  // }
 
   _swap(from: number, to: number) {
     const children = this.parent!.children
@@ -169,15 +165,15 @@ export class VirtualNode<A extends Record<string, any> = any> {
     return cloneNode
   }
 
-  copy() {
-    const cloneNode = new VirtualNode(cloneDeep(this.attrs))
-    cloneNode.children = this.children.map((item) => {
-      const child = item.copy()
-      child.parent = cloneNode
-      return child
-    })
-    return cloneNode
-  }
+  // copy() {
+  //   const cloneNode = new VirtualNode(cloneDeep(this.attrs))
+  //   cloneNode.children = this.children.map((item) => {
+  //     const child = item.copy()
+  //     child.parent = cloneNode
+  //     return child
+  //   })
+  //   return cloneNode
+  // }
 }
 
 export interface NodeData {

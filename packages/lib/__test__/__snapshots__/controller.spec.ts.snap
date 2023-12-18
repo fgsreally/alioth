@@ -1,0 +1,55 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`controller > diff 1`] = `
+[
+  {
+    "key": "test",
+    "nodeId": "2",
+    "oldValue": "test1",
+    "type": "set",
+    "value": "test3",
+  },
+  {
+    "attrs": {
+      "test": "d",
+    },
+    "children": [],
+    "index": 0,
+    "nodeId": "4",
+    "parent": "2",
+    "type": "insert",
+  },
+]
+`;
+
+exports[`controller > diff 2`] = `
+[
+  {
+    "attrs": {
+      "test": "c",
+    },
+    "children": [],
+    "index": 1,
+    "nodeId": "3",
+    "parent": "1",
+    "type": "remove",
+  },
+  {
+    "key": "test",
+    "nodeId": "2",
+    "oldValue": "test1",
+    "type": "set",
+    "value": "test3",
+  },
+  {
+    "attrs": {
+      "test": "d",
+    },
+    "children": [],
+    "index": 0,
+    "nodeId": "4",
+    "parent": "2",
+    "type": "insert",
+  },
+]
+`;

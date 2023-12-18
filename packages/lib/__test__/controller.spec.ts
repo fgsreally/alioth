@@ -17,14 +17,8 @@ describe('controller', () => {
 
     child1.remove(child3)
 
-    child1.swap(1)
-
     // stack length
-    expect(c.undoStack.length).toBe(5)
-
-    expect(child1.index).toBe(1)
-    c.undo()
-    expect(child1.index).toBe(0)
+    expect(c.undoStack.length).toBe(4)
 
     expect(child1.children.length).toBe(0)
     c.undo()
@@ -38,7 +32,7 @@ describe('controller', () => {
     c.undo()
     expect(node.children.length).toBe(1)
 
-    expect(c.redoStack.length).toBe(4)
+    expect(c.redoStack.length).toBe(3)
 
     c.redo()
     expect(node.children.length).toBe(2)
@@ -51,16 +45,15 @@ describe('controller', () => {
 
     c.redo()
 
-    expect(child1.index).toBe(1)
     expect(c.redoStack.length).toBe(0)
   })
 
   it('diff', () => {
     const cloneNode = node.clone()
+    cloneNode.root()
+
     cloneNode.children[0].insert(child3)
     cloneNode.children[0].set('test', 'test3')
-
-    cloneNode.children[0].swap(1)
 
     const event1 = diff(node, cloneNode)
     expect(event1.map((item) => {
@@ -111,5 +104,28 @@ describe('controller', () => {
     expect(node1.children.length).toBe(0)
     c2.undo()
     expect(node1.children.length).toBe(1)
+  })
+
+  it('transact', () => {
+    const root = new VirtualNode({ test: 'a' }, '1')
+    const child = new VirtualNode({ test: 'b' }, '2')
+
+    root.root()
+    const c = new Controller(root)
+
+    c.transact(() => {
+      root.set('test', 'c')
+      root.insert(child)
+    })
+
+    c.undo()
+
+    expect(root.children.length).toBe(0)
+    expect(root.attrs.test).toBe('a')
+
+    c.redo()
+
+    expect(root.children.length).toBe(1)
+    expect(root.attrs.test).toBe('c')
   })
 })

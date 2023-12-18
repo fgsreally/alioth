@@ -20,6 +20,8 @@ export class Controller {
   options: Options
   undoStack: NodeEvent[] = []
   redoStack: NodeEvent[] = []
+
+  currentEventId: string | undefined
   constructor(protected node: VirtualNode<any>, options: Partial<Options> = {}) {
     this.options = {
       length: 300,
@@ -33,7 +35,7 @@ export class Controller {
         parent: parent.id,
         type: 'insert',
         index,
-        eventId: nanoid(),
+        eventId: this.currentEventId || nanoid(),
       })
     })
 
@@ -45,7 +47,7 @@ export class Controller {
         from,
         to,
         nodeId: node.id,
-        eventId: nanoid(),
+        eventId: this.currentEventId || nanoid(),
       })
     })
 
@@ -56,7 +58,7 @@ export class Controller {
         parent: parent.id,
         type: 'remove',
         index,
-        eventId: nanoid(),
+        eventId: this.currentEventId || nanoid(),
       })
     })
 
@@ -68,13 +70,19 @@ export class Controller {
         type: 'set',
         oldValue: cloneDeep(oldValue),
         nodeId: node.id,
-        eventId: nanoid(),
+        eventId: this.currentEventId || nanoid(),
       })
     })
   }
 
   bridge(_event: NodeEvent) {
 
+  }
+
+  transact(cb: () => void) {
+    this.currentEventId = nanoid()
+    cb()
+    this.currentEventId = undefined
   }
 
   addEvent(event: NodeEvent, stack: 'undoStack' | 'redoStack' = 'undoStack') {
@@ -91,6 +99,10 @@ export class Controller {
       const { event: newEvent, isWork } = this.handleUndoEvent(event)
 
       this.addEvent(newEvent, 'redoStack')
+
+      if (this.undoStack[this.undoStack.length - 1]?.eventId === event.eventId)
+        this.undo()
+
       return isWork
     }
 
@@ -103,6 +115,9 @@ export class Controller {
       const { event: newEvent, isWork } = this.handleUndoEvent(event)
 
       this.addEvent(newEvent, 'undoStack')
+      if (this.undoStack[this.redoStack.length - 1]?.eventId === event.eventId)
+        this.redo()
+
       return isWork
     }
     return false
@@ -182,9 +197,11 @@ export function applyEventToNode(node: VirtualNode, event: NodeEvent) {
 
   if (event.type === 'remove') {
     const parentNode = node.findById(event.parent)!
+
     if (!parentNode)
       return false
     const newNode = parentNode.findById(event.nodeId)
+
     if (!newNode)
       return false
     parentNode._remove(newNode.index!)
@@ -256,7 +273,6 @@ export interface SetEvent extends BaseEvent {
   key: string
   oldValue: any
   value: any
-
 }
 
 export type NodeEvent = SetEvent | InsertEvent | RemoveEvent | SwapEvent
