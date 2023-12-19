@@ -28,7 +28,6 @@ export class VirtualNode<A extends Record<string, any> = any> {
   }
 
   get emitter(): EventEmitter {
-    console.log(this.attrs, this.eventEmitter)
     return this.eventEmitter || this.parent?.emitter
   }
 
@@ -61,9 +60,6 @@ export class VirtualNode<A extends Record<string, any> = any> {
         * 外部调用
         */
   public set<K extends keyof A>(key: K, value: A[K]) {
-    if (this.attrs[key] === value)
-      return
-
     this.emitter.emit('set', {
       node: this,
       key,

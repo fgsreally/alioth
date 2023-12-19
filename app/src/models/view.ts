@@ -69,22 +69,22 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any,
 
   zones = [
 
-    {
-      component: 'Property',
-      label: '组件property',
-      name: 'Property',
-      isActive: () => {
-        return !!useR(SelectionModel).selectNode
-      },
-      props: {
-        x: 600,
-        y: 600,
-        transition: 'left',
-        hidden: false,
-        type: 'props',
-      },
+    // {
+    //   component: 'Property',
+    //   label: '组件property',
+    //   name: 'Property',
+    //   isActive: () => {
+    //     return !!useR(SelectionModel).selectNode
+    //   },
+    //   props: {
+    //     x: 600,
+    //     y: 600,
+    //     transition: 'left',
+    //     hidden: false,
+    //     type: 'props',
+    //   },
 
-    },
+    // },
     {
       component: 'Terminal',
       label: '终端',
@@ -112,22 +112,22 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any,
 
     },
 
-    {
-      component: 'Property',
-      label: '事件',
-      name: 'Event',
-      isActive: () => {
-        return !!useR(SelectionModel).selectNode
-      },
-      props: {
-        type: 'events',
-        x: 600,
-        y: 600,
-        transition: 'left',
-        hidden: false,
-      },
+    // {
+    //   component: 'Property',
+    //   label: '事件',
+    //   name: 'Event',
+    //   isActive: () => {
+    //     return !!useR(SelectionModel).selectNode
+    //   },
+    //   props: {
+    //     type: 'events',
+    //     x: 600,
+    //     y: 600,
+    //     transition: 'left',
+    //     hidden: false,
+    //   },
 
-    },
+    // },
     {
       component: 'ImportList',
       label: '引入',

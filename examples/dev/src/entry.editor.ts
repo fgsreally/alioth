@@ -1,7 +1,9 @@
 // import { useR } from 'phecda-vue'
 // import type { AliothEvent, AliothNodeEvent } from 'alioth-vue'
 import 'alioth-preset-elementplus/dist/style.css'
-
+import type { AliothView, AliothZone } from 'alioth-vue'
+import { useR } from 'phecda-vue'
+import TestVue from './Test.vue'
 // import 'alioth-preset-elementplus/dist/style.css'
 
 // engine should be exported before all widgets,so it starts with '_'
@@ -54,3 +56,30 @@ import 'alioth-preset-elementplus/dist/style.css'
 
 export { widget_btn, widget_input, widget_time_picker } from 'alioth-preset-elementplus'
 export { container, engine } from 'alioth-preset-layout/draggable/index.ts'
+
+export const zone_test: AliothZone = {
+  alioth: 'zone',
+  data: {
+    component: 'test',
+    label: '事件',
+    name: 'Event',
+    isActive: () => {
+      return !!useR(__PHECDA__.selection).selectNode
+    },
+    props: {
+      type: 'events',
+      x: 600,
+      y: 600,
+      transition: 'left',
+      hidden: false,
+    },
+  },
+}
+
+export const view_test: AliothView = {
+  alioth: 'view',
+  data: {
+    component: TestVue,
+    key: 'test',
+  },
+}
