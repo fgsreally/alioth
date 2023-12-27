@@ -1,55 +1,51 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`controller > diff 1`] = `
-[
-  {
-    "key": "test",
-    "nodeId": "2",
-    "oldValue": "test1",
-    "type": "set",
-    "value": "test3",
-  },
-  {
-    "attrs": {
-      "test": "d",
+{
+  "insertRecords": [
+    {
+      "attrs": {
+        "id": "5",
+      },
+      "index": 0.5,
+      "nodeId": "5",
+      "parentId": "1",
     },
-    "children": [],
-    "index": 0,
-    "nodeId": "4",
-    "parent": "2",
-    "type": "insert",
-  },
-]
-`;
-
-exports[`controller > diff 2`] = `
-[
-  {
-    "attrs": {
-      "test": "c",
+  ],
+  "removeRecords": [
+    {
+      "attrs": {
+        "id": "3",
+      },
+      "index": 0.125,
+      "nodeId": "3",
+      "parentId": "root",
     },
-    "children": [],
-    "index": 1,
-    "nodeId": "3",
-    "parent": "1",
-    "type": "remove",
-  },
-  {
-    "key": "test",
-    "nodeId": "2",
-    "oldValue": "test1",
-    "type": "set",
-    "value": "test3",
-  },
-  {
-    "attrs": {
-      "test": "d",
+    {
+      "attrs": {
+        "id": "4",
+      },
+      "index": 0.5,
+      "nodeId": "4",
+      "parentId": "3",
     },
-    "children": [],
-    "index": 0,
-    "nodeId": "4",
-    "parent": "2",
-    "type": "insert",
-  },
-]
+  ],
+  "setRecords": [
+    {
+      "key": "id",
+      "nodeId": "1",
+      "oldValue": "1",
+      "value": "test1",
+    },
+  ],
+  "swapRecords": [
+    {
+      "index": 0.25,
+      "lastIndex": 0.25,
+      "lastParentId": "root",
+      "nodeId": "2",
+      "parentId": "1",
+    },
+  ],
+}
 `;

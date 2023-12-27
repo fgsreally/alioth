@@ -1,19 +1,10 @@
-// import { Doc, UndoManager, Array as YArray, Map as YMap } from 'yjs'
-
 import { nanoid } from 'nanoid'
 import { cloneDeep, isEqual } from 'lodash-es'
-import { VirtualNode } from './node'
+import { VirtualNode } from './document'
+import type { VirtualDocument } from './document'
 
 interface Options {
   length: number
-}
-
-function traverseNode(node: VirtualNode<any>): NodeRecord {
-  return {
-    nodeId: node.id,
-    attrs: cloneDeep(node.attrs),
-    children: node.children.map(n => traverseNode(n)),
-  }
 }
 
 export class Controller {
@@ -22,47 +13,58 @@ export class Controller {
   redoStack: NodeEvent[] = []
 
   currentEventId: string | undefined
-  constructor(protected node: VirtualNode<any>, options: Partial<Options> = {}) {
+  constructor(protected doc: VirtualDocument<any>, options: Partial<Options> = {}) {
     this.options = {
       length: 300,
       ...options,
     }
 
-    node.emitter.on('insert', ({ node, parent, index }: any) => {
+    doc.on('insert', ({ node }: any) => {
       this.redoStack = []
       this.addEvent({
-        ...traverseNode(node),
-        parent: parent.id,
+        records: doc.flat(node).map(({ attrs, id, parent, index }) => {
+          return {
+            attrs,
+            parentId: parent,
+            index,
+            nodeId: id,
+          }
+        }),
         type: 'insert',
-        index,
         eventId: this.currentEventId || nanoid(),
       })
     })
 
-    node.emitter.on('swap', ({ node, from, to, parent }: any) => {
+    doc.on('swap', ({ node, lastParentId, lastIndex }: any) => {
       this.redoStack = []
       this.addEvent({
-        parent: parent.id,
+        parentId: node.parent,
         type: 'swap',
-        from,
-        to,
+        lastParentId,
+        index: node.index,
+        lastIndex,
         nodeId: node.id,
         eventId: this.currentEventId || nanoid(),
       })
     })
 
-    node.emitter.on('remove', ({ node, parent, index }: any) => {
+    doc.on('remove', ({ node }: any) => {
       this.redoStack = []
       this.addEvent({
-        ...traverseNode(node),
-        parent: parent.id,
         type: 'remove',
-        index,
         eventId: this.currentEventId || nanoid(),
+        records: doc.flat(node).map(({ attrs, id, parent, index }) => {
+          return {
+            attrs,
+            parentId: parent,
+            index,
+            nodeId: id,
+          }
+        }),
       })
     })
 
-    node.emitter.on('set', ({ node, key, value, oldValue }: any) => {
+    doc.on('set', ({ node, key, value, oldValue }: any) => {
       this.redoStack = []
       this.addEvent({
         key,
@@ -95,6 +97,7 @@ export class Controller {
 
   undo() {
     const event = this.undoStack.pop()
+
     if (event) {
       const { event: newEvent, isWork } = this.handleUndoEvent(event)
 
@@ -124,7 +127,7 @@ export class Controller {
   }
 
   applyEvent(event: NodeEvent) {
-    return applyEventToNode(this.node, event)
+    return applyEventToNode(this.doc, event)
   }
 
   handleUndoEvent(event: NodeEvent) {
@@ -133,11 +136,7 @@ export class Controller {
         event = {
           type: 'remove',
           eventId: event.eventId,
-          parent: event.parent,
-          nodeId: event.nodeId,
-          children: event.children,
-          attrs: cloneDeep(event.attrs),
-          index: event.index,
+          records: event.records,
         }
         break
 
@@ -145,20 +144,17 @@ export class Controller {
         event = {
           type: 'insert',
           eventId: event.eventId,
-          parent: event.parent,
-          nodeId: event.nodeId,
-          children: event.children,
-          attrs: cloneDeep(event.attrs),
-          index: event.index,
+          records: event.records,
         }
         break
       case 'swap':
         event = {
           type: 'swap',
           eventId: event.eventId,
-          from: event.to,
-          to: event.from,
-          parent: event.parent,
+          index: event.lastIndex,
+          lastIndex: event.index,
+          lastParentId: event.parentId,
+          parentId: event.lastParentId,
           nodeId: event.nodeId,
         }
         break
@@ -181,95 +177,101 @@ export class Controller {
   }
 }
 
-export function applyEventToNode(node: VirtualNode, event: NodeEvent) {
+export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
   if (event.type === 'insert') {
-    const parentNode = node.findById(event.parent)
+    const parentNode = doc.findById(event.records[0].parentId)
+
     if (!parentNode)
       return false
 
-    const newNode = new VirtualNode(event.attrs, event.nodeId)
-    parentNode._insert(newNode, event.index)
-    event.children.forEach((r) => {
-      insertToNode(newNode, r)
+    event.records.forEach(({ attrs, nodeId, parentId, index }) => {
+      const node = new VirtualNode(attrs, nodeId)
+      node.parent = parentId
+      node.index = index
+      doc.nodeSet.add(node)
     })
+
     return true
   }
 
   if (event.type === 'remove') {
-    const parentNode = node.findById(event.parent)!
+    const parentNode = doc.findById(event.records[0].parentId)
 
     if (!parentNode)
       return false
-    const newNode = parentNode.findById(event.nodeId)
-
+    const newNode = doc.findById(event.records[0].nodeId)
     if (!newNode)
       return false
-    parentNode._remove(newNode.index!)
+
+    event.records.forEach(({ nodeId }) => {
+      const node = doc.findById(nodeId)!
+      node && doc.nodeSet.delete(node)
+    })
+
     return true
   }
   if (event.type === 'swap') {
-    const newNode = node.findById(event.nodeId)
-    if (!newNode)
+    const parentNode = doc.findById(event.parentId)!
+
+    const newNode = doc.findById(event.nodeId)
+    if (!newNode || !parentNode)
       return false
 
-    newNode._swap(node.index!, event.to)
+    newNode.parent = event.parentId
+    newNode.index = event.index
+
     return true
   }
 
   if (event.type === 'set') {
-    const newNode = node.findById(event.nodeId)
+    const newNode = doc.findById(event.nodeId)
     if (!newNode)
       return false
 
-    newNode._set(event.key, event.value)
+    newNode.attrs[event.key] = event.value
 
     return true
   }
 }
 
-function insertToNode(parent: VirtualNode<any>, record: NodeRecord) {
-  const newNode = new VirtualNode(record.attrs)
-  newNode.id = record.nodeId
-  parent._insert(newNode)
-  record.children.forEach(r => insertToNode(newNode, r))
-}
-
 interface BaseEvent {
-  nodeId: string
   eventId: string
 }
 
 interface NodeRecord {
-  attrs: any
   nodeId: string
-  children: NodeRecord[]
+  parentId: string
+  attrs: any
+  index: number
 }
 
 export interface SwapEvent extends BaseEvent {
   type: 'swap'
-  from: number
-  to: number
-  parent: string
+  nodeId: string
+
+  lastParentId: string
+  lastIndex: number
+  index: number
+  parentId: string
 }
 
 export interface InsertEvent extends BaseEvent {
   type: 'insert'
-  index: number
-  attrs: any
-  children: NodeRecord[]
-  parent: string
+
+  records: NodeRecord[]
+
 }
 
 export interface RemoveEvent extends BaseEvent {
   type: 'remove'
-  attrs: any
-  index: number
-  children: NodeRecord[]
-  parent: string
+
+  records: NodeRecord[]
 }
 
 export interface SetEvent extends BaseEvent {
   type: 'set'
+  nodeId: string
+
   key: string
   oldValue: any
   value: any
@@ -277,96 +279,190 @@ export interface SetEvent extends BaseEvent {
 
 export type NodeEvent = SetEvent | InsertEvent | RemoveEvent | SwapEvent
 
-export function diff(node1: VirtualNode, node2: VirtualNode): NodeEvent[] {
-  const events = [] as NodeEvent[]
-  const oldNodes1 = [] as VirtualNode[]
-  const oldNodes2 = [] as VirtualNode[]
-  if (node1.id !== node2.id)
-    throw new Error('node1 and node2 should have the same id to diff')
+// export function diff(nodes1: VirtualNode[], nodes2: VirtualNode[]): NodeEvent[] {
+//   const events = [] as NodeEvent[]
+//   const oldNodes1 = [] as VirtualNode[]
+//   const oldNodes2 = [] as VirtualNode[]
+//   if (node1.id !== node2.id)
+//     throw new Error('node1 and node2 should have the same id to diff')
 
-  for (const n of node1.children) {
-    const node = node2.children.find(item => item.id === n.id)
+//   for (const n of node1.children) {
+//     const node = node2.children.find(item => item.id === n.id)
+//     if (!node) {
+//       events.push({
+//         ...traverseNode(n),
+//         parentId: node1.id,
+//         type: 'remove',
+//         index: n.index,
+//         eventId: nanoid(),
+//       } as RemoveEvent)
+//     }
+//     else {
+//       oldNodes1.push(n)
+//     }
+//   }
+
+//   for (const n of node2.children) {
+//     const node = node1.children.find(item => item.id === n.id)
+
+//     if (!node) {
+//       events.push({
+//         ...traverseNode(n),
+//         parentId: node1.id,
+//         type: 'insert',
+//         index: n.index,
+//         eventId: nanoid(),
+//       } as InsertEvent)
+//     }
+//     else {
+//       oldNodes2.push(n)
+//     }
+//   }
+
+//   oldNodes1.forEach((n, i) => {
+//     const index = oldNodes2.findIndex(n2 => n2.id === n.id)!
+//     if (index !== i) {
+//       events.push({
+//         type: 'swap',
+//         from: i,
+//         to: index,
+//         nodeId: n.id,
+//         eventId: nanoid(),
+//         parentId: node1.id,
+//       })
+//     }
+//     const n2 = oldNodes2[index]
+//     for (const key in n.attrs) {
+//       if (!isEqual(n.attrs[key], n2.attrs[key])) {
+//         events.push({
+//           nodeId: n.id,
+//           eventId: nanoid(),
+//           type: 'set',
+//           key,
+//           oldValue: n.attrs[key],
+//           value: n2.attrs[key],
+//         })
+//       }
+//     }
+//     events.push(...diff(n, n2))
+//   })
+
+//   return events
+// }
+
+export function diff(nodes1: VirtualNode[], nodes2: VirtualNode[]) {
+  const removeRecords = [] as NodeRecord[]
+  const insertRecords = [] as NodeRecord[]
+  const swapRecords = [] as {
+    nodeId: string
+    lastParentId: string
+    lastIndex: number
+    index: number
+    parentId: string
+  }[]
+
+  const setRecords = [] as {
+    nodeId: string
+    key: string
+    oldValue: any
+    value: any
+  }[]
+
+  for (const n of nodes1) {
+    const node = nodes2.find(node => node.id === n.id)
     if (!node) {
-      events.push({
-        ...traverseNode(n),
-        parent: node1.id,
-        type: 'remove',
-        index: n.index,
-        eventId: nanoid(),
-      } as RemoveEvent)
-    }
-    else {
-      oldNodes1.push(n)
-    }
-  }
-
-  for (const n of node2.children) {
-    const node = node1.children.find(item => item.id === n.id)
-
-    if (!node) {
-      events.push({
-        ...traverseNode(n),
-        parent: node1.id,
-        type: 'insert',
-        index: n.index,
-        eventId: nanoid(),
-      } as InsertEvent)
-    }
-    else {
-      oldNodes2.push(n)
-    }
-  }
-
-  oldNodes1.forEach((n, i) => {
-    const index = oldNodes2.findIndex(n2 => n2.id === n.id)!
-    if (index !== i) {
-      events.push({
-        type: 'swap',
-        from: i,
-        to: index,
+      removeRecords.push({
         nodeId: n.id,
-        eventId: nanoid(),
-        parent: node1.id,
+        parentId: n.parent,
+        attrs: n.attrs,
+        index: n.index,
       })
     }
-    const n2 = oldNodes2[index]
-    for (const key in n.attrs) {
-      if (!isEqual(n.attrs[key], n2.attrs[key])) {
-        events.push({
+    else {
+      if (node.index !== n.index || node.parent !== n.parent) {
+        swapRecords.push({
           nodeId: n.id,
-          eventId: nanoid(),
-          type: 'set',
-          key,
-          oldValue: n.attrs[key],
-          value: n2.attrs[key],
+          lastParentId: n.parent,
+          lastIndex: n.index,
+          index: node.index,
+          parentId: node.parent,
         })
       }
-    }
-    events.push(...diff(n, n2))
-  })
 
-  return events
-}
-
-export function merge(commit: VirtualNode, branch1: VirtualNode, branch2: VirtualNode) {
-  if (!(commit.id === branch1.id && branch1.id === branch2.id))
-    throw new Error('node id must be the same in merging')
-  const diffEvents = diff(commit, branch2)
-  const conflict = [] as NodeEvent[]
-
-  diffEvents.forEach((e) => {
-    if (e.type === 'set') {
-      const node = branch1.findById(e.eventId)
-      if (node && node.attrs[e.key] !== e.value) {
-        conflict.push(e)
-
-        return
+      for (const key in n.attrs) {
+        if (!isEqual(n.attrs[key], node.attrs[key])) {
+          setRecords.push({
+            key,
+            nodeId: n.id,
+            oldValue: n.attrs[key],
+            value: node.attrs[key],
+          })
+        }
       }
     }
+  }
+  for (const n of nodes2) {
+    const node = nodes1.find(node => node.id === n.id)
+    if (!node) {
+      insertRecords.push({
+        nodeId: n.id,
+        parentId: n.parent,
+        attrs: n.attrs,
+        index: n.index,
+      })
+    }
+  }
+  return {
+    insertRecords,
+    removeRecords,
+    swapRecords,
+    setRecords,
+  }
+}
 
-    if (!applyEventToNode(branch1, e))
-      conflict.push(e)
+export function merge(base: VirtualNode[], branch1: VirtualNode[], branch2: VirtualNode[]) {
+  const {
+    insertRecords,
+    removeRecords,
+    swapRecords,
+    setRecords,
+  } = diff(base, branch2)
+  const conflict = [] as any[]
+
+  const newBranch = cloneDeep(branch1.filter(node => removeRecords.find(item => node.id === item.nodeId)))
+
+  insertRecords.forEach((record) => {
+    const { nodeId, parentId } = record
+    const newNode = branch2.find(item => item.id === nodeId)!
+    const parent = newBranch.find(item => item.id === parentId)
+
+    if (parent)
+      newBranch.push(newNode)
+    else
+      conflict.push(record)
+  })
+  setRecords.forEach((record) => {
+    const { nodeId, key, value, oldValue } = record
+    const node = newBranch.find(node => node.id === nodeId)!
+    if (isEqual(oldValue, node.attrs[key]))
+      node.attrs[key] = value
+
+    else
+      conflict.push(record)
   })
 
-  return conflict
+  swapRecords.forEach(({ nodeId, parentId, index }) => {
+    const node = newBranch.find(node => node.id === nodeId)!
+
+    //     const parent = newBranch.find(item => item.id === parentId)
+    // if(!parent){
+    //   conf
+    // }
+    node.parent = parentId
+    node.index = index
+  })
+
+  branch2 = branch2.filter(node => removeRecords.find(item => node.id === item.nodeId))
+
+  return { branch: branch1, conflict }
 }
