@@ -25,6 +25,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
   nodeSet = new Set<VirtualNode<A>>()
   root = new VirtualNode({} as A, 'root')
   currentEventId: string | undefined
+  seed = 0
 
   protected createEventId() {
     return this.currentEventId || nanoid()
@@ -32,6 +33,13 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
 
   get nodes() {
     return [...this.nodeSet]
+  }
+
+  setSeed(seed: number) {
+    if (seed > 0.1)
+      throw new Error('seed should less than 0.1')
+
+    this.seed = seed
   }
 
   load(data: { id: string; attrs: any; index: number; parent: string }[]) {
@@ -91,7 +99,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     const index2 = childs[index]?.index || 1
     const { parent: lastParent, index: lastIndex } = node
     node.parent = parent.id
-    node.index = (index2 + index1) / 2
+    node.index = (index2 + index1) / 2 + this.seed
 
     if (!this.findById(node.id)) {
       this.nodeSet.add(node)

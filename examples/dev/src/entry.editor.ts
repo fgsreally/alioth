@@ -55,7 +55,7 @@ import TestVue from './Test.vue'
 // }
 
 export { widget_btn, widget_input, widget_time_picker } from 'alioth-preset-elementplus'
-export { container, engine } from 'alioth-preset-layout/draggable/index.ts'
+export { container, engine, prod_engine } from 'alioth-preset-layout/draggable/index.ts'
 
 export const zone_test: AliothZone = {
   alioth: 'zone',

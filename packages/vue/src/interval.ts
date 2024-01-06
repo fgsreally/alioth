@@ -2,7 +2,7 @@ import { Scope } from 'alioth-lib'
 import type { Component, VNode } from 'vue'
 import { markRaw, reactive } from 'vue'
 
-import type { VirtualNode } from 'alioth-lib'
+import type { VirtualDocument, VirtualNode } from 'alioth-lib'
 
 export interface Widget<M = any> {
   key: string
@@ -43,8 +43,9 @@ export function setRenderFn(mode: string, fn: RenderFn) {
 }
 
 export type RenderFn = (arg: {
+  doc:VirtualDocument,
   mode: string
-  node: VirtualNode<any>
+  node: VirtualNode
   widget: Widget
   scope: Scope
   props?: any

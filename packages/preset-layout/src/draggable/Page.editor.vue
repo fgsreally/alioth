@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { emitter, useV } from 'phecda-vue'
+import { useV } from 'phecda-vue'
 import draggable from 'vuedraggable-es'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { VirtualNode } from 'alioth-vue'
 
-const { activePage } = useV(__PHECDA__.doc)
+const { activePage, insert, findChildrens } = useV(__PHECDA__.doc)
 const { hoverNode, selectNode } = useV(__PHECDA__.selection)
 
 const drag = ref(false)
@@ -17,7 +17,7 @@ function addBlock(module: any) {
     label,
 
   }, meta?.init || {}))
-  parent.insert(node)
+  insert(node, parent)
 }
 const dom = ref<HTMLElement>(null as any)
 
@@ -36,7 +36,7 @@ onBeforeUnmount(() => {
     ref="dom" class="a-container" @click.stop.self="selectNode = undefined"
   >
     <draggable
-      v-model="activePage!.children" item-key="id"
+      :model-value="findChildrens(activePage!)" item-key="id"
       @start="drag = true"
       @end="drag = false"
     >

@@ -1,10 +1,9 @@
 import { Global, Init, Tag } from 'phecda-core'
-import type { NodeData } from '../document'
-import { Controller, VirtualNode } from '../document'
+import { Controller, VirtualDocument, VirtualNode } from '../document'
 
 @Global
 @Tag('doc')
-export class BaseDocModel<T extends Record<string, any>> {
+export class BaseDocModel<T extends Record<string, any>> extends VirtualDocument {
   activeId: string
   root: VirtualNode<T>
   controller: Controller
@@ -13,21 +12,21 @@ export class BaseDocModel<T extends Record<string, any>> {
   activePage: VirtualNode<T> | undefined
 
   constructor() {
-    this.root = new VirtualNode({} as any, '0')
-    this.root.root()
-    this.controller = new Controller(this.root)
+    super()
+
+    this.controller = new Controller(this)
     // this.activePage = this.addPage()
   }
 
   @Init
   private _init() {
     window.$alioth_node_event = ({ event, cb }: any) => {
-      this.root.emitter.on(event, cb)
+      this.on(event, cb)
     }
   }
 
   get pages() {
-    return this.root.children
+    return this.findChildrens(this.root)
   }
 
   select(node: VirtualNode<T>) {
@@ -39,31 +38,22 @@ export class BaseDocModel<T extends Record<string, any>> {
   }
 
   switchPage(id: string) {
-    this.activePage = this.root.children.find(item => item.id === id)!
+    this.activePage = this.pages.find(item => item.id === id)!
   }
 
   addPage() {
     const newNode = new VirtualNode({ key: 'page' } as any)
 
-    this.root.insert(newNode)
+    this.insert(newNode, this.root)
     return newNode
   }
 
   removePage(id: string) {
-    const { children } = this.root
-
-    this.root.remove(children.find(item => item.id === id)!)
+    this.remove(this.findById(id)!)
   }
 
   findPage(id: string) {
-    return this.root.children.find(item => item.id === id)
+    return this.pages.find(item => item.id === id)!
   }
 
-  load(data: NodeData) {
-    this.root.load(data)
-  }
-
-  toJSON() {
-    return this.root.toJSON()
-  }
 }

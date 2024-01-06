@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { useV } from 'phecda-vue'
 const { selectNode } = useV(__PHECDA__.selection)
+
+const { set } = useV(__PHECDA__.doc)
 if (!selectNode.value!.attrs.text)
   selectNode.value!.attrs.text = ''
 
 function change(v) {
-  selectNode.value!.set('text', v.target.value)
+  set(selectNode.value!, 'text', v.target.value)
 }
 
 function keydown(e: KeyboardEvent) {
-  console.log('keydown')
   e.stopPropagation()
 }
 </script>

@@ -28,10 +28,10 @@ export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
 
   @Init
   init() {
-    const rawEmit = this.root.emitter.emit.bind(this.root.emitter)
-    this.root.emitter.emit = (...args) => {
+    const rawEmit = this.emit.bind(this)
+    this.emit = (...args) => {
       emitter.emit('alioth:node-action', null)
-      rawEmit(...args)
+      return rawEmit(...args)
     }
   }
 }

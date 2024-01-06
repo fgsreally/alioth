@@ -82,14 +82,12 @@ export function createEntryFileCode(doc: VirtualDocument<NodeAttrs>, graph: Reco
       }
     }
   }
-  function parseNode(node: VirtualNode<NodeAttrs>) {
+
+  doc.nodes.forEach((node) => {
     if (node.attrs.key)
       componentSet.add(node.attrs.key)
     parseAttrs(node.attrs)
-    node.children.forEach(parseNode)
-  }
-
-  parseNode(doc.root)
+  })
 
   for (const url in graph) {
     if (url.endsWith('.css')) {
@@ -102,6 +100,7 @@ export function createEntryFileCode(doc: VirtualDocument<NodeAttrs>, graph: Reco
       const exports = graph[url][key]
 
       if (typeof exports === 'object' && exports.alioth) {
+        console.log(exports.alioth === 'setRenderFn', exports.data.mode)
         if (exports.alioth === 'setRenderFn' && exports.data.mode === 'runtime')
           dependences[url].push(key)
 

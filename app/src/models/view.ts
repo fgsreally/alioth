@@ -42,7 +42,7 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any,
       handler() {
         const { presets } = toRaw(useR(ImportModel))
         download('data.json', JSON.stringify({
-          docs: useV(DocModel).toJSON(),
+          docs: useV(DocModel).store(),
           presets,
         }))
       },
@@ -52,7 +52,6 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any,
       async handler() {
         const { graph, viteUrl } = useR(ImportModel)
 
-        const doc = unref(useV(DocModel).doc)
         // const ret = await bundleWithEsbuild(createEntryFileCode(doc, graph, viteUrl), 'http://localhost:5173/')
         // ret.forEach(({ text, path }) => {
         //   download(path, text)
@@ -61,7 +60,7 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any,
         axios.post(new URL('/alioth/action', viteUrl).href, {
           entry: 'entry.js',
           type: 'bundle',
-          content: createEntryFileCode(doc, graph, viteUrl),
+          content: createEntryFileCode(useR(DocModel), graph, viteUrl),
         })
       },
     },

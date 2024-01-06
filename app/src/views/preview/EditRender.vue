@@ -1,32 +1,32 @@
 <script setup lang="ts">
 import { AliothRender } from 'alioth-vue'
-import { emitter, useV } from 'phecda-vue'
+import { emitter, useR, useV } from 'phecda-vue'
 import { applyUpdate, encodeStateAsUpdate } from 'yjs'
 
 import { DocModel } from '@/models/doc'
 import { useDocumentClick } from '@/composables/click'
 
 import { SelectionModel } from '@/models/selection'
-const { activePage, doc, activeId } = $(useV(DocModel))
-
+const { activePage, activeId } = $(useV(DocModel))
+const doc = useR(DocModel)
 const { selectNode } = $(useV(SelectionModel))
 // useDocumentClick(() => {
 //   selectNode = undefined
 // })
 
-function load(e: any) {
-  const i = e.target.contentWindow
-  doc.controller.ydoc.on('update', (delta, origin) => {
-    i.postMessage({
-      id: activeId,
-      delta: encodeStateAsUpdate(doc.controller.ydoc),
-    }, '*')
-  })
-  window.addEventListener('message', (e) => {
-    const { delta } = e.data
-    applyUpdate(doc.controller.ydoc, delta, 'alioth')
-  })
-}
+// function load(e: any) {
+//   const i = e.target.contentWindow
+//   doc.controller.ydoc.on('update', (delta, origin) => {
+//     i.postMessage({
+//       id: activeId,
+//       delta: encodeStateAsUpdate(doc.controller.ydoc),
+//     }, '*')
+//   })
+//   window.addEventListener('message', (e) => {
+//     const { delta } = e.data
+//     applyUpdate(doc.controller.ydoc, delta, 'alioth')
+//   })
+// }
 </script>
 
 <template>
@@ -34,7 +34,7 @@ function load(e: any) {
     <section v-if="!!activePage" class="al-window">
       <!-- <IframeCanvas>
       </IframeCanvas> -->
-      <AliothRender :node="activePage" mode="editor" />
+      <AliothRender :node="activePage" :doc="doc" mode="editor" />
     </section>
   </div>
 </template>
