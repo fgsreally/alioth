@@ -10,9 +10,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@swc-node/core": "^1.10.6"
+    "@swc-node/core": "^1.10.6",
+    "mongodb-memory-server": "^9.1.6"
   },
   "dependencies": {
-    "isolated-vm": "^4.7.2"
+    "events": "^3.3.0",
+    "fs-extra": "^11.2.0",
+    "isolated-vm": "^4.7.2",
+    "mongodb": "^6.3.0",
+    "mongodb-uri": "^0.9.7",
+    "phecda-server": "4.1.2-alpha.2"
   }
 }
