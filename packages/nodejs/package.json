@@ -16,6 +16,7 @@
   "dependencies": {
     "events": "^3.3.0",
     "fs-extra": "^11.2.0",
+    "h3": "^1.10.0",
     "isolated-vm": "^4.7.2",
     "mongodb": "^6.3.0",
     "mongodb-uri": "^0.9.7",

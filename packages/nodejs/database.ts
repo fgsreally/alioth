@@ -5,34 +5,25 @@ import type { Db } from 'mongodb'
 export class DataBase extends EventEmitter {
   db: Db
   conn: MongoClient
-  constructor() {
+  constructor(url: string) {
     super()
-    const config = this.getConfig()
-    this.conn = new MongoClient(config.url, {})
+    this.conn = new MongoClient(url)
   }
 
   async init(dbName: string) {
     await this.conn
       .connect()
 
-    this.db = this.conn.db(dbName || 'fgs')
-  }
-
-  getConfig() {
-    const url = process.env.DB_URI || 'mongodb://localhost:27017'
-    if (!url)
-      throw new Error('DB_URI does not exist')
-    return { url }
+    this.db = this.conn.db(dbName)
   }
 
   watch(collectionName: string) {
-    const stream = this.db.collection(collectionName).watch()
+    const stream = this.db.collection(collectionName).watch(undefined, { fullDocument: 'updateLookup' })
 
     stream.on('change', (change) => {
-      console.log('change')
       const { operationType, fullDocument } = change as any
-      this.emit(operationType, fullDocument)
+
+      this.emit(operationType, { doc: fullDocument, collection: collectionName })
     })
   }
 }
-export const db = new DataBase()
