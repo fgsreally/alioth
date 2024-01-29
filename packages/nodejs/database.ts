@@ -23,7 +23,7 @@ export class DataBase extends EventEmitter {
     stream.on('change', (change) => {
       const { operationType, fullDocument } = change as any
 
-      this.emit(operationType, { doc: fullDocument, collection: collectionName })
+      this.emit(operationType, fullDocument)
     })
   }
 }

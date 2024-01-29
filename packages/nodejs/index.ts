@@ -3,7 +3,6 @@ import vm from 'node:vm'
 import { unlink, writeFile } from 'fs-extra'
 
 import { DataBase } from './database'
-import { CONFIG } from './config'
 const db = new DataBase(process.env.DB_URI!)
 
 const fileRe = /\.(controller|edge|extension|guard|interceptor|plugin|filter|pipe)\.ts$/i
@@ -57,14 +56,12 @@ async function writeEntryFile() {
   const app = createApp()
   
   app.use(router)
-  createServer(toNodeListener(app)).listen(process.env.port)
+  createServer(toNodeListener(app)).listen(8000)
   `)
 }
 function watchDb() {
-  db.watch(CONFIG.CODE_COLLECTION)
-  db.on('insert', async ({ doc, collection }: any) => {
-    if (collection !== CONFIG.CODE_COLLECTION)
-      return
+  db.watch(process.env.DB_COLLECTION!)
+  db.on('insert', async (doc: any) => {
     const filePath = posix.join('./src', doc.path)
 
     FileMap.set(filePath, doc.code)
@@ -76,16 +73,12 @@ function watchDb() {
     runSandBox()
   })
 
-  db.on('update', async ({ doc, collection }: any) => {
-    if (collection !== CONFIG.CODE_COLLECTION)
-      return
+  db.on('update', async (doc: any) => {
     const filePath = posix.join('./src', doc.path)
     FileMap.set(filePath, doc.code)
     await writeFile(filePath, doc.code)
   })
-  db.on('delete', async ({ doc, collection }: any) => {
-    if (collection !== CONFIG.CODE_COLLECTION)
-      return
+  db.on('delete', async (doc: any) => {
     const filePath = posix.join('./src', doc.path)
     FileMap.delete(filePath)
     await unlink(filePath)

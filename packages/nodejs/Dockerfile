@@ -1,23 +1,18 @@
-FROM node:18
+FROM node:21
 
-RUN apt update && apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev git -y
+# 设置工作目录
+WORKDIR /usr/src/app
 
-# RUN npm install npm -g
+# 将 package.json 和 package-lock.json 复制到工作目录
+COPY package*.json ./
 
+# 安装依赖
+RUN npm install
+
+# 将应用程序代码复制到工作目录
+COPY . .
+
+# 暴露应用程序运行的端口
 EXPOSE 8000
-EXPOSE 9000
 
-WORKDIR /app
-ENV LOG_LEVEL=debug
-COPY . /app
-# COPY --chown=node:node . /app
-RUN mkdir /app/data || true
-RUN chown node:node /app/data
-# RUN npm install
-# RUN npm run build
-RUN chown -R node:node /app/node_modules
-RUN chown node:node /app/package.json
-RUN chown node:node /app/package-lock.json
-
-USER node
-CMD [ "sh", "/app/start.sh" ]
+CMD ["npx", "phecda", "--experimental-vm-modules","index.ts"]

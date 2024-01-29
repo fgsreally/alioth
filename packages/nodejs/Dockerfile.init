@@ -1,3 +1,0 @@
-FROM lafyun/runtime-node:latest
-
-CMD [ "sh", "/app/init.sh" ]
