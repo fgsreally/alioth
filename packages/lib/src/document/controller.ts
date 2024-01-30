@@ -241,6 +241,8 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
 
     return true
   }
+
+  return false
 }
 
 interface BaseEvent {
