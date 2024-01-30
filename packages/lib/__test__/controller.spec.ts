@@ -91,11 +91,11 @@ describe('controller', () => {
     const c1 = new Controller(doc)
     const c2 = new Controller(doc2)
 
-    c1.bridge = (e) => {
+    c1.invokeBridge = (e) => {
       c2.applyEvent(e)
     }
 
-    c2.bridge = (e) => {
+    c2.invokeBridge = (e) => {
       c1.applyEvent(e)
     }
 

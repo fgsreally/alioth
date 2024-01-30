@@ -1,35 +1,40 @@
 import type { Controller, NodeEvent } from './controller'
 
-interface CommitEvent {
-  type: 'commit'
-  eventId: string
-}
-
-export abstract class Bridge {
-  protected _cache = [] as NodeEvent[]
+export abstract class ClientBridge {
+  protected readonly _memory = new Map<string, number>()// store event timestamp
   constructor(protected controller: Controller) {
-    controller.bridge = (event) => {
-      this._cache.push(event)
-      this.send(event)
+    controller.invokeBridge = (event) => {
+      const time = performance.now()
+      if (event.type === 'set')
+
+        this._memory.set(`set-${event.nodeId}-${event.key}`, time)
+
+      if (event.type === 'swap')
+        this._memory.set(`swap-${event.nodeId}`, time)
+      this.send({ ...event, time })
     }
   }
 
-  abstract send(event: NodeEvent): void
+  abstract send(event: NodeEvent & { time: number }): void
 
-  handle(event: NodeEvent | CommitEvent) {
-    if (event.type === 'commit') {
-      this._cache.splice(this._cache.findIndex(item => item.eventId === event.eventId), 1)
-    }
-
-    else {
-      if (this._cache.find(item => item.type === 'set' && item.key))
+  handle(event: NodeEvent & { time: number }) {
+    if (event.type === 'set') {
+      const localUpdateTime = this._memory.get(`set-${event.nodeId}-${event.key}`)
+      if (localUpdateTime && localUpdateTime > event.time)
         return
-      this.controller.applyEvent(event)
     }
+    if (event.type === 'swap') {
+      const localUpdateTime = this._memory.get(`swap-${event.nodeId}`)
+
+      if (localUpdateTime && localUpdateTime > event.time)
+        return
+    }
+
+    this.controller.applyEvent(event)
   }
 }
 
-export class WsBridge extends Bridge {
+export class WsinvokeBridge extends ClientBridge {
   socket: WebSocket
   constructor(controller: Controller, protected url: string) {
     super(controller)

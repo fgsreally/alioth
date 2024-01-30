@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid'
 import { cloneDeep, isEqual } from 'lodash-es'
+import EventEmitter from 'eventemitter3'
 import { VirtualNode } from './document'
 import type { VirtualDocument } from './document'
 
@@ -7,13 +8,14 @@ interface Options {
   length: number
 }
 
-export class Controller {
+export class Controller extends EventEmitter {
   options: Options
   undoStack: NodeEvent[] = []
   redoStack: NodeEvent[] = []
 
   currentEventId: string | undefined
   constructor(protected doc: VirtualDocument<any>, options: Partial<Options> = {}) {
+    super()
     this.options = {
       length: 300,
       ...options,
@@ -77,7 +79,7 @@ export class Controller {
     })
   }
 
-  bridge(_event: NodeEvent) {
+  invokeBridge(_event: NodeEvent) {
 
   }
 
@@ -91,7 +93,7 @@ export class Controller {
     if (this[stack].length >= this.options.length)
       this[stack].shift()
 
-    this.bridge(event)
+    this.invokeBridge(event)
     this[stack].push(event)
   }
 
@@ -127,7 +129,9 @@ export class Controller {
   }
 
   applyEvent(event: NodeEvent) {
-    return applyEventToNode(this.doc, event)
+    if (!applyEventToNode(this.doc, event))
+      this.emit('error', event)
+    else this.emit('success', event)
   }
 
   handleUndoEvent(event: NodeEvent) {
@@ -225,8 +229,13 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
 
   if (event.type === 'set') {
     const newNode = doc.findById(event.nodeId)
+
     if (!newNode)
       return false
+
+    const currentAttr = newNode.attrs[event.key]
+    if (!isEqual(currentAttr, event.oldValue))
+      event.oldValue = cloneDeep(currentAttr)
 
     newNode.attrs[event.key] = event.value
 
@@ -257,7 +266,6 @@ export interface SwapEvent extends BaseEvent {
 
 export interface InsertEvent extends BaseEvent {
   type: 'insert'
-
   records: NodeRecord[]
 
 }
