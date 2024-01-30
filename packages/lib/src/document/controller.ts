@@ -221,6 +221,12 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
     if (!newNode || !parentNode)
       return false
 
+    if (newNode.parent !== event.lastParentId)
+      event.lastParentId = newNode.parent
+
+    if (newNode.index !== event.lastIndex)
+      event.lastIndex = newNode.index
+
     newNode.parent = event.parentId
     newNode.index = event.index
 
@@ -236,7 +242,6 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
     const currentAttr = newNode.attrs[event.key]
     if (!isEqual(currentAttr, event.oldValue))
       event.oldValue = cloneDeep(currentAttr)
-
     newNode.attrs[event.key] = event.value
 
     return true

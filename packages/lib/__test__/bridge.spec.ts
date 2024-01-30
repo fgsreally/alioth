@@ -91,4 +91,41 @@ describe('bridge', () => {
     expect(newNode.attrs.data).toBe('3')
     expect(node1.attrs.data).toBe('3')
   })
+
+  it('swap conflict', async () => {
+    const { doc1, doc2, controller1, controller2 } = createSuite()
+    const node1 = new VirtualNode(undefined, '1')
+    const node2 = new VirtualNode(undefined, '2')
+    const node3 = new VirtualNode(undefined, '3')
+
+    doc1.insert(node1, doc1.root)
+    doc1.insert(node2, doc1.root)
+    doc1.insert(node3, doc1.root)
+
+    vi.runAllTimers()
+
+    // const remoteNode1 = doc2.findById('1')!
+
+    const remoteNode2 = doc2.findById('2')!
+    const remoteNode3 = doc2.findById('3')!
+
+    doc2.insert(remoteNode3, remoteNode2)
+    doc1.insert(node3, node1)
+
+    vi.runAllTimers()
+
+    expect(remoteNode3.parent).toBe('1')
+    controller1.undo()
+    vi.runAllTimers()
+
+    expect(remoteNode3.parent).toBe('root')
+    controller2.undo()
+    expect(remoteNode3.parent).toBe('root')
+    controller2.redo()
+    expect(remoteNode3.parent).toBe('root')
+
+    controller1.redo()
+    vi.runAllTimers()
+    expect(remoteNode3.parent).toBe('1')
+  })
 })
