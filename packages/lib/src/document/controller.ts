@@ -14,7 +14,7 @@ export class Controller extends EventEmitter {
   redoStack: NodeEvent[] = []
 
   currentEventId: string | undefined
-  constructor(protected doc: VirtualDocument<any>, options: Partial<Options> = {}) {
+  constructor(public doc: VirtualDocument<any>, options: Partial<Options> = {}) {
     super()
     this.options = {
       length: 300,
@@ -81,6 +81,12 @@ export class Controller extends EventEmitter {
 
   invokeBridge(_event: NodeEvent) {
 
+  }
+
+  refresh() {
+    this.redoStack = []
+    this.undoStack = []
+    this.currentEventId = undefined
   }
 
   transact(cb: () => void) {

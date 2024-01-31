@@ -2,12 +2,15 @@ import { nanoid } from 'nanoid'
 import { cloneDeep } from 'lodash-es'
 import EventEmitter from 'eventemitter3'
 
+export type DocData = { id: string; attrs: any; index: number; parent: string }[]
 export class VirtualNode<A extends Record<string, any> = any> {
   parent: string
   index: number
+  readonly oldAttrs: A
 
   constructor(public attrs: A = {} as any, public id = nanoid(),
   ) {
+    this.oldAttrs = cloneDeep(attrs)
   }
 
   toJSON() {
@@ -40,7 +43,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     this.seed = seed
   }
 
-  load(data: { id: string; attrs: any; index: number; parent: string }[]) {
+  load(data: DocData) {
     this.nodeSet.clear()
     // this.nodeSet.add(this.root)
 
@@ -140,13 +143,14 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
       node,
       key,
       value,
-      oldValue: node.attrs[key],
+      oldValue: node.oldAttrs[key], // work for v-model
     })
 
     this._set(node, key, value)
   }
 
   _set<K extends keyof A>(node: VirtualNode<A>, key: K, value: A[K]) {
+    node.oldAttrs[key] = cloneDeep(value)
     node.attrs[key] = value
   }
 }

@@ -7,7 +7,6 @@ import { VirtualNode } from 'alioth-vue'
 const { activePage, insert, findChildrens } = useV(__PHECDA__.doc)
 const { hoverNode, selectNode } = useV(__PHECDA__.selection)
 
-const drag = ref(false)
 function addBlock(module: any) {
   const { key, label, meta } = module
   const parent = hoverNode.value || activePage.value!
@@ -20,6 +19,11 @@ function addBlock(module: any) {
   insert(node, parent)
 }
 const dom = ref<HTMLElement>(null as any)
+
+function sort(e) {
+  const curNode = findChildrens(activePage.value!)[e.oldIndex]
+  insert(curNode, activePage.value!, e.newIndex)
+}
 
 const { add, del } = useV(__PHECDA__.drag)
 
@@ -37,8 +41,7 @@ onBeforeUnmount(() => {
   >
     <draggable
       :model-value="findChildrens(activePage!)" item-key="id"
-      @start="drag = true"
-      @end="drag = false"
+      @sort="sort"
     >
       <template #item="{ element }">
         <div>
