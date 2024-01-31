@@ -35,8 +35,6 @@ export class AiModel {
       ],
       model: 'gpt-3.5-turbo',
     })
-    // eslint-disable-next-line no-console
-    console.log(completion.choices[0].message.content)
   }
 
   async ask(type: string) {

@@ -1,4 +1,5 @@
-import type { DocData, VirtualDocument } from './document'
+import type { DocData } from './document'
+import { VirtualDocument } from './document'
 import { type Controller, type NodeEvent, applyEventToNode } from './controller'
 
 export interface InitEvent { type: 'init';data: DocData }
@@ -8,7 +9,7 @@ export abstract class ClientBridge {
   protected readonly _memory = new Map<string, number>()// store event timestamp
   constructor(protected controller: Controller) {
     controller.invokeBridge = (event) => {
-      const time = performance.now()
+      const time = process.env.TEST ? performance.now() : Date.now()
       if (event.type === 'set')
 
         this._memory.set(`set-${event.nodeId}-${event.key}`, time)
@@ -44,15 +45,15 @@ export abstract class ClientBridge {
   }
 }
 
-export class ServerBridge {
+export class ServerBridge extends VirtualDocument {
   protected readonly _memory = new Map<string, number>()// store event timestamp
-  constructor(protected doc: VirtualDocument) {
-
+  constructor() {
+    super()
   }
 
   handle(event: CommitEvent) {
     if (event.type === 'init') {
-      this.doc.load(event.data)
+      this.load(event.data)
       return
     }
 
@@ -72,7 +73,7 @@ export class ServerBridge {
       this._memory.set(`swap-${event.nodeId}`, event.time)
     }
 
-    return applyEventToNode(this.doc, event)
+    return applyEventToNode(this, event)
   }
 }
 
@@ -81,10 +82,15 @@ export class WsClientBridge extends ClientBridge {
   constructor(controller: Controller, protected url: string) {
     super(controller)
     this.socket = new WebSocket(url)
-    this.socket.onmessage = (e: any) => {
+    this.socket.addEventListener('message', (e: any) => {
       const { data } = e
-      this.handle(data)
-    }
+
+      if (data === 'true')
+        this.send({ type: 'init', data: this.controller.doc.store() })
+
+      else
+        this.handle(JSON.parse(data))
+    })
   }
 
   send(e: CommitEvent) {

@@ -1,12 +1,15 @@
 {
   "name": "alioth-lib",
-  "version": "0.0.1-alpha.0",
+  "version": "0.1.0-beta.1",
   "description": "",
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts",
       "require": "./dist/index.js"
+    },
+    "./server": {
+      "import": "./dist/server.mjs",
+      "require": "./dist/server.js"
     }
   },
   "main": "./dist/index.js",
@@ -22,6 +25,9 @@
     "*": {
       "*": [
         "dist/index.d.ts"
+      ],
+      "./server": [
+        "dist/server.d.ts"
       ]
     }
   },

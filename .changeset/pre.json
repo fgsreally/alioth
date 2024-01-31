@@ -10,9 +10,20 @@
     "alioth-lib": "0.0.1-alpha.0",
     "nodejs": "1.0.0",
     "alioth-preset-layout": "0.0.0",
-    "alioth-vue": "0.0.1-alpha.0"
+    "alioth-vue": "0.0.1-alpha.0",
+    "example-server": "1.0.0"
   },
   "changesets": [
-    "nervous-vans-wave"
+    "eleven-trainers-check",
+    "flat-scissors-greet",
+    "happy-icons-judge",
+    "honest-keys-hammer",
+    "hot-months-mate",
+    "nervous-vans-wave",
+    "new-coins-help",
+    "shaggy-moose-fetch",
+    "spotty-islands-retire",
+    "tricky-jokes-sit",
+    "violet-spies-grin"
   ]
 }

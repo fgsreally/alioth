@@ -1,5 +1,23 @@
 # alioth-vue
 
+## 0.1.0-beta.1
+
+### Minor Changes
+
+- 151c310: refactor widget register;2 widget can use the same key(runtime/editor)
+- 151c310: replace engine with renderfn to improve tree-shake
+
+### Patch Changes
+
+- 54097fa: rename eventstack and add node_event
+- 9399e94: add cli to create init-template
+- 9399e94: update Zone types
+- Updated dependencies [54097fa]
+- Updated dependencies
+- Updated dependencies [5898af5]
+- Updated dependencies [11688a2]
+  - alioth-lib@0.1.0-beta.1
+
 ## 0.0.1-alpha.0
 
 ### Patch Changes

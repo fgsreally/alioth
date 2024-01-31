@@ -1,7 +1,6 @@
 import type { NodeAttrs } from 'alioth-vue'
 import { Init, emitter } from 'phecda-vue'
-import { BaseDocModel } from 'alioth-vue'
-
+import { BaseDocModel, WsClientBridge } from 'alioth-vue'
 export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
   containerAttrs = markRaw(
     {
@@ -28,6 +27,9 @@ export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
 
   @Init
   init() {
+    const ws = new WsClientBridge(this.controller
+      , 'ws://localhost:4000?id=1')
+
     const rawEmit = this.emit.bind(this)
     this.emit = (...args) => {
       emitter.emit('alioth:node-action', null)
