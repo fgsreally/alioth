@@ -11,6 +11,7 @@ export class DataBase extends EventEmitter {
   }
 
   async init(dbName: string) {
+    console.log(dbName)
     await this.conn
       .connect()
 
@@ -18,9 +19,12 @@ export class DataBase extends EventEmitter {
   }
 
   watch(collectionName: string) {
+    console.log(collectionName)
+
     const stream = this.db.collection(collectionName).watch(undefined, { fullDocument: 'updateLookup' })
 
     stream.on('change', (change) => {
+      console.log(change)
       const { operationType, fullDocument } = change as any
 
       this.emit(operationType, fullDocument)

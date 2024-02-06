@@ -1,4 +1,6 @@
-FROM node:21
+FROM node:21-alpine
+
+RUN apk --no-cache add iputils busybox-extras
 
 # 设置工作目录
 WORKDIR /usr/src/app
@@ -15,4 +17,4 @@ COPY . .
 # 暴露应用程序运行的端口
 EXPOSE 8000
 
-CMD ["npx", "phecda", "--experimental-vm-modules","index.ts"]
+CMD ["npm","run","start"]
