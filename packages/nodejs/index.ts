@@ -60,12 +60,25 @@ router.get('/test', eventHandler(() => "Hello World!"))
   })
   `)
 }
+
+async function init() {
+  await db.init(process.env.DB_NAME!)
+
+  const data = await db.db.collection(process.env.DB_COLLECTION!).find({}).toArray()
+  for (const item of data) {
+    const filePath = posix.join('./src', item.path)
+
+    FileMap.set(filePath, item.code)
+  }
+  await writeEntryFile()
+  runSandBox()
+}
+
 async function watchDb() {
   db.watch(process.env.DB_COLLECTION!)
   db.on('insert', async (doc: any) => {
     const filePath = posix.join('./src', doc.path)
 
-    console.log('insert', doc)
     FileMap.set(filePath, doc.code)
     await writeFile(filePath, doc.code)
 
@@ -76,32 +89,21 @@ async function watchDb() {
   })
 
   db.on('update', async (doc: any) => {
-    console.log('update', doc)
-
     const filePath = posix.join('./src', doc.path)
     FileMap.set(filePath, doc.code)
     await writeFile(filePath, doc.code)
   })
   db.on('delete', async (doc: any) => {
-    console.log('delete', doc)
-
     const filePath = posix.join('./src', doc.path)
     FileMap.delete(filePath)
     await unlink(filePath)
     if (fileRe.test(filePath))
       writeEntryFile()
   })
-
-  // await writeEntryFile()
-  // runSandBox()
 }
 
 export async function start() {
-  console.log('start')
-  await db.init(process.env.DB_NAME!)
-
-  console.log('watchdb')
-
+  await init()
   watchDb()
 }
 
