@@ -12,7 +12,7 @@ export class ProjectController {
     return 'create finish'
   }
 
-  @Post('')
+  @Post('/update')
   async update(@Body() data: CodeVO) {
     await this.service.updateCode(data)
 

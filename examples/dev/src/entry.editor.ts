@@ -1,4 +1,4 @@
-import type { AliothView, AliothZone } from 'alioth-vue'
+import type { AliothComponent, AliothZone } from 'alioth-vue'
 import { useR } from 'phecda-vue'
 import TestVue from './Test.vue'
 
@@ -23,7 +23,7 @@ export const zone_test: AliothZone = {
   },
 }
 
-export const view_test: AliothView = {
+export const view_test: AliothComponent = {
   alioth: 'view',
   data: {
     component: TestVue,

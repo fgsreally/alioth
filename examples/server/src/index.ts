@@ -1,11 +1,12 @@
 import { bindApp } from 'phecda-server/express'
 import { Factory } from 'phecda-server'
 import express from 'express'
+import dotenv from 'dotenv'
 import { ProjectController } from './modules/project.controller'
 import { WsEdge } from './modules/ws.edge'
+dotenv.config()
 const router = express.Router()
-
-const data = await Factory([WsEdge])
+const data = await Factory([ProjectController, WsEdge])
 
 bindApp(router, data)
 

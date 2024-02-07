@@ -37,8 +37,8 @@ async function writeEntryFile() {
 
   await writeFile('./entry.ts', `
   import {isPhecda,Factory} from 'phecda-server'
-  import {bindApp} from 'phecda-server/h3'
-  import { createApp, toNodeListener, createRouter,eventHandler} from 'h3'
+  import {bindApp} from 'phecda-server/express'
+  import express from 'express'
   import { createServer } from 'http'
   ${importCode}
   
@@ -47,16 +47,19 @@ async function writeEntryFile() {
   }
   const data = await Factory(modules.map(parse).flat())
   
-  const router = createRouter()
+  const router = express.Router()
   
-  bindApp(router, data, {})
+  bindApp(router, data)
+
+  const app = express()
   
-  const app = createApp()
-  
-router.get('/test', eventHandler(() => "Hello World!"))
+  app.use(express.json())
+
   app.use(router)
-  createServer(toNodeListener(app)).listen(8000,()=>{
-    console.log('go')
+
+  
+  app.listen(process.env.PORT||8000, () => {
+    console.log('start server')
   })
   `)
 }

@@ -13,7 +13,7 @@ export class CodeVO {
   project: string
 
   @IsString
-  file: string
+  path: string
 
   @IsString
   code: string
@@ -22,7 +22,6 @@ export class CodeVO {
 @Injectable()
 export class ProjectService {
   constructor(protected db: DbModule) {
-
   }
 
   async create(namespace: string, project: string) {
@@ -166,26 +165,36 @@ export class ProjectService {
   }
 
   async createContainer(namespace: string, project: string) {
-    await docker.createContainer({
+    const container = await docker.createContainer({
       Image: 'alioth-nodejs', // 这里使用你的镜像名称
       name: `${namespace}-${project}`,
+      Env: [`DB_URI=${process.env.MONGO_URI!}`, `DB_NAME=${namespace}`, `DB_COLLECTION=${project}`],
+
       HostConfig: {
+        // ExtraHosts: ['host.docker.internal:host-gateway'],
+        // NetworkMode: 'host', // 连接到mongo-network网络
+
         PortBindings: {
-          '8000/tcp': [{ HostPort: '0' }],
+          '8000/tcp': [{ HostPort: '8000' }],
         },
       },
     })
+    await container.start()
   }
 
-  async updateCode({ user, project, file, code }: CodeVO) {
+  async updateCode({ user, project, path, code }: CodeVO) {
     if (!await this.db.db.collection('project').findOne({ namespace: user, project }))
       throw new BadRequestException('project should be created before')
     const collection = this.db.conn.db(user).collection(project)
 
-    if (code === '')
-      collection.deleteOne({ file })
+    if (code === '') {
+      collection.deleteOne({ path })
+    }
 
-    else
-      collection.updateOne({ file }, { code, file }, { upsert: true })
+    else {
+      collection.updateOne({ path }, {
+        $set: { code, path },
+      }, { upsert: true })
+    }
   }
 }

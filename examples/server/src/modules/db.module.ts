@@ -5,17 +5,14 @@ export class DbModule {
   db: Db
   conn: MongoClient
   constructor() {
-    this.conn = new MongoClient('mongodb://localhost:27017')
+    this.conn = new MongoClient(process.env.MONGO_URI)
   }
 
   @Init
   async init(dbName = 'alioth-server') {
-    console.log('init before')
-
     await this.conn
       .connect()
 
-    console.log('init finish')
     this.db = this.conn.db(dbName)
   }
 }

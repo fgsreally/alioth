@@ -6,7 +6,7 @@ import {
   render,
 } from 'vue'
 import type { Scope, VirtualDocument, VirtualNode } from 'alioth-lib'
-import { type Widget } from './interval'
+import { type Widget } from './internal'
 
 export type CompList<RegisterBlock> = Map<string, RegisterBlock>
 
