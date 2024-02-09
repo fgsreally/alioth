@@ -1,7 +1,7 @@
-# preset
-在[快速开始](./quick-start.md)中，在入口文件中`export`的东西就是预设
+# 预设
+在[快速开始](./quick-start.md)中，在入口文件中`export`的、具有`alioth`属性的对象就是预设
 
-## preset category
+## 预设种类
 
 1. 添加物料
 
@@ -18,11 +18,11 @@ export const widget_a = {
 ```
 
 2. 设定引擎
-todo 
+ 
 
 ```ts
 export const engine_a = {
-  alioth: 'engine',
+  alioth: 'setRenderFn',
   data: Engine,
 }
 ```
@@ -40,12 +40,30 @@ export const state_a = {
 }
 ```
 
-4. 添加`Header`
+4. 添加`component`
+专门用于编辑器的组件
+
+和物料一样，都是组件，但只用于编辑器中，不会在生产中出现
+
+被`zone/icon`调用
+
+```ts
+export const component_a = {
+  alioth: 'component',
+  data: {
+    component,
+    key,
+    value
+  },
+}
+```
+
+4. 添加`icon`
    对应右上角的图标功能
 
 ```ts
-export const header_a = {
-  alioth: 'header',
+export const icon_a = {
+  alioth: 'icon',
   data: {
     component, // 图标
     label,
@@ -55,7 +73,7 @@ export const header_a = {
 ```
 
 4. 添加`Zone`
-对应拖拽的配置区
+对应拖拽的“视图块”（属性盘等）
 
 ```ts
 export const zone_a = {
@@ -65,31 +83,15 @@ export const zone_a = {
     label,
     name,
     isActive,
-    x,
-    y,
-    transition,
     props,
   },
 }
 ```
 
-4. 添加`View`
-专门用于编辑器的视图区域
-和物料一样，都是组件，但只用于编辑器中，被`zone/header`调用，而不会在生产中出现
 
-```ts
-export const view_a = {
-  alioth: 'view',
-  data: {
-    component,
-    key,
-    value
-  },
-}
-```
 
 4. 添加`event`
-对应事件/快捷键/撤回
+对应事件/快捷键
 
 ```ts
 export const view_a = {
@@ -98,17 +100,9 @@ export const view_a = {
 }
 ```
 
-4. 添加`event`
-对应事件/快捷键/撤回
 
-```ts
-export const view_a = {
-  alioth: 'eventStack',
-  data// 类型详见eventstack.ts
-}
-```
 
-## custom preset
+## 自定义预设
 
 以上的预设形式，只是我默认平台中设定的，也可以更改、删除、添加
 
@@ -142,14 +136,12 @@ export const b = {
 
 :::
 
-## preset bundle
+## 预设打包
 
 当然需要对`preset`进行打包
 
-在默认的平台中，直接点击右上角`Header`的产生代码，就会在项目中创建一个`alioth.js`文件，
+在默认的平台中，直接点击右上角产生代码的图标，就会在项目中创建一个`alioth.js`文件，
 
 以此为入口使用`vite`模式库打包，即可得到产物
 
-这种方式只会打包预设中的物料,但没法隔离副作用
-
-所有请尽可能将物料和其他预设放在不同入口，防止打包体积过大
+[详见](../deploy.md)

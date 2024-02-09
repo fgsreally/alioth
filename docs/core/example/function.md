@@ -17,7 +17,8 @@
 
 搭建自己平台时，最好直接将`app/src/models`中文件复制粘贴，少量修改，然后添加自己的模块就行 
 
+
 这是因为预设的功能和默认模块中的一部分相关，移除会导致预设出现一些问题，
 
-如果执意删去，请实现对应的[标准](https://github.com/fgsreally/alioth/blob/main/packages/lib/src/core/invoke.ts)
+如果执意删去，请实现对应的标准,[详见](./preset.md#自定义预设)
 :::
