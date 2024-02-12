@@ -1,7 +1,10 @@
 # phecda-vue
+
+基于类、依赖注入的状态管理
+
 ## 基本使用
 `phecda`大致用法如下
-> 基于类、依赖注入的状态管理
+
 
 ```ts
 import { Init, useR, useV } from 'phecda-vue'

@@ -7,12 +7,8 @@
 
 
 :::info 提醒
-这里只会讲概念，如果要看案例or代码，请看[example](../example/must-know.md)
+这里只会讲概念，如果要看案例or代码，请看[example](./example/must-know.md)
 :::
 
-## headless
-玉衡本身是一个底层的工具，可以通过预设添加各种功能
-
-布局/物料/渲染/出码...功能完全取决于开发者的设计
 
 

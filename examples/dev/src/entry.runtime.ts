@@ -35,7 +35,7 @@ export const state_changeC = {
 export const widget_a: AliothWidget = {
   alioth: 'widget',
   data: {
-    category: 'lib',
+    mode: 'lib',
     key: 'a',
     component: HW,
     // meta: {
@@ -57,7 +57,7 @@ export const widget_a: AliothWidget = {
 export const widget_test: AliothWidget = {
   alioth: 'widget',
   data: {
-    category: 'lib',
+    mode: 'lib',
     key: 'test',
     component: TestVue,
     // meta: {

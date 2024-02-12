@@ -55,5 +55,4 @@ export class BaseDocModel<T extends Record<string, any>> extends VirtualDocument
   findPage(id: string) {
     return this.pages.find(item => item.id === id)!
   }
-
 }

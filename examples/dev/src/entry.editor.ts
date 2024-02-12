@@ -24,7 +24,7 @@ export const zone_test: AliothZone = {
 }
 
 export const view_test: AliothComponent = {
-  alioth: 'view',
+  alioth: 'component',
   data: {
     component: TestVue,
     key: 'test',

@@ -56,6 +56,10 @@ export default defineConfig({
               link: '/core/intro',
             },
             {
+              text: 'headless',
+              link: '/core/headless',
+            },
+            {
               text: '核心',
               link: '/core/core',
             },
@@ -79,10 +83,7 @@ export default defineConfig({
               text: 'phecda-vue',
               link: '/core/phecda-vue',
             },
-            {
-              text: '部署',
-              link: '/core/deploy',
-            },
+
             {
               text: '实时协同',
               link: '/core/ws',
@@ -108,6 +109,10 @@ export default defineConfig({
             {
               text: '功能模块',
               link: '/core/example/function',
+            },
+            {
+              text: '部署',
+              link: '/core/example/deploy',
             },
 
           ],
