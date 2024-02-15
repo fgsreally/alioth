@@ -23,7 +23,7 @@ export class AiModel {
   }
 
   async test() {
-    const completion = await this.openai.chat.completions.create({
+    await this.openai.chat.completions.create({
       messages: [{ role: 'system', content: s_prompt },
         { role: 'user', content: prompt1 },
         { role: 'assistant', content: prompt2 },

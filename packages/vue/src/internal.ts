@@ -43,7 +43,7 @@ export function setRenderFn(mode: string, fn: RenderFn) {
 }
 
 export type RenderFn = (arg: {
-  doc:VirtualDocument,
+  doc: VirtualDocument
   mode: string
   node: VirtualNode
   widget: Widget

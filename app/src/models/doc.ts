@@ -27,6 +27,7 @@ export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
 
   @Init
   init() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const ws = new WsClientBridge(this.controller
       , 'ws://localhost:4000?id=1')
 

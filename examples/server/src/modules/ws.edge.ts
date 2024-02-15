@@ -29,7 +29,7 @@ export class WsEdge extends WebSocketServer {
         const data = JSON.parse(e.toString()) as CommitEvent
 
         if (this.map[uuid].handle(data)) {
-          this.clientSet.forEach((client, i) => {
+          this.clientSet.forEach((client) => {
             // 检查连接是否还打开
             if (client !== ws) {
               // 发送消息

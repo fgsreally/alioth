@@ -1,5 +1,5 @@
 import * as acorn from 'acorn'
-import type { NodeAttrs, VirtualDocument, VirtualNode } from 'alioth-vue'
+import type { NodeAttrs, VirtualDocument } from 'alioth-vue'
 import * as esbuild from 'esbuild-wasm'
 import { unpkgPathPlugin } from './esbuild/unpkg-path-plugin'
 

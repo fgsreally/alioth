@@ -15,5 +15,6 @@ app.use(express.json())
 
 app.use(router)
 app.listen(8080, () => {
+  // eslint-disable-next-line no-console
   console.log('start server')
 })
