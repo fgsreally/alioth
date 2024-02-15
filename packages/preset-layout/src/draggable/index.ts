@@ -24,16 +24,20 @@ export const engine: AliothRenderFn = {
   alioth: 'setRenderFn',
   data: {
     mode: 'editor',
-    fn: ({ node, scope, widget, props, mode }) => {
+    fn: ({ doc, node, scope, widget, props, mode }) => {
       if (props?.a_node === node) {
-        const renderer = new Renderer(mode, props.a_node, widget, scope)
+        const renderer = new Renderer(doc, node, mode, widget, scope)
 
         return renderer.slot(['default']).main().editAction().exec()
       }
       if (props?.a_node)
         return undefined
 
-      const renderer = new Renderer(mode, node, widget, scope)
+      const renderer = new Renderer(doc, node, mode, widget, scope)
+
+      if (node.parent === 'root')
+        return renderer.slot(['default']).main().exec()
+
       return renderer.slot(['default']).main().editAction().exec()
     },
   },
@@ -42,16 +46,16 @@ export const prod_engine: AliothRenderFn = {
   alioth: 'setRenderFn',
   data: {
     mode: 'runtime',
-    fn: ({ node, scope, widget, props }) => {
+    fn: ({ node, scope, widget, props, doc }) => {
       if (props?.a_node === node) {
-        const renderer = new Renderer('runtime', props.a_node, widget, scope)
+        const renderer = new Renderer(doc, node, 'runtime', widget, scope)
 
         return renderer.slot(['default']).main().exec()
       }
       if (props?.a_node)
         return undefined
 
-      const renderer = new Renderer('runtime', node, widget, scope)
+      const renderer = new Renderer(doc, node, 'runtime', widget, scope)
       return renderer.slot(['default']).main().exec()
     },
   },

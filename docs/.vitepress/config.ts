@@ -30,7 +30,10 @@ export default defineConfig({
     },
 
     nav: [
-      { text: '指南', link: '/core/intro', activeMatch: '/core/' },
+      { text: 'frontend', link: '/core/intro', activeMatch: '/core/' },
+      { text: 'backend', link: '/server/intro', activeMatch: '/server/' },
+      { text: 'blog', link: '/blog/index', activeMatch: '/blog/' },
+
       // {
       //   text: 'API',
       //   link: '/api/helper',
@@ -43,14 +46,18 @@ export default defineConfig({
 
     sidebar: {
 
-      '/': [
+      '/core': [
         {
           text: '核心',
-          collapsed: true,
+          collapsed: false,
           items: [
             {
               text: '介绍',
               link: '/core/intro',
+            },
+            {
+              text: 'headless',
+              link: '/core/headless',
             },
             {
               text: '核心',
@@ -76,9 +83,10 @@ export default defineConfig({
               text: 'phecda-vue',
               link: '/core/phecda-vue',
             },
+
             {
-              text: '部署',
-              link: '/core/deploy',
+              text: '实时协同',
+              link: '/core/ws',
             },
           ],
         },
@@ -87,98 +95,107 @@ export default defineConfig({
           collapsed: false,
           items: [
             {
-              text: '看见须知',
-              link: '/example/must-know',
+              text: '须知',
+              link: '/core/example/must-know',
             },
             {
               text: '快速上手',
-              link: '/example/quick-start',
+              link: '/core/example/quick-start',
             },
             {
               text: '预设',
-              link: '/example/preset',
+              link: '/core/example/preset',
             },
             {
               text: '功能模块',
-              link: '/example/function',
+              link: '/core/example/function',
+            },
+            {
+              text: '部署',
+              link: '/core/example/deploy',
             },
 
           ],
         },
 
       ],
-      '/api/': [
+      '/server': [
         {
-          text: '主应用',
-          collapsible: true,
-          items: [
-            {
-              text: 'alioth',
-              link: '/api/main',
-            },
-
-            {
-              text: '生命周期',
-              link: '/api/lifecycle',
-            },
-
-            {
-              text: 'vue',
-              link: '/api/vue',
-            },
-          ],
+          text: 'intro',
+          link: '/server/intro',
         },
         {
-          text: '子应用',
-          collapsible: true,
-          items: [
-            {
-              text: 'helper',
-              link: '/api/helper',
-            },
-            {
-              text: 'vite',
-              link: '/api/vite',
-            },
-            {
-              text: 'webpack',
-              link: '/api/webpack',
-            },
-
-          ],
+          text: '云服务',
+          link: '/server/serverless',
         },
+
       ],
+      // '/api/': [
+      //   {
+      //     text: '主应用',
+      //     collapsed: true,
+      //     items: [
+      //       {
+      //         text: 'alioth',
+      //         link: '/api/main',
+      //       },
+
+      //       {
+      //         text: '生命周期',
+      //         link: '/api/lifecycle',
+      //       },
+
+      //       {
+      //         text: 'vue',
+      //         link: '/api/vue',
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     text: '子应用',
+      //     collapsible: true,
+      //     items: [
+      //       {
+      //         text: 'helper',
+      //         link: '/api/helper',
+      //       },
+      //       {
+      //         text: 'vite',
+      //         link: '/api/vite',
+      //       },
+      //       {
+      //         text: 'webpack',
+      //         link: '/api/webpack',
+      //       },
+
+      //     ],
+      //   },
+      // ],
       '/blog': [
         {
-          text: '设计思路',
-          collapsed: true,
-          items: [
-            {
-              text: '开始之前',
-              link: '/blog/index',
-            },
-            {
-              text: '从哪儿开始',
-              link: '/blog/question',
-            },
-            {
-              text: '特性',
-              link: '/blog/feature',
-            },
+          text: '开始之前',
+          link: '/blog/index',
+        },
+        {
+          text: '从哪儿开始',
+          link: '/blog/question',
+        },
+        {
+          text: '特性',
+          link: '/blog/feature',
+        },
 
-            {
-              text: '自定义',
-              link: '/blog/custom',
-            },
-            {
-              text: '自定义平台',
-              link: '/blog/platform',
-            },
-            {
-              text: '进展',
-              link: '/blog/changelog',
-            },
-          ],
+        {
+          text: '自定义',
+          link: '/blog/custom',
+        },
+        {
+          text: '自定义平台',
+          link: '/blog/platform',
+        },
+        {
+          text: '进展',
+          link: '/blog/changelog',
         },
       ],
 

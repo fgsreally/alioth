@@ -5,8 +5,8 @@ import {
   h,
   render,
 } from 'vue'
-import type { Scope, VirtualNode } from 'alioth-lib'
-import { type Widget } from './interval'
+import type { Scope, VirtualDocument, VirtualNode } from 'alioth-lib'
+import { type Widget } from './internal'
 
 export type CompList<RegisterBlock> = Map<string, RegisterBlock>
 
@@ -19,8 +19,9 @@ export class BaseRenderer<
   renderType: string
   // slotVNode: { [key in string]: Function };
   constructor(
-    public mode: string,
+    public doc: VirtualDocument<NodeAttrs>,
     public node: VirtualNode<NodeAttrs>,
+    public mode: string,
     public widget: Widget,
     public scope: Scope,
   ) {
@@ -34,21 +35,25 @@ export class BaseRenderer<
   slot(
     slotNames: string[],
   ) {
-    if (!this.node.children.length)
+    const childs = this.doc.findChildrens(this.node)
+
+    if (!childs.length)
       return this
     const slots: { [key in string]: Function } = {}
     slotNames.forEach((templateName) => {
       slots[templateName] = (props: any) =>
         // eslint-disable-next-line array-callback-return
-        this.node.children.map((node: VirtualNode<any>) => {
+        childs.map((node: VirtualNode<any>) => {
           if ((node.attrs.slot || 'default') === templateName) {
             const widget = $alioth_interval.getWidget(node.attrs.key)
             if (!widget)
               throw new Error(`miss widget "${node.attrs.key}"`)
-            return $alioth_interval.renderFnMap.get(this.mode)!({ props, scope: this.scope, node, widget, mode: this.mode })
+
+            return $alioth_interval.renderFnMap.get(this.mode)!({ props, scope: this.scope, node, widget, mode: this.mode, doc: this.doc })
           }
         })
     })
+
     this._vnode = slots as any
     return this
   }

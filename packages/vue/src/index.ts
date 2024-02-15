@@ -1,5 +1,5 @@
 export * from './iframe'
-export * from './interval'
+export * from './internal'
 export * from './renderer'
 export * from './component'
 export * from './typeHelper'

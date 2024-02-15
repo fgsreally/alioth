@@ -1,4 +1,4 @@
-export class Emitter {
+export class EventEmitter {
   private record: Record<string, Set<Function>> = {}
   on(event: string, cb: Function) {
     if (!this.record[event])

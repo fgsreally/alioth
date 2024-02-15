@@ -1,5 +1,9 @@
 {
   "extends": "@antfu/eslint-config",
+  
+  "parserOptions": {
+    "emitDecoratorMetadata": true
+  },
   "rules":{
     "vue/no-dupe-keys":"off",
     "vue/valid-v-model":"off",

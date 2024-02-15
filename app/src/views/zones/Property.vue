@@ -16,7 +16,7 @@ let args = $ref<{ data: any; config: any }>({} as any)
 let isShow = $ref(true)
 
 function setProps(node: VirtualNode<NodeAttrs>, key: string, value: any) {
-  node.set(`propsData.${key}`, value)
+  node.set(key, value)
 }
 
 watch(() => selectNode as VirtualNode<NodeAttrs>, async (n, o) => {

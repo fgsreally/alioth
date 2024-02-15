@@ -5,7 +5,7 @@ import { Renderer } from './renderer'
 export const engine: AliothRenderFn = {
   alioth: 'setRenderFn',
   data: {
-    mode: 'edit',
+    mode: 'editor',
     fn: ({ node, scope, widget }) => {
       const renderer = new Renderer('edit', node, widget, scope)
       if (node.parent!.id === 'root')
@@ -36,7 +36,7 @@ export const container = {
   alioth: 'widget',
   data: {
     key: 'page',
-    category: '',
+    mode: 'default',
     component,
   },
 }

@@ -10,6 +10,7 @@ declare global {
         $alioth_setRenderFn:any
         $alioth_interval:any
         $alioth_error:any
+        $alioth_sandbox:any
         __PHECDA__:any
          
     }

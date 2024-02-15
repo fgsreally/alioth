@@ -10,11 +10,11 @@ export default defineConfig({
 
   },
   plugins: [vue(),
-    // Compress(),
-    // Inspect({
-    //   build: true,
-    // }),
-    // visualizer(),
+  // Compress(),
+  // Inspect({
+  //   build: true,
+  // }),
+  // visualizer(),
     Alioth({
       website: 'http://localhost:4010/',
       project: 'alioth',
@@ -34,6 +34,9 @@ export default defineConfig({
   ],
   build: {
     sourcemap: true,
-
+    lib: {
+      entry: './src/entry.editor.ts',
+      formats: ['es'],
+    },
   },
 })

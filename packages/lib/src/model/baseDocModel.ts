@@ -1,59 +1,58 @@
 import { Global, Init, Tag } from 'phecda-core'
-import { VirtualDocument } from '../document'
+import { Controller, VirtualDocument, VirtualNode } from '../document'
 
 @Global
 @Tag('doc')
-export class BaseDocModel<T extends Record<string, any>> {
+export class BaseDocModel<T extends Record<string, any>> extends VirtualDocument {
   activeId: string
-  doc = new VirtualDocument<T>()
+  root: VirtualNode<T>
+  controller: Controller
+  selectNode: VirtualNode<T> | undefined
+  hoverNode: VirtualNode<T> | undefined
+  activePage: VirtualNode<T> | undefined
+
+  constructor() {
+    super()
+
+    this.controller = new Controller(this)
+    // this.activePage = this.addPage()
+  }
 
   @Init
   private _init() {
     window.$alioth_node_event = ({ event, cb }: any) => {
-      this.doc.on(event, cb)
+      this.on(event, cb)
     }
   }
 
-  get activePage() {
-    return this.doc.activeNode
+  get pages() {
+    return this.findChildrens(this.root)
   }
 
-  get pages() {
-    return this.doc.root.children
+  select(node: VirtualNode<T>) {
+    this.selectNode = node
+  }
+
+  hover(node: VirtualNode<T>) {
+    this.hoverNode = node
   }
 
   switchPage(id: string) {
-    this.doc.root.set('id', id)
+    this.activePage = this.pages.find(item => item.id === id)!
   }
 
-  addPage(id?: string) {
-    const node = this.doc.createNode({ key: 'page' } as any, id)
+  addPage() {
+    const newNode = new VirtualNode({ key: 'page' } as any)
 
-    this.doc.root.insert(node)
-    return node
+    this.insert(newNode, this.root)
+    return newNode
   }
 
   removePage(id: string) {
-    const { children } = this.doc.root
-    const index = children.findIndex(item => item.id === id)
-    this.doc.root.remove(index)
+    this.remove(this.findById(id)!)
   }
 
   findPage(id: string) {
-    return this.doc.root.children.find(item => item.id === id)
-  }
-
-  index(id: string) {
-    return this.doc.root.children.findIndex(item => id === item.id)
-  }
-
-  load(data: any) {
-    data = typeof data === 'string' ? JSON.parse(data) : data
-
-    this.doc.load(data)
-  }
-
-  toJSON() {
-    return this.doc.root
+    return this.pages.find(item => item.id === id)!
   }
 }

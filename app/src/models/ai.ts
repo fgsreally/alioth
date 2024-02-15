@@ -23,7 +23,7 @@ export class AiModel {
   }
 
   async test() {
-    const completion = await this.openai.chat.completions.create({
+    await this.openai.chat.completions.create({
       messages: [{ role: 'system', content: s_prompt },
         { role: 'user', content: prompt1 },
         { role: 'assistant', content: prompt2 },
@@ -35,8 +35,6 @@ export class AiModel {
       ],
       model: 'gpt-3.5-turbo',
     })
-    // eslint-disable-next-line no-console
-    console.log(completion.choices[0].message.content)
   }
 
   async ask(type: string) {

@@ -1,27 +1,29 @@
 <script setup lang="ts">
-import { emitter, useV } from 'phecda-vue'
+import { useV } from 'phecda-vue'
 import draggable from 'vuedraggable-es'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { VirtualNode } from 'alioth-vue'
 
-const { doc, activePage } = useV(__PHECDA__.doc)
+const { activePage, insert, findChildrens } = useV(__PHECDA__.doc)
 const { hoverNode, selectNode } = useV(__PHECDA__.selection)
 
-const drag = ref(false)
 function addBlock(module: any) {
   const { key, label, meta } = module
   const parent = hoverNode.value || activePage.value!
-  const block = doc.value.createNode(Object.assign({
+  const node = new VirtualNode(Object.assign({
     slot: 'default',
     key,
     label,
-    propsData: {
-    },
 
   }, meta?.init || {}))
-  parent.insert(block)
-  emitter.emit('alioth:node-action', null)
+  insert(node, parent)
 }
 const dom = ref<HTMLElement>(null as any)
+
+function sort(e) {
+  const curNode = findChildrens(activePage.value!)[e.oldIndex]
+  insert(curNode, activePage.value!, e.newIndex)
+}
 
 const { add, del } = useV(__PHECDA__.drag)
 
@@ -38,9 +40,8 @@ onBeforeUnmount(() => {
     ref="dom" class="a-container" @click.stop.self="selectNode = undefined"
   >
     <draggable
-      v-model="activePage!.children" item-key="id"
-      @start="drag = true"
-      @end="drag = false"
+      :model-value="findChildrens(activePage!)" item-key="id"
+      @sort="sort"
     >
       <template #item="{ element }">
         <div>

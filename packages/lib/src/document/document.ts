@@ -1,229 +1,156 @@
-import { omit } from 'lodash-es'
-import type { Transaction, YEvent } from 'yjs'
-import { UndoManager, Map as YMap } from 'yjs'
-import { VirtualNode } from './node'
-import type { Controller } from './controller'
-import { Emitter } from './emitter'
-export class VirtualDocument<A extends Record<string, any>> extends Emitter {
-  blockMap: Map<string, VirtualNode<A>> = new Map()
-  controller: Controller
-  root: VirtualNode<A>
+import { nanoid } from 'nanoid'
+import { cloneDeep } from 'lodash-es'
+import EventEmitter from 'eventemitter3'
 
-  data = {} as Record<string, any>
+export type DocData = { id: string; attrs: any; index: number; parent: string }[]
+export class VirtualNode<A extends Record<string, any> = any> {
+  parent: string
+  index: number
+  readonly oldAttrs: A
 
-  constructor(initAttrs?: A) {
-    super()
-    this.root = this.createNode(initAttrs, 'root')
-    this.root.level = 0
+  constructor(public attrs: A = {} as any, public id = nanoid(),
+  ) {
+    this.oldAttrs = cloneDeep(attrs)
   }
 
-  get activeNode() {
-    return this.get(this.root.attrs.id)
+  toJSON() {
+    return {
+      id: this.id,
+      attrs: this.attrs,
+      index: this.index,
+      parent: this.parent,
+    }
+  }
+}
+export class VirtualDocument<A extends Record<string, any> = any> extends EventEmitter {
+  nodeSet = new Set<VirtualNode<A>>()
+  root = new VirtualNode({} as A, 'root')
+  currentEventId: string | undefined
+  seed = 0
+
+  protected createEventId() {
+    return this.currentEventId || nanoid()
   }
 
-  // 从所有block中找
-  get(id: string) {
-    return this.blockMap.get(id)
+  get nodes() {
+    return [...this.nodeSet]
   }
 
-  bind(controller: Controller) {
-    this.controller = controller
-    this.root.bind(this)
+  setSeed(seed: number) {
+    if (seed > 0.1)
+      throw new Error('seed should less than 0.1')
+
+    this.seed = seed
   }
 
-  // 回收不在document中的block，垃圾回收
-  clean() {
-    this.blockMap.forEach((v, k, m) => {
-      if (!v.parent)
-        m.delete(k)
+  load(data: DocData) {
+    this.nodeSet.clear()
+    // this.nodeSet.add(this.root)
+
+    data.forEach(({ id, attrs, index, parent }) => {
+      const node = new VirtualNode(attrs, id)
+      node.index = index
+      node.parent = parent
+      this.nodeSet.add(node)
     })
   }
 
-  createNode(initAttrs?: A, id?: string) {
-    const node = new VirtualNode<A>(initAttrs)
-
-    id && (node.id = id)
-
-    // node.bind(this)
-    if (id === 'root')
-      this.root = node
-    this.blockMap.set(node.id, node)
-
-    this.emit('create', { node })
-    return node
+  store() {
+    return this.nodes.map(item => item.toJSON())
   }
 
-  _createNode(initAttrs?: A, id?: string) {
-    if (id && this.blockMap.has(id))
-      return this.blockMap.get(id)
-    const node = new VirtualNode<A>(initAttrs)
-
-    id && (node.id = id)
-
-    node.doc = this
-
-    if (id === 'root')
-      this.root = node
-    this.blockMap.set(node.id, node)
-    this.emit('create', { node })
-
-    return node
-  }
-
-  removeNode(node: VirtualNode<A>) {
-    if (node.parent) {
-      node.parent.remove(node.index!)
-
-      this.blockMap.delete(node.id)
-    }
-  }
-
-  _removeNode(node: VirtualNode<A>) {
-    if (node.parent) {
-      node.parent._remove(node.index!)
-      this.blockMap.delete(node.id)
-    }
-    else {
-      this.blockMap.delete(node.id)
-    }
-  }
-
-  load(data: any) {
+  flat(node: VirtualNode<A>) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
+    const traverse = (node: VirtualNode<any>, arr: VirtualNode<A>[] = []) => {
+      arr.push(node)
 
-    function traverse(data: any) {
-      const node = that.createNode(data.attrs, data.id)
-
-      data.children.forEach((item: any, i: number) => {
-        const child = traverse(item)
-        node.insert(child, i)
-        // child.parent = node
-        // node.children[i] = child
-      })
-      return node
+      that.findChildrens(node).map(n => traverse(n, arr))
+      return arr
     }
-    if (this.controller) {
-      this.controller.ydoc.transact(() => {
-        this.root = traverse(data)
+
+    return traverse(node)
+  }
+
+  findById(id: string) {
+    if (id === 'root')
+      return this.root
+    return this.nodes.find(item => item.id === id)
+  }
+
+  findChildrens(node: VirtualNode<A>) {
+    return this.nodes.filter(item => item.parent === node.id).sort((n1, n2) => n1.index - n2.index)
+  }
+
+  findParent(node: VirtualNode<A>) {
+    return this.nodes.find(item => item.id === node.parent)
+  }
+
+  findBrothers(node: VirtualNode<A>) {
+    return this.nodes.filter(n => node.parent === n.parent)
+  }
+
+  index(node: VirtualNode<A>) {
+    return this.findBrothers(node).findIndex(item => item.id === node.id)!
+  }
+
+  insert(node: VirtualNode<A>, parent: VirtualNode<A>, index = 0) {
+    const childs = this.findChildrens(parent)
+    const index1 = childs[index - 1]?.index || 0
+    const index2 = childs[index]?.index || 1
+    const { parent: lastParent, index: lastIndex } = node
+    node.parent = parent.id
+    node.index = (index2 + index1) / 2 + this.seed
+
+    if (!this.findById(node.id)) {
+      this.nodeSet.add(node)
+
+      this.emit('insert', {
+        node,
+        index: node.index,
       })
     }
     else {
-      this.root = traverse(data)
+      this.emit('swap', {
+        node,
+        lastParentId: lastParent,
+        lastIndex,
+
+      })
     }
-    return this
   }
 
-  transact(cb: (arg?: Transaction) => void, origin?: string) {
-    if (this.controller)
-      this.controller.ydoc.transact(cb, origin)
+  remove(node: VirtualNode<A>) {
+    this.emit('remove', {
+      node,
+
+    })
+    this.nodeSet.delete(node)
+    this.removeChilds(node)
   }
-}
 
-export function observeDoc(doc: VirtualDocument<any>) {
-  const fn: (arg0: YEvent<any>[], arg1: Transaction) => void = (events, t) => {
-    let tasks: (() => void)[] = []
-
-    events.forEach((event) => {
-      if ((!t.local) || t.origin instanceof UndoManager) {
-        // from remote or undoManager
-        if (event.changes.keys.size === 0) {
-          event.changes.deleted.forEach((item) => {
-            const parent = doc.get(event.path[0] as string)!
-            const id = item.content.getContent()[0]
-            const node = doc.get(id)!
-            if (node)
-              parent._removeNode(node)
-          })
-          event.changes.added.forEach((item: any) => {
-            const id = item.content.getContent()[0]
-            const node = doc.get(id)!
-
-            if (item.left) {
-              const left = doc.get(item.left.content.getContent()[0])!
-
-              left.parent!._insert(node, left.index! + 1)
-            }
-            else {
-              const parent = doc.get(event.path[0] as string)
-
-              parent!._insert(node, 0)
-            }
-          })
-        }
-        else {
-          event.changes.keys.forEach((item, i) => {
-            const obj = event.target.get(i)
-            switch (item.action) {
-              case 'add':
-                if (obj instanceof YMap) {
-                  if (obj.has('_is_node')) {
-                    const attrs = obj.toJSON()
-
-                    const node = doc._createNode(omit(attrs, ['children']), i)
-
-                    if (attrs.children.length) {
-                      tasks.push(() => {
-                        attrs.children.forEach((k: string, i: number) => {
-                          node!._insert(doc.get(k)!, i)
-                        })
-                      })
-                    }
-                  }
-                  else {
-                    const path = [...event.path.slice(1), i].join('.')
-                    doc.get(event.path[0] as string)?._set(path, obj.toJSON())
-                  }
-                }
-
-                else {
-                  const path = [...event.path.slice(1), i].join('.')
-
-                  doc.get(event.path[0] as string)?._set(path, obj)
-                }
-
-                break
-              case 'delete':
-                if (item.oldValue instanceof YMap) {
-                  doc._removeNode(doc.get(i)!)
-                }
-                else {
-                  const path = [...event.path.slice(1), i].join('.')
-                  doc.get(event.path[0] as string)?._set(path, obj)
-                }
-                break
-              case 'update':
-                if (obj instanceof YMap) {
-                  if (obj.has('_is_node')) {
-                    const attrs = obj.toJSON()
-
-                    if (attrs.children.length) {
-                      tasks.push(() => {
-                        attrs.children.forEach((k: string, i: number) => {
-                          doc.get(attrs.id)!._insert(doc.get(k)!, i)
-                        })
-                      })
-                    }
-                  }
-                  else {
-                    doc.get(event.path[0] as string)?._set([...event.path.slice(1), i].join('.')
-                      , obj.toJSON())
-                  }
-                }
-                else {
-                  doc.get(event.path[0] as string)?._set([...event.path.slice(1), i].join('.')
-                    , obj)
-                }
-            }
-          })
-        }
-        tasks.forEach(task => task())
-        tasks = []
+  protected removeChilds(node: VirtualNode<A>) {
+    this.nodes.forEach((n) => {
+      if (n.parent === node.id) {
+        this.nodeSet.delete(n)
+        this.removeChilds(n)
       }
     })
   }
-  doc.controller.map.observeDeep(fn)
-  return () => {
-    doc.controller.map.unobserveDeep(fn)
+
+  public set<K extends keyof A>(node: VirtualNode<A>, key: K, value: A[K]) {
+    this.emit('set', {
+      node,
+      key,
+      value,
+      oldValue: node.oldAttrs[key], // work for v-model
+    })
+
+    this._set(node, key, value)
+  }
+
+  _set<K extends keyof A>(node: VirtualNode<A>, key: K, value: A[K]) {
+    node.oldAttrs[key] = cloneDeep(value)
+    node.attrs[key] = value
   }
 }

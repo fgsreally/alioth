@@ -1,26 +1,29 @@
 {
   "mode": "pre",
-  "tag": "alpha",
+  "tag": "beta",
   "initialVersions": {
+    "app": "0.0.0",
     "example-dev": "0.0.0",
     "example-prod": "0.0.0",
-    "alioth-dev": "0.0.0",
-    "alioth-lib": "0.0.0",
-    "alioth-vue": "0.0.0",
-    "app": "0.0.0",
-    "alioth-preset-arco": "0.0.0",
-    "alioth-preset-elementplus": "0.0.0",
+    "alioth-server": "1.0.0",
+    "alioth-dev": "0.0.1-alpha.0",
+    "alioth-lib": "0.0.1-alpha.0",
+    "nodejs": "1.0.0",
     "alioth-preset-layout": "0.0.0",
-    "alioth-preset-shadcn": "0.0.0"
+    "alioth-vue": "0.0.1-alpha.0",
+    "example-server": "1.0.0"
   },
   "changesets": [
     "eleven-trainers-check",
     "flat-scissors-greet",
     "happy-icons-judge",
+    "honest-keys-hammer",
     "hot-months-mate",
     "nervous-vans-wave",
     "new-coins-help",
+    "shaggy-moose-fetch",
     "spotty-islands-retire",
+    "tricky-jokes-sit",
     "violet-spies-grin"
   ]
 }

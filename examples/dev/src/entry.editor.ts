@@ -1,53 +1,32 @@
+import type { AliothComponent, AliothZone } from 'alioth-vue'
 import { useR } from 'phecda-vue'
-import type { AliothEvent, AliothNodeEvent } from 'alioth-vue'
-import 'alioth-preset-elementplus/dist/style.css'
+import TestVue from './Test.vue'
 
-// import 'alioth-preset-elementplus/dist/style.css'
+export { container, engine, prod_engine } from 'alioth-preset-layout/draggable/index.ts'
 
-// engine should be exported before all widgets,so it starts with '_'
-export * from 'alioth-preset-layout/draggable/index.ts'
-export const event_test: AliothEvent = {
-  alioth: 'event',
+export const zone_test: AliothZone = {
+  alioth: 'zone',
   data: {
-    keyboard: 'ctrl+a',
-    name: 'show-material',
-    execute() {
-      const { zones } = useR(__PHECDA__.view)
-      const zone = zones.find(item => item.name === 'Material')!;
-      (zone.props as any).hidden = !(zone.props as any).hidden
+    component: 'test',
+    label: '事件',
+    name: 'Event',
+    isActive: () => {
+      return !!useR(__PHECDA__.selection).selectNode
     },
-    pushQueue: false,
+    props: {
+      type: 'events',
+      x: 600,
+      y: 600,
+      transition: 'left',
+      hidden: false,
+    },
   },
 }
-export * from 'alioth-preset-elementplus'
 
-export const page_event: AliothNodeEvent = {
-  alioth: 'node_event',
+export const view_test: AliothComponent = {
+  alioth: 'component',
   data: {
-    event: 'create',
-    cb({ node }) {
-      if (node.attrs.key === 'page') {
-        node.attrs = {
-          title: '11',
-          key: 'page',
-          page: true,
-          width: 480,
-          height: 400,
-          fontSize: 16,
-          backgroundColor: 'rgb(102, 107, 226)',
-          gridColor: '#ff00006b',
-          gridNum: 10,
-          gridGap: 20,
-          margin: 0,
-          radius: 0,
-          isContainer: true,
-          isFull: false,
-          isGrid: true,
-          mode: 'normal',
-          wLimit: [375, 2000],
-          hLimit: [600, 4000],
-        }
-      }
-    },
+    component: TestVue,
+    key: 'test',
   },
 }

@@ -1,7 +1,7 @@
 import type { Component } from 'vue'
 import type { Command, DefaultEvent, VirtualNode } from 'alioth-lib'
-import type { Header, Zone } from './model'
-import type { RenderFn } from './interval'
+import type { Icon, Zone } from './model'
+import type { RenderFn } from './internal'
 export interface BasePreset<T, D> {
   alioth: T
   data: D
@@ -43,7 +43,7 @@ export interface AliothNodeEvent extends BasePreset<'node_event', {
 }> {
 
 }
-export interface AliothHeader<P = any> extends BasePreset<'header', Header<P>> {
+export interface AliothIcon<P = any> extends BasePreset<'icon', Icon<P>> {
 
 }
 
@@ -51,7 +51,7 @@ export interface AliothZone<P = any> extends BasePreset<'zone', Zone<P>> {
 
 }
 
-export interface AliothView extends BasePreset<'view', { key: string; component: Component }> {
+export interface AliothComponent extends BasePreset<'component', { key: string; component: Component }> {
 
 }
 

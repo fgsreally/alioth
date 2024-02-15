@@ -1,8 +1,6 @@
 import type { NodeAttrs } from 'alioth-vue'
-import { Init, emitter, useO } from 'phecda-vue'
-import { BaseDocModel, Controller, observeDoc } from 'alioth-vue'
-import { EventModel } from './event'
-
+import { Init, emitter } from 'phecda-vue'
+import { BaseDocModel, WsClientBridge } from 'alioth-vue'
 export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
   containerAttrs = markRaw(
     {
@@ -27,39 +25,16 @@ export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
     },
   )
 
-  add() {
-    emitter.emit('alioth:node-action', null)
-
-    return super.addPage()
-  }
-
-  remove(id: string) {
-    emitter.emit('alioth:node-action', null)
-
-    return super.removePage(id)
-  }
-
   @Init
   init() {
-    useO(EventModel)
-    window.addEventListener('beforeunload', () => {
-      localStorage.setItem('alioth_doc_state', JSON.stringify({
-        data: this.toJSON(),
-        activeId: this.activeId,
-      }))
-    })
-    this.doc.bind(markRaw(new Controller()))
-    observeDoc(this.doc)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const ws = new WsClientBridge(this.controller
+      , 'ws://localhost:4000?id=1')
 
-    // const wsProvider = new WebsocketProvider('ws://localhost:1234', 'alioth', this.doc.controller.ydoc)
-    // const lastRecord = localStorage.getItem('alioth_doc_state')
-    // if (lastRecord) {
-    //   const { data, activeId } = JSON.parse(lastRecord)
-
-    //   emitter.emit('alioth:node-action', null)
-    //   this.load(data)
-    //   this.active(activeId)
-    // }
-    // interval.scope.add('$doc', this)
+    const rawEmit = this.emit.bind(this)
+    this.emit = (...args) => {
+      emitter.emit('alioth:node-action', null)
+      return rawEmit(...args)
+    }
   }
 }

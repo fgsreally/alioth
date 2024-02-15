@@ -1,5 +1,5 @@
 import * as acorn from 'acorn'
-import type { NodeAttrs, VirtualDocument, VirtualNode } from 'alioth-vue'
+import type { NodeAttrs, VirtualDocument } from 'alioth-vue'
 import * as esbuild from 'esbuild-wasm'
 import { unpkgPathPlugin } from './esbuild/unpkg-path-plugin'
 
@@ -82,14 +82,12 @@ export function createEntryFileCode(doc: VirtualDocument<NodeAttrs>, graph: Reco
       }
     }
   }
-  function parseNode(node: VirtualNode<NodeAttrs>) {
+
+  doc.nodes.forEach((node) => {
     if (node.attrs.key)
       componentSet.add(node.attrs.key)
     parseAttrs(node.attrs)
-    node.children.forEach(parseNode)
-  }
-
-  parseNode(doc.root)
+  })
 
   for (const url in graph) {
     if (url.endsWith('.css')) {

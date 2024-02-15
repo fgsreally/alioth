@@ -77,6 +77,7 @@ function proxyEvents(iframe: HTMLIFrameElement) {
 
 /**
  * @description 通过iframe实现样式隔离
+ * @experiment
  */
 export const IframeCanvas = defineComponent({
   props: {
@@ -94,6 +95,8 @@ export const IframeCanvas = defineComponent({
     async function onload() {
       // @ts-expect-error get iframe instance
       const iframe = this as HTMLIFrameElement
+      window.$alioth_sandbox = { window: iframe.contentWindow, document: iframe.contentDocument }
+
       injectScript(iframe)
       injectStyle(iframe)
       setCanvasTag(iframe)

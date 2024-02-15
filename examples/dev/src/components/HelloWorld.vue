@@ -1,11 +1,11 @@
 <script setup lang="ts">
-defineProps<{ msg: number }>()
+defineProps<{ text: number }>()
 </script>
 
 <template>
   <div style="width: 100px;height: 100px;background-color: red;">
     <p style="user-select: none;">
-      {{ msg }}
+      {{ text }}
     </p>
   </div>
 </template>

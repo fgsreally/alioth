@@ -257,7 +257,7 @@ let pastedValue: string | null = null
 //   AggregateEnvironment[]
 // >
 
-const envTooltipPlugin = new VariablePlugin(view, interval.data)
+const envTooltipPlugin = new VariablePlugin(view, ref(interval.scope.data))
 
 function handleTextSelection() {
   const selection = view.value?.state.selection.main

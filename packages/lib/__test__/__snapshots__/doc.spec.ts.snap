@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`doc and node > base action 1`] = `
+[
+  {
+    "attrs": {
+      "id": 1,
+    },
+    "id": "1",
+    "index": 0.5,
+    "parent": "root",
+  },
+  {
+    "attrs": {
+      "id": 2,
+    },
+    "id": "2",
+    "index": 0.25,
+    "parent": "root",
+  },
+]
+`;

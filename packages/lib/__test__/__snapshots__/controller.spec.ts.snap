@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`controller > diff 1`] = `
+{
+  "insertRecords": [
+    {
+      "attrs": {
+        "id": "5",
+      },
+      "index": 0.5,
+      "nodeId": "5",
+      "parentId": "1",
+    },
+  ],
+  "removeRecords": [
+    {
+      "attrs": {
+        "id": "3",
+      },
+      "index": 0.125,
+      "nodeId": "3",
+      "parentId": "root",
+    },
+    {
+      "attrs": {
+        "id": "4",
+      },
+      "index": 0.5,
+      "nodeId": "4",
+      "parentId": "3",
+    },
+  ],
+  "setRecords": [
+    {
+      "key": "id",
+      "nodeId": "1",
+      "oldValue": "1",
+      "value": "test1",
+    },
+  ],
+  "swapRecords": [
+    {
+      "index": 0.25,
+      "lastIndex": 0.25,
+      "lastParentId": "root",
+      "nodeId": "2",
+      "parentId": "1",
+    },
+  ],
+}
+`;

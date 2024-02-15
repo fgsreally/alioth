@@ -4,7 +4,7 @@ import { BaseViewModel } from 'alioth-vue'
 import axios from 'axios'
 import { ImportModel } from './import'
 import { DocModel } from './doc'
-import { SelectionModel } from './selection'
+// import { SelectionModel } from './selection'
 import { componentMap } from '@/views/zones'
 import { useLayer } from '@/composables/layer'
 import PreviewRenderVue from '@/views/preview/PreviewRender.vue'
@@ -42,7 +42,7 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any,
       handler() {
         const { presets } = toRaw(useR(ImportModel))
         download('data.json', JSON.stringify({
-          docs: useV(DocModel).toJSON(),
+          docs: useV(DocModel).store(),
           presets,
         }))
       },
@@ -52,7 +52,6 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any,
       async handler() {
         const { graph, viteUrl } = useR(ImportModel)
 
-        const doc = unref(useV(DocModel).doc)
         // const ret = await bundleWithEsbuild(createEntryFileCode(doc, graph, viteUrl), 'http://localhost:5173/')
         // ret.forEach(({ text, path }) => {
         //   download(path, text)
@@ -61,7 +60,7 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any,
         axios.post(new URL('/alioth/action', viteUrl).href, {
           entry: 'entry.js',
           type: 'bundle',
-          content: createEntryFileCode(doc, graph, viteUrl),
+          content: createEntryFileCode(useR(DocModel), graph, viteUrl),
         })
       },
     },
@@ -69,22 +68,22 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any,
 
   zones = [
 
-    {
-      component: 'Property',
-      label: '组件property',
-      name: 'Property',
-      isActive: () => {
-        return !!useR(SelectionModel).selectNode
-      },
-      props: {
-        x: 600,
-        y: 600,
-        transition: 'left',
-        hidden: false,
-        type: 'props',
-      },
+    // {
+    //   component: 'Property',
+    //   label: '组件property',
+    //   name: 'Property',
+    //   isActive: () => {
+    //     return !!useR(SelectionModel).selectNode
+    //   },
+    //   props: {
+    //     x: 600,
+    //     y: 600,
+    //     transition: 'left',
+    //     hidden: false,
+    //     type: 'props',
+    //   },
 
-    },
+    // },
     {
       component: 'Terminal',
       label: '终端',
@@ -112,22 +111,22 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any,
 
     },
 
-    {
-      component: 'Property',
-      label: '事件',
-      name: 'Event',
-      isActive: () => {
-        return !!useR(SelectionModel).selectNode
-      },
-      props: {
-        type: 'events',
-        x: 600,
-        y: 600,
-        transition: 'left',
-        hidden: false,
-      },
+    // {
+    //   component: 'Property',
+    //   label: '事件',
+    //   name: 'Event',
+    //   isActive: () => {
+    //     return !!useR(SelectionModel).selectNode
+    //   },
+    //   props: {
+    //     type: 'events',
+    //     x: 600,
+    //     y: 600,
+    //     transition: 'left',
+    //     hidden: false,
+    //   },
 
-    },
+    // },
     {
       component: 'ImportList',
       label: '引入',

@@ -1,203 +1,161 @@
 import { describe, expect, it } from 'vitest'
-import { applyUpdate } from 'yjs'
-import { VirtualDocument, observeDoc } from '../src/document/document'
-import { Controller } from '../src/document/controller'
+import { cloneDeep } from 'lodash-es'
+import { Controller, VirtualDocument, VirtualNode, diff } from '../src/document'
 
-describe('controller [yjs]', () => {
-  it('base', () => {
-    const c = new Controller({
-      captureTimeout: 0,
-    })
-    c.create('0', {
-      key: 'root',
-    })
-    c.create('1', {
-      key: 'test',
-    })
-    c.insert('0', '1', 0)
-    c.set('1', 'key', 'fgs')
-
-    c.undo()
-    expect(c.map.get('1').get('key')).toBe('test')
-
-    c.undo()
-    expect(c.map.get('0').get('children').length).toBe(0)
-    c.redo()
-    expect(c.map.get('0').get('children').length).toBe(1)
-    c.delete('0', '1', 0)
-    expect(c.map.get('0').get('children').length).toBe(0)
-
-    c.undo()
-    expect(c.map.get('0').get('children').length).toBe(1)
-  })
-
-  it('deep', () => {
-    const c = new Controller({
-      captureTimeout: 0,
-    })
-    c.create('0', {
-      key: 'root',
-    })
-
-    c.set('0', 'a', { b: { c: 3 } })
-
-    expect(c.map.get('0').get('a').get('b').get('c')).toBe(3)
-    expect(c.map.get('0').get('key')).toBe('root')
-
-    c.undo()
-    expect(c.map.get('0').has('a')).toBe(false)
-    c.redo()
-    expect(c.map.get('0').get('a').get('b').get('c')).toBe(3)
-    c.set('0', 'a.b.c', 4)
-    expect(c.map.get('0').get('a').get('b').get('c')).toBe(4)
-    c.undo()
-    expect(c.map.get('0').get('a').get('b').get('c')).toBe(3)
-
-    c.set('0', 'a', [{ b: { c: 3 } }])
-    expect(c.map.get('0').get('a').get(0).get('b').get('c')).toBe(3)
-
-    c.undo()
-    expect(c.map.get('0').get('a').get('b').get('c')).toBe(3)
-  })
-  it('controller sync', () => {
-    const c = new Controller({
-      captureTimeout: 0,
-    })
-    const c2 = new Controller({
-      captureTimeout: 0,
-    })
-    c.ydoc.on('update', (update) => {
-      applyUpdate(c2.ydoc, update)
-    })
-
-    c2.ydoc.on('update', (update) => {
-      applyUpdate(c.ydoc, update)
-    })
-
-    c.create('1', {
-      key: 'test',
-    })
-
-    expect(c.map.has('1')).toBeTruthy()
-
-    c.undo()
-    expect(c.map.has('1')).toBeFalsy()
-  })
-
-  it('undo/redo with controller', () => {
+describe('controller', () => {
+  it('undo/redo', () => {
     const doc = new VirtualDocument()
-    const c = new Controller({
-      captureTimeout: 0,
 
-    })
-    doc.bind(c)
-    observeDoc(doc)
+    const c = new Controller(doc)
+    const node1 = new VirtualNode({ id: '1' }, '1')
+    const node2 = new VirtualNode({ id: '2' }, '2')
+    const node3 = new VirtualNode({ id: '3' }, '3')
+    doc.insert(node1, doc.root)
+    doc.insert(node2, node1)
+    doc.insert(node3, node1)
 
-    const node = doc.createNode({ name: 'a' })
+    doc.set(node1, 'id', 'test1')
 
-    doc.root.insert(node)
-    expect(doc.root.children.length).toBe(1)
-    node.set('name', 'b')
+    expect(doc.nodeSet.size).toBe(3)
+
+    doc.remove(node1)
+
+    expect(doc.findChildrens(doc.root).length).toBe(0)
 
     c.undo()
-
-    expect(node.attrs.name).toBe('a')
+    expect(doc.nodes.length).toBe(3)
 
     c.undo()
-    expect(doc.root.children.length).toBe(0)
+    expect(node1.attrs.id).toBe('1')
+
+    c.undo()
+    expect(doc.findChildrens(node1).length).toBe(1)
+
+    expect(c.redoStack.length).toBe(3)
+
     c.redo()
-    expect(doc.root.children.length).toBe(1)
+    expect(doc.findChildrens(node1).length).toBe(2)
+
+    c.redo()
+    expect(node1.attrs.id).toBe('test1')
+
+    c.redo()
+    expect(c.redoStack.length).toBe(0)
   })
-  it('sync data by yjs', () => {
-    const c = new Controller({
-      captureTimeout: 0,
-    })
-    const c2 = new Controller({
-      captureTimeout: 0,
-    })
-    const doc1 = new VirtualDocument()
+
+  it('diff', () => {
+    const doc = new VirtualDocument()
+    const node1 = new VirtualNode({ id: '1' }, '1')
+    const node2 = new VirtualNode({ id: '2' }, '2')
+    const node3 = new VirtualNode({ id: '3' }, '3')
+    const node4 = new VirtualNode({ id: '4' }, '4')
+    const node5 = new VirtualNode({ id: '5' }, '5')
+
+    doc.insert(node1, doc.root)
+    doc.insert(node2, doc.root)
+    doc.insert(node3, doc.root)
+    doc.insert(node4, node3)
+
     const doc2 = new VirtualDocument()
 
-    c.ydoc.on('update', (update) => {
-      applyUpdate(c2.ydoc, update)
-    })
+    doc2.load(cloneDeep(doc.store()))
 
-    c2.ydoc.on('update', (update) => {
-      applyUpdate(c.ydoc, update)
-    })
-    doc1.bind(c)
+    doc.insert(node5, node1) // insert
 
-    doc2.bind(c2)
-    observeDoc(doc1)
+    doc.insert(node2, node1)// swap
 
-    observeDoc(doc2)
+    doc.set(node1, 'id', 'test1')// set
 
-    const node = doc1.createNode()
+    doc.remove(node3)// remove
 
-    doc1.root.insert(node)
-    doc1.root.insert(doc1.createNode(), 1)
-    expect(doc2.blockMap.size).toBe(3)
-    expect(doc2.root.children.length).toBe(2)
-    node.set('config', { alioth: true })
-    node.set('config.alioth', false)
-    expect(doc2.get(node.id)!.attrs.config.alioth).toBe(false)
-
-    c.undo()
-    expect(doc2.get(node.id)!.attrs.config.alioth).toBe(true)
-
-    node.set('config.alioth', { a: { b: { c: 1 } } })
-    expect(doc2.get(node.id)!.attrs.config.alioth.a.b.c).toBe(1)
-
-    node.set('config.alioth.a.b.c', 2)
-    expect(doc2.get(node.id)!.attrs.config.alioth.a.b.c).toBe(2)
-    c.undo()
-    expect(doc2.get(node.id)!.attrs.config.alioth.a.b.c).toBe(1)
-    c.redo()
-    expect(doc2.get(node.id)!.attrs.config.alioth.a.b.c).toBe(2)
-
-    doc1.removeNode(node)
-
-    expect(doc2.root.children.length).toBe(1)
-    expect(doc2.blockMap.size).toBe(2)
-
-    c.undo()
-    expect(doc2.root.children.length).toBe(2)
-    expect(doc2.blockMap.size).toBe(3)
-
-    c.redo()
-    expect(doc2.root.children.length).toBe(1)
-    expect(doc2.blockMap.size).toBe(2)
-
-    doc2.createNode()
-    expect(doc1.blockMap.size).toBe(3)
-    c2.undo()
-    expect(doc1.blockMap.size).toBe(2)
+    expect(diff(doc2.nodes, doc.nodes)).toMatchSnapshot()
   })
-  it('swap node', () => {
+
+  it('sync', () => {
     const doc = new VirtualDocument()
-    const c = new Controller({
-      captureTimeout: 0,
-    })
-    doc.bind(c)
-    observeDoc(doc)
-    const node1 = doc.createNode()
-    const node2 = doc.createNode()
+    const node1 = new VirtualNode({ id: '1' }, '1')
+    const node2 = new VirtualNode({ id: '2' }, '2')
+    const node3 = new VirtualNode({ id: '3' }, '3')
+    const node4 = new VirtualNode({ id: '4' }, '4')
+    const node5 = new VirtualNode({ id: '5' }, '5')
+    const node6 = new VirtualNode({ id: '6' }, '6')
 
-    doc.root.insert(node1)
-    doc.root.insert(node2)
-    doc.controller.ydoc.transact(() => {
-      doc.removeNode(node1)
-      node2.insert(doc.createNode(node1.attrs, node1.id))
+    doc.insert(node1, doc.root)
+    doc.insert(node2, doc.root)
+    doc.insert(node3, doc.root)
+    doc.insert(node4, node3)
+
+    const doc2 = new VirtualDocument()
+
+    doc2.load(cloneDeep(doc.store()))
+    const c1 = new Controller(doc)
+    const c2 = new Controller(doc2)
+
+    c1.invokeBridge = (e) => {
+      c2.applyEvent(e)
+    }
+
+    c2.invokeBridge = (e) => {
+      c1.applyEvent(e)
+    }
+
+    // doc1 action
+    doc.insert(node5, doc.root)
+    expect(doc2.findChildrens(doc2.root).length).toBe(4)
+    doc.insert(node2, node1)
+
+    expect(doc2.findChildrens(doc2.root).length).toBe(3)
+    // console.log(doc2.nodes)
+    expect(doc2.findChildrens(doc2.findById('1')!).length).toBe(1)
+
+    doc.set(node1, 'id', 'test1')
+    expect(doc2.findById('1')!.attrs.id).toBe('test1')
+
+    doc.remove(node3)
+    expect(doc2.nodes.length).toBe(3)
+
+    // doc2 action
+    doc2.insert(node6, doc2.root)
+
+    expect(doc.findChildrens(doc.root).length).toBe(3)
+
+    c1.undo()
+
+    expect(doc2.nodes.length).toBe(6)
+
+    c1.undo()
+
+    expect(doc2.findById('1')!.attrs.id).toBe('1')
+    c1.undo()
+    expect(doc2.findChildrens(node1).length).toBe(0)
+    expect(doc2.findChildrens(doc2.root).length).toBe(5)
+
+    c1.undo()
+    expect(doc2.findById('5')).toBeUndefined()
+
+    c1.redo()
+    expect(doc2.findById('5')).toBeDefined()
+  })
+
+  it('transact', () => {
+    const doc = new VirtualDocument()
+    const c = new Controller(doc)
+
+    const node1 = new VirtualNode({ id: '1' }, '1')
+
+    c.transact(() => {
+      doc.insert(node1, doc.root)
+      doc.set(node1, 'id', 'test1')
     })
-    expect(doc.blockMap.size).toBe(3)
-    expect(doc.root.children.length).toBe(1)
-    expect(node2.children.length).toBe(1)
+
     c.undo()
-    expect(node2.children.length).toBe(0)
+    expect(node1.attrs.id).toBe('1')
 
-    expect(doc.root.children.length).toBe(2)
+    expect(doc.nodes.length).toBe(0)
+
     c.redo()
-    expect(node2.children.length).toBe(1)
-    expect(doc.root.children.length).toBe(1)
+
+    expect(doc.nodes.length).toBe(1)
+    expect(node1.attrs.id).toBe('test1')
   })
 })
