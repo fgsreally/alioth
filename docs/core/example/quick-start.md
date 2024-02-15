@@ -121,4 +121,4 @@ export const state_changeC = {
 可以直接点击右上预览，也可以右上点击导出json，点开控制台第二个链接，上传这个json，查看预览效果，
 
 
-> 生产环境部署[详见](../core/deploy.md)
+> 生产环境部署[详见](./deploy.md)

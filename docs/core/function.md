@@ -16,7 +16,7 @@
 功能模块通过全局变量的方式调用，[详见](./phecda-vue.md#全局调用)
 
 
-[案例](../example/function.md)
+[案例](./example/function.md)
 
 :::warning
 因为功能模块只在编辑器中，所以这些部分不要打包进生产
