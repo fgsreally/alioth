@@ -20,8 +20,8 @@
 
 
 ## 详情
-[alioth-nodejs]()提供了一个很简单的镜像，只实现最基本的功能
-[案例]()中提供了`k8s`和`docker`两种方式，实现部署/更新代码
+[alioth-nodejs](https://github.com/fgsreally/alioth/tree/main/packages/nodejs)提供了一个很简单的镜像，只实现最基本的功能
+[案例](https://github.com/fgsreally/alioth/tree/main/examples/server)中提供了`k8s`和`docker`两种方式，实现部署/更新代码
 
 :::warning
 

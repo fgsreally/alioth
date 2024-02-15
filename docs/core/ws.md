@@ -15,4 +15,4 @@
 
 使用`websocket`,服务端使用`ServerBridge`,一个特殊的`Bridge`,负责处理变化信息，并决定是否转发到各个用户
 
-详见[example]()
+详见[example](https://github.com/fgsreally/alioth/tree/main/examples/server)

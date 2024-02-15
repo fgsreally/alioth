@@ -144,4 +144,4 @@ export const b = {
 
 以此为入口使用`vite`模式库打包，即可得到产物
 
-[详见](../deploy.md)
+[详见](./deploy.md)

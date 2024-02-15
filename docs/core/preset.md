@@ -14,4 +14,4 @@
 
 :::
 
-[案例](../example/preset.md)
+[案例](./example/preset.md)
