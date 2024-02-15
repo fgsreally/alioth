@@ -1,5 +1,12 @@
 # alioth-vue
 
+## 0.1.0-beta.2
+
+### Patch Changes
+
+- Updated dependencies [e1e6244]
+  - alioth-lib@0.1.0-beta.2
+
 ## 0.1.0-beta.1
 
 ### Minor Changes
@@ -13,14 +20,13 @@
 - 9399e94: add cli to create init-template
 - 9399e94: update Zone types
 - Updated dependencies [54097fa]
-<<<<<<< HEAD
+  <<<<<<< HEAD
 - Updated dependencies
 - Updated dependencies [5898af5]
 - Updated dependencies [11688a2]
-  - alioth-lib@0.1.0-beta.1
-=======
+  - # alioth-lib@0.1.0-beta.1
   - alioth-lib@0.0.1-alpha.1
->>>>>>> 641f4473f4d329ed764fb5e7898a3d7d4d6bd72e
+    > > > > > > > 641f4473f4d329ed764fb5e7898a3d7d4d6bd72e
 
 ## 0.0.1-alpha.0
 
