@@ -2,7 +2,7 @@ import type { AliothComponent, AliothZone } from 'alioth-vue'
 import { useR } from 'phecda-vue'
 import TestVue from './Test.vue'
 
-export { container, engine, prod_engine } from 'alioth-preset-layout/draggable/index.ts'
+export { container, engine, engine_prod } from './engine'
 
 export const zone_test: AliothZone = {
   alioth: 'zone',

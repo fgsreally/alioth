@@ -10,10 +10,10 @@ export class Renderer extends BaseRenderer<any> {
   main() {
     const { component } = this.widget
     if (this.node.parent?.id === 'root') {
-      this._vnode = h(
+      this.vnode = h(
         component,
         { ...this.node.attrs, a_mode: this.mode, a_node: this.node },
-        this._vnode,
+        this.vnode,
       )
       return this
     }
@@ -21,7 +21,7 @@ export class Renderer extends BaseRenderer<any> {
 
     const ret = filter(cloneDeep(this.node.attrs))
     if (this.mode === 'render' && 'modelValue' in this.node.attrs) {
-      (this._vnode = h(
+      (this.vnode = h(
         component,
         {
           ...ret,
@@ -29,39 +29,39 @@ export class Renderer extends BaseRenderer<any> {
             ret.modelValue = v
           },
         },
-        this._vnode))
+        this.vnode))
     }
     else {
-      (this._vnode = h(
+      (this.vnode = h(
         component,
         { ...ret, a_mode: this.mode, a_node: this.node },
-        this._vnode))
+        this.vnode))
     }
 
     return this
   }
 
   editAction() {
-    if (!this._vnode)
+    if (!this.vnode)
       return this
     const { selectNode, hoverNode, selectScope } = useV(__PHECDA__.selection);
 
-    (this._vnode as any).props.onMousedown = (e) => {
+    (this.vnode as any).props.onMousedown = (e) => {
       e.stopPropagation()
       selectNode.value = this.node
       selectScope.value = this.scope
     }
-    (this._vnode as any).props.onDragoverCapture = () => {
+    (this.vnode as any).props.onDragoverCapture = () => {
       hoverNode.value = this.node
     };
-    (this._vnode as any).props.onDragleave = () => {
+    (this.vnode as any).props.onDragleave = () => {
       hoverNode.value = undefined
     }
-    (this._vnode as any).props.onMouseenter = () => {
+    (this.vnode as any).props.onMouseenter = () => {
       hoverNode.value = this.node
     }
 
-    (this._vnode as any).props.onMouseleave = () => {
+    (this.vnode as any).props.onMouseleave = () => {
       hoverNode.value = undefined
     }
 

@@ -5913,13 +5913,13 @@ function createHydrationFunctions(rendererInternals) {
       );
       patch(null, vnode, container);
       flushPostFlushCbs();
-      container._vnode = vnode;
+      container.vnode = vnode;
       return;
     }
     hasMismatch = false;
     hydrateNode(container.firstChild, vnode, null, null, null);
     flushPostFlushCbs();
-    container._vnode = vnode;
+    container.vnode = vnode;
     if (hasMismatch && true) {
       console.error(`Hydration completed but contains mismatches.`);
     }
@@ -7723,15 +7723,15 @@ function baseCreateRenderer(options, createHydrationFns) {
   };
   const render2 = (vnode, container, isSVG) => {
     if (vnode == null) {
-      if (container._vnode) {
-        unmount(container._vnode, null, null, true);
+      if (container.vnode) {
+        unmount(container.vnode, null, null, true);
       }
     } else {
-      patch(container._vnode || null, vnode, container, null, null, null, isSVG);
+      patch(container.vnode || null, vnode, container, null, null, null, isSVG);
     }
     flushPreFlushCbs();
     flushPostFlushCbs();
-    container._vnode = vnode;
+    container.vnode = vnode;
   };
   const internals = {
     p: patch,

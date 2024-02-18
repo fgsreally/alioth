@@ -20,7 +20,7 @@ export class Renderer extends BaseRenderer<any> {
 
     this.vnode = h(
       component,
-      this._vnode)
+      this.vnode)
   }
 }
 export const renderFn: AliothRenderFn = {

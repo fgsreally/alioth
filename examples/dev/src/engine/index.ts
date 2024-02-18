@@ -42,7 +42,7 @@ export const engine: AliothRenderFn = {
     },
   },
 }
-export const prod_engine: AliothRenderFn = {
+export const engine_prod: AliothRenderFn = {
   alioth: 'setRenderFn',
   data: {
     mode: 'runtime',

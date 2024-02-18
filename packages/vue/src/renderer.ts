@@ -1,5 +1,7 @@
 import type {
+  Component,
   VNode,
+  VNodeProps,
 } from 'vue'
 import {
   h,
@@ -13,7 +15,7 @@ export type CompList<RegisterBlock> = Map<string, RegisterBlock>
 export class BaseRenderer<
   NodeAttrs extends Record<string, any>,
 > {
-  protected _vnode: VNode | any
+  protected vnode: VNode | any
 
   // stack: { funcName: string; property: any }[];
   renderType: string
@@ -28,8 +30,12 @@ export class BaseRenderer<
 
   }
 
+  wrap<P extends VNodeProps>(comp: Component<P>, props: P) {
+    this.vnode = h(comp as any, props, this.vnode)
+  }
+
   exec() {
-    return this._vnode as VNode
+    return this.vnode as VNode
   }
 
   slot(
@@ -54,15 +60,15 @@ export class BaseRenderer<
         })
     })
 
-    this._vnode = slots as any
+    this.vnode = slots as any
     return this
   }
 
   mount(dom: HTMLElement = document.body) {
-    if (!this._vnode)
+    if (!this.vnode)
       return this
 
-    render(this._vnode as any, dom)
+    render(this.vnode as any, dom)
     return this
   }
 
@@ -70,52 +76,52 @@ export class BaseRenderer<
     dragEnter: (e: DragEvent, VirtualNode: VirtualNode<NodeAttrs>) => void,
     dragOver: (e: DragEvent, VirtualNode: VirtualNode<NodeAttrs>) => void,
   ) {
-    (this._vnode as any).props.ondragenter = (e: DragEvent) =>
+    (this.vnode as any).props.ondragenter = (e: DragEvent) =>
       dragEnter(e, this.node);
-    (this._vnode as any).props.ondragover = (e: DragEvent) =>
+    (this.vnode as any).props.ondragover = (e: DragEvent) =>
       dragOver(e, this.node)
     return this
   }
 
   addClass(className: string) {
-    if (!this._vnode)
+    if (!this.vnode)
       return this
 
-    if (!(this._vnode as any).props.class)
-      (this._vnode as any).props.class = '';
-    (this._vnode as any).props.class += ` ${className} `
+    if (!(this.vnode as any).props.class)
+      (this.vnode as any).props.class = '';
+    (this.vnode as any).props.class += ` ${className} `
     return this
   }
 
   useClass(className: string) {
-    (this._vnode as any).props.class = className
+    (this.vnode as any).props.class = className
     return this
   }
 
   addStyle(style: Partial<CSSStyleDeclaration>) {
-    if (!this._vnode)
+    if (!this.vnode)
       return this
 
-    if (!(this._vnode as any).props.style)
-      (this._vnode as any).props.style = style;
+    if (!(this.vnode as any).props.style)
+      (this.vnode as any).props.style = style;
 
-    (this._vnode as any).props.style = Object.assign((this._vnode as any).props.style, style)
+    (this.vnode as any).props.style = Object.assign((this.vnode as any).props.style, style)
 
     return this
   }
 
   useStyle(style: Partial<CSSStyleDeclaration>) {
-    (this._vnode as any).props.style = style
+    (this.vnode as any).props.style = style
     return this
   }
 
   useID(id: string) {
-    (this._vnode as any).props.id = id
+    (this.vnode as any).props.id = id
     return this
   }
 
   box() {
-    this._vnode = h('div', { default: () => this._vnode })
+    this.vnode = h('div', { default: () => this.vnode })
     return this
   }
 }
