@@ -12,6 +12,7 @@ import { OUTPUT_DIR } from './common'
 interface ConnectorOpts {
   website: string | Record<string, string>
   project: string
+  query?: Record<string, string>
   externals?: Record<string, string>
   presets?: string[]
   entry: Record<string, string>
@@ -55,7 +56,7 @@ export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
 }
 
 export function Connector(options: ConnectorOpts): PluginOption {
-  const { project, externals = {}, entry, presets = [], website } = options
+  const { project, externals = {}, entry, presets = [], website, query = {} } = options
   const entryFiles = Object.values(options.entry).map(item => normalizePath(resolve(process.cwd(), item)))
   return {
     name: 'alioth-connector',
@@ -75,21 +76,21 @@ export function Connector(options: ConnectorOpts): PluginOption {
           || `${https ? 'https' : 'http'}://localhost:${port || '5173'}`
 
         printUrls()
-        const query = generateQuery({
+        const hash = generateQuery({
           url: host,
           externals: JSON.stringify(externals),
           presets: JSON.stringify(presets),
-
+          ...query,
         })
         if (typeof website === 'string') {
           console.log(
-            `  ${colors.green('➜')}  ${colors.bold('Alioth')} :${colors.blue(`${website}?${query}`)}`,
+            `  ${colors.green('➜')}  ${colors.bold('Alioth')} :${colors.blue(`${website}#${hash}`)}`,
           )
         }
         else {
           Object.entries(website).forEach(([key, url]) => {
             console.log(
-              `  ${colors.green('➜')}  ${colors.bold(`Alioth-${key}`)} :${colors.blue(`${url}?${query}`)}`,
+              `  ${colors.green('➜')}  ${colors.bold(`Alioth-${key}`)} :${colors.blue(`${url}#${hash}`)}`,
             )
           })
         }
@@ -171,10 +172,10 @@ export function DynamicImportmap(imports: Record<string, string> = {}): PluginOp
           {
             tag: 'script',
             injectTo: 'head-prepend',
-            children: `function getQuery(key) {
-              return new URLSearchParams(location.href.split('?')[1] || '').get(key)
+            children: `function getConfig(key) {
+              return new URLSearchParams(location.hash.slice(1)).get(key)
              }
-            const script = document.createElement('script');script.type = 'importmap';const imports = getQuery('externals');script.innerHTML = JSON.stringify(Object.assign(${JSON.stringify(
+            const script = document.createElement('script');script.type = 'importmap';const imports = getConfig('externals');script.innerHTML = JSON.stringify(Object.assign(${JSON.stringify(
               { imports },
             )}, imports?JSON.parse(decodeURIComponent(imports)):{}));document.head.append(script);`,
           },

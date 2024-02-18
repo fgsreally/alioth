@@ -17,9 +17,10 @@ export class ImportModel extends BaseImportModel {
   }
 
   getParams() {
-    const url = decodeURIComponent(getQuery('url') || '')
+    const config = new URLSearchParams(location.hash.slice(1))
+    const url = decodeURIComponent(config.get('url') || '')
 
-    const presets: string[] = JSON.parse(getQuery('presets') || '[]')
+    const presets: string[] = JSON.parse(config.get('presets') || '[]')
     return {
       url, presets,
     }

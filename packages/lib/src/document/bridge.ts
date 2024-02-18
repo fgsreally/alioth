@@ -9,7 +9,7 @@ export abstract class ClientBridge {
   protected readonly _memory = new Map<string, number>()// store event timestamp
   constructor(protected controller: Controller) {
     controller.invokeBridge = (event) => {
-      const time = process.env.TEST ? performance.now() : Date.now()
+      const time = process.env.NODE_ENV === 'test' ? performance.now() : Date.now()
       if (event.type === 'set')
 
         this._memory.set(`set-${event.nodeId}-${event.key}`, time)
