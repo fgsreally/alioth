@@ -40,11 +40,20 @@ export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any,
       label: '下载',
       component: IconDownload,
       handler() {
-        const { presets } = toRaw(useR(ImportModel))
-        download('data.json', JSON.stringify({
-          docs: useV(DocModel).store(),
-          presets,
-        }))
+        const { presets, viteUrl } = toRaw(useR(ImportModel))
+        // download('data.json', JSON.stringify({
+        //   docs: useV(DocModel).store(),
+        //   presets,
+        // }))
+
+        axios.post(new URL('/alioth/file', viteUrl).href, {
+          file: 'data.json',
+
+          content: JSON.stringify({
+            docs: useV(DocModel).store(),
+            presets,
+          }),
+        })
       },
     }, {
       label: '依赖',
