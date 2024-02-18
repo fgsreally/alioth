@@ -1,13 +1,14 @@
 /* eslint-disable no-console */
-import { dirname, resolve } from 'path'
-import fs from 'fs'
+import { dirname, join, resolve } from 'path'
 import { Worker } from 'worker_threads'
 import { fileURLToPath } from 'url'
+import fse from 'fs-extra'
 import { createFilter, normalizePath } from 'vite'
 import type { FilterPattern, PluginOption } from 'vite'
 import colors from 'colors'
 import axios from 'axios'
 import { log } from './utils'
+import { OUTPUT_DIR } from './common'
 interface ConnectorOpts {
   website: string | Record<string, string>
   project: string
@@ -104,7 +105,7 @@ export function Connector(options: ConnectorOpts): PluginOption {
 
         if (req?.url === '/alioth/file' && req.method === 'POST') {
           const { file, content } = await reqToJSON(req)
-          fs.writeFileSync(file, content)
+          await fse.outputFile(join(OUTPUT_DIR, file), content)
           log(`create file ${file}`)
           res.end('0')
 
@@ -113,7 +114,7 @@ export function Connector(options: ConnectorOpts): PluginOption {
         if (req?.url === '/alioth/action' && req.method === 'POST') {
           const { type, content, entry = 'entry.js' } = await reqToJSON(req)
           if (type === 'bundle') {
-            fs.writeFileSync(entry, content)
+            await fse.outputFile(entry, content)
             const worker = new Worker(resolve(__dirname, './worker.js'), {
               env: {
                 ...process.env,
@@ -125,7 +126,7 @@ export function Connector(options: ConnectorOpts): PluginOption {
             worker.postMessage('entry.js')
             worker.once('message', (msg) => {
               log('bundle success!!')
-              fs.unlinkSync(entry)
+              fse.remove(entry)
               res.end(msg)
             })
           }

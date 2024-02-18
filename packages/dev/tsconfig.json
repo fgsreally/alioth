@@ -12,7 +12,6 @@
       "strictBindCallApply": false,
       "resolveJsonModule":true,
       "strictPropertyInitialization": false,
-      "suppressImplicitAnyIndexErrors": true,
       "skipLibCheck": true,
     }
   }
