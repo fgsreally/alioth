@@ -1,7 +1,7 @@
 {
   "name": "example-server",
   "version": "1.0.0",
-  "private":true,
+  "private": true,
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -26,10 +26,12 @@
   "dependencies": {
     "@kubernetes/client-node": "^0.20.0",
     "@typegoose/typegoose": "^12.1.0",
+    "alioth-cloud-sdk": "workspace:^",
     "alioth-lib": "workspace:*",
     "dockerode": "^4.0.2",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
     "mongodb": "^6.3.0",
     "phecda-server": "5.0.0-alpha.5",
     "ws": "^8.16.0"

@@ -1,8 +1,8 @@
 import { Injectable } from 'phecda-server'
 import { AppsV1Api, CoreV1Api, KubeConfig } from '@kubernetes/client-node'
 import Docker from 'dockerode'
+import { DbModule } from 'alioth-cloud-sdk'
 import { IsString } from '../utils'
-import { DbModule } from './db.module'
 const docker = new Docker()
 
 export class CodeVO {
@@ -25,7 +25,7 @@ export class ProjectService {
   }
 
   async create(namespace: string, project: string) {
-    const collection = this.db.db.collection('project')
+    const collection = this.db.collection('projects')
 
     const projects = await collection.find({ namespace }).toArray()
     if (projects.find(item => item.project === project))
@@ -37,9 +37,15 @@ export class ProjectService {
     else
       await this.createContainer(namespace, project)
 
-    await this.db.conn.db(namespace).collection(project).createIndex({ file: 1 }, { unique: true })
+    // await this.db.conn.db(namespace).collection(project).createIndex({ file: 1 }, { unique: true })
 
     await collection.insertOne({ namespace, project })
+
+    await this.db.conn.db(namespace).admin().command({
+      createUser: 'myUsername',
+      pwd: 'myPassword',
+      roles: [{ role: 'readWrite', db: project }],
+    })
   }
 
   async createNamespaceDeployment(namespace: string, project: string, init: boolean) {
@@ -166,35 +172,48 @@ export class ProjectService {
 
   async createContainer(namespace: string, project: string) {
     const container = await docker.createContainer({
-      Image: 'alioth-nodejs', // 这里使用你的镜像名称
+      Image: 'alioth-nodejs-dev', // 这里使用你的镜像名称
       name: `${namespace}-${project}`,
-      Env: [`DB_URI=${process.env.MONGO_URI!}`, `DB_NAME=${namespace}`, `DB_COLLECTION=${project}`],
+      Env: [`DB_URI=${process.env.MONGO_URI!}`, `DB_NAME=${namespace}`, `PROJECT_COLLECTION=${project}`],
 
       HostConfig: {
         // ExtraHosts: ['host.docker.internal:host-gateway'],
         // NetworkMode: 'host', // 连接到mongo-network网络
 
         PortBindings: {
-          '8000/tcp': [{ HostPort: '8000' }],
+          '8000/tcp': [{ HostPort: 0 }],
+          '8001/tcp': [{ HostPort: 0 }],
+
         },
       },
     })
     await container.start()
+    const data = await container.inspect()
+    const httpPort = data.NetworkSettings.Ports['8000/tcp'][0].HostPort
+    const wsPort = data.NetworkSettings.Ports['8001/tcp'][0].HostPort
+    await this.db.collection('projects').insertOne({
+      namespace,
+      project,
+      port: {
+        http: httpPort,
+        ws: wsPort,
+      },
+    })
   }
 
-  async updateCode({ user, project, path, code }: CodeVO) {
-    if (!await this.db.db.collection('project').findOne({ namespace: user, project }))
-      throw new BadRequestException('project should be created before')
-    const collection = this.db.conn.db(user).collection(project)
+  // async updateCode({ user, project, path, code }: CodeVO) {
+  //   if (!await this.db.db.collection('project').findOne({ namespace: user, project }))
+  //     throw new BadRequestException('project should be created before')
+  //   const collection = this.db.conn.db(user).collection(project)
 
-    if (code === '') {
-      collection.deleteOne({ path })
-    }
+  //   if (code === '') {
+  //     collection.deleteOne({ path })
+  //   }
 
-    else {
-      collection.updateOne({ path }, {
-        $set: { code, path },
-      }, { upsert: true })
-    }
-  }
+  //   else {
+  //     collection.updateOne({ path }, {
+  //       $set: { code, path },
+  //     }, { upsert: true })
+  //   }
+  // }
 }

@@ -1,4 +1,4 @@
-import { CodeVO, ProjectService } from './project.service'
+import { ProjectService } from './project.service'
 
 @Controller('/project')
 export class ProjectController {
@@ -12,10 +12,10 @@ export class ProjectController {
     return 'create finish'
   }
 
-  @Post('/update')
-  async update(@Body() data: CodeVO) {
-    await this.service.updateCode(data)
+  // @Post('/update')
+  // async update(@Body() data: CodeVO) {
+  //   await this.service.updateCode(data)
 
-    return 'update success'
-  }
+  //   return 'update success'
+  // }
 }
