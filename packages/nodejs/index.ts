@@ -1,30 +1,14 @@
 import { posix } from 'path'
-import vm from 'node:vm'
 import { unlink, writeFile } from 'fs/promises'
-import { DataBase } from './database'
-const db = new DataBase(process.env.DB_URI || 'mongodb://host.docker.internal:27017,host.docker.internal:27018/?replicaSet=fgs2')
+import { exec } from 'child_process'
+import { WebSocketServer } from 'ws'
+
+import { DataBase, runSandBox } from './helper'
+
+const db = new DataBase(process.env.DB_URI!)
 const fileRe = /\.(controller|edge|extension|guard|interceptor|plugin|filter|pipe)\.ts$/i
-
 const FileMap = new Map<string, string>()
-
-let isRunning = false
-
-async function runSandBox() {
-  if (isRunning)
-    return
-  const script = new vm.Script(
-    'import("./entry.ts")', {
-    // use --experimental-vm-modules
-    // @ts-expect-error node types miss
-      importModuleDynamically(specifier) {
-        return import(specifier)
-      },
-
-    },
-  )
-  script.runInNewContext({})
-  isRunning = true
-}
+const DepMap = new Map<string, string>()
 
 async function writeEntryFile() {
   let importCode = ''
@@ -58,7 +42,7 @@ async function writeEntryFile() {
   app.use(router)
 
   
-  app.listen(process.env.PORT||8000, () => {
+  app.listen(process.env.PORT, () => {
     console.log('start server')
   })
   `)
@@ -67,47 +51,137 @@ async function writeEntryFile() {
 async function init() {
   await db.init(process.env.DB_NAME!)
 
-  const data = await db.db.collection(process.env.DB_COLLECTION!).find({}).toArray()
+  const data = await db.collection(process.env.PROJECT_COLLECTION!).find({}).toArray()
   for (const item of data) {
-    const filePath = posix.join('./src', item.path)
+    if (item.path)
 
-    FileMap.set(filePath, item.code)
+      FileMap.set(item.path, item.code)
+
+    if (item.dependence)
+      DepMap.set(item.dependence, item.version)
   }
   await writeEntryFile()
   runSandBox()
 }
 
-async function watchDb() {
-  db.watch(process.env.DB_COLLECTION!)
-  db.on('insert', async (doc: any) => {
-    const filePath = posix.join('./src', doc.path)
+async function createWS() {
+  const ws = new WebSocketServer({ port: process.env.WS_PORT })
+  const wsSet = new Set<any>()
 
-    FileMap.set(filePath, doc.code)
-    await writeFile(filePath, doc.code)
+  ws.on('connection', (wss) => {
+    wsSet.add(wss)
+    wss.on('message', async (e) => {
+      const { event, id } = JSON.parse(e.toString()) as { event: Event;id: string }
+      await handleEvent(event)
+      wsSet.forEach((client) => {
+        client.send(JSON.stringify({
+          success: true,
+          isYourUpdate: client === wss,
+          id,
+        }))
+      })
+    })
+  })
+}
 
-    if (fileRe.test(filePath))
+// async function watchDb() {
+//   db.watch(process.env.DB_COLLECTION!)
+//   db.on('insert', async (event: any) => {
+//     const filePath = posix.join('./src', event.path)
+
+//     FileMap.set(filePath, event.code)
+//     await writeFile(filePath, event.code)
+
+//     if (fileRe.test(filePath))
+//       await writeEntryFile()
+
+//     runSandBox()
+//   })
+
+//   db.on('update', async (event: any) => {
+//     const filePath = posix.join('./src', event.path)
+//     FileMap.set(filePath, event.code)
+//     await writeFile(filePath, event.code)
+//   })
+//   db.on('delete', async (event: any) => {
+//     const filePath = posix.join('./src', event.path)
+//     FileMap.delete(filePath)
+//     await unlink(filePath)
+//     if (fileRe.test(filePath))
+//       writeEntryFile()
+//   })
+// }
+
+type Event = {
+  type: 'update' | 'add'
+  path: string
+  code: string
+} | {
+  type: 'remove'
+  path: string
+} | {
+  type: 'save'
+  path: string
+} | {
+  type: 'addDependence'
+  dependence: string
+  version?: string
+} | {
+  type: 'removeDependence'
+  dependence: string
+} | {
+  type: 'build'
+}
+
+async function handleEvent(event: Event) {
+  if (event.type === 'add') {
+    FileMap.set(event.path, event.code)
+    await writeFile(posix.join('./src', event.path), event.code)
+
+    if (fileRe.test(event.path))
       await writeEntryFile()
 
     runSandBox()
-  })
-
-  db.on('update', async (doc: any) => {
-    const filePath = posix.join('./src', doc.path)
-    FileMap.set(filePath, doc.code)
-    await writeFile(filePath, doc.code)
-  })
-  db.on('delete', async (doc: any) => {
-    const filePath = posix.join('./src', doc.path)
-    FileMap.delete(filePath)
-    await unlink(filePath)
-    if (fileRe.test(filePath))
+  }
+  if (event.type === 'update') {
+    FileMap.set(event.path, event.code)
+    await writeFile(posix.join('./src', event.path), event.code)
+  }
+  if (event.type === 'remove') {
+    FileMap.delete(event.path)
+    await unlink(posix.join('./src', event.path))
+    if (fileRe.test(event.path))
       writeEntryFile()
-  })
+  }
+  if (event.type === 'save')
+    await save()
+
+  if (event.type === 'addDependence') {
+    await exec(`pnpm i ${event.dependence}@${event.version || 'latest'}`)
+    DepMap.set(event.dependence, event.version || 'latest')
+  }
+  if (event.type === 'removeDependence') {
+    if (DepMap.get(event.dependence)) {
+      await exec(`pnpm uninstall ${event.dependence}`)
+      DepMap.delete(event.dependence)
+    }
+  }
+}
+
+async function save() {
+  const collection = db.collection(process.env.PROJECT_COLLECTION!)
+  await collection.deleteMany({})
+
+  await collection.insertMany([...[...FileMap].map(([path, code]) => {
+    return { path, code }
+  }), ...[...DepMap].map(([dependence, version]) => {
+    return { dependence, version }
+  })])
 }
 
 export async function start() {
   await init()
-  watchDb()
+  createWS()
 }
 
 start()

@@ -2,18 +2,18 @@
   "name": "nodejs",
   "version": "1.0.0",
   "description": "",
-  "private":true,
-
+  "private": true,
   "main": "index.js",
   "scripts": {
     "start": "node ./node_modules/phecda-server/bin/cli.js  index.ts --experimental-vm-modules"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@swc-node/core": "^1.10.6",
-    "mongodb-memory-server": "^9.1.6"
+    "@vercel/ncc": "^0.38.1",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "events": "^3.3.0",
@@ -22,6 +22,6 @@
     "mongodb": "^6.3.0",
     "mongodb-uri": "^0.9.7",
     "phecda-server": "5.0.0-alpha.4",
-    "typescript": "^5.3.3"
+    "ws": "^8.16.0"
   }
 }

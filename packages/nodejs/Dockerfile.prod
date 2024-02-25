@@ -1,0 +1,21 @@
+
+FROM node:21-alpine
+
+# 安装 minio 客户端 mc
+RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc && \
+    chmod +x mc && \
+    mv mc /usr/local/bin/mc
+
+# 设置工作目录
+WORKDIR /app
+
+# 下载并解压缩文件
+COPY download.sh /app/download.sh
+RUN chmod +x /app/download.sh
+
+
+EXPOSE 8000
+
+
+# 运行 JavaScript 文件
+CMD ["node", "index.js"]
