@@ -5,9 +5,11 @@
     "emitDecoratorMetadata": true
   },
   "rules":{
+    "@typescript-eslint/consistent-type-imports":"off",
     "vue/no-dupe-keys":"off",
     "vue/valid-v-model":"off",
     "vue/prop-name-casing":"off",
+    
     "vue/no-extra-parens":"off",
       "vue/no-mutating-props": ["error", {
       "shallowOnly": true

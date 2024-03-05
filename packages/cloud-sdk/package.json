@@ -1,0 +1,21 @@
+{
+  "name": "alioth-cloud-sdk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "mongodb": "^6.3.0",
+    "phecda-server": "5.0.0-alpha.5"
+  }
+}
