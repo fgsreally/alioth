@@ -1,5 +1,5 @@
 import { useR } from 'phecda-vue'
-import { BaseCommandModel, getWidget, interval } from 'alioth-vue'
+import { BaseCommandModel, getWidget, internal } from 'alioth-vue'
 import { DocModel } from './doc'
 import { ViewModel } from './view'
 interface Event {
@@ -23,7 +23,7 @@ export class CommandModel extends BaseCommandModel {
       description: '查询状态',
       usage: 'state <key>',
       exec: () => {
-        return interval.data
+        return internal.data
       },
     },
     {

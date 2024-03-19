@@ -48,10 +48,9 @@ export type RenderFn = (arg: {
   node: VirtualNode
   widget: Widget
   scope: Scope
-  props?: any
 }) => VNode | (VNode | undefined)[] | undefined
 
-export const interval = {
+export const internal = {
   widgetNamespace: NameSpaceStore,
   scope: new Scope(),
   mode: 'editor',
@@ -66,37 +65,40 @@ export const interval = {
   renderFnMap: typeof renderFnMap
 }
 export async function init(mode = 'editor') {
-  if (window.$alioth_interval)
+  if (window.$alioth_internal)
     return
-  interval.mode = mode
-  function registerWidget(
-    { mode = 'default', key, component, meta }: {
-      mode?: string
-      key: string
-      component: Component
-      meta?: any
-    },
-  ) {
-    getNamespace(mode).register?.(markRaw({
-      key, component, meta,
-    }))
-  }
+  internal.mode = mode
+
   window.$alioth_widget = registerWidget
   window.$alioth_setRenderFn = ({ mode, fn }: { mode: string; fn: RenderFn }) => setRenderFn(mode, fn)
-  window.$alioth_interval = interval
+  window.$alioth_internal = internal
   window.$alioth_state = ({ key, value, meta }: any) => {
-    interval.scope.add(key, { value, meta })
+    internal.scope.add(key, { value, meta })
   }
+}
+
+export function registerWidget(
+  { mode = 'default', key, component, meta }: {
+    mode?: string
+    key: string
+    component: Component
+    meta?: any
+  },
+) {
+  getNamespace(mode).register?.(markRaw({
+    key, component, meta,
+  }))
 }
 
 export function setMode(mode: string) {
-  interval.mode = mode
+  internal.mode = mode
 }
 
-export function getWidget(key: string, mode = interval.mode) {
+export function getWidget(key: string, mode = internal.mode) {
+  console.log(NameSpaceStore, mode)
   return NameSpaceStore[mode]?.get(key) || NameSpaceStore.default.get(key)
 }
 
-export function getRenderFn(mode = interval.mode) {
+export function getRenderFn(mode = internal.mode) {
   return renderFnMap.get(mode)
 }

@@ -2,6 +2,9 @@
 import { resolve } from 'path'
 import { NodePackageDeclarations, PackageDeclaration } from './declartion'
 
+/**
+ * @internal 内部使用
+ */
 export async function handlePackageTypings(packageName: string, nodeModulesRoot = resolve(process.cwd(), 'node_modules')) {
   if (packageName === '@types/node') {
     const pkr = new NodePackageDeclarations(nodeModulesRoot)
@@ -14,7 +17,6 @@ export async function handlePackageTypings(packageName: string, nodeModulesRoot 
     return rets
   }
 
-  // Gets a node built-in package types
   if (NodePackageDeclarations.NODE_PACKAGES.includes(packageName)) {
     const pkr = new NodePackageDeclarations(nodeModulesRoot)
     const r = await pkr.getNodeBuiltinPackage(packageName)

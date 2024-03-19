@@ -1,5 +1,5 @@
 import { Init } from 'phecda-vue'
-import { BaseImportModel, interval } from 'alioth-vue'
+import { BaseImportModel, internal } from 'alioth-vue'
 import { getQuery } from '@/utils/url'
 export class ImportModel extends BaseImportModel {
   info: Record<string, any> = {}
@@ -28,6 +28,6 @@ export class ImportModel extends BaseImportModel {
 
   setState = ({ key, meta, value }: { key: string; meta: any; value: any }) => {
     this.info[key] = meta
-    interval.scope.add(key, { value })
+    internal.scope.add(key, { value })
   }
 }

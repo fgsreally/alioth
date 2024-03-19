@@ -8,7 +8,7 @@ declare global {
         $alioth_header:any
         $alioth_event:any
         $alioth_setEngine:any
-        $alioth_interval:any
+        $alioth_internal:any
         $alioth_error:any
         $alioth_command:any
         $alioth_node_event:any

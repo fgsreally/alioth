@@ -9,7 +9,7 @@
     "vue/no-dupe-keys":"off",
     "vue/valid-v-model":"off",
     "vue/prop-name-casing":"off",
-    
+    "vue/one-component-per-file":"off",
     "vue/no-extra-parens":"off",
       "vue/no-mutating-props": ["error", {
       "shallowOnly": true

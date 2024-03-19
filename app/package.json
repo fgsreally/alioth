@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@ark-ui/vue": "^0.8.0",
+    "@baklavajs/themes": "^2.4.1",
     "@codemirror/commands": "^6.3.0",
     "@codemirror/lang-javascript": "^6.1.9",
     "@codemirror/state": "^6.3.1",
@@ -27,6 +28,7 @@
     "alioth-dev": "workspace:*",
     "alioth-vue": "workspace:*",
     "axios": "^1.5.0",
+    "baklavajs": "^2.4.2",
     "codemirror": "^6.0.1",
     "esbuild-wasm": "^0.19.5",
     "grid-layout-plus": "^1.0.3",

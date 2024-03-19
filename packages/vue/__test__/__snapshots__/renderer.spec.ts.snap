@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renderer > scope 1`] = `{}`;
+
+exports[`renderer > scope 2`] = `
+{
+  "comp1": true,
+}
+`;

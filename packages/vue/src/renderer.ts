@@ -8,7 +8,7 @@ import {
   render,
 } from 'vue'
 import type { Scope, VirtualDocument, VirtualNode } from 'alioth-lib'
-import { type Widget } from './internal'
+import { type Widget, internal } from './internal'
 
 export type CompList<RegisterBlock> = Map<string, RegisterBlock>
 
@@ -51,11 +51,11 @@ export class BaseRenderer<
         // eslint-disable-next-line array-callback-return
         childs.map((node: VirtualNode<any>) => {
           if ((node.attrs.slot || 'default') === templateName) {
-            const widget = $alioth_interval.getWidget(node.attrs.key)
+            const widget = internal.getWidget(node.attrs.key)
+
             if (!widget)
               throw new Error(`miss widget "${node.attrs.key}"`)
-
-            return $alioth_interval.renderFnMap.get(this.mode)!({ props, scope: this.scope, node, widget, mode: this.mode, doc: this.doc })
+            return internal.renderFnMap.get(this.mode)!({ scope: this.scope.create(props), node, widget, mode: this.mode, doc: this.doc })
           }
         })
     })

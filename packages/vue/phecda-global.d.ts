@@ -31,9 +31,9 @@ declare global {
   }
 
 
-  declare const $alioth_interval: typeof import('./dist').interval
+  declare const $alioth_internal: typeof import('./dist').internal
 
-  declare const $alioth_state: typeof import('./dist').interval.setState
+  declare const $alioth_state: typeof import('./dist').internal.setState
   declare const $alioth_widget: (data: {
     mode?: string
     key: string | symbol

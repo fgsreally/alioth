@@ -2,7 +2,7 @@ declare global {
     interface Window {
         $alioth_stateComponent:any
         $alioth_setEngine:any
-        $alioth_interval:any
+        $alioth_internal:any
         $alioth_update: any
         $alioth_state: any
         $alioth_widget: any
