@@ -6,6 +6,8 @@ export type DocData = { id: string; attrs: any; index: number; parent: string }[
 export class VirtualNode<A extends Record<string, any> = any> {
   parent: string
   index: number
+
+  doc: VirtualDocument<A>
   readonly oldAttrs: A
 
   constructor(public attrs: A = {} as any, public id = nanoid(),
@@ -27,6 +29,20 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
   root = new VirtualNode({} as A, 'root')
   currentEventId: string | undefined
   seed = 0
+
+  constructor(public mode = 'default') {
+    super()
+  }
+
+  setMode(mode: string) {
+    this.mode = mode
+  }
+
+  createNode(attrs: A) {
+    const node = new VirtualNode<A>(attrs)
+    node.doc = this
+    return node
+  }
 
   protected createEventId() {
     return this.currentEventId || nanoid()
@@ -55,7 +71,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     })
   }
 
-  store() {
+  store(): any {
     return this.nodes.map(item => item.toJSON())
   }
 
