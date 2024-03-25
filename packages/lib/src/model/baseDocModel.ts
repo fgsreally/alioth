@@ -1,5 +1,6 @@
 import { Global, Init, Tag } from 'phecda-core'
 import { Controller, VirtualDocument, VirtualNode } from '../document'
+import { internal } from '../core/internal'
 
 @Global
 @Tag('doc')
@@ -20,7 +21,7 @@ export class BaseDocModel<T extends Record<string, any>> extends VirtualDocument
 
   @Init
   private _init() {
-    window.$alioth_node_event = ({ event, cb }: any) => {
+    internal.node_event = ({ event, cb }: any) => {
       this.on(event, cb)
     }
   }
@@ -42,7 +43,7 @@ export class BaseDocModel<T extends Record<string, any>> extends VirtualDocument
   }
 
   addPage() {
-    const newNode = new VirtualNode({ key: 'page' } as any)
+    const newNode = this.createNode({ key: 'page' } as any)
 
     this.insert(newNode, this.root)
     return newNode

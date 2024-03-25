@@ -1,6 +1,7 @@
 import { Global, Init, Tag } from 'phecda-core'
 import { createConnector } from '../core/connect'
 import { loadStyleOrScript } from '../core/invoke'
+import { internal } from '../core/internal'
 
 export const { connect, dynamicImport, urlMap, projectMap } = createConnector()
 @Global
@@ -10,11 +11,10 @@ export class BaseImportModel {
 
   @Init
   private _init() {
-    window.$alioth_update = (url: string, module: any) => {
+    internal.update = (url: string, module: any) => {
       // vite hmr will cause xx?t=xx
       this.graph[url.split('?')[0]] = this.importModule(module)
     }
-    window.$alioth_state = (arg: any) => this.setState?.(arg)
   }
 
   async connectVite(url: string) {
@@ -37,7 +37,7 @@ export class BaseImportModel {
         else this.graph[url] = {}
       }
       catch (e) {
-        window.$alioth_error('LoadError', `load dependence ${url} failed`)
+        internal.error('LoadError', `load dependence ${url} failed`)
       }
     })
   }
@@ -47,13 +47,12 @@ export class BaseImportModel {
     for (const exports in module) {
       if (typeof module[exports] === 'object' && module[exports].alioth) {
         const { alioth: type, data } = module[exports]
-        // @ts-expect-error import module
-        window[`$alioth_${type}`]?.(data)
+        internal[type]?.(data)
         exportsMap[exports] = module[exports]
       }
     }
     return exportsMap
   }
 
-  setState: (param: { key: string; value: any; meta: any }) => void
+  // setState: (param: { key: string; value: any; meta: any }) => void
 }

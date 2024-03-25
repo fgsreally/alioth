@@ -15,7 +15,7 @@ export class Scope {
   get data() {
     const ret = {} as Record<string, any>
     for (const i in this.variable)
-      ret[i] = this.variable[i].value
+      ret[i] = this.variable[i]
 
     return ret
   }

@@ -1,4 +1,4 @@
-import { Global, Init, Tag, Watcher } from 'phecda-core'
+import { Global, Tag, Watcher } from 'phecda-core'
 
 export interface ErrorHandler {
   type: string
@@ -9,10 +9,6 @@ export interface ErrorHandler {
 @Tag('error')
 export class BaseErrorModel {
   errorHandlers: ErrorHandler[]
-  @Init
-  private _init() {
-    window.$alioth_error = this.setErrorHandler.bind(this)
-  }
 
   setErrorHandler(handler: ErrorHandler) {
     this.errorHandlers.push(handler)
