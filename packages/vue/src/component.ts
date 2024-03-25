@@ -1,28 +1,34 @@
 import { defineComponent } from 'vue'
 import type { PropType } from 'vue'
-import type { VirtualDocument, VirtualNode } from 'alioth-lib'
-import { getRenderFn, getWidget, internal } from './internal'
+import type { Scope, VirtualNode } from 'alioth-lib'
+import { internal } from './internal'
 
-export const AliothRender = defineComponent({
-  name: 'AliothRender',
+export const AliothRenderer = defineComponent({
+  name: 'AliothRenderer',
   inheritAttrs: false,
   props: {
-    mode: {
-      type: String,
-    },
-
-    doc: {
-      type: Object as PropType<VirtualDocument<any>>,
-      required: true,
-    },
     node: {
       type: Object as PropType<VirtualNode<any>>,
       required: true,
     },
+
+    mode: {
+      type: String,
+      required: true,
+    },
+    scope: {
+      type: Object as PropType<Scope>,
+      required: true,
+
+    },
   },
   setup(props) {
     return () => {
-      return getRenderFn(props.mode)!({ scope: internal.scope, doc: props.doc, node: props.node, widget: getWidget(props.node.attrs.key, props.mode)!, mode: props.mode || internal.mode })
+      const mode = props.mode
+      const key = props.node.attrs.key
+      const widget = internal.widgetStore.get(mode)[key]
+      const renderFn = internal.renderFnStore.get(mode)[key]
+      return renderFn({ scope: props.scope, node: props.node, widget })
     }
   },
 })

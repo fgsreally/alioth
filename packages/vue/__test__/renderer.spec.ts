@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { h } from 'vue'
-import { AliothRender, BaseRenderer, VirtualDocument, VirtualNode, internal, registerWidget, setRenderFn } from '../src'
+import { AliothRenderer, BaseRenderer, VirtualDocument, VirtualNode, initAlioth, internal, registerWidget, setRenderFn } from '../src'
 import { Comp1, Comp2 } from './fixtures/components'
 describe('renderer', () => {
+  initAlioth('test')
   class Renderer extends BaseRenderer<any> {
     test() {
       expect(this.scope.variable).toMatchSnapshot()
@@ -25,8 +26,8 @@ describe('renderer', () => {
   }
 
   it('scope', () => {
-    const renderFn = ({ node, scope, widget, doc }) => {
-      const renderer = new Renderer(doc, node, 'test', widget, scope)
+    const renderFn = ({ node, scope, widget }) => {
+      const renderer = new Renderer(node, widget, scope)
       return renderer.slot(['default']).main().test().exec()
     }
     internal.mode = 'test'
@@ -41,7 +42,7 @@ describe('renderer', () => {
     doc.insert(node1, doc.root)
     doc.insert(node2, node1)
 
-    const wrapper = mount(AliothRender, {
+    const wrapper = mount(AliothRenderer, {
       props: {
         mode: 'test',
         doc,

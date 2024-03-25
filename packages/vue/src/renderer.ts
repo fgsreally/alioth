@@ -8,7 +8,7 @@ import {
   render,
 } from 'vue'
 import type { Scope, VirtualDocument, VirtualNode } from 'alioth-lib'
-import { type Widget, internal } from './internal'
+import { type Widget } from './internal'
 
 export type CompList<RegisterBlock> = Map<string, RegisterBlock>
 
@@ -16,18 +16,25 @@ export class BaseRenderer<
   NodeAttrs extends Record<string, any>,
 > {
   protected vnode: VNode | any
-
-  // stack: { funcName: string; property: any }[];
-  renderType: string
-  // slotVNode: { [key in string]: Function };
+  public doc: VirtualDocument<NodeAttrs>
+  public node: VirtualNode<NodeAttrs>
+  public widget: Widget
+  public scope: Scope
+  public mode: string
   constructor(
-    public doc: VirtualDocument<NodeAttrs>,
-    public node: VirtualNode<NodeAttrs>,
-    public mode: string,
-    public widget: Widget,
-    public scope: Scope,
+    data: {
+      node: VirtualNode<NodeAttrs>
+      widget: Widget
+      scope: Scope
+      mode: string
+    },
   ) {
+    this.node = data.node
+    this.widget = data.widget
+    this.scope = data.scope
+    this.mode = data.mode
 
+    this.doc = this.node.doc
   }
 
   wrap<P extends VNodeProps>(comp: Component<P>, props: P) {
@@ -51,11 +58,12 @@ export class BaseRenderer<
         // eslint-disable-next-line array-callback-return
         childs.map((node: VirtualNode<any>) => {
           if ((node.attrs.slot || 'default') === templateName) {
-            const widget = internal.getWidget(node.attrs.key)
+            const key = node.attrs.key
+            const widget = window.$alioth_internal.widgetStore.get(this.mode)[key]
 
             if (!widget)
-              throw new Error(`miss widget "${node.attrs.key}"`)
-            return internal.renderFnMap.get(this.mode)!({ scope: this.scope.create(props), node, widget, mode: this.mode, doc: this.doc })
+              throw new Error(`miss widget "${key}"`)
+            return window.$alioth_internal.renderFnStore.get(this.mode)!({ scope: this.scope.create(props), node, widget, mode: this.mode })
           }
         })
     })

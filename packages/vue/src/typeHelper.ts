@@ -4,6 +4,7 @@ import type { Icon, Zone } from './model'
 import type { RenderFn } from './internal'
 export interface BasePreset<T, D> {
   alioth: T
+  mode?: string
   data: D
 }
 
