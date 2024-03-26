@@ -1,1 +1,1 @@
-export * from './baseViewModel'
+export * from './baseZoneModel'

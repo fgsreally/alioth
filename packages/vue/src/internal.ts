@@ -1,34 +1,26 @@
-import { Scope, Store } from 'alioth-lib'
-import type { Component, VNode } from 'vue'
+import { Store, internal } from 'alioth-lib'
 
-import type { VirtualNode } from 'alioth-lib'
+export async function initAliothVue(mode: string[]) {
+  internal.widgetStore = new Store('widget')
+  internal.stateStore = new Store('state')
+  internal.renderFnStore = new Store('renderFn')
 
-export interface Widget<M = any> {
-  key: string
-  component: Component
-  meta: M
-}
+  internal.widget = (arg: any) => {
+    internal.widgetStore.set(arg.mode, arg.key, arg)
+  }
 
-export type RenderFn = (arg: {
-  node: VirtualNode
-  widget: Widget
-  scope: Scope
-}) => VNode | (VNode | undefined)[] | undefined
+  internal.state = (arg: any) => {
+    internal.stateStore.set(arg.mode, arg.key, arg.data)
+  }
 
-export const internal = {
-  widgetStore: new Store('widget'),
-  componentStore: new Store('component'),
-  stateStore: new Store('state'),
-  renderFnStore: new Store('renderFn'),
-} as unknown as {
-  widgetStore: Store<Widget>
-  componentStore: Store<{ key: string;component: Component }>
-  stateStore: Store
-  renderFnStore: Store<RenderFn>
-  [key: string]: any
-}
-export async function initAlioth() {
-  if (window.$alioth_internal)
-    return
-  window.$alioth_internal = internal
+  internal.renderFn = (arg: any) => {
+    internal.renderFnStore.set(arg.mode, arg.key, arg.fn)
+  }
+
+  mode.forEach((m) => {
+    internal.widgetStore.init(m)
+    internal.stateStore.init(m)
+    internal.renderFnStore.init(m)
+  })
+  window.__ALIOTH__ = internal
 }

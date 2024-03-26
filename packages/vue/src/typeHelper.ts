@@ -1,10 +1,9 @@
 import type { Component } from 'vue'
-import type { Command, DefaultEvent, VirtualNode } from 'alioth-lib'
+import type { DefaultEvent, VirtualNode } from 'alioth-lib'
 import type { Icon, Zone } from './model'
 import type { RenderFn } from './internal'
 export interface BasePreset<T, D> {
   alioth: T
-  mode?: string
   data: D
 }
 
@@ -19,14 +18,15 @@ export interface AliothWidget<Meta = any> extends BasePreset<'widget', {
 }
 export interface AliothState extends BasePreset<'state', {
   key: string
-  value: any
-  meta: any
+  data: any
+  mode?: any
 }> {
 
 }
 
-export interface AliothRenderFn extends BasePreset<'setRenderFn', {
-  mode: string
+export interface AliothRenderFn extends BasePreset<'renderFn', {
+  mode?: string
+  key: string
   fn: RenderFn
 }> {
 
@@ -53,10 +53,6 @@ export interface AliothZone<P = any> extends BasePreset<'zone', Zone<P>> {
 }
 
 export interface AliothComponent extends BasePreset<'component', { key: string; component: Component }> {
-
-}
-
-export interface AliothCommand extends BasePreset<'command', Command> {
 
 }
 

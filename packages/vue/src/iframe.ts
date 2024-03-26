@@ -1,3 +1,4 @@
+import { internal } from 'alioth-lib'
 import type { SetupContext } from 'vue'
 import { defineComponent, h, onBeforeUnmount, render } from 'vue'
 
@@ -95,7 +96,7 @@ export const IframeCanvas = defineComponent({
     async function onload() {
       // @ts-expect-error get iframe instance
       const iframe = this as HTMLIFrameElement
-      window.$alioth_sandbox = { window: iframe.contentWindow, document: iframe.contentDocument }
+      internal.sandbox = { window: iframe.contentWindow, document: iframe.contentDocument }
 
       injectScript(iframe)
       injectStyle(iframe)

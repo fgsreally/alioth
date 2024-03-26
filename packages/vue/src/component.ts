@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 import type { PropType } from 'vue'
 import type { Scope, VirtualNode } from 'alioth-lib'
-import { internal } from './internal'
+import { internal } from 'alioth-lib'
 
 export const AliothRenderer = defineComponent({
   name: 'AliothRenderer',
@@ -23,12 +23,15 @@ export const AliothRenderer = defineComponent({
     },
   },
   setup(props) {
+    props.node.scope = props.scope
     return () => {
       const mode = props.mode
       const key = props.node.attrs.key
-      const widget = internal.widgetStore.get(mode)[key]
-      const renderFn = internal.renderFnStore.get(mode)[key]
-      return renderFn({ scope: props.scope, node: props.node, widget })
+      const { widgetStore, renderFnStore } = internal
+      const widget = widgetStore.get(mode, key)
+      const renderFn = renderFnStore.get(mode, key)
+
+      return renderFn({ node: props.node, widget, mode })
     }
   },
 })
