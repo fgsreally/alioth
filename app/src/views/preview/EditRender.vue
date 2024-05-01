@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { AliothRender } from 'alioth-vue'
-import { emitter, useR, useV } from 'phecda-vue'
-import { applyUpdate, encodeStateAsUpdate } from 'yjs'
+import { AliothRenderer, Scope, internal } from 'alioth-vue'
+import { useR, useV } from 'phecda-vue'
 
 import { DocModel } from '@/models/doc'
-import { useDocumentClick } from '@/composables/click'
 
 import { SelectionModel } from '@/models/selection'
 const { activePage, activeId } = $(useV(DocModel))
@@ -27,6 +25,8 @@ const { selectNode } = $(useV(SelectionModel))
 //     applyUpdate(doc.controller.ydoc, delta, 'alioth')
 //   })
 // }
+
+const scope = new Scope(internal.stateStore.get('editor'))
 </script>
 
 <template>
@@ -34,7 +34,7 @@ const { selectNode } = $(useV(SelectionModel))
     <section v-if="!!activePage" class="al-window">
       <!-- <IframeCanvas>
       </IframeCanvas> -->
-      <AliothRender :node="activePage" :doc="doc" mode="editor" />
+      <AliothRenderer :node="activePage" mode="editor" :scope="scope" />
     </section>
   </div>
 </template>

@@ -14,7 +14,7 @@ import { clone } from 'lodash-es'
 import { history, historyKeymap } from '@codemirror/commands'
 import { onClickOutside, useDebounceFn } from '@vueuse/core'
 import { useR } from 'phecda-vue'
-import { interval } from 'alioth-vue'
+import { internal } from 'alioth-vue'
 import { VariablePlugin, inputTheme } from '@/utils/codemirror'
 import { ImportModel } from '@/models/import'
 
@@ -257,7 +257,7 @@ let pastedValue: string | null = null
 //   AggregateEnvironment[]
 // >
 
-const envTooltipPlugin = new VariablePlugin(view, ref(interval.scope.data))
+const envTooltipPlugin = new VariablePlugin(view, ref(internal.scope.data))
 
 function handleTextSelection() {
   const selection = view.value?.state.selection.main

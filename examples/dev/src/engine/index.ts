@@ -21,19 +21,20 @@ export const container2 = {
   },
 }
 export const engine: AliothRenderFn = {
-  alioth: 'setRenderFn',
+  alioth: 'renderFn',
   data: {
     mode: 'editor',
-    fn: ({ doc, node, scope, widget, props, mode }) => {
+    fn: (data) => {
+      const { props, node } = data
       if (props?.a_node === node) {
-        const renderer = new Renderer(doc, node, mode, widget, scope)
+        const renderer = new Renderer(data)
 
         return renderer.slot(['default']).main().editAction().exec()
       }
       if (props?.a_node)
         return undefined
 
-      const renderer = new Renderer(doc, node, mode, widget, scope)
+      const renderer = new Renderer(data)
 
       if (node.parent === 'root')
         return renderer.slot(['default']).main().exec()

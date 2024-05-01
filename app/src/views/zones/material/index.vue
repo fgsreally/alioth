@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { NameSpaceStore } from 'alioth-vue'
 import {
   TabContent,
   TabIndicator,
@@ -8,10 +7,11 @@ import {
   Tabs,
 } from '@ark-ui/vue'
 import { useV } from 'phecda-vue'
+import { internal } from 'alioth-vue'
 import Material from './Material.vue'
 import { DocModel } from '@/models/doc'
 const { activeNode } = useV(DocModel)
-const namespaces = computed(() => Object.keys(NameSpaceStore).filter(ns => !!ns))
+const namespaces = ['default']
 </script>
 
 <template>
@@ -23,7 +23,7 @@ const namespaces = computed(() => Object.keys(NameSpaceStore).filter(ns => !!ns)
       <TabIndicator class="bg-p h-1" />
     </TabList>
     <TabContent v-for="(item) in namespaces" :key="item" :value="item">
-      <Material :comp-list="Array.from(NameSpaceStore[item].widgetMap).map((item: any) => item[1])" type="text" />
+      <Material :comp-list="Object.values(internal.widgetStore.get('editor'))" type="text" />
     </TabContent>
   </Tabs>
 </template>

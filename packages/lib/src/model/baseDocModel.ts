@@ -4,9 +4,8 @@ import { internal } from '../core/internal'
 
 @Global
 @Tag('doc')
-export class BaseDocModel<T extends Record<string, any>> extends VirtualDocument {
+export class BaseDocModel<T extends Record<string, any>> extends VirtualDocument<T> {
   activeId: string
-  root: VirtualNode<T>
   controller: Controller
   selectNode: VirtualNode<T> | undefined
   hoverNode: VirtualNode<T> | undefined
@@ -20,7 +19,7 @@ export class BaseDocModel<T extends Record<string, any>> extends VirtualDocument
   }
 
   @Init
-  private _init() {
+  private init() {
     internal.node_event = ({ event, cb }: any) => {
       this.on(event, cb)
     }

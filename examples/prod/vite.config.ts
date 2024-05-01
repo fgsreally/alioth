@@ -1,10 +1,10 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { ExternalMap } from 'alioth-dev'
+import { External } from 'alioth-dev'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), ExternalMap({
+  plugins: [vue(), External({
     externals: {
       'vue': 'http://localhost:4010/vue.mjs',
       'phecda-core': 'http://localhost:4010/phecda-vue.mjs',

@@ -24,8 +24,8 @@ interface ExternalMapOpts {
   externals?: Record<string, string >
   importmap?: boolean
 }
-
-export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
+// external vue、phecda-vue
+export function External(options: ExternalMapOpts = {}): PluginOption {
   const {
     externals = {}, importmap = true,
   } = options
@@ -54,7 +54,7 @@ export function ExternalMap(options: ExternalMapOpts = {}): PluginOption {
     },
   }
 }
-
+// connect platform and vite
 export function Connector(options: ConnectorOpts): PluginOption {
   const { project, externals = {}, entry, presets = [], website, query = {} } = options
   const entryFiles = Object.values(options.entry).map(item => normalizePath(resolve(process.cwd(), item)))
@@ -148,18 +148,20 @@ export function Connector(options: ConnectorOpts): PluginOption {
 export function Alioth(options: ConnectorOpts & ExternalMapOpts) {
   return [
     Connector(options),
-    ExternalMap(options),
+    External(options),
   ]
 }
 
 function injectHMR() {
   return `\nif (import.meta.hot) {
     import.meta.hot.accept((newModule) => {
-      if(window.$alioth_update)window.$alioth_update(import.meta.url,newModule)
+      const internal=window.__ALIOTH__
+      if(internal)internal.update(import.meta.url,newModule)
     })
   }`
 }
 
+// create importmap from hash
 export function DynamicImportmap(imports: Record<string, string> = {}): PluginOption {
   return {
     name: 'alioth-dynamic-importmap',
@@ -194,7 +196,8 @@ function generateQuery(obj: Record<string, string>) {
 const urlReg = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/
 const pathReg = /^(\/|\.{1,2}\/).+$/
 
-export function RemoteLoader(RE: RegExp): PluginOption {
+// bundle remote File
+export function RemoteLoader(RE = /.*/): PluginOption {
   return {
     name: 'alioth-remote-loader',
     enforce: 'pre',

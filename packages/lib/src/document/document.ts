@@ -1,11 +1,12 @@
 import { nanoid } from 'nanoid'
 import { cloneDeep } from 'lodash-es'
 import EventEmitter from 'eventemitter3'
-
+import { Scope } from '../core/scope'
 export type DocData = { id: string; attrs: any; index: number; parent: string }[]
 export class VirtualNode<A extends Record<string, any> = any> {
   parent: string
   index: number
+  scope = new Scope()
 
   doc: VirtualDocument<A>
   readonly oldAttrs: A

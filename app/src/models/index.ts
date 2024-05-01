@@ -6,11 +6,11 @@ import { DragModel } from './drag'
 import { DocModel } from './doc'
 import { EventModel } from './event'
 import { ErrorModel } from './error'
-import { AiModel } from './ai'
+// import { AiModel } from './ai'
 import { SelectionModel } from './selection'
 export function initModel() {
   useO(EventModel)
-  useO(AiModel)
+  // useO(AiModel)
   useO(ImportModel)
   useO(ViewModel)
   useO(DragModel)

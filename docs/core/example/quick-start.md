@@ -15,7 +15,7 @@ npm i alioth-dev
 ```ts
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { Alioth, ExternalMap } from 'alioth-dev'
+import { Alioth, External } from 'alioth-dev'
 
 export default defineConfig({
   plugins: [

@@ -2,10 +2,10 @@
 /// <reference types="unplugin-vue-macros/macros-global" />
 
 
-declare module ''{
-    let component:any
-    export default component
-}
+// declare module ''{
+//     let component:any
+//     export default component
+// }
 
 declare module '~icons/*' {
     import { defineComponent } from 'vue'

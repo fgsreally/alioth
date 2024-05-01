@@ -72,25 +72,7 @@ export function findGraphPaths(nodes: Node[], edges: Edge[], startNodeId: string
   return paths
 }
 
-// const nodes = [
-//   { id: 1 },
-//   { id: 2 },
-//   { id: 3 },
 
-// ]
-
-// const edges = [
-//   { from: 1, to: 2 },
-//   { from: 2, to: 3 },
-//   // { from: 1, to: 3 },
-//   { from: 3, to: 1 },
-
-// ]
-
-// console.log(findPaths(nodes, edges, 1),
-// )
-
-// console.log(hasCycle(nodes, edges))
 
 export function pushGraphNodesInOrder(nodes: Node[], edges: Edge[], startId: string) {
   const dependencies = {} as Record<string, string[]>

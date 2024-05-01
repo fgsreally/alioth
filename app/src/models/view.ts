@@ -1,6 +1,6 @@
 import { useR, useV } from 'phecda-vue'
 import type { Component } from 'vue'
-import { BaseViewModel } from 'alioth-vue'
+import { BaseZoneModel } from 'alioth-vue'
 import axios from 'axios'
 import { ImportModel } from './import'
 import { DocModel } from './doc'
@@ -25,7 +25,7 @@ interface ZoneProps {
   transition: string
 }
 
-export class ViewModel extends BaseViewModel<{ useLayer: typeof useLayer }, any, ZoneProps> {
+export class ViewModel extends BaseZoneModel {
   componentMap = componentMap as Record<string, Component>
   headers = [
     {

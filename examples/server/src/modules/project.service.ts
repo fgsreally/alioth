@@ -1,10 +1,11 @@
 import { Injectable } from 'phecda-server'
-import { AppsV1Api, CoreV1Api, KubeConfig } from '@kubernetes/client-node'
+import { AppsV1Api, CoreV1Api, Exec, KubeConfig } from '@kubernetes/client-node'
 import Docker from 'dockerode'
 import { DbModule } from 'alioth-cloud-sdk'
 import { IsString } from '../utils'
 const docker = new Docker()
-
+const kc = new KubeConfig()
+kc.loadFromDefault()
 export class CodeVO {
   @IsString
   user: string
@@ -21,6 +22,11 @@ export class CodeVO {
 
 @Injectable()
 export class ProjectService {
+  kc = kc
+  kcCore = kc.makeApiClient(CoreV1Api)
+  kcApp = kc.makeApiClient(AppsV1Api)
+  kcExec = new Exec(kc)
+
   constructor(protected db: DbModule) {
   }
 
@@ -155,19 +161,15 @@ export class ProjectService {
 
     }
 
-    const kc = new KubeConfig()
-    kc.loadFromDefault()
-
     if (init) {
-      await kc.makeApiClient(CoreV1Api).createNamespace({
+      await this.kcCore.createNamespace({
         metadata: {
           name: namespace,
         },
       })
     }
-    const appsV1Api = kc.makeApiClient(AppsV1Api)
 
-    await appsV1Api.createNamespacedDeployment(namespace, deployment)
+    await this.kcApp.createNamespacedDeployment(namespace, deployment)
   }
 
   async createContainer(namespace: string, project: string) {
@@ -199,6 +201,27 @@ export class ProjectService {
         ws: wsPort,
       },
     })
+  }
+
+  async commitContainer(namespace: string, project: string) {
+    const pods = await this.kcCore.listNamespacedPod(namespace)
+    const pod = pods.body.items.find(item => item.metadata.ownerReferences[0].name === project)
+    if (!pod)
+      throw new BadRequestException(`pod "${project}" in "${namespace}" doesn't exist`)
+    const podName = pod.metadata.name
+    const status = await this.kcCore.readNamespacedPodStatus(podName, namespace)
+
+    const { containerID, image } = status.body.status.containerStatuses[0]
+    await this.kcExec.exec(
+      namespace,
+      podName,
+      '/bin/bash',
+      ['-c', `docker commit ${containerID!} ${project}:${image.split(':')[1] + 1}`, '.'],
+      process.stdout,
+      process.stderr,
+      process.stdin,
+      true,
+    )
   }
 
   // async updateCode({ user, project, path, code }: CodeVO) {

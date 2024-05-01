@@ -10,6 +10,8 @@ export class Store<V extends object = any> {
   set(mode: string, key: string, value: any) {
     if (!mode)
       mode = 'default'
+    if (!key)
+      key = 'default'
     this.record[mode][key] = value
   }
 
@@ -18,10 +20,13 @@ export class Store<V extends object = any> {
       this.record[mode] = {}
   }
 
-  get(mode: string) {
-    const data = this.record[mode] || this.record.default
+  get(mode: string, key: string) {
+    let data = this.record[mode]?.[key] || this.record.default?.[key]
     if (!data)
-      throw new Error(`should set Store "${this.category}" mode(${mode} or default) before get`)
+      data = this.record[mode]?.default || this.record.default?.default
+
+    if (!data)
+      throw new Error(`should set Store "${this.category}" before get`)
     return data
   }
 
