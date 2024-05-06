@@ -1,25 +1,28 @@
 import { createProxyMiddleware } from 'http-proxy-middleware'
 import { DbModule } from 'alioth-cloud-sdk'
+import { BranchModel } from '../models/branch'
+import { DeployModel } from '../models/deploy'
 
-const projectRE = /\/(\w+)\/(\w+)\/(.*)/
+const RE = /\/(dev|prod)\/(\w+)\/(.*)/
 
-export class ProjectPlugin extends PPlugin {
+export class ProxyPlugin extends PPlugin {
   constructor(protected db: DbModule) {
     super()
   }
 
   async use(req: Request, res: Response, next: () => void) {
     const { url } = req
-    if (!projectRE.test(url))
+    if (!RE.test(url))
       return next()
 
-    const [user, project, target] = url.match(projectRE)!
+    const [mode, id, target] = url.match(RE)!
 
-    const data = await this.db.collection('projects').findOne({ namespace: user, project })
+    const data = mode === 'dev' ? (await BranchModel.findById(id)) : (await DeployModel.findById(id))
 
+    // @ts-expect-error miss upgrade
     const isWS = req.headers.upgrade.toLowerCase() === 'websocket'
     const proxy = createProxyMiddleware({
-      target: `localhost:${isWS ? data.port.ws : data.port.http}/${target}`,
+      target: `localhost:${data.port}/${target}`,
       ws: isWS, // 启用 WebSocket 代理
     })
     // @ts-expect-error express types

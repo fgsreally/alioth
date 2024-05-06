@@ -4,3 +4,9 @@ export const IsString = To((arg) => {
     throw new Error('need a string')
   return arg
 })
+
+export const IsNumber = To((arg) => {
+  if (typeof arg !== 'number')
+    throw new Error('need a number')
+  return arg
+})

@@ -279,8 +279,8 @@ importers:
         specifier: ^6.3.0
         version: 6.3.0
       phecda-server:
-        specifier: 5.0.0-alpha.5
-        version: 5.0.0-alpha.5
+        specifier: 5.0.0-beta.26
+        version: 5.0.0-beta.26
       ws:
         specifier: ^8.16.0
         version: 8.16.0
@@ -713,13 +713,6 @@ packages:
     resolution: {integrity: sha512-pvFiLP2BeOKA/ZOS6jxx4XhKzdVLHDhGlFEaZ2flWWYf2xOqVniqpk38I04DFRyz+L0ASggl7SkItTc+ZLju4w==}
     dev: true
 
-  /@babel/code-frame@7.21.4:
-    resolution: {integrity: sha512-LYvhNKfwWSPpocw8GI7gpK2nq3HSDuEPC/uSYaALSJu9xjsalaaYFOq0Pwt5KmVqwEbZlDu81aLXwBOmD/Fv9g==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/highlight': 7.18.6
-    dev: true
-
   /@babel/code-frame@7.24.2:
     resolution: {integrity: sha512-y5+tLQyV8pg3fsiln67BVLD1P13Eg4lh5RW9mF0zUuvLrv9uIQ4MCL+CRT+FTsBlBjcIan6PGsLcBN0m3ClUyQ==}
     engines: {node: '>=6.9.0'}
@@ -899,11 +892,6 @@ packages:
     resolution: {integrity: sha512-2ofRCjnnA9y+wk8b9IAREroeUP02KHp431N2mhKniy2yKIDKpbrHv9eXwm8cBeWQYcJmzv5qKCu65P47eCF7CQ==}
     engines: {node: '>=6.9.0'}
 
-  /@babel/helper-validator-identifier@7.22.15:
-    resolution: {integrity: sha512-4E/F9IIEi8WR94324mbDUMo074YTheJmd7eZF5vITTeYchqAi6sYXRLHUVsmkdmY4QjfKTcB2jB7dVP3NaBElQ==}
-    engines: {node: '>=6.9.0'}
-    dev: true
-
   /@babel/helper-validator-identifier@7.22.20:
     resolution: {integrity: sha512-Y4OZ+ytlatR8AI+8KZfKuL5urKp7qey08ha31L8b3BwewJAoJamTzyvxPR/5D+KkdJCGPq/+8TukHBlY10FX9A==}
     engines: {node: '>=6.9.0'}
@@ -924,15 +912,6 @@ packages:
       - supports-color
     dev: true
 
-  /@babel/highlight@7.18.6:
-    resolution: {integrity: sha512-u7stbOuYjaPezCuLj29hNW1v64M2Md2qupEKP1fHc7WdOA3DgLh37suiSrZYY7haUB7iBeQZ9P1uiRF359do3g==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/helper-validator-identifier': 7.22.15
-      chalk: 2.4.2
-      js-tokens: 4.0.0
-    dev: true
-
   /@babel/highlight@7.24.2:
     resolution: {integrity: sha512-Yac1ao4flkTxTteCDZLEvdxg2fZfz1v8M4QpaGypq/WPDqg3ijHYbDfs+LG5hvzSoqaSZ9/Z9lKSP3CjZjv+pA==}
     engines: {node: '>=6.9.0'}
@@ -941,14 +920,6 @@ packages:
       chalk: 2.4.2
       js-tokens: 4.0.0
       picocolors: 1.0.0
-    dev: true
-
-  /@babel/parser@7.24.0:
-    resolution: {integrity: sha512-QuP/FxEAzMSjXygs8v4N9dvdXzEHN4W1oF3PxuWAtPo08UdM17u89RDMgjLn/mlc56iM0HlLmVkO/wgR+rDgHg==}
-    engines: {node: '>=6.0.0'}
-    hasBin: true
-    dependencies:
-      '@babel/types': 7.24.0
     dev: true
 
   /@babel/parser@7.24.4:
@@ -3193,7 +3164,7 @@ packages:
       vue:
         optional: true
     dependencies:
-      '@babel/types': 7.22.17
+      '@babel/types': 7.24.0
       '@rollup/pluginutils': 5.0.4(rollup@3.29.0)
       '@vue/compiler-sfc': 3.4.21
       ast-kit: 0.10.0(rollup@3.29.0)
@@ -3399,7 +3370,7 @@ packages:
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25
     dependencies:
-      '@babel/parser': 7.24.0
+      '@babel/parser': 7.24.4
       '@vue-macros/common': 1.7.2(rollup@3.29.0)(vue@3.3.4)
       '@vue/compiler-core': 3.4.21
       '@vue/shared': 3.4.21
@@ -3458,7 +3429,7 @@ packages:
   /@vue/compiler-core@3.3.2:
     resolution: {integrity: sha512-CKZWo1dzsQYTNTft7whzjL0HsrEpMfiK7pjZ2WFE3bC1NA7caUjWioHSK+49y/LK7Bsm4poJZzAMnvZMQ7OTeg==}
     dependencies:
-      '@babel/parser': 7.24.0
+      '@babel/parser': 7.24.4
       '@vue/shared': 3.3.2
       estree-walker: 2.0.2
       source-map-js: 1.0.2
@@ -3503,7 +3474,7 @@ packages:
   /@vue/compiler-sfc@3.3.2:
     resolution: {integrity: sha512-jG4jQy28H4BqzEKsQqqW65BZgmo3vzdLHTBjF+35RwtDdlFE+Fk1VWJYUnDMMqkFBo6Ye1ltSKVOMPgkzYj7SQ==}
     dependencies:
-      '@babel/parser': 7.24.0
+      '@babel/parser': 7.24.4
       '@vue/compiler-core': 3.3.2
       '@vue/compiler-dom': 3.3.2
       '@vue/compiler-ssr': 3.3.2
@@ -3606,7 +3577,7 @@ packages:
   /@vue/reactivity-transform@3.3.2:
     resolution: {integrity: sha512-iu2WaQvlJHdnONrsyv4ibIEnSsuKF+aHFngGj/y1lwpHQtalpVhKg9wsKMoiKXS9zPNjG9mNKzJS9vudvjzvyg==}
     dependencies:
-      '@babel/parser': 7.24.0
+      '@babel/parser': 7.24.4
       '@vue/compiler-core': 3.3.2
       '@vue/shared': 3.3.2
       estree-walker: 2.0.2
@@ -3705,7 +3676,7 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 3.4.21
       '@vue/shared': 3.4.21
-      vue: 3.4.21(typescript@5.0.4)
+      vue: 3.4.21(typescript@5.3.3)
 
   /@vue/shared@3.3.2:
     resolution: {integrity: sha512-0rFu3h8JbclbnvvKrs7Fe5FNGV9/5X2rPD7KmOzhLSUAiQH5//Hq437Gv0fR5Mev3u/nbtvmLl8XgwCU20/ZfQ==}
@@ -5645,7 +5616,7 @@ packages:
       minimatch: 3.1.2
       object.values: 1.1.6
       resolve: 1.22.2
-      semver: 6.3.0
+      semver: 6.3.1
       tsconfig-paths: 3.14.2
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
@@ -5735,7 +5706,7 @@ packages:
     peerDependencies:
       eslint: '>=8.28.0'
     dependencies:
-      '@babel/helper-validator-identifier': 7.22.15
+      '@babel/helper-validator-identifier': 7.22.20
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.31.0)
       ci-info: 3.8.0
       clean-regexp: 1.0.0
@@ -8169,7 +8140,7 @@ packages:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/code-frame': 7.21.4
+      '@babel/code-frame': 7.24.2
       error-ex: 1.3.2
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
@@ -8271,6 +8242,10 @@ packages:
     resolution: {integrity: sha512-9DC4LfPDUOoayJa1rd8ZZU6KbObmkR33Sh4bnoSl6qx/ANH2zTGqIqXcIZM39DP87ZkKnS1IEMgwNjYUU6qSNQ==}
     dev: false
 
+  /phecda-core@3.0.0-beta.16:
+    resolution: {integrity: sha512-VbM9HjcP5BXZuRGWNj0zCMLGCFVYoTqHRqfLV6Huzw/0wJaYJctcBO+jAOMHCSqg6FcmHA+lPjkTPKMALwZMeg==}
+    dev: false
+
   /phecda-server@5.0.0-alpha.4:
     resolution: {integrity: sha512-nIZFDDo7wrCdV+QaTkDwArBOap3RiFOOsUQS55Rq+ewoHy3NhdW05WmHAYJiIH3MESKR4Xy9QpGKoqqIqXt3sA==}
     hasBin: true
@@ -8289,6 +8264,18 @@ packages:
     dependencies:
       debug: 4.3.4
       phecda-core: 3.0.0-alpha.1
+      picocolors: 1.0.0
+      reflect-metadata: 0.1.14
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /phecda-server@5.0.0-beta.26:
+    resolution: {integrity: sha512-ODnw9TmTE4jccKp8J2P0OWDJrOPURgTr+Tp3rYEN4DSgWhGNmhcIliSuG5kEBtO2gnSaGSd2Az+CtEz8gP8flA==}
+    hasBin: true
+    dependencies:
+      debug: 4.3.4
+      phecda-core: 3.0.0-beta.16
       picocolors: 1.0.0
       reflect-metadata: 0.1.14
     transitivePeerDependencies:
@@ -8921,11 +8908,6 @@ packages:
 
   /semver@5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}
-    hasBin: true
-    dev: true
-
-  /semver@6.3.0:
-    resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
     hasBin: true
     dev: true
 

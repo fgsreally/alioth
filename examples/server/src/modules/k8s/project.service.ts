@@ -2,7 +2,7 @@ import { Injectable } from 'phecda-server'
 import { AppsV1Api, CoreV1Api, Exec, KubeConfig } from '@kubernetes/client-node'
 import Docker from 'dockerode'
 import { DbModule } from 'alioth-cloud-sdk'
-import { IsString } from '../utils'
+import { IsString } from '../../utils'
 const docker = new Docker()
 const kc = new KubeConfig()
 kc.loadFromDefault()
