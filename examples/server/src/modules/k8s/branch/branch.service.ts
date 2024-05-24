@@ -1,14 +1,15 @@
 import { BranchModel } from '../../../models/branch'
+import { ProjectDTO } from '../../../models/project'
 import { CommitService } from '../commit/commit.service'
-import { DockerService } from '../k8s/k8s.service'
+import { K8sService } from '../k8s/k8s.service'
 @Injectable()
 export class BranchService {
-  constructor(protected dockerService: DockerService, protected commitService: CommitService) {
+  constructor(protected k8sService: K8sService, protected commitService: CommitService) {
 
   }
 
   async find(branchId: string) {
-    const branch = await BranchModel.findById(branchId).populated(['project', 'commit'])
+    const branch = await BranchModel.findById(branchId).populate(['project', 'commit'])
 
     if (!branch)
       throw new BadRequestException('不存在')
@@ -30,42 +31,25 @@ export class BranchService {
 
   async create(commitId: string) {
     const commit = await this.commitService.find(commitId)
-    const { id, port } = await this.dockerService.createDev(commit.image, [`project=${commit.project}`])
-    return await BranchModel.create({
+    const newBranch = await BranchModel.create({
       running: true,
       commit,
       project: commit.project,
-      port,
-      id,
+      status: 'loading',
     })
+    const { id, address } = await this.k8sService.createDev((commit.project as ProjectDTO).namespace, commit.image)// [`project=${commit.project}`]
+    newBranch.id = id
+
+    newBranch.address = address
+    newBranch.status = 'running'
+
+    await newBranch.save()
   }
 
-  async stop(branchId: string) {
-    const branch = await this.find(branchId)
-    if (!branch.running
-    ) return
-    await this.dockerService.stop(branch.id)
-    branch.running = false
-
-    await branch.save()
-  }
-
-  async restart(branchId: string) {
-    const branch = await this.find(branchId)
-    if (branch.running
-    ) return
-
-    await this.dockerService.restart(branch.id)
-
-    branch.running = true
-
-    await branch.save()
-  }
-
-  async close(branchId: string) {
+  async remove(branchId: string) {
     const branch = await this.find(branchId)
 
-    await this.dockerService.kill(branch.id)
+    await this.k8sService.killDev((branch.project as ProjectDTO).namespace, branch.id)
     await branch.deleteOne()
   }
 }

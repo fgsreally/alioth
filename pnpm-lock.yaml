@@ -278,6 +278,9 @@ importers:
       mongodb:
         specifier: ^6.3.0
         version: 6.3.0
+      nanoid:
+        specifier: ^4.0.0
+        version: 4.0.0
       phecda-server:
         specifier: 5.0.0-beta.26
         version: 5.0.0-beta.26

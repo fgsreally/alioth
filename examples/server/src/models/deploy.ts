@@ -11,11 +11,14 @@ export class DeployDTO {
   @prop({ default: '' })
   info: string
 
-  @prop({ required: true })//  deployment/container Id
+  @prop()//  deployment/container Id
   id: string
 
-  @prop({ required: true })
-  port: string
+  @prop()
+  address: string
+
+  @prop()
+  status: 'loading' | 'running' | 'stop'
 }
 
 export const DeployModel = getModelForClass(DeployDTO)

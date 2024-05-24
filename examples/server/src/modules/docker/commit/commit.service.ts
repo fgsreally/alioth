@@ -26,24 +26,31 @@ export class CommitService {
   }
 
   async commit(branch: BranchDTO, info: string) {
-    const image = await this.dockerService.commitContainer(branch.id)
-
-    await CommitModel.create({
+    const newCommit = await CommitModel.create({
       commit: branch.commit,
       project: (branch.commit as CommitDTO).project,
       info,
       files: branch.files,
       dependences: branch.dependences,
-      image,
+      status: 'loading',
+
     })
+    const image = await this.dockerService.commitContainer(branch.id)
+    newCommit.image = image
+    newCommit.status = 'finish'
+
+    await newCommit.save()
   }
 
   async deploy(commitId: string, info: string) {
     const commit = await this.find(commitId)
-    const { port, id } = await this.dockerService.createProd(commit.image)
-
-    return DeployModel.create({
-      port, commit, project: commit.project, id, info,
+    const newDeploy = await DeployModel.create({
+      status: 'loading', commit, project: commit.project, info,
     })
+    const { port, id } = await this.dockerService.createProd(commit.image)
+    newDeploy.id = id
+    newDeploy.address = port
+    newDeploy.status = 'running'
+    await newDeploy.save()
   }
 }

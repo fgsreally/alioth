@@ -11,21 +11,24 @@ export class BranchDTO {
   @IsNumber
   commit: Ref<CommitDTO>
 
-  @prop({ default: [] })
-  files: { filename: string; content: string }[]
-
   @prop({ required: true })
-  running: boolean
+  status: 'loading' | 'running' | 'stop'
 
   @prop({ default: '' })
   @IsString
   info: string
 
-  @prop({ required: true })// pod/container id
+  @prop({ default: [] })
+  files: { filename: string; content: string }[]
+
+  @prop({ default: [] })
+  dependences: { name: string; version?: string }[]
+
+  @prop()// pod/container id
   id: string
 
-  @prop({ required: true })
-  port: string
+  @prop()
+  address: string // container port or ingress url
 }
 
 export const BranchModel = getModelForClass(BranchDTO)

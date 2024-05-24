@@ -8,10 +8,16 @@ export class CommitDTO {
   from?: Ref<CommitDTO>
 
   @prop({ required: true })
+  status: 'loading' | 'finish'
+
+  @prop()
   image: string
 
   @prop({ default: [] })
   files: { filename: string; content: string }[]
+
+  @prop({ default: [] })
+  dependences: { name: string; version?: string }[]
 
   @prop({ default: '' })
   info: string

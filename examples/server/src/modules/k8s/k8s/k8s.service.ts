@@ -1,9 +1,37 @@
 import Docker from 'dockerode'
 import { nanoid } from 'nanoid'
-import { CoreV1Api, KubeConfig } from '@kubernetes/client-node'
+import { AppsV1Api, AutoscalingV1Api, CoreV1Api, KubeConfig, NetworkingV1Api } from '@kubernetes/client-node'
 const docker = new Docker()
 
-export class DockerService {
+export class K8sService {
+  protected makeCoreApi() {
+    const kc = new KubeConfig()
+    kc.loadFromDefault()
+
+    return kc.makeApiClient(CoreV1Api)
+  }
+
+  protected makeAppApi() {
+    const kc = new KubeConfig()
+    kc.loadFromDefault()
+
+    return kc.makeApiClient(AppsV1Api)
+  }
+
+  protected makeNetApi() {
+    const kc = new KubeConfig()
+    kc.loadFromDefault()
+
+    return kc.makeApiClient(NetworkingV1Api)
+  }
+
+  protected makeAutoScaleApi() {
+    const kc = new KubeConfig()
+    kc.loadFromDefault()
+
+    return kc.makeApiClient(AutoscalingV1Api)
+  }
+
   async find(id: string) {
     const container = await docker.getContainer(id)
     if (!container)
@@ -11,64 +39,252 @@ export class DockerService {
     return container
   }
 
-  async createDev(image: string, env?: string[]) {
-    const kc = new KubeConfig()
-    kc.loadFromDefault()
+  async createDev(namespace: string, image: string) {
+    const id = nanoid()
+    const podName = `pod-${id}`
+    const serviceName = `service-${id}`
+    const ingressName = `ingress-${id}`
+    const host = `${id}.dev.example.com`
 
-    const k8sApi = kc.makeApiClient(CoreV1Api)
+    const pod = {
+      metadata: {
+        name: podName,
+        labels: { app: podName },
+      },
+      spec: {
+        containers: [{
+          name: podName,
+          image,
+          resources: {
+            limits: {
+              memory: '128Mi',
+              cpu: '250m',
+            },
+            requests: {
+              memory: '64Mi',
+              cpu: '100m',
+            },
+          },
+        }],
+      },
+    }
 
-    const ret = await k8sApi.createNamespacedPod('default', pod as any)
+    const service = {
+      metadata: {
+        name: serviceName,
+      },
+      spec: {
+        selector: { app: podName },
+        ports: [{
+          protocol: 'TCP',
+          port: 80,
+          targetPort: 80,
+        }],
+      },
+    }
 
-    const ip = ret.body.status.hostIP
-    const ports = ret.body.status.hostPorts
-    return { port, id: container.id }
-  }
-
-  async createProd(image: string, env?: string[]) {
-    const container = await docker.createContainer({
-      Image: image,
-
-      Env: [`DB_URI=${process.env.MONGO_URI!}`, ...env],
-      HostConfig: {
-
-        PortBindings: {
-          '8000/tcp': [{ HostPort: 0 }],
-
+    const ingress = {
+      metadata: {
+        name: ingressName,
+        annotations: {
+          'nginx.ingress.kubernetes.io/rewrite-target': '/',
         },
       },
+      spec: {
+        rules: [{
+          host,
+          http: {
+            paths: [{
+              path: '/',
+              pathType: 'Prefix',
+              backend: {
+                service: {
+                  name: serviceName,
+                  port: {
+                    number: 80,
+                  },
+                },
+              },
+            }],
+          },
+        }],
+      },
+    }
+
+    await this.makeCoreApi().createNamespacedPod(namespace, pod)
+    await this.makeCoreApi().createNamespacedService(namespace, service)
+    await this.makeNetApi().createNamespacedIngress(namespace, ingress)
+
+    return {
+      id,
+      address: `http://${host}`,
+    }
+  }
+
+  async createProd(namespace: string, image: string) {
+    const id = nanoid()
+    const deploymentName = `deployment-${id}`
+    const serviceName = `service-${id}`
+    const ingressName = `ingress-${id}`
+    const host = `${id}.example.com`
+
+    const deployment = {
+      metadata: {
+        name: deploymentName,
+        labels: { app: deploymentName },
+      },
+      spec: {
+        replicas: 1,
+        selector: {
+          matchLabels: { app: deploymentName },
+        },
+        template: {
+          metadata: {
+            labels: { app: deploymentName },
+          },
+          spec: {
+            containers: [{
+              name: deploymentName,
+              image,
+              resources: {
+                limits: {
+                  memory: '256Mi',
+                  cpu: '500m',
+                },
+                requests: {
+                  memory: '128Mi',
+                  cpu: '250m',
+                },
+              },
+            }],
+          },
+        },
+      },
+    }
+
+    const service = {
+      metadata: {
+        name: serviceName,
+      },
+      spec: {
+        selector: { app: deploymentName },
+        ports: [{
+          protocol: 'TCP',
+          port: 80,
+          targetPort: 80,
+        }],
+      },
+    }
+
+    const ingress = {
+      metadata: {
+        name: ingressName,
+        annotations: {
+          'nginx.ingress.kubernetes.io/rewrite-target': '/',
+        },
+      },
+      spec: {
+        rules: [{
+          host,
+          http: {
+            paths: [{
+              path: '/',
+              pathType: 'Prefix',
+              backend: {
+                service: {
+                  name: serviceName,
+                  port: {
+                    number: 80,
+                  },
+                },
+              },
+            }],
+          },
+        }],
+      },
+    }
+
+    const hpa = {
+      metadata: {
+        name: `hpa-${deploymentName}`,
+      },
+      spec: {
+        scaleTargetRef: {
+          apiVersion: 'apps/v1',
+          kind: 'Deployment',
+          name: deploymentName,
+        },
+        minReplicas: 1,
+        maxReplicas: 5,
+        metrics: [{
+          type: 'Resource',
+          resource: {
+            name: 'cpu',
+            targetAverageUtilization: 50,
+          },
+        }],
+      },
+    }
+
+    await this.makeAppApi().createNamespacedDeployment(namespace, deployment)
+    await this.makeCoreApi().createNamespacedService(namespace, service)
+    await this.makeNetApi().createNamespacedIngress(namespace, ingress)
+    await this.makeAutoScaleApi().createNamespacedHorizontalPodAutoscaler(namespace, hpa)
+
+    return {
+      id,
+      address: `http://${host}`,
+    }
+  }
+
+  async killDev(namespace: string, id: string) {
+    await this.makeNetApi().deleteNamespacedIngress(`ingress-${id}`, namespace)
+    await this.makeCoreApi().deleteNamespacedService(`service-${id}`, namespace)
+    await this.makeCoreApi().deleteNamespacedPod(`pod-${id}`, namespace)
+  }
+
+  async killProd(namespace: string, id: string) {
+    await this.makeNetApi().deleteNamespacedIngress(`ingress-${id}`, namespace)
+    await this.makeCoreApi().deleteNamespacedService(`service-${id}`, namespace)
+    await this.makeAppApi().deleteNamespacedDeployment(`deployment-${id}`, namespace)
+  }
+
+  async getPodInfo(id: string, namespace: string) {
+    const podResponse = await this.makeCoreApi().readNamespacedPod(`pod-${id}`, namespace)
+    const nodeName = podResponse.body.spec.nodeName
+
+    const nodeResponse = await this.makeCoreApi().readNode(nodeName)
+    const addresses = nodeResponse.body.status.addresses
+
+    const nodeIp = addresses.find(address => address.type === 'InternalIP').address
+
+    const containers = podResponse.body.spec.containers
+
+    return { nodeIp, containerId: containers[0].name.replace('docker://', '') }
+  }
+
+  async commitContainer(id: string, namespace: string) {
+    const { nodeIp, containerId } = await this.getPodInfo(id, namespace)
+    const docker = new Docker({
+      host: `http://${nodeIp}`,
+      port: 2375,
     })
 
-    await container.start()
-    const data = await container.inspect()
-    const port = data.NetworkSettings.Ports['8000/tcp'][0].HostPort
-    return { port, id: container.id }
-  }
+    const imageId = nanoid()
 
-  async kill(id: string) {
-    const container = await this.find(id)
-
-    await container.kill()
-  }
-
-  async stop(id: string) {
-    const container = await this.find(id)
-
-    await container.stop()
-  }
-
-  async restart(id: string) {
-    const container = await this.find(id)
-
-    await container.restart()
-  }
-
-  async commitContainer(id: string) {
-    const container = await this.find(id)
-    const image = nanoid()
-    await container.commit({
-      repo: image,
+    await docker.getContainer(containerId).commit({
+      repo: imageId,
     })
 
-    return image
+    const image = docker.getImage(imageId)
+
+    const stream = await image.push({})
+
+    await new Promise((resolve, reject) => {
+      stream.on('end', resolve)
+      stream.on('error', reject)
+    })
+
+    return imageId
   }
 }

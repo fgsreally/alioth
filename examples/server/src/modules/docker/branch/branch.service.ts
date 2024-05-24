@@ -30,34 +30,39 @@ export class BranchService {
 
   async create(commitId: string) {
     const commit = await this.commitService.find(commitId)
-    const { id, port } = await this.dockerService.createDev(commit.image, [`project=${commit.project}`])
-    return await BranchModel.create({
+    const newBranch = await BranchModel.create({
       running: true,
       commit,
       project: commit.project,
-      port,
-      id,
+      status: 'loading',
     })
+    const { id, port } = await this.dockerService.createDev(commit.image, [`project=${commit.project}`])
+    newBranch.id = id
+
+    newBranch.address = port
+    newBranch.status = 'running'
+
+    await newBranch.save()
   }
 
   async stop(branchId: string) {
     const branch = await this.find(branchId)
-    if (!branch.running
+    if (branch.status !== 'running'
     ) return
     await this.dockerService.stop(branch.id)
-    branch.running = false
+    branch.status = 'stop'
 
     await branch.save()
   }
 
   async restart(branchId: string) {
     const branch = await this.find(branchId)
-    if (branch.running
+    if (branch.status !== 'stop'
     ) return
 
     await this.dockerService.restart(branch.id)
 
-    branch.running = true
+    branch.status = 'running'
 
     await branch.save()
   }

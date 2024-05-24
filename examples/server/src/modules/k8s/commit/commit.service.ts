@@ -1,12 +1,13 @@
 import { BranchDTO } from '../../../models/branch'
 import { CommitDTO, CommitModel } from '../../../models/commit'
 import { DeployModel } from '../../../models/deploy'
-import { DockerService } from '../k8s/k8s.service'
+import { ProjectDTO } from '../../../models/project'
+import { K8sService } from '../k8s/k8s.service'
 
 @Injectable()
 export class CommitService {
   constructor(
-    protected dockerService: DockerService,
+    protected K8S: K8sService,
   ) {}
 
   async init(project: string) {
@@ -26,24 +27,31 @@ export class CommitService {
   }
 
   async commit(branch: BranchDTO, info: string) {
-    const image = await this.dockerService.commitContainer(branch.id)
-
-    await CommitModel.create({
+    const newCommit = await CommitModel.create({
       commit: branch.commit,
       project: (branch.commit as CommitDTO).project,
       info,
       files: branch.files,
       dependences: branch.dependences,
-      image,
+      status: 'loading',
+
     })
+    const image = await this.K8S.commitContainer(branch.id, (branch.project as ProjectDTO).namespace)
+    newCommit.image = image
+    newCommit.status = 'finish'
+
+    await newCommit.save()
   }
 
   async deploy(commitId: string, info: string) {
     const commit = await this.find(commitId)
-    const { port, id } = await this.dockerService.createProd(commit.image)
-
-    return DeployModel.create({
-      port, commit, project: commit.project, id, info,
+    const newDeploy = await DeployModel.create({
+      status: 'loading', commit, project: commit.project, info,
     })
+    const { address, id } = await this.K8S.createProd((commit.project as ProjectDTO).namespace, commit.image)
+    newDeploy.id = id
+    newDeploy.address = address
+    newDeploy.status = 'running'
+    await newDeploy.save()
   }
 }
