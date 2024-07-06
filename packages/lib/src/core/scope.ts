@@ -20,7 +20,7 @@ export class Scope {
     return ret
   }
 
-  create(variable: Record<string, Variable> = {}) {
+  extend(variable: Record<string, Variable> = {}) {
     return new Scope({ ...this.variable, ...variable })
   }
 }

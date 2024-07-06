@@ -27,19 +27,9 @@ export class BranchController {
     return this.branchService.create(commitId)
   }
 
-  @Post('/restart')
-  async restart(@Body('id') branchId: string) {
-    return this.branchService.restart(branchId)
-  }
-
-  @Post('/stop')
-  async stop(@Body('id') branchId: string) {
-    return this.branchService.stop(branchId)
-  }
-
-  @Post('/close')
-  async close(@Body('id') branchId: string) {
-    return this.branchService.close(branchId)
+  @Post('/remove')
+  async remove(@Body('id') branchId: string) {
+    return this.branchService.remove(branchId)
   }
 
   @Post('/commit')

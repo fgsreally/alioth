@@ -1,7 +1,7 @@
 export type Exposed = Record<string, { exposed: string[]; url: string }>
 export type AllExpoesd = Record<string, Exposed>
 
-// 创建连接器
+// connect vite devserver
 export function createConnector() {
   const projectMap: Map<string, Record<string, string>> = new Map()
   const urlMap: Map<string, string> = new Map()
@@ -15,7 +15,7 @@ export function createConnector() {
 
     const { project, entry } = data
     if (projectMap.has(project))
-      throw new Error('已存在同名项目')
+      return
     const sEl = document.createElement('script')
     sEl.src = new URL('/@vite/client', url).href
     sEl.type = 'module'

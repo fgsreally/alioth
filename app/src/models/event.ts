@@ -3,6 +3,10 @@ import { Init, emitter, useR } from 'phecda-vue'
 import { DocModel } from './doc'
 
 export class EventModel extends BaseEventModel {
+  constructor(protected doc: DocModel) {
+    super()
+  }
+
   @Init
   init() {
     const { state } = this
@@ -21,7 +25,7 @@ export class EventModel extends BaseEventModel {
       },
 
       execute() {
-        const { controller } = useR(DocModel)
+        const { controller } = this.doc
 
         return {
           undo() {

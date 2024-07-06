@@ -38,6 +38,7 @@ onBeforeUnmount(() => {
   <section
     ref="dom" class="a-container" @click.stop.self="selectNode = undefined"
   >
+    1111
     <draggable
       :model-value="findChildrens(activePage!)" item-key="id"
       @sort="sort"

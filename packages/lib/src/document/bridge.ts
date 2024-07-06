@@ -5,6 +5,38 @@ import { type Controller, type NodeEvent, applyEventToNode } from './controller'
 export interface InitEvent { type: 'init';data: DocData }
 
 export type CommitEvent = (NodeEvent & { time: number }) | InitEvent
+
+export class ServerBridge extends VirtualDocument {
+  protected readonly _memory = new Map<string, number>()// store event timestamp
+  constructor() {
+    super()
+  }
+
+  handle(event: CommitEvent) {
+    if (event.type === 'init') {
+      this.load(event.data)
+      return
+    }
+
+    if (event.type === 'set') {
+      const localUpdateTime = this._memory.get(`set-${event.nodeId}-${event.key}`)
+      if (localUpdateTime && localUpdateTime > event.time)
+        return false
+
+      this._memory.set(`set-${event.nodeId}-${event.key}`, event.time)
+    }
+    if (event.type === 'swap') {
+      const localUpdateTime = this._memory.get(`swap-${event.nodeId}`)
+
+      if (localUpdateTime && localUpdateTime > event.time)
+        return false
+
+      this._memory.set(`swap-${event.nodeId}`, event.time)
+    }
+
+    return applyEventToNode(this, event)
+  }
+}
 export abstract class ClientBridge {
   protected readonly _memory = new Map<string, number>()// store event timestamp
   constructor(protected controller: Controller) {
@@ -42,38 +74,6 @@ export abstract class ClientBridge {
     }
 
     this.controller.applyEvent(event)
-  }
-}
-
-export class ServerBridge extends VirtualDocument {
-  protected readonly _memory = new Map<string, number>()// store event timestamp
-  constructor() {
-    super()
-  }
-
-  handle(event: CommitEvent) {
-    if (event.type === 'init') {
-      this.load(event.data)
-      return
-    }
-
-    if (event.type === 'set') {
-      const localUpdateTime = this._memory.get(`set-${event.nodeId}-${event.key}`)
-      if (localUpdateTime && localUpdateTime > event.time)
-        return false
-
-      this._memory.set(`set-${event.nodeId}-${event.key}`, event.time)
-    }
-    if (event.type === 'swap') {
-      const localUpdateTime = this._memory.get(`swap-${event.nodeId}`)
-
-      if (localUpdateTime && localUpdateTime > event.time)
-        return false
-
-      this._memory.set(`swap-${event.nodeId}`, event.time)
-    }
-
-    return applyEventToNode(this, event)
   }
 }
 

@@ -1,7 +1,6 @@
-import type { NodeAttrs } from 'alioth-vue'
 import { Init, emitter } from 'phecda-vue'
 import { BaseDocModel, WsClientBridge } from 'alioth-vue'
-export class DocModel<T extends NodeAttrs> extends BaseDocModel<T> {
+export class DocModel extends BaseDocModel<T> {
   containerAttrs = markRaw(
     {
       title: '11',

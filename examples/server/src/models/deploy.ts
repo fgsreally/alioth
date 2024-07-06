@@ -18,7 +18,7 @@ export class DeployDTO {
   address: string
 
   @prop()
-  status: 'loading' | 'running' | 'stop'
+  status: 'loading' | 'running' | 'stop' | 'destroying'
 }
 
 export const DeployModel = getModelForClass(DeployDTO)

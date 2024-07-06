@@ -1,6 +1,5 @@
 import { Init } from 'phecda-vue'
 import { BaseImportModel, internal } from 'alioth-vue'
-import { getQuery } from '@/utils/url'
 export class ImportModel extends BaseImportModel {
   info: Record<string, any> = {}
   presets: string[]

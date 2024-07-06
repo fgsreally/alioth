@@ -4,7 +4,7 @@ import { internal } from '../core/internal'
 
 @Global
 @Tag('doc')
-export class BaseDocModel<T extends Record<string, any>> extends VirtualDocument<T> {
+export class BaseDocModel<T extends Record<string, any> = any> extends VirtualDocument<T> {
   activeId: string
   controller: Controller
   selectNode: VirtualNode<T> | undefined

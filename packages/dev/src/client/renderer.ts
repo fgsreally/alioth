@@ -17,13 +17,12 @@ interface Widget {
   key: string
 }
 export class BaseRenderer<
-  NodeAttrs extends Record<string, any>,
-> {
+    NodeAttrs extends Record<string, any>,
+  > {
   protected vnode: VNode | any
   public doc: VirtualDocument<NodeAttrs>
   public node: VirtualNode<NodeAttrs>
   public widget: Widget
-
   public scope: Scope
   public mode: string
   constructor(
@@ -59,12 +58,12 @@ export class BaseRenderer<
     const slots: { [key in string]: Function } = {}
     slotNames.forEach((templateName) => {
       slots[templateName] = (props: any) =>
-        // eslint-disable-next-line array-callback-return
+      // eslint-disable-next-line array-callback-return
         childs.map((node: VirtualNode<any>) => {
           if ((node.attrs.slot || 'default') === templateName) {
             const key = node.attrs.key
             const widget = window.__ALIOTH__.widgetStore.get(this.mode, key)
-            node.scope = this.scope.create(props)
+            node.scope = this.scope.extend(props)
             if (!widget)
               throw new Error(`miss widget "${key}"`)
             return window.__ALIOTH__.renderFnStore.get(this.mode, key)({ node, widget, mode: this.mode })

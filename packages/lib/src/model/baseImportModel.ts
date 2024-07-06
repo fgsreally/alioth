@@ -1,6 +1,6 @@
 import { Global, Init, Tag } from 'phecda-core'
 import { createConnector } from '../core/connect'
-import { loadStyleOrScript } from '../core/invoke'
+import { loadStyleOrScript } from '../core/load'
 import { internal } from '../core/internal'
 
 export const { connect, dynamicImport, urlMap, projectMap } = createConnector()

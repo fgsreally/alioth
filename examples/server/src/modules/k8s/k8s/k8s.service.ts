@@ -1,7 +1,6 @@
 import Docker from 'dockerode'
 import { nanoid } from 'nanoid'
 import { AppsV1Api, AutoscalingV1Api, CoreV1Api, KubeConfig, NetworkingV1Api } from '@kubernetes/client-node'
-const docker = new Docker()
 
 export class K8sService {
   protected makeCoreApi() {
@@ -32,14 +31,7 @@ export class K8sService {
     return kc.makeApiClient(AutoscalingV1Api)
   }
 
-  async find(id: string) {
-    const container = await docker.getContainer(id)
-    if (!container)
-      throw new BadRequestException('container doesn\'t exist')
-    return container
-  }
-
-  async createDev(namespace: string, image: string) {
+  async createDev(namespace: string, image: string, env: Record<string, string>) {
     const id = nanoid()
     const podName = `pod-${id}`
     const serviceName = `service-${id}`
@@ -65,6 +57,9 @@ export class K8sService {
               cpu: '100m',
             },
           },
+          env: Object.entries(env).map(([name, value]) => ({
+            name, value,
+          })),
         }],
       },
     }
@@ -121,7 +116,7 @@ export class K8sService {
     }
   }
 
-  async createProd(namespace: string, image: string) {
+  async createProd(namespace: string, image: string, env: Record<string, string>) {
     const id = nanoid()
     const deploymentName = `deployment-${id}`
     const serviceName = `service-${id}`
@@ -156,6 +151,9 @@ export class K8sService {
                   cpu: '250m',
                 },
               },
+              env: Object.entries(env).map(([name, value]) => ({
+                name, value,
+              })),
             }],
           },
         },
@@ -247,9 +245,10 @@ export class K8sService {
     await this.makeNetApi().deleteNamespacedIngress(`ingress-${id}`, namespace)
     await this.makeCoreApi().deleteNamespacedService(`service-${id}`, namespace)
     await this.makeAppApi().deleteNamespacedDeployment(`deployment-${id}`, namespace)
+    await this.makeAutoScaleApi().deleteNamespacedHorizontalPodAutoscaler(`hpa-${id}`, namespace)
   }
 
-  async getPodInfo(id: string, namespace: string) {
+  protected async getPodInfo(id: string, namespace: string) {
     const podResponse = await this.makeCoreApi().readNamespacedPod(`pod-${id}`, namespace)
     const nodeName = podResponse.body.spec.nodeName
 

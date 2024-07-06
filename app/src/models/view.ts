@@ -6,13 +6,9 @@ import { ImportModel } from './import'
 import { DocModel } from './doc'
 // import { SelectionModel } from './selection'
 import { componentMap } from '@/views/zones'
-import { useLayer } from '@/composables/layer'
-import PreviewRenderVue from '@/views/preview/PreviewRender.vue'
 import IconEye from '~icons/lucide/eye'
 import IconDownload from '~icons/lucide/download'
 import IconBookDown from '~icons/lucide/book-down'
-
-import { download } from '@/utils/download'
 import { createEntryFileCode } from '@/utils/bundle'
 // import { presets } from '@/config'
 
@@ -32,7 +28,7 @@ export class ViewModel extends BaseZoneModel {
       label: '实时预览',
       component: IconEye,
       handler() {
-        useLayer(PreviewRenderVue, {}, { title: '预览页面' })
+        // useLayer(PreviewRenderVue, {}, { title: '预览页面' })
       },
     },
 
@@ -41,10 +37,6 @@ export class ViewModel extends BaseZoneModel {
       component: IconDownload,
       handler() {
         const { presets, viteUrl } = toRaw(useR(ImportModel))
-        // download('data.json', JSON.stringify({
-        //   docs: useV(DocModel).store(),
-        //   presets,
-        // }))
 
         axios.post(new URL('/alioth/file', viteUrl).href, {
           file: 'data.json',

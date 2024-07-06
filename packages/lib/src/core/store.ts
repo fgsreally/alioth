@@ -1,5 +1,6 @@
-export class Store<V extends object = any> {
-  protected record = {} as Record<string, Record<string, V>>
+export class Store<Data = any, Meta extends Record<string, any> = any> {
+  protected data = {} as Record<string, Record<string, Data>>
+  protected meta = {} as Record<string, Record<string, Meta>>
 
   constructor(
     public category: string,
@@ -7,30 +8,32 @@ export class Store<V extends object = any> {
     this.init('default')
   }
 
-  set(mode: string, key: string, value: any) {
-    if (!mode)
-      mode = 'default'
-    if (!key)
-      key = 'default'
-    this.record[mode][key] = value
+  set(mode: string, key: string, data: any, meta?: any) {
+    this.data[mode][key] = data
+    this.meta[mode][key] = meta || {}
   }
 
   init(mode: string) {
-    if (!this.record[mode])
-      this.record[mode] = {}
+    if (!this.data[mode])
+      this.data[mode] = {}
+    if (!this.meta[mode])
+      this.meta[mode] = {}
   }
 
-  get(mode: string, key: string) {
-    let data = this.record[mode]?.[key] || this.record.default?.[key]
-    if (!data)
-      data = this.record[mode]?.default || this.record.default?.default
+  has(mode: string, key: string) {
+    return this.data[mode] && key in this.data[mode]
+  }
 
-    if (!data)
-      throw new Error(`should set Store "${this.category}" before get`)
-    return data
+  getData(mode: string, key: string) {
+    return this.data[this.has(mode, key) ? mode : 'default'][key]
+  }
+
+  getMeta(mode: string, key: string) {
+    return this.meta[this.has(mode, key) ? mode : 'default'][key]
   }
 
   del(mode: string, key: string) {
-    delete this.record[mode][key]
+    delete this.data[mode][key]
+    delete this.meta[mode][key]
   }
 }

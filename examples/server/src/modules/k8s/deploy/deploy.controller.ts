@@ -16,7 +16,6 @@ export class DeployController {
   }
 
   @Delete('/:id')
-
   async remove(@Param('id') id: string) {
     return this.deployService.remove(id)
   }

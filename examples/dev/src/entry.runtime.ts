@@ -1,5 +1,4 @@
 import { ref } from 'vue'
-import type { AliothWidget } from 'alioth-vue'
 import TestVue from './components/Test.vue'
 import HW from './components/HelloWorld.vue'
 
@@ -38,45 +37,15 @@ export const widget_a: AliothWidget = {
     mode: 'editor',
     key: 'a',
     component: HW,
-    // meta: {
-    //   props: {
-    //     text: {
-    //       _component: 'Input',
-    //       _formItem: { label: '绑定数据' },
-    //     },
-    //   },
-    //   events: {
-    //     onClick: {
-    //       _component: 'Input',
-    //       _formItem: { label: '绑定事件' },
-    //     },
-    //   },
-    // },
+
   },
 }
-export const widget_test: AliothWidget = {
+export const widget_test = {
   alioth: 'widget',
   data: {
     mode: 'editor',
     key: 'test',
     component: TestVue,
-    // meta: {
-    //   props: {
-    //     msg: {
-    //       _component: 'Input',
-    //       _formItem: { label: '绑定数据' },
-    //     },
-    //     vfor: {
-    //       _component: 'Input',
-    //       _formItem: { label: '循环' },
-    //     },
-    //   },
-    //   events: {
-    //     onClick: {
-    //       _component: 'Input',
-    //       _formItem: { label: '绑定事件' },
-    //     },
-    //   },
-    // },
+
   },
 }

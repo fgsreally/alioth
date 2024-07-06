@@ -1,16 +1,12 @@
 import type { Theme } from 'unocss/preset-mini'
 import { defineConfig, presetAttributify, presetIcons, presetUno, transformerDirectives } from 'unocss'
-import presetAnimations from 'unocss-preset-animations'
-import { presetShadcn } from 'unocss-preset-shadcn'
 export default defineConfig({
   transformers: [
     transformerDirectives(),
   ],
 
-  presets: [presetUno(), presetIcons(), presetAttributify(), presetAnimations(),
-    presetShadcn({
-      color: 'red',
-    }),
+  presets: [presetUno(), presetIcons(), presetAttributify(),
+
   ],
   content: {
     pipeline: {

@@ -1,6 +1,7 @@
 import { BranchDTO } from '../../../models/branch'
 import { CommitDTO, CommitModel } from '../../../models/commit'
 import { DeployModel } from '../../../models/deploy'
+import { NamespaceDTO } from '../../../models/namespace'
 import { ProjectDTO } from '../../../models/project'
 import { K8sService } from '../k8s/k8s.service'
 
@@ -10,16 +11,16 @@ export class CommitService {
     protected K8S: K8sService,
   ) {}
 
-  async init(project: string) {
+  async init(project: ProjectDTO) {
     await CommitModel.create({
       project,
       info: 'first commit',
-      image: 'alioth-nodejs',
+      image: process.env.IMAGE_NAME,
     })
   }
 
   async find(id: string) {
-    const commit = await CommitModel.findById(id).populate('project')
+    const commit = await CommitModel.findById(id).populate(['project', 'project.namespace'])
 
     if (!commit)
       throw new BadRequestException('')
@@ -36,7 +37,7 @@ export class CommitService {
       status: 'loading',
 
     })
-    const image = await this.K8S.commitContainer(branch.id, (branch.project as ProjectDTO).namespace)
+    const image = await this.K8S.commitContainer(branch.id, (branch.project as ProjectDTO).namespace.id)
     newCommit.image = image
     newCommit.status = 'finish'
 
@@ -48,7 +49,9 @@ export class CommitService {
     const newDeploy = await DeployModel.create({
       status: 'loading', commit, project: commit.project, info,
     })
-    const { address, id } = await this.K8S.createProd((commit.project as ProjectDTO).namespace, commit.image)
+
+    const { id: namespace, env } = (commit.project as ProjectDTO).namespace as NamespaceDTO
+    const { address, id } = await this.K8S.createProd(namespace, commit.image, env)
     newDeploy.id = id
     newDeploy.address = address
     newDeploy.status = 'running'

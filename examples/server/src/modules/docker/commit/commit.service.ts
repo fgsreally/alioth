@@ -13,7 +13,7 @@ export class CommitService {
     await CommitModel.create({
       project,
       info: 'first commit',
-      image: 'alioth-nodejs',
+      image: process.env.IMAGE_NAME,
     })
   }
 

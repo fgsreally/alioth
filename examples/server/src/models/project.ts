@@ -1,13 +1,20 @@
-import { getModelForClass, prop } from '@typegoose/typegoose'
+import { type Ref, getModelForClass, prop } from '@typegoose/typegoose'
 import { IsString } from '../utils'
+import { NamespaceDTO } from './namespace'
 export class ProjectDTO {
   @prop({ required: true })
   @IsString
-    name: string
+  name: string
 
-  @prop({ required: true })
+  @prop({ required: true, ref: NamespaceDTO })
   @IsString
-  namespace: string
+  namespace: Ref<NamespaceDTO>
+
+  @prop({ default: {} })
+  data: any
+
+  @prop({ enum: ['loading', 'finish'] })
+  status: 'loading' | 'finish'
 }
 
 export const ProjectModel = getModelForClass(ProjectDTO)

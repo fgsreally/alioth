@@ -8,23 +8,7 @@ import { SelectionModel } from '@/models/selection'
 const { activePage, activeId } = $(useV(DocModel))
 const doc = useR(DocModel)
 const { selectNode } = $(useV(SelectionModel))
-// useDocumentClick(() => {
-//   selectNode = undefined
-// })
 
-// function load(e: any) {
-//   const i = e.target.contentWindow
-//   doc.controller.ydoc.on('update', (delta, origin) => {
-//     i.postMessage({
-//       id: activeId,
-//       delta: encodeStateAsUpdate(doc.controller.ydoc),
-//     }, '*')
-//   })
-//   window.addEventListener('message', (e) => {
-//     const { delta } = e.data
-//     applyUpdate(doc.controller.ydoc, delta, 'alioth')
-//   })
-// }
 
 const scope = new Scope(internal.stateStore.get('editor'))
 </script>

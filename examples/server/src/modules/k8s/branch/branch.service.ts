@@ -1,4 +1,5 @@
 import { BranchModel } from '../../../models/branch'
+import { NamespaceDTO } from '../../../models/namespace'
 import { ProjectDTO } from '../../../models/project'
 import { CommitService } from '../commit/commit.service'
 import { K8sService } from '../k8s/k8s.service'
@@ -37,7 +38,9 @@ export class BranchService {
       project: commit.project,
       status: 'loading',
     })
-    const { id, address } = await this.k8sService.createDev((commit.project as ProjectDTO).namespace, commit.image)// [`project=${commit.project}`]
+    const { id: namespace, env } = (commit.project as ProjectDTO).namespace as NamespaceDTO
+
+    const { id, address } = await this.k8sService.createDev(namespace, commit.image, env)
     newBranch.id = id
 
     newBranch.address = address
@@ -49,7 +52,7 @@ export class BranchService {
   async remove(branchId: string) {
     const branch = await this.find(branchId)
 
-    await this.k8sService.killDev((branch.project as ProjectDTO).namespace, branch.id)
+    await this.k8sService.killDev((branch.project as ProjectDTO).namespace.toString(), branch.id)
     await branch.deleteOne()
   }
 }

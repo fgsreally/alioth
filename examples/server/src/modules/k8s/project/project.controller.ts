@@ -1,11 +1,8 @@
+import { ObjectId } from 'mongodb'
 import { ProjectModel } from '../../../models/project'
-import { ProjectService } from './project.service'
 
 @Controller('/project')
 export class ProjectController {
-  constructor(protected projectService: ProjectService) {
-  }
-
   @Get('')
   async find(@Query('id') id: string) {
     const project = await ProjectModel.findById(id)
@@ -23,7 +20,9 @@ export class ProjectController {
 
   @Post('')
   async create(@Query('namespace') namespace: string, @Query('project') project: string) {
-    return this.projectService.create(namespace, project)
+    return ProjectModel.create({
+      name: project, namespace: new ObjectId(namespace),
+    })
   }
 
   @Delete('')

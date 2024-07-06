@@ -1,17 +1,17 @@
 {
-    "compilerOptions": {
-      "target": "ESNext",
-      "useDefineForClassFields": false,
-      "removeComments": false,
-      "allowJs": true,
-      "module": "ESNext",
-      "moduleResolution": "node",
-      "esModuleInterop": true,
-      "forceConsistentCasingInFileNames": true,
-      "strict": true,
-      "strictBindCallApply": false,
-      "resolveJsonModule":true,
-      "strictPropertyInitialization": false,
-      "skipLibCheck": true,
-    }
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": false,
+    "removeComments": false,
+    "allowJs": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictBindCallApply": false,
+    "resolveJsonModule": true,
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true
   }
+}

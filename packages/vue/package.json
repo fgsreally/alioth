@@ -2,6 +2,9 @@
   "name": "alioth-vue",
   "version": "0.1.0-beta.1",
   "description": "",
+  "author": "fgsreally",
+  "license": "MIT",
+  "keywords": ["alioth", "vue"],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -17,12 +20,9 @@
     "test": "vitest",
     "build": "tsup"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "alioth-lib": "workspace:*",
-    "phecda-vue": "3.0.0-alpha.13",
+    "phecda-vue": "^4.0.3",
     "vue": "^3.3.4"
   },
   "devDependencies": {

@@ -1,12 +1,7 @@
 import { defineComponent, h, onBeforeMount, onMounted, reactive, ref } from 'vue'
 
 export const Background = defineComponent({
-//   props: {
-//     speed: {
-//       type: Number,
-//       default: 1,
-//     },
-//   },
+
   setup(props, { attrs, slots }) {
     const status = reactive({
       scale: 1,
