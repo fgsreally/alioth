@@ -4,7 +4,7 @@ import draggable from 'vuedraggable-es'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 
 const { activePage, insert, findChildrens, createNode } = useV(__PHECDA__.doc)
-const { hoverNode, selectNode } = useV(__PHECDA__.selection)
+const { hoverNode, selectNode } = useV(window.__PHECDA__.selection)
 
 function addBlock(module: any) {
   const { key, label, meta } = module
@@ -35,14 +35,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section
-    ref="dom" class="a-container" @click.stop.self="selectNode = undefined"
-  >
+  <section ref="dom" class="a-container" @click.stop.self="selectNode = undefined">
     1111
-    <draggable
-      :model-value="findChildrens(activePage!)" item-key="id"
-      @sort="sort"
-    >
+    <draggable :model-value="findChildrens(activePage!)" item-key="id" @sort="sort">
       <template #item="{ element }">
         <div>
           <slot :a_node="element" />
@@ -53,7 +48,7 @@ onBeforeUnmount(() => {
 </template>
 
 <style>
-.a-container{
+.a-container {
   min-width: 600px;
   min-height: 300px;
 }

@@ -3,6 +3,8 @@ import { GridStack } from 'gridstack'
 import 'gridstack/dist/gridstack.min.css'
 
 const grid = GridStack.init()
+
+gri
 </script>
 
 <template>
