@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { h } from 'vue'
-import { AliothRenderer, BaseRenderer, VirtualDocument, VirtualNode, initAlioth, internal, registerWidget, setRenderFn } from '../src'
+import { AliothRenderer, Scope, VirtualDocument, VirtualNode, initAlioth, internal } from '../src'
 import { Comp1, Comp2 } from './fixtures/components'
+import { BaseRenderer } from './renderer'
 describe('renderer', () => {
-  initAlioth('test')
+  initAlioth(['test'])
   class Renderer extends BaseRenderer<any> {
     test() {
       expect(this.scope.variable).toMatchSnapshot()
@@ -26,14 +27,15 @@ describe('renderer', () => {
   }
 
   it('scope', () => {
-    const renderFn = ({ node, scope, widget }) => {
-      const renderer = new Renderer(node, widget, scope)
+    const renderer = ({ node, widget, mode }) => {
+      const renderer = new Renderer({ node, widget, mode })
       return renderer.slot(['default']).main().test().exec()
     }
     internal.mode = 'test'
-    setRenderFn('test', renderFn)
-    registerWidget({ mode: 'test', key: 'Comp1', component: Comp1 })
-    registerWidget({ mode: 'test', key: 'Comp2', component: Comp2 })
+    internal.import('renderer', renderer)
+
+    internal.import('widget', { mode: 'test', key: 'Comp1', data: Comp1 })
+    internal.import('widget', { mode: 'test', key: 'Comp2', data: Comp2 })
 
     const doc = new VirtualDocument()
     const node1 = new VirtualNode({ key: 'Comp1' })
@@ -46,6 +48,7 @@ describe('renderer', () => {
       props: {
         mode: 'test',
         doc,
+        scope: new Scope(),
         node: node1,
       },
     })

@@ -1,39 +1,45 @@
 export class Store<Data = any, Meta extends Record<string, any> = any> {
-  protected data = {} as Record<string, Record<string, Data>>
-  protected meta = {} as Record<string, Record<string, Meta>>
+  protected record = {} as Record<string, Record<string, { data: Data; meta: Meta }>>
 
   constructor(
-    public category: string,
+    public name: string,
   ) {
     this.init('default')
   }
 
-  set(mode: string, key: string, data: any, meta?: any) {
-    this.data[mode][key] = data
-    this.meta[mode][key] = meta || {}
+  set(key: string, environment: string, data: any, meta?: any) {
+    this.record[environment][key] = { data, meta }
   }
 
-  init(mode: string) {
-    if (!this.data[mode])
-      this.data[mode] = {}
-    if (!this.meta[mode])
-      this.meta[mode] = {}
+  init(environment: string) {
+    this.record[environment] = {}
   }
 
-  has(mode: string, key: string) {
-    return this.data[mode] && key in this.data[mode]
+  has(key: string, environment: string) {
+    return !!this.record[environment]?.[key]
   }
 
-  getData(mode: string, key: string) {
-    return this.data[this.has(mode, key) ? mode : 'default'][key]
+  get(key: string, environment: string) {
+    return this.record[environment]?.[key] || this.record.default[key]
   }
 
-  getMeta(mode: string, key: string) {
-    return this.meta[this.has(mode, key) ? mode : 'default'][key]
+  list(environment: string) {
+    return Object.keys(this.record[environment])
   }
 
-  del(mode: string, key: string) {
-    delete this.data[mode][key]
-    delete this.meta[mode][key]
+  values(environment: string) {
+    return Object.values(this.record[environment])
+  }
+
+  getData(key: string, environment: string) {
+    return this.get(environment, key).data
+  }
+
+  getMeta(key: string, environment: string) {
+    return this.get(environment, key).meta
+  }
+
+  del(key: string, environment: string) {
+    delete this.record[environment][key]
   }
 }

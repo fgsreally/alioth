@@ -1,6 +1,5 @@
-import { Global, Init, Tag } from 'phecda-core'
+import { Global, Tag } from 'phecda-core'
 import { Controller, VirtualDocument, VirtualNode } from '../document'
-import { internal } from '../core/internal'
 
 @Global
 @Tag('doc')
@@ -18,12 +17,12 @@ export class BaseDocModel<T extends Record<string, any> = any> extends VirtualDo
     // this.activePage = this.addPage()
   }
 
-  @Init
-  private init() {
-    internal.node_event = ({ event, cb }: any) => {
-      this.on(event, cb)
-    }
-  }
+  // @Init
+  // private init() {
+  //   internal.node_event = ({ event, cb }: any) => {
+  //     this.on(event, cb)
+  //   }
+  // }
 
   get pages() {
     return this.findChildrens(this.root)

@@ -103,7 +103,7 @@ importers:
         version: 0.368.0(vue@3.3.4)
       phecda-vue:
         specifier: 4.0.3
-        version: 4.0.3
+        version: 4.0.3(typescript@5.0.4)
       radix-vue:
         specifier: ^1.7.0
         version: 1.7.0(vue@3.3.4)
@@ -186,9 +186,9 @@ importers:
       alioth-dev:
         specifier: workspace:*
         version: link:../../packages/dev
-      alioth-vue:
-        specifier: workspace:*
-        version: link:../../packages/vue
+      gridstack:
+        specifier: ^10.3.0
+        version: 10.3.0
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -2284,6 +2284,20 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /@rollup/pluginutils@5.0.5:
+    resolution: {integrity: sha512-6aEYR910NyP73oHiJglti74iRyOwgFU4x3meH/H8OJx6Ry0j6cOVZ5X/wTvub7G7Ao6qaHBEaNsV3GLJkSsF+Q==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@types/estree': 1.0.1
+      estree-walker: 2.0.2
+      picomatch: 2.3.1
+    dev: true
+
   /@rollup/pluginutils@5.0.5(rollup@3.29.0):
     resolution: {integrity: sha512-6aEYR910NyP73oHiJglti74iRyOwgFU4x3meH/H8OJx6Ry0j6cOVZ5X/wTvub7G7Ao6qaHBEaNsV3GLJkSsF+Q==}
     engines: {node: '>=14.0.0'}
@@ -3912,7 +3926,7 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 3.4.21
       '@vue/shared': 3.4.21
-      vue: 3.4.21(typescript@5.3.3)
+      vue: 3.4.21(typescript@5.0.4)
 
   /@vue/shared@3.3.2:
     resolution: {integrity: sha512-0rFu3h8JbclbnvvKrs7Fe5FNGV9/5X2rPD7KmOzhLSUAiQH5//Hq437Gv0fR5Mev3u/nbtvmLl8XgwCU20/ZfQ==}
@@ -7194,6 +7208,10 @@ packages:
       vue: 3.3.4
     dev: false
 
+  /gridstack@10.3.0:
+    resolution: {integrity: sha512-eGKsmU2TppV4coyDu9IIdIkm4qjgLLdjlEOFwQyQMuSwfOpzSfLdPc8du0HuebGr7CvAIrJxN4lBOmGrWSBg9g==}
+    dev: false
+
   /gzip-size@6.0.0:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
     engines: {node: '>=10'}
@@ -9028,14 +9046,6 @@ packages:
       reflect-metadata: 0.1.14
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /phecda-vue@4.0.3:
-    resolution: {integrity: sha512-QIySfSeMwI5lJNNLHQkys9DWU3aTRUWhWOfzl00/RCTI0IFlR2xNdMwun/eH5FKFnMWTpLE3jhzLRzVhp7D8mw==}
-    dependencies:
-      '@vue/devtools-api': 6.6.3
-      phecda-web: 2.0.3
-      vue: 3.3.4
     dev: false
 
   /phecda-vue@4.0.3(typescript@4.9.4):
@@ -11120,7 +11130,7 @@ packages:
         optional: true
     dependencies:
       '@antfu/utils': 0.7.6
-      '@rollup/pluginutils': 5.0.5(rollup@3.29.0)
+      '@rollup/pluginutils': 5.0.5
       debug: 4.3.4
       error-stack-parser-es: 0.1.1
       fs-extra: 11.2.0
@@ -11551,7 +11561,6 @@ packages:
       '@vue/server-renderer': 3.4.21(vue@3.4.21)
       '@vue/shared': 3.4.21
       typescript: 5.0.4
-    dev: false
 
   /vue@3.4.21(typescript@5.3.3):
     resolution: {integrity: sha512-5hjyV/jLEIKD/jYl4cavMcnzKwjMKohureP8ejn3hhEjwhWIhWeuzL2kJAjzl/WyVsgPY56Sy4Z40C3lVshxXA==}

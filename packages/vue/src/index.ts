@@ -1,6 +1,6 @@
 export * from './iframe'
-export * from './init'
 export * from './component'
-export * from './model'
+export * from './background'
+
 // eslint-disable-next-line import/export
 export * from 'alioth-lib'

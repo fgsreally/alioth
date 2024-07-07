@@ -4,6 +4,7 @@ import { Component, VNode } from 'vue'
 export namespace Alioth {
 
   export interface Export {
+    alioth: string
     mode: string
     key: string
     data: any

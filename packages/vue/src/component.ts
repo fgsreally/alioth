@@ -27,11 +27,10 @@ export const AliothRenderer = defineComponent({
     return () => {
       const mode = props.mode
       const key = props.node.attrs.key
-      const { widgetStore, renderFnStore } = internal
-      const widget = widgetStore.get(mode, key)
-      const renderFn = renderFnStore.get(mode, key)
+      const widget = internal.getStore('widget').getData(mode, key)
+      const renderer = internal.getStore('renderer').getData(mode, key)
 
-      return renderFn({ node: props.node, widget, mode })
+      return renderer({ node: props.node, widget, mode })
     }
   },
 })
