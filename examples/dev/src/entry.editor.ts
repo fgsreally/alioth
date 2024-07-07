@@ -1,10 +1,9 @@
-import type { AliothComponent, AliothZone } from 'alioth-vue'
 import { useR } from 'phecda-vue'
 import TestVue from './Test.vue'
 
 export { container, engine, engine_prod } from './engine'
 
-export const zone_test: AliothZone = {
+export const zone_test = {
   alioth: 'zone',
   data: {
     component: 'test',
@@ -23,7 +22,7 @@ export const zone_test: AliothZone = {
   },
 }
 
-export const view_test: AliothComponent = {
+export const view_test = {
   alioth: 'component',
   data: {
     component: TestVue,

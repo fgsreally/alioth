@@ -20,7 +20,7 @@ export default defineConfig({
       project: 'alioth',
       entry: {
         editor: './src/entry.editor.ts',
-        runtime: './src/entry.runtime.ts',
+        // runtime: './src/entry.runtime.ts',
 
       },
       externals: {

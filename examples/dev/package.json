@@ -1,8 +1,8 @@
 {
   "name": "example-dev",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "alioth-dev": "workspace:*",
-    "alioth-vue": "workspace:*",
+    "gridstack": "^10.3.0",
     "lodash-es": "^4.17.21",
     "phecda-vue": "^4.0.3",
     "rollup-plugin-visualizer": "^5.9.2",
