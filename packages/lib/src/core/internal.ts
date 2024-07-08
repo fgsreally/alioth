@@ -3,22 +3,30 @@ import { Store } from './store'
 class Internal {
   stores: Record<string, Store> = {}
   // function that import those exports from sub app
-  imports: Record<string, (arg: Export) => void> = {}
-
-  addStore(name: string) {
-    return new Store(name)
+  methods: Record<string, (...arg: any) => void> = {}
+  importers: Record<string, (arg: Export) => void> = {}
+  registerStore(name: string) {
+    return this.stores[name] = new Store(name)
   }
 
   getStore(name: string) {
     return this.stores[name]
   }
 
-  addImport(name: string, fn: (arg: Export) => void | Promise<void>) {
-    this.imports[name] = fn
+  registerMethod(name: string, fn: (...arg: any) => void | Promise<void>) {
+    this.methods[name] = fn
+  }
+
+  invoke(name: string, data: any) {
+    return this.methods[name] && this.methods[name](data)
+  }
+
+  registerImporter(name: string, fn: (arg: Export) => void | Promise<void>) {
+    this.importers[name] = fn
   }
 
   import(name: string, data: Export) {
-    return this.imports[name](data)
+    return this.importers[name](data)
   }
 }
 
@@ -34,8 +42,8 @@ export interface Export {
 
 export async function initAlioth(mode: string[], stores: string[] = ['widget', 'renderer', 'state']) {
   stores.forEach((store) => {
-    internal.addStore(store)
-    internal.addImport(store, (arg: Export) => {
+    internal.registerStore(store)
+    internal.registerImporter(store, (arg) => {
       internal.stores[store].set(arg.mode, arg.key, arg.data, arg.meta)
     })
 

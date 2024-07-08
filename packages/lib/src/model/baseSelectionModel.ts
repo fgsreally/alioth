@@ -6,26 +6,29 @@ export class BaseSelectionModel<T extends Record<string, any>> {
   hoverNode: VirtualNode<T> | undefined
   activePage: VirtualNode<T>
 
-  protected readonly _activeNodeSet = new Set<VirtualNode<T>>()
+  protected readonly activeNodeSet = new Set<VirtualNode<T>>()
 
   get activeNodes() {
-    return [...this._activeNodeSet]
+    return [...this.activeNodeSet]
   }
 
   clearActiveNodes() {
-    this._activeNodeSet.clear()
+    this.activeNodeSet.clear()
   }
 
-  removeActiveNode(node: VirtualNode<T>) {
-    this._activeNodeSet.delete(node)
+  deactiveNode(node: VirtualNode<T>) {
+    this.activeNodeSet.delete(node)
+  }
+
+  activeNode(node: VirtualNode<T>) {
+    this.activeNodeSet.add(node)
+  }
+
+  toggleNode(node: VirtualNode<T>) {
+    this.isActiveNode(node) ? this.deactiveNode(node) : this.activeNode(node)
   }
 
   isActiveNode(node: VirtualNode<T>) {
-    return this._activeNodeSet.has(node)
-  }
-
-  selectNode(node: VirtualNode<T>) {
-    if (!this._activeNodeSet.has(node))
-      this._activeNodeSet.add(node)
+    return this.activeNodeSet.has(node)
   }
 }

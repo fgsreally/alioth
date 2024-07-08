@@ -1,21 +1,5 @@
 import { Init } from 'phecda-core'
 
-// const { register, initialize, state } = createEventStack({ undo: true, redo: true })
-// @Global
-// @Tag('event')
-// export class BaseEventModel {
-//   public state = state as any
-//   public register = register
-
-//   constructor() {
-//     initialize()
-
-//     internal.addImport('event', (arg) => {
-//       register(arg.data)
-//     })
-//   }
-// }
-
 export interface DefaultEvent {
   /** 命令名 */
 

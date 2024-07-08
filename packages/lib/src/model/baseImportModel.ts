@@ -7,14 +7,14 @@ export const { connect, dynamicImport, urlMap, projectMap } = createConnector()
 @Global
 @Tag('import')
 export class BaseImportModel {
-  graph: Record<string, any> = {}
+  record: Record<string, any> = {}
 
   @Init
   private _init() {
-    internal.update = (url: string, module: any) => {
+    internal.registerMethod('update', (url: string, module: any) => {
       // vite hmr will cause xx?t=xx
-      this.graph[url.split('?')[0]] = this.importModule(module)
-    }
+      this.record[url.split('?')[0]] = this.importModule(module)
+    })
   }
 
   async connectVite(url: string) {
@@ -23,21 +23,21 @@ export class BaseImportModel {
       for (const entry in entries) {
         const { module, url } = (await dynamicImport(project, entry))!
 
-        this.graph[url] = this.importModule(module)
+        this.record[url] = this.importModule(module)
       }
     }
   }
 
-  async connectPreset(presets: string[]) {
+  async connectPresets(presets: string[]) {
     presets.forEach(async (url) => {
       try {
         const module = await loadStyleOrScript(url)
         if (!url.endsWith('.css'))
-          this.graph[url] = this.importModule(module)
-        else this.graph[url] = {}
+          this.record[url] = this.importModule(module)
+        else this.record[url] = {}
       }
       catch (e) {
-        internal.error('LoadError', `load dependence ${url} failed`)
+        internal.invoke('error', `load dependence "${url}" failed`)
       }
     })
   }
@@ -47,7 +47,7 @@ export class BaseImportModel {
     for (const exports in module) {
       if (typeof module[exports] === 'object' && module[exports].alioth) {
         const { alioth: type, data } = module[exports]
-        internal[type]?.(data)
+        internal.import(type, data)
         exportsMap[exports] = module[exports]
       }
     }
