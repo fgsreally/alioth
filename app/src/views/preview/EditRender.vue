@@ -9,8 +9,7 @@ const { activePage, activeId } = $(useV(DocModel))
 const doc = useR(DocModel)
 const { selectNode } = $(useV(SelectionModel))
 
-
-const scope = new Scope(internal.stateStore.get('editor'))
+const scope = new Scope()
 </script>
 
 <template>
@@ -18,7 +17,7 @@ const scope = new Scope(internal.stateStore.get('editor'))
     <section v-if="!!activePage" class="al-window">
       <!-- <IframeCanvas>
       </IframeCanvas> -->
-      <AliothRenderer :node="activePage" mode="editor" :scope="scope" />
+      <AliothRenderer :node="activePage" renderer="development" :scope="scope" />
     </section>
   </div>
 </template>

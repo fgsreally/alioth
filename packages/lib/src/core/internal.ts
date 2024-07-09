@@ -34,21 +34,16 @@ export const internal = new Internal()
 
 export interface Export {
   alioth: string
-  mode: string
   key: string
   data: any
-  meta: any
+  meta: Record<string, any>
 }
 
-export async function initAlioth(mode: string[], stores: string[] = ['widget', 'renderer', 'state']) {
+export async function initAlioth(stores: string[] = ['widget', 'renderer', 'state']) {
   stores.forEach((store) => {
     internal.registerStore(store)
     internal.registerImporter(store, (arg) => {
-      internal.stores[store].set(arg.mode, arg.key, arg.data, arg.meta)
-    })
-
-    mode.forEach((m) => {
-      internal.getStore(store).init(m)
+      internal.stores[store].set(arg.key, arg.data, arg.meta)
     })
   })
   window.__ALIOTH__ = internal

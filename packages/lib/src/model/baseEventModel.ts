@@ -1,4 +1,4 @@
-import { Init } from 'phecda-core'
+import { Global, Init, Tag } from 'phecda-core'
 
 export interface DefaultEvent {
   /** 命令名 */
@@ -31,6 +31,8 @@ interface EventState<Event> {
   destroyArray: Function[]// 销毁任务
 }
 
+@Global
+@Tag('event')
 export abstract class BaseEventModel<Event extends DefaultEvent = DefaultEvent> {
   initialized = false
 

@@ -6,6 +6,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 const { activePage, insert, findChildrens, createNode } = useV(__PHECDA__.doc)
 const { hoverNode, selectNode } = useV(window.__PHECDA__.selection)
 
+console.log('init')
 function addBlock(module: any) {
   const { key, label, meta } = module
   const parent = hoverNode.value || activePage.value!

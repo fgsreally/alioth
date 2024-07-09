@@ -12,7 +12,7 @@ export const AliothRenderer = defineComponent({
       required: true,
     },
 
-    mode: {
+    renderer: {
       type: String,
       required: true,
     },
@@ -25,12 +25,11 @@ export const AliothRenderer = defineComponent({
   setup(props) {
     props.node.scope = props.scope
     return () => {
-      const mode = props.mode
       const key = props.node.attrs.key
-      const widget = internal.getStore('widget').getData(mode, key)
-      const renderer = internal.getStore('renderer').getData(mode, key)
-
-      return renderer({ node: props.node, widget, mode })
+      const widget = internal.getStore('widget').getData(key)
+      const renderer = internal.getStore('renderer').getData(props.renderer)
+      console.log(renderer, props.renderer)
+      return renderer({ node: props.node, widget })
     }
   },
 })

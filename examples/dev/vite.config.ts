@@ -24,9 +24,9 @@ export default defineConfig({
 
       },
       externals: {
-        'vue': 'http://localhost:4010/vue.mjs',
-        'phecda-core': 'http://localhost:4010/phecda-vue.mjs',
-        'phecda-vue': 'http://localhost:4010/phecda-vue.mjs',
+        'vue': 'http://localhost:4010/vue.js',
+        'phecda-core': 'http://localhost:4010/phecda-vue.js',
+        'phecda-vue': 'http://localhost:4010/phecda-vue.js',
       },
     }),
 

@@ -1,5 +1,6 @@
 import { Global, Tag } from 'phecda-core'
 import type { VirtualNode } from '../document'
+
 @Global
 @Tag('selection')
 export class BaseSelectionModel<T extends Record<string, any>> {

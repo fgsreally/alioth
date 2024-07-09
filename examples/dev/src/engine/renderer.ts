@@ -1,25 +1,16 @@
 // import { cloneDeep, isSymbol } from 'lodash-es'
-import { BaseRenderer } from 'alioth-vue'
+import { BaseRenderer } from 'alioth-dev/client'
 import { h } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { createFilter, useV } from 'phecda-vue'
+import { useV } from 'phecda-vue'
 
 export class Renderer extends BaseRenderer<any> {
   propsData: any
 
   main() {
-    const { component } = this.widget
-    if (this.node.parent?.id === 'root') {
-      this.vnode = h(
-        component,
-        { ...this.node.attrs, a_mode: this.mode, a_node: this.node },
-        this.vnode,
-      )
-      return this
-    }
-    const { filter } = createFilter(this.scope.data)
+    const component = this.widget
 
-    const ret = filter(cloneDeep(this.node.attrs))
+    const ret = this.node.attrs
     if (this.mode === 'render' && 'modelValue' in this.node.attrs) {
       (this.vnode = h(
         component,

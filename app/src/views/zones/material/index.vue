@@ -23,7 +23,7 @@ const namespaces = ['default']
       <TabIndicator class="bg-p h-1" />
     </TabList>
     <TabContent v-for="(item) in namespaces" :key="item" :value="item">
-      <Material :comp-list="Object.values(internal.widgetStore.get('editor'))" type="text" />
+      <Material :comp-list="internal.getStore('state').list('default')" type="text" />
     </TabContent>
   </Tabs>
 </template>

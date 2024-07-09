@@ -14,7 +14,7 @@
   "compilerOptions": {
     "allowJs": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization":false,
+    "strictPropertyInitialization": false,
     "composite": true,
     "baseUrl": ".",
     "paths": {

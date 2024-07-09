@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
-
+    "target": "esnext",
+    "module": "esnext",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
   "vueCompilerOptions": {
@@ -13,10 +16,9 @@
       "@vue-macros/volar/define-props-refs",
       "@vue-macros/volar/short-vmodel",
       "@vue-macros/volar/define-slots",
-      "@vue-macros/volar/export-expose",
+      "@vue-macros/volar/export-expose"
       // "@vue-macros/volar/jsx-directive",
       // "@vue-macros/volar/setup-jsdoc",
-    
     ],
     // prefix
     "shortVmodel": {

@@ -46,7 +46,7 @@ export class BaseImportModel {
     const exportsMap = {} as Record<string, any>
     for (const exports in module) {
       if (typeof module[exports] === 'object' && module[exports].alioth) {
-        const { alioth: type, data } = module[exports]
+        const { alioth: type, ...data } = module[exports]
         internal.import(type, data)
         exportsMap[exports] = module[exports]
       }

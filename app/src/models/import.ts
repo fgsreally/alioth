@@ -12,7 +12,7 @@ export class ImportModel extends BaseImportModel {
       await this.connectVite(url)
     }
     this.presets = presets
-    await this.connectPreset(presets)
+    await this.connectPresets(presets)
   }
 
   getParams() {

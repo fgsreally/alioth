@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useV } from 'phecda-vue'
-import { ViewModel } from '@/models/view'
+import { ZoneModel } from '@/models/zone'
 
-const { headers } = useV(ViewModel)
+const { headers } = useV(ZoneModel)
 </script>
 
 <template>
@@ -15,4 +15,3 @@ const { headers } = useV(ViewModel)
     </div>
   </div>
 </template>
-

@@ -18,14 +18,14 @@ export default defineConfig({
     External({
       externals: {
         'vue': 'http://localhost:4010/vue.js',
-        'phecda-core': 'http://localhost:4010/alioth-vue.js',
-        'phecda-vue': 'http://localhost:4010/alioth-vue.js',
+        'phecda-core': 'http://localhost:4010/phecda-vue.js',
+        'phecda-vue': 'http://localhost:4010/phecda-vue.js',
       },
     }),
     DynamicImportmap({
       'vue': 'http://localhost:4010/vue.js',
-      'phecda-core': 'http://localhost:4010/alioth-vue.js',
-      'phecda-vue': 'http://localhost:4010/alioth-vue.js',
+      'phecda-core': 'http://localhost:4010/phecda-vue.js',
+      'phecda-vue': 'http://localhost:4010/phecda-vue.js',
     }),
     VueMacros({
       setupBlock: true,
@@ -38,7 +38,7 @@ export default defineConfig({
 
     AutoImport({
       imports: ['vue', 'vue-router', {
-        'phecda-vue': ['useR', 'useV', 'getR', 'getV']
+        'phecda-vue': ['useR', 'useV', 'getR', 'getV'],
       }],
       dirs: ['./src/composables'],
     }),
@@ -47,7 +47,6 @@ export default defineConfig({
       directoryAsNamespace: false,
     }),
 
-    Swc.vite(),
     UnoCSS(),
   ],
   resolve: {

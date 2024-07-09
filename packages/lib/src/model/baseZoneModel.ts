@@ -5,7 +5,7 @@ import { internal } from '../core/internal'
 @Tag('zone')
 export class BaseZoneModel<Component = any> {
   list() {
-    return internal.getStore('zone').list('editor')
+    return internal.getStore('zone').list()
   }
   /**
    *
@@ -25,14 +25,14 @@ export class BaseZoneModel<Component = any> {
 
   zone(zone: string): { component: Component; props: any }[] {
     const store = internal.getStore('zone')
-    const list = store.list('editor')
+    const list = store.list()
 
     return list.filter(key =>
-      store.getMeta(key, 'editor').zone === zone,
+      store.getMeta(key).zone === zone,
     ).map((key) => {
       return {
-        component: store.getData(key, 'editor'),
-        props: store.getMeta(key, 'editor').props,
+        component: store.getData(key),
+        props: store.getMeta(key).props,
       }
     })
   }

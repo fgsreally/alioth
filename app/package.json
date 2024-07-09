@@ -36,7 +36,7 @@
     "localforage": "^1.10.0",
     "lodash-es": "^4.17.21",
     "lucide-vue-next": "^0.368.0",
-    "phecda-vue": "4.0.3",
+    "phecda-vue": "4.0.4",
     "radix-vue": "^1.7.0",
     "tailwind-merge": "^2.2.2",
     "vue": "^3.3.2",

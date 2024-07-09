@@ -1,17 +1,16 @@
-
 import { ImportModel } from './import'
-import { ViewModel } from './view'
+import { ZoneModel } from './zone'
 import { DragModel } from './drag'
 import { DocModel } from './doc'
 import { EventModel } from './event'
-import { ErrorModel } from './error'
+import { FeedbackModel } from './feedback'
 import { SelectionModel } from './selection'
 export function initModels() {
   getR(EventModel)
   getR(ImportModel)
-  getR(ViewModel)
+  getR(ZoneModel)
   getR(DragModel)
   getR(DocModel)
-  getR(ErrorModel)
+  getR(FeedbackModel)
   getR(SelectionModel)
 }

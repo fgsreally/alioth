@@ -5,7 +5,7 @@ import '@fgsreally/vue-web-terminal/style.css'
 import { basicSetup } from 'codemirror'
 import { javascript } from '@codemirror/lang-javascript'
 import VueCodemirror from 'vue-codemirror'
-import { initAliothVue } from 'alioth-vue'
+import { initAlioth } from 'alioth-vue'
 // import VueTippy, { roundArrow, setDefaultProps } from 'vue-tippy'
 import App from './App.vue'
 import router from './router'
@@ -30,7 +30,7 @@ const app = createApp(App).use(createPhecda()).use(router).use(VueCodemirror, {
 }).use(Terminal)
 app.config.warnHandler = () => null
 
-initAliothVue(['editor', 'runtime'])
+initAlioth()
 initModels()
 initWidget()
 app.mount('#al-root')

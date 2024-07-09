@@ -1,6 +1,5 @@
-import { internal } from 'alioth-lib'
 import type { SetupContext } from 'vue'
-import { defineComponent, h, onBeforeUnmount, render } from 'vue'
+import { defineComponent, h, onBeforeUnmount, ref, render } from 'vue'
 
 function cloneStyleNode(): Node[] {
   const arr = []
@@ -84,11 +83,13 @@ export const IframeCanvas = defineComponent({
   props: {
 
   },
-  setup(props, { slots, attrs }: SetupContext) {
+  setup(props, { slots, attrs, expose }: SetupContext) {
     if (!slots.default)
       return null
     let isLoad = false
     let bodyDescriptor: PropertyDescriptor
+    const el = ref<HTMLIFrameElement>()
+    expose({ el })
     const childrenId = slots.default()
     onBeforeUnmount(() => {
       bodyDescriptor && Object.defineProperty(document, 'body', bodyDescriptor)
@@ -96,8 +97,7 @@ export const IframeCanvas = defineComponent({
     async function onload() {
       // @ts-expect-error get iframe instance
       const iframe = this as HTMLIFrameElement
-      internal.sandbox = { window: iframe.contentWindow, document: iframe.contentDocument }
-
+      el.value = iframe
       injectScript(iframe)
       injectStyle(iframe)
       setCanvasTag(iframe)

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Global, Init, Tag, Watcher } from 'phecda-core'
+import { Global, Init, Tag } from 'phecda-core'
 import { internal } from '../core'
 
 export interface ErrorHandler {
