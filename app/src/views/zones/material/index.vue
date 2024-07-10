@@ -10,7 +10,6 @@ import { useV } from 'phecda-vue'
 import { internal } from 'alioth-vue'
 import Material from './Material.vue'
 import { DocModel } from '@/models/doc'
-const { activeNode } = useV(DocModel)
 const namespaces = ['default']
 </script>
 
@@ -23,7 +22,7 @@ const namespaces = ['default']
       <TabIndicator class="bg-p h-1" />
     </TabList>
     <TabContent v-for="(item) in namespaces" :key="item" :value="item">
-      <Material :comp-list="internal.getStore('state').list('default')" type="text" />
+      <Material :comp-list="internal.getStore('widget').list()" type="text" />
     </TabContent>
   </Tabs>
 </template>

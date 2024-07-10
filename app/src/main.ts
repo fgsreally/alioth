@@ -7,6 +7,8 @@ import { javascript } from '@codemirror/lang-javascript'
 import VueCodemirror from 'vue-codemirror'
 import { initAlioth } from 'alioth-vue'
 // import VueTippy, { roundArrow, setDefaultProps } from 'vue-tippy'
+import PrimeVue from 'primevue/config'
+import Aura from '@primevue/themes/aura'
 import App from './App.vue'
 import router from './router'
 import '@/style/common.scss'
@@ -18,7 +20,11 @@ import { initWidget } from '@/views/widgets'
 // import 'tippy.js/dist/svg-arrow.css'
 
 import 'uno.css'
-const app = createApp(App).use(createPhecda()).use(router).use(VueCodemirror, {
+const app = createApp(App).use(PrimeVue, {
+  theme: {
+    preset: Aura,
+  },
+}).use(createPhecda()).use(router).use(VueCodemirror, {
   // optional default global options
   autofocus: true,
   disabled: false,
@@ -30,7 +36,7 @@ const app = createApp(App).use(createPhecda()).use(router).use(VueCodemirror, {
 }).use(Terminal)
 app.config.warnHandler = () => null
 
-initAlioth()
+initAlioth(['widget', 'renderer', 'state', 'zone'])
 initModels()
 initWidget()
 app.mount('#al-root')

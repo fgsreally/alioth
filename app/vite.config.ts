@@ -8,7 +8,7 @@ import Vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/vite'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
-import Swc from 'unplugin-swc'
+import { PrimeVueResolver } from '@primevue/auto-import-resolver'
 import AutoImport from 'unplugin-auto-import/vite'
 
 // https://vitejs.dev/config/
@@ -44,6 +44,7 @@ export default defineConfig({
     }),
     Components({
       dirs: ['./src/components'],
+      resolvers: [PrimeVueResolver()],
       directoryAsNamespace: false,
     }),
 
@@ -52,7 +53,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      // 'vue': 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.esm-browser.min.js',
     },
   },
 })

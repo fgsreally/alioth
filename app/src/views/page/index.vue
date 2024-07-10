@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useV } from 'phecda-vue'
 import { DocModel } from '@/models/doc'
-const { remove,  addPage, switchPage, activeId, pages } = $(useV(DocModel))
+const { remove, addPage, switchPage, activeId, pages } = $(useV(DocModel))
 </script>
 
 <template>

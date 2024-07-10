@@ -28,7 +28,6 @@ export const AliothRenderer = defineComponent({
       const key = props.node.attrs.key
       const widget = internal.getStore('widget').getData(key)
       const renderer = internal.getStore('renderer').getData(props.renderer)
-      console.log(renderer, props.renderer)
       return renderer({ node: props.node, widget })
     }
   },

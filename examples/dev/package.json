@@ -10,10 +10,12 @@
     "publish": "http-server .alioth --cors"
   },
   "dependencies": {
+    "@primevue/themes": "^4.0.0",
     "alioth-dev": "workspace:*",
     "gridstack": "^10.3.0",
     "lodash-es": "^4.17.21",
     "phecda-vue": "^4.0.4",
+    "primevue": "^4.0.0",
     "rollup-plugin-visualizer": "^5.9.2",
     "vue": "^3.2.47",
     "vuedraggable-es": "^4.1.1"

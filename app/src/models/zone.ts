@@ -1,15 +1,10 @@
-import { Init, useR, useV } from 'phecda-vue'
-import type { Component } from 'vue'
+import { Init } from 'phecda-vue'
 import { BaseZoneModel, internal } from 'alioth-vue'
-import axios from 'axios'
 
-import { ImportModel } from './import'
-import { DocModel } from './doc'
-// import { SelectionModel } from './selection'
 import { ImportList, Material } from '@/views/zones'
-import IconEye from '~icons/lucide/eye'
-import IconDownload from '~icons/lucide/download'
-import IconBookDown from '~icons/lucide/book-down'
+// import IconEye from '~icons/lucide/eye'
+// import IconDownload from '~icons/lucide/download'
+// import IconBookDown from '~icons/lucide/book-down'
 // import { presets } from '@/config'
 
 export class ZoneModel extends BaseZoneModel {
@@ -109,8 +104,26 @@ export class ZoneModel extends BaseZoneModel {
   private _init() {
     const zoneStore = internal.getStore('zone')
     zoneStore.set(
-      'ImportList', ImportList,
+      'ImportList', ImportList, {
+        zone: 'float',
+        props: {
+          label: 'importlist',
+          isActive: true,
+          hidden: false,
+          x: 100,
+          y: 300,
+        },
+      },
     )
-    zoneStore.set('Material', Material)
+    // zoneStore.set('Material', Material, {
+    //   zone: 'float',
+    //   props: {
+    //     label: 'material',
+    //     isActive: true,
+    //     hidden: false,
+    //     x: 700,
+    //     y: 300,
+    //   },
+    // })
   }
 }

@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { useV } from 'phecda-vue'
-import { RenderBlock } from '@/components/base/renderBlock'
 import { DragModel } from '@/models/drag'
 const { compList, type } = defineProps<{
   compList: any[]
   type: string
 }>()
 
-const data = useV(DragModel)
+console.log(compList)
 
 const { dragStart, dragEnd } = useV(DragModel)
 
@@ -34,9 +33,10 @@ function dragend() {
         }
       "
     >
-      <p class="preview-text">
-        {{ module.key }}
-      </p>
+      {{ module }}
+
+      <!-- <p class="preview-text">
+      </p> -->
     </div>
   </section>
 </template>
