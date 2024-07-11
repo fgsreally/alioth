@@ -30,7 +30,7 @@
     "@vueuse/core": "^10.1.2",
     "alioth-lib": "workspace:*",
     "lodash-es": "^4.17.21",
-    "phecda-vue": "^4.0.4",
+    "phecda-vue": "^4.0.5",
     "vue": "^3.3.4"
   },
   "devDependencies": {

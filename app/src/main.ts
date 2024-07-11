@@ -2,41 +2,37 @@ import { createApp } from 'vue'
 import { createPhecda } from 'phecda-vue'
 import Terminal from '@fgsreally/vue-web-terminal'
 import '@fgsreally/vue-web-terminal/style.css'
-import { basicSetup } from 'codemirror'
-import { javascript } from '@codemirror/lang-javascript'
-import VueCodemirror from 'vue-codemirror'
-import { initAlioth } from 'alioth-vue'
+import '@fgsreally/vue-web-terminal/lib/theme/light.css'
+
+import { initAlioth, internal } from 'alioth-vue'
 // import VueTippy, { roundArrow, setDefaultProps } from 'vue-tippy'
-import PrimeVue from 'primevue/config'
-import Aura from '@primevue/themes/aura'
+import { routes } from 'vue-router/auto-routes'
+import { createRouter, createWebHistory } from 'vue-router'
+
+import Vue3Toasity from 'vue3-toastify'
 import App from './App.vue'
-import router from './router'
 import '@/style/common.scss'
-import { initModels } from './models'
-import { initWidget } from '@/views/widgets'
-// import 'tippy.js/dist/tippy.css'
-// import 'tippy.js/animations/scale-subtle.css'
-// import 'tippy.js/dist/border.css'
-// import 'tippy.js/dist/svg-arrow.css'
-
+import 'vue3-toastify/dist/index.css'
 import 'uno.css'
-const app = createApp(App).use(PrimeVue, {
-  theme: {
-    preset: Aura,
-  },
-}).use(createPhecda()).use(router).use(VueCodemirror, {
-  // optional default global options
-  autofocus: true,
-  disabled: false,
-  indentWithTab: true,
-  tabSize: 2,
-  placeholder: 'Code goes here...',
-  extensions: [basicSetup, javascript()],
-  // ...
-}).use(Terminal)
-app.config.warnHandler = () => null
 
-initAlioth(['widget', 'renderer', 'state', 'zone'])
-initModels()
-initWidget()
-app.mount('#al-root')
+async function start() {
+  initAlioth(['widget', 'renderer', 'state', 'zone'])
+
+  const app = createApp(App).use(Vue3Toasity, {
+    autoClose: 3000,
+  }).use(Terminal as any).use(createRouter({
+    history: createWebHistory(),
+    routes,
+  }))
+
+  internal.registerImporter('plugin', ({ data, meta }) => {
+    app.use(data, meta)
+  })
+
+  app.use(await createPhecda([EventModel, ImportModel, ZoneModel, DragModel, DocModel, FeedbackModel, SelectionModel]))
+  app.config.warnHandler = () => null
+
+  app.mount('#al-root')
+}
+
+start()

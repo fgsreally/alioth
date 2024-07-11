@@ -8,8 +8,8 @@ import Vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/vite'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
-import { PrimeVueResolver } from '@primevue/auto-import-resolver'
 import AutoImport from 'unplugin-auto-import/vite'
+import VueRouter from 'unplugin-vue-router/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -35,16 +35,16 @@ export default defineConfig({
       },
     }),
     Icons(),
+    VueRouter(),
 
     AutoImport({
       imports: ['vue', 'vue-router', {
         'phecda-vue': ['useR', 'useV', 'getR', 'getV'],
       }],
-      dirs: ['./src/composables'],
+      dirs: ['./src/composables', './src/models'],
     }),
     Components({
       dirs: ['./src/components'],
-      resolvers: [PrimeVueResolver()],
       directoryAsNamespace: false,
     }),
 

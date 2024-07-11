@@ -4,10 +4,8 @@ import { useR, useV } from 'phecda-vue'
 
 import { DocModel } from '@/models/doc'
 
-import { SelectionModel } from '@/models/selection'
-const { activePage, activeId } = $(useV(DocModel))
+const { activePage } = $(useV(DocModel))
 const doc = useR(DocModel)
-const { selectNode } = $(useV(SelectionModel))
 
 const scope = new Scope()
 </script>

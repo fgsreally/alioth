@@ -1,5 +1,5 @@
 import { Init } from 'phecda-vue'
-import { BaseImportModel, internal } from 'alioth-vue'
+import { BaseImportModel } from 'alioth-vue'
 export class ImportModel extends BaseImportModel {
   info: Record<string, any> = {}
   presets: string[]
@@ -25,8 +25,8 @@ export class ImportModel extends BaseImportModel {
     }
   }
 
-  setState = ({ key, meta, value }: { key: string; meta: any; value: any }) => {
-    this.info[key] = meta
-    internal.scope.add(key, { value })
-  }
+  // setState = ({ key, meta, value }: { key: string; meta: any; value: any }) => {
+  //   this.info[key] = meta
+  //   internal.scope.add(key, { value })
+  // }
 }
