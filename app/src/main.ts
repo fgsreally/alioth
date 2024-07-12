@@ -2,8 +2,6 @@ import { createApp } from 'vue'
 import { createPhecda } from 'phecda-vue'
 import Terminal from '@fgsreally/vue-web-terminal'
 import '@fgsreally/vue-web-terminal/style.css'
-import '@fgsreally/vue-web-terminal/lib/theme/light.css'
-
 import { initAlioth, internal } from 'alioth-vue'
 // import VueTippy, { roundArrow, setDefaultProps } from 'vue-tippy'
 import { routes } from 'vue-router/auto-routes'
@@ -29,7 +27,7 @@ async function start() {
     app.use(data, meta)
   })
 
-  app.use(await createPhecda([EventModel, ImportModel, ZoneModel, DragModel, DocModel, FeedbackModel, SelectionModel]))
+  app.use(await createPhecda([EventModel, ImportModel, ZoneModel, DragModel, DocModel, FeedbackModel, SelectionModel, CmdModel]))
   app.config.warnHandler = () => null
 
   app.mount('#al-root')

@@ -1,4 +1,4 @@
-import acorn from 'acorn'
+import * as acorn from 'acorn'
 import { BaseDocModel } from '../model/baseDocModel'
 function extractVariables(code: string) {
   const ast = acorn.parse(code, { ecmaVersion: 'latest' })
@@ -24,12 +24,9 @@ function extractVariables(code: string) {
   return Array.from(variables)
 }
 
-function getDoubleBrackets(str: string) {
-  const regex = /\{\{([^}]+)\}\}/g
-  const matches = str.match(regex)
-  return matches ? matches.map(match => match.slice(2, -2)) : []
-}
-export function createEntryCode(doc: BaseDocModel, record: Record<string, Record<string, any>>, baseUrl: string) {
+const STATE_REGEX = /\{\{([^}]+)\}\}/g
+
+export function createEntryCode(doc: BaseDocModel, state: Record<string, Record<string, any>>, baseUrl: string) {
   const componentSet = new Set()
   const stateSet = new Set()
   const dependences = {} as Record<string, string[]>
@@ -40,8 +37,8 @@ export function createEntryCode(doc: BaseDocModel, record: Record<string, Record
         parseAttrs(attrs[i])
         continue
       }
-      if (typeof attrs[i] === 'string' && /{{(.*)}}/.test(attrs[i])) {
-        getDoubleBrackets(attrs[i]).forEach((str) => {
+      if (typeof attrs[i] === 'string' && STATE_REGEX.test(attrs[i])) {
+        attrs[i].match(STATE_REGEX)!.map((match: string) => match.slice(2, -2)).forEach((str: string) => {
           const vars = extractVariables(str)
           vars.forEach(item => stateSet.add(item))
         })
@@ -55,15 +52,15 @@ export function createEntryCode(doc: BaseDocModel, record: Record<string, Record
     parseAttrs(node.attrs)
   })
 
-  for (const url in record) {
+  for (const url in state) {
     if (url.endsWith('.css')) {
       effects.push(url)
       continue
     }
     if (!dependences[url])
       dependences[url] = []
-    for (const key in record[url]) {
-      const exports = record[url][key]
+    for (const key in state[url]) {
+      const exports = state[url][key]
 
       if (typeof exports === 'object' && exports.alioth) {
         if (exports.alioth === 'setRenderFn' && exports.data.mode === 'runtime')

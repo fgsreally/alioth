@@ -3,10 +3,9 @@ import { useV } from 'phecda-vue'
 import draggable from 'vuedraggable-es'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 
-const { activePage, insert, findChildrens, createNode } = useV(__PHECDA__.doc)
-const { hoverNode, selectNode } = useV(window.__PHECDA__.selection)
+const { insert, findChildrens, createNode } = useV(__PHECDA__.doc)
+const { activePage, hoverNode, activeNodes } = useV(__PHECDA__.selection)
 
-console.log('init')
 function addBlock(module: any) {
   const { key, label, meta } = module
   const parent = hoverNode.value || activePage.value!
@@ -36,7 +35,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section ref="dom" class="a-container" @click.stop.self="selectNode = undefined">
+  <section ref="dom" class="a-container" @click.stop.self="activeNodes.length === 0 ">
     1111
     <draggable :model-value="findChildrens(activePage!)" item-key="id" @sort="sort">
       <template #item="{ element }">

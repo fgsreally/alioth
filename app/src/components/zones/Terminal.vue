@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { useV } from 'phecda-vue'
 import { Terminal, TerminalApi } from '@fgsreally/vue-web-terminal'
-import { CommandModel } from '@/models/command'
+import { CmdModel } from '@/models/cmd'
 
-const { input, commands } = useV(CommandModel)
-// @ts-expect-error miss types
-async function onExecCmd(_key, command, success, failed) {
+const { input, commands } = useV(CmdModel)
+async function onExecCmd(_key: string, command: string, success: Function, failed: Function) {
   try {
-    // @ts-expect-error resolve any params
+    // @ts-expect-error ???
     const ret = await input(...command.split(' '))
     success({
       type: typeof ret === 'object' ? 'json' : 'normal',

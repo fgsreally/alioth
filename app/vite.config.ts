@@ -44,7 +44,7 @@ export default defineConfig({
       dirs: ['./src/composables', './src/models'],
     }),
     Components({
-      dirs: ['./src/components'],
+      dirs: ['./src/components', './src/views'],
       directoryAsNamespace: false,
     }),
 

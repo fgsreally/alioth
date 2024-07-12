@@ -9,22 +9,32 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Bundle: typeof import('./src/components/headers/Bundle.vue')['default']
     Dialog: typeof import('./src/components/base/Dialog.vue')['default']
+    Download: typeof import('./src/components/headers/Download.vue')['default']
     DragBox: typeof import('./src/components/wrappers/DragBox.vue')['default']
     DragHelper: typeof import('./src/components/base/DragHelper.vue')['default']
     Editable: typeof import('./src/components/base/Editable.vue')['default']
+    EditRender: typeof import('./src/views/preview/EditRender.vue')['default']
     EnvInput: typeof import('./src/components/base/EnvInput.vue')['default']
     Form: typeof import('./src/components/base/Form.vue')['default']
     FormConf: typeof import('./src/components/base/FormConf.vue')['default']
     FormItem: typeof import('./src/components/base/FormItem.vue')['default']
+    Header: typeof import('./src/views/Header.vue')['default']
+    ImportList: typeof import('./src/components/zones/ImportList.vue')['default']
+    Page: typeof import('./src/views/Page.vue')['default']
     PaneForm: typeof import('./src/components/base/PaneForm.vue')['default']
+    Preview: typeof import('./src/views/Preview.vue')['default']
+    PreviewRender: typeof import('./src/views/preview/PreviewRender.vue')['default']
     Radio: typeof import('./src/components/base/Radio.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('./src/components/base/Select.vue')['default']
     Single: typeof import('./src/components/wrappers/Single.vue')['default']
     Slider: typeof import('./src/components/base/Slider.vue')['default']
+    Terminal: typeof import('./src/components/zones/Terminal.vue')['default']
     Tooltip: typeof import('./src/components/base/Tooltip.vue')['default']
     Upload: typeof import('./src/components/base/Upload.vue')['default']
+    Zone: typeof import('./src/views/Zone.vue')['default']
   }
 }

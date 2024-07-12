@@ -17,6 +17,12 @@ export class BaseSelectionModel<T extends Record<string, any>> {
     this.activeNodeSet.clear()
   }
 
+  switchPage(page: VirtualNode<T>) {
+    if (page.parent !== 'root')
+      throw new Error('page parent should be \'root\' ')
+    this.activePage = page
+  }
+
   deactiveNode(node: VirtualNode<T>) {
     this.activeNodeSet.delete(node)
   }

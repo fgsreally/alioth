@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { emitter, useO, useV } from 'phecda-vue'
+import { useV } from 'phecda-vue'
 import { ImportModel } from '@/models/import'
 import { DragModel } from '@/models/drag'
 const { info } = useV(ImportModel)

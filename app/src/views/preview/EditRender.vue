@@ -2,10 +2,7 @@
 import { AliothRenderer, Scope, internal } from 'alioth-vue'
 import { useR, useV } from 'phecda-vue'
 
-import { DocModel } from '@/models/doc'
-
-const { activePage } = $(useV(DocModel))
-const doc = useR(DocModel)
+const { activePage } = $(useV(SelectionModel))
 
 const scope = new Scope()
 </script>

@@ -1,7 +1,7 @@
 import { Init } from 'phecda-vue'
 import { BaseZoneModel, internal } from 'alioth-vue'
 
-import { ImportList, Material } from '@/views/zones'
+import ImportList from '@/components/zones/ImportList.vue'
 // import IconEye from '~icons/lucide/eye'
 // import IconDownload from '~icons/lucide/download'
 // import IconBookDown from '~icons/lucide/book-down'
