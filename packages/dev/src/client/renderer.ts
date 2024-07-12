@@ -62,11 +62,11 @@ export class BaseRenderer<
         childs.map((node: VirtualNode<any>) => {
           if ((node.attrs.slot || 'default') === templateName) {
             const key = node.attrs.key
-            const widget = window.__ALIOTH__.widgetStore.getData(this.mode, key)
+            const widget = window.__ALIOTH__.widgetStore.getData(key)
             node.scope = this.scope.extend(props)
             if (!widget)
               throw new Error(`miss widget "${key}"`)
-            return window.__ALIOTH__.renderFnStore.getData(this.mode, key)({ node, widget, mode: this.mode })
+            return window.__ALIOTH__.renderFnStore.getData(key)({ node, widget, mode: this.mode })
           }
         })
     })

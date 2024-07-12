@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Global, Init, Tag } from 'phecda-core'
-import { internal } from '../core'
+import { Internal } from './internal'
 
 export interface ErrorHandler {
   type: string
@@ -10,11 +10,15 @@ export interface ErrorHandler {
 @Global
 @Tag('feedback')
 export class BaseFeedbackModel {
+  constructor(protected internal: Internal) {
+
+  }
+
   @Init
 
   private _init() {
     (['error', 'warn', 'debug', 'log', 'info'] as const).forEach((item) => {
-      internal.registerMethod('error', (...arg) => {
+      this.internal.registerMethod('error', (...arg) => {
         // @ts-expect-error can overwrite method , to support flexible parameters
         this[item](...arg)
       })

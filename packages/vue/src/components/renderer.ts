@@ -1,7 +1,8 @@
 import { defineComponent } from 'vue'
 import type { PropType } from 'vue'
 import type { Scope, VirtualNode } from 'alioth-lib'
-import { internal } from 'alioth-lib'
+import { Internal } from 'alioth-lib'
+import { useR } from 'phecda-vue'
 
 export const AliothRenderer = defineComponent({
   name: 'AliothRenderer',
@@ -24,10 +25,12 @@ export const AliothRenderer = defineComponent({
   },
   setup(props) {
     props.node.scope = props.scope
+
+    const internal = useR(Internal)
     return () => {
       const key = props.node.attrs.key
-      const widget = internal.getStore('widget').getData(key)
-      const renderer = internal.getStore('renderer').getData(props.renderer)
+      const widget = internal.store('widget').getData(key)
+      const renderer = internal.store('renderer').getData(props.renderer)
       return renderer({ node: props.node, widget })
     }
   },

@@ -6,6 +6,28 @@ export class Store<Data = any, Meta extends Record<string, any> = any> {
   ) {
   }
 
+  get data(): Record<string, Data> {
+    return new Proxy(this.record as any, {
+      get(target, p) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (target.hasOwnProperty(p))
+          return target[p].data
+        return target[p]
+      },
+    })
+  }
+
+  get meta() {
+    return new Proxy(this.record as any, {
+      get(target, p) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (target.hasOwnProperty(p))
+          return target[p].meta
+        return target[p]
+      },
+    })
+  }
+
   set(key: string, data: any, meta?: any) {
     this.record[key] = { data, meta }
   }

@@ -1,17 +1,21 @@
 import { Global, Init, Tag } from 'phecda-core'
-import { createConnector } from '../core/connect'
-import { loadStyleOrScript } from '../core/load'
-import { internal } from '../core/internal'
+import { createViteConnector } from '../utils/connector'
+import { loadStyleOrScript } from '../utils/load'
+import { Internal } from './internal'
 
-export const { connect, dynamicImport, urlMap, projectMap } = createConnector()
+export const { connect, dynamicImport, urlMap, projectMap } = createViteConnector()
 @Global
 @Tag('import')
 export class BaseImportModel {
   record: Record<string, any> = {}
 
+  constructor(protected internal: Internal) {
+
+  }
+
   @Init
   private _init() {
-    internal.registerMethod('update', (url: string, module: any) => {
+    this.internal.registerMethod('hmr', (url: string, module: any) => {
       // vite hmr will cause xx?t=xx
       this.record[url.split('?')[0]] = this.importModule(module)
     })
@@ -37,7 +41,7 @@ export class BaseImportModel {
         else this.record[url] = {}
       }
       catch (e) {
-        internal.invoke('error', `load dependence "${url}" failed`)
+        this.internal.invoke('error', `load dependence "${url}" failed`)
       }
     })
   }
@@ -47,7 +51,7 @@ export class BaseImportModel {
     for (const exports in module) {
       if (typeof module[exports] === 'object' && module[exports].alioth) {
         const { alioth: type, ...data } = module[exports]
-        internal.import(type, data)
+        this.internal.import(type, data)
         exportsMap[exports] = module[exports]
       }
     }

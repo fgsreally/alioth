@@ -1,30 +1,9 @@
 import { nanoid } from 'nanoid'
 import { cloneDeep } from 'lodash-es'
 import EventEmitter from 'eventemitter3'
-import { Scope } from '../core/scope'
+import { VirtualNode } from './node'
 export type DocData = { id: string; attrs: any; index: number; parent: string }[]
-export class VirtualNode<A extends Record<string, any> = any> {
-  parent: string
-  index: number
-  scope = new Scope()
 
-  doc: VirtualDocument<A>
-  readonly oldAttrs: A
-
-  constructor(public attrs: A = {} as any, public id = nanoid(),
-  ) {
-    this.oldAttrs = cloneDeep(attrs)
-  }
-
-  toJSON() {
-    return {
-      id: this.id,
-      attrs: this.attrs,
-      index: this.index,
-      parent: this.parent,
-    }
-  }
-}
 export class VirtualDocument<A extends Record<string, any> = any> extends EventEmitter {
   nodeSet = new Set<VirtualNode<A>>()
   root = new VirtualNode({} as A, 'root')

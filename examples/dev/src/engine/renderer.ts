@@ -1,7 +1,6 @@
 // import { cloneDeep, isSymbol } from 'lodash-es'
 import { BaseRenderer } from 'alioth-dev/client'
 import { h } from 'vue'
-import { cloneDeep } from 'lodash-es'
 import { useV } from 'phecda-vue'
 
 export class Renderer extends BaseRenderer<any> {
@@ -9,25 +8,10 @@ export class Renderer extends BaseRenderer<any> {
 
   main() {
     const component = this.widget
-
-    const ret = this.node.attrs
-    if (this.mode === 'render' && 'modelValue' in this.node.attrs) {
-      (this.vnode = h(
-        component,
-        {
-          ...ret,
-          'onUpdate:modelValue': (v: any) => {
-            ret.modelValue = v
-          },
-        },
-        this.vnode))
-    }
-    else {
-      (this.vnode = h(
-        component,
-        { ...ret, a_mode: this.mode, a_node: this.node },
-        this.vnode))
-    }
+    this.vnode = h(
+      component,
+      { ...this.node.proxy() },
+      this.vnode)
 
     return this
   }

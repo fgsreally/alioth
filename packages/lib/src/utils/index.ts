@@ -1,3 +1,6 @@
 export * from './bundle'
 export * from './drag'
 export * from './url'
+export * from './load'
+export * from './proxy'
+export * from './connector'

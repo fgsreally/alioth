@@ -1,5 +1,6 @@
 import * as acorn from 'acorn'
 import { BaseDocModel } from '../model/baseDocModel'
+import { STATE_REGEX } from '../common'
 function extractVariables(code: string) {
   const ast = acorn.parse(code, { ecmaVersion: 'latest' })
   const variables = new Set()
@@ -23,8 +24,6 @@ function extractVariables(code: string) {
 
   return Array.from(variables)
 }
-
-const STATE_REGEX = /\{\{([^}]+)\}\}/g
 
 export function createEntryCode(doc: BaseDocModel, state: Record<string, Record<string, any>>, baseUrl: string) {
   const componentSet = new Set()

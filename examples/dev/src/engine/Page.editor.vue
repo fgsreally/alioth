@@ -3,6 +3,8 @@ import { useV } from 'phecda-vue'
 import draggable from 'vuedraggable-es'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 
+const props = defineProps<{ text: string }>()
+
 const { insert, findChildrens, createNode } = useV(__PHECDA__.doc)
 const { activePage, hoverNode, activeNodes } = useV(__PHECDA__.selection)
 
@@ -35,8 +37,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section ref="dom" class="a-container" @click.stop.self="activeNodes.length === 0 ">
-    1111
+  <section ref="dom" class="a-container" @click.stop.self="activeNodes.length === 0">
+    {{ props.text }}
     <draggable :model-value="findChildrens(activePage!)" item-key="id" @sort="sort">
       <template #item="{ element }">
         <div>

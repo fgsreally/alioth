@@ -21,7 +21,7 @@ interface ConnectorOpts {
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 interface ExternalMapOpts {
-  externals?: Record<string, string >
+  externals?: Record<string, string>
   importmap?: boolean
 }
 // external vue、phecda-vue
@@ -156,7 +156,7 @@ function injectHMR() {
   return `\nif (import.meta.hot) {
     import.meta.hot.accept((newModule) => {
       const internal=window.__ALIOTH__
-      if(internal)internal.update(import.meta.url,newModule)
+      if(internal)internal.invoke('hmr',import.meta.url,newModule)
     })
   }`
 }

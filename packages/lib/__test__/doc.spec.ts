@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { VirtualDocument, VirtualNode } from '../src/document/document'
+import { VirtualDocument, VirtualNode } from '../src/core/document'
 describe('doc and node', () => {
   it('base action', () => {
     const doc = new VirtualDocument()

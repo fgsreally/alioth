@@ -2,7 +2,7 @@ export type Exposed = Record<string, { exposed: string[]; url: string }>
 export type AllExpoesd = Record<string, Exposed>
 
 // connect vite devserver
-export function createConnector() {
+export function createViteConnector() {
   const projectMap: Map<string, Record<string, string>> = new Map()
   const urlMap: Map<string, string> = new Map()
   // 连接vite devserver

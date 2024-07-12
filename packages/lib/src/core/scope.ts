@@ -1,26 +1,21 @@
-export interface Variable { value: any; from?: string; meta?: any }
 export class Scope {
-  constructor(public variable: Record<string, Variable> = {}) {
+  constructor(public data: Record<string, any> = {}) {
 
   }
 
-  add(key: string, value: Variable) {
-    this.variable[key] = value
+  add(key: string, value: any) {
+    this.data[key] = value
   }
 
   get keys() {
-    return Object.keys(this.variable)
+    return Object.keys(this.data)
   }
 
-  get data() {
-    const ret = {} as Record<string, any>
-    for (const i in this.variable)
-      ret[i] = this.variable[i]
-
-    return ret
+  get values() {
+    return Object.values(this.data)
   }
 
-  extend(variable: Record<string, Variable> = {}) {
-    return new Scope({ ...this.variable, ...variable })
+  extend(data: Record<string, any> = {}) {
+    return new Scope({ ...this.data, ...data })
   }
 }

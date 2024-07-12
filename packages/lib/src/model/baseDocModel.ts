@@ -1,5 +1,5 @@
 import { Global, Tag } from 'phecda-core'
-import { Controller, VirtualDocument } from '../document'
+import { Controller, VirtualDocument } from '../core'
 
 @Global
 @Tag('doc')

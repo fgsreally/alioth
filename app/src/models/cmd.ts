@@ -1,7 +1,6 @@
-import { internal } from 'alioth-vue'
 import { Global, Init, Tag } from 'phecda-vue'
+import { Internal } from 'alioth-vue'
 import { SelectionModel } from './selection'
-
 export interface Command {
   description: string
   exec: (...arg: any) => any
@@ -18,14 +17,19 @@ export interface Command {
 @Global
 @Tag('command')
 export class CmdModel {
-  commands: Command[] = [
+  constructor(
+    protected selection: SelectionModel,
+    protected internal: Internal,
 
+  ) {}
+
+  commands: Command[] = [
     {
       key: 'node',
       description: '此时选中的节点',
       usage: 'node',
       exec: () => {
-        return getR(SelectionModel).activeNodes
+        return this.selection.activeNodes
       },
     },
 
@@ -34,7 +38,7 @@ export class CmdModel {
       description: '页面节点',
       usage: 'container',
       exec: () => {
-        return getR(SelectionModel).activePage
+        return this.selection.activePage
       },
     },
     {
@@ -42,7 +46,7 @@ export class CmdModel {
       description: '物料相关',
       usage: 'widget <key>',
       exec: (key: string) => {
-        return internal.getStore('widget').getMeta(key)
+        return this.internal.store('widget').getMeta(key)
       },
       example: [
         {
@@ -53,13 +57,6 @@ export class CmdModel {
     },
 
   ]
-
-  @Init
-  private _init() {
-    internal.registerImporter('cmd', ({ data }) => {
-      this.register(data)
-    })
-  }
 
   register(command: Command) {
     this.commands.push(command)

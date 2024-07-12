@@ -1,11 +1,15 @@
 import { Global, Tag } from 'phecda-core'
-import { internal } from '../core/internal'
+import { Internal } from './internal'
 
 @Global
 @Tag('zone')
 export class BaseZoneModel<Component = any> {
+  constructor(protected internal: Internal) {
+
+  }
+
   list() {
-    return internal.getStore('zone').list()
+    return this.internal.store('zone').list()
   }
   /**
    *
@@ -24,7 +28,7 @@ export class BaseZoneModel<Component = any> {
    */
 
   zone(zone: string): { component: Component; props: any }[] {
-    const store = internal.getStore('zone')
+    const store = this.internal.store('zone')
     const list = store.list()
 
     return list.filter(key =>

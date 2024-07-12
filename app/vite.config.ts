@@ -10,11 +10,20 @@ import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import VueRouter from 'unplugin-vue-router/vite'
+import swc from 'unplugin-swc'
 
 // https://vitejs.dev/config/
 export default defineConfig({
 
   plugins: [
+    swc.vite({
+      jsc: {
+        parser: {
+          syntax: 'typescript',
+          decorators: true,
+        },
+      },
+    }),
     External({
       externals: {
         'vue': 'http://localhost:4010/vue.js',

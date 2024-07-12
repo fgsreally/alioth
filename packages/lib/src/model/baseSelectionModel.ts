@@ -1,5 +1,5 @@
 import { Global, Tag } from 'phecda-core'
-import type { VirtualNode } from '../document'
+import type { VirtualNode } from '../core'
 
 @Global
 @Tag('selection')

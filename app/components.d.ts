@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Attr: typeof import('./src/components/zones/Attr.vue')['default']
     Bundle: typeof import('./src/components/headers/Bundle.vue')['default']
     Dialog: typeof import('./src/components/base/Dialog.vue')['default']
     Download: typeof import('./src/components/headers/Download.vue')['default']

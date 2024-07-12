@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
 import { cloneDeep, isEqual } from 'lodash-es'
 import EventEmitter from 'eventemitter3'
-import { VirtualNode } from './document'
+import { VirtualNode } from './node'
 import type { VirtualDocument } from './document'
 
 interface Options {
