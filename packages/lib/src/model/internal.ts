@@ -7,7 +7,7 @@ export class Internal {
   stores: Record<string, Store> = {}
   // function that import those exports from sub app
   methods: Record<string, (...arg: any) => void> = {}
-
+  importer: Record<string, (arg: Export) => void> = {}
   @Init
   private _init() {
     window.__ALIOTH__ = this
@@ -29,7 +29,14 @@ export class Internal {
   }
 
   import(name: string, { key, data, meta }: Export) {
+    if (this.importer[name])
+      return this.importer[name]({ key, data, meta })
+
     return this.store(name).set(key, data, meta)
+  }
+
+  registerImporter(name: string, importer: (arg: Export) => void) {
+    this.importer[name] = importer
   }
 }
 

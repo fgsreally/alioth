@@ -4,8 +4,19 @@ import type { VirtualNode } from '../core'
 @Global
 @Tag('selection')
 export class BaseSelectionModel<T extends Record<string, any>> {
+  selectedNode: VirtualNode<T> | undefined
   hoverNode: VirtualNode<T> | undefined
-  activePage: VirtualNode<T>
+  selectedPage: VirtualNode<T>
+
+  selectNode(node: VirtualNode<T>) {
+    this.selectedNode = node
+  }
+
+  switchPage(page: VirtualNode<T>) {
+    if (page.parent !== 'root')
+      throw new Error('page parent should be \'root\' ')
+    this.selectedPage = page
+  }
 
   protected readonly activeNodeSet = new Set<VirtualNode<T>>()
 
@@ -15,12 +26,6 @@ export class BaseSelectionModel<T extends Record<string, any>> {
 
   clearActiveNodes() {
     this.activeNodeSet.clear()
-  }
-
-  switchPage(page: VirtualNode<T>) {
-    if (page.parent !== 'root')
-      throw new Error('page parent should be \'root\' ')
-    this.activePage = page
   }
 
   deactiveNode(node: VirtualNode<T>) {

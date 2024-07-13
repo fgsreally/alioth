@@ -120,7 +120,7 @@ export abstract class BaseEventModel<Event extends DefaultEvent = DefaultEvent> 
   }
 
   @Init
-  init() {
+  private _init() {
     if (this.initialized)
       return
     this.initialized = true

@@ -1,5 +1,4 @@
-import component from './Page.editor.vue'
-import component2 from './Page.runtime.vue'
+import component from './test.vue'
 
 import { Renderer } from './renderer'
 export const container = {
@@ -17,12 +16,11 @@ export const engine = {
   alioth: 'renderer',
   key: 'development',
   data: (data) => {
-    console.log(data)
-    return new Renderer(data).main().exec()
+    console.log('renderer', data.node.attrs.key)
+    return new Renderer(data).slot(['default']).main().editAction().gridstack().exec()
   },
   meta: {
     environment: 'editor',
-
   },
 }
 export const engine_prod: AliothRenderFn = {

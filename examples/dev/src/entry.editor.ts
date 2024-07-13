@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import Input from './components/Input.vue'
+import Test from './components/Test.vue'
 export { container, engine, engine_prod } from './engine'
 
 export const InputZone = {
@@ -22,5 +23,12 @@ export const TestState = {
   alioth: 'state',
   key: 'label',
   data: ref('fgs'),
+
+}
+
+export const TestWidget = {
+  alioth: 'widget',
+  key: 'test',
+  data: Test,
 
 }

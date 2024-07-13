@@ -6,6 +6,7 @@ import type {
 import {
   h,
   render,
+  watch,
 } from 'vue'
 import type { Scope, VirtualDocument, VirtualNode } from 'alioth-lib'
 
@@ -17,8 +18,8 @@ interface Widget {
   key: string
 }
 export class BaseRenderer<
-    NodeAttrs extends Record<string, any>,
-  > {
+  NodeAttrs extends Record<string, any>,
+> {
   protected vnode: VNode | any
   public doc: VirtualDocument<NodeAttrs>
   public node: VirtualNode<NodeAttrs>
@@ -30,13 +31,13 @@ export class BaseRenderer<
       node: VirtualNode<NodeAttrs>
       widget: Widget
       mode: string
+      scope: Scope
     },
   ) {
     this.node = data.node
     this.widget = data.widget
     this.mode = data.mode
-
-    this.scope = this.node.scope
+    this.scope = data.scope
     this.doc = this.node.doc
   }
 
@@ -56,17 +57,18 @@ export class BaseRenderer<
     if (!childs.length)
       return this
     const slots: { [key in string]: Function } = {}
+
     slotNames.forEach((templateName) => {
       slots[templateName] = (props: any) =>
-      // eslint-disable-next-line array-callback-return
+        // eslint-disable-next-line array-callback-return
         childs.map((node: VirtualNode<any>) => {
           if ((node.attrs.slot || 'default') === templateName) {
             const key = node.attrs.key
-            const widget = window.__ALIOTH__.widgetStore.getData(key)
-            node.scope = this.scope.extend(props)
+            const widget = window.__ALIOTH__.store('widget').getData(key)
+            // node.scope = this.scope.extend(props)
             if (!widget)
               throw new Error(`miss widget "${key}"`)
-            return window.__ALIOTH__.renderFnStore.getData(key)({ node, widget, mode: this.mode })
+            return window.__ALIOTH__.store('renderer').getData('development')({ node, widget, mode: this.mode, scope: this.scope.extend(props) })
           }
         })
     })

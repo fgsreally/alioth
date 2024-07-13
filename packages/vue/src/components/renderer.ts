@@ -24,14 +24,16 @@ export const AliothRenderer = defineComponent({
     },
   },
   setup(props) {
-    props.node.scope = props.scope
+    // props.node.scope = props.scope
 
     const internal = useR(Internal)
+    const key = props.node.attrs.key
+
+    const widget = internal.store('widget').getData(key)
+
+    const renderer = internal.store('renderer').getData(props.renderer)
     return () => {
-      const key = props.node.attrs.key
-      const widget = internal.store('widget').getData(key)
-      const renderer = internal.store('renderer').getData(props.renderer)
-      return renderer({ node: props.node, widget })
+      return renderer({ node: props.node, widget, scope: props.scope })
     }
   },
 })

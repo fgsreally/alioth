@@ -7,35 +7,35 @@ export class EventModel extends BaseEventModel {
     super()
   }
 
-  @Init
-  init() {
-    const { state } = this
+  // @Init
+  // init() {
+  //   const { state } = this
 
-    this.register({
-      name: 'nodeAction',
-      pushQueue: true,
-      init() { // 初始化操作默认就会执行
-        const action = () => {
-          state.commands.nodeAction()
-        }
-        emitter.on('alioth:node-action', action)
-        return () => {
-          emitter.off('alioth:node-action', action)
-        }
-      },
+  //   this.register({
+  //     name: 'nodeAction',
+  //     pushQueue: true,
+  //     init() { // 初始化操作默认就会执行
+  //       const action = () => {
+  //         state.commands.nodeAction()
+  //       }
+  //       emitter.on('alioth:node-action', action)
+  //       return () => {
+  //         emitter.off('alioth:node-action', action)
+  //       }
+  //     },
 
-      execute() {
-        const { controller } = this.doc
+  //     execute() {
+  //       const { controller } = this.doc
 
-        return {
-          undo() {
-            controller.undo()
-          },
-          redo() {
-            controller.redo()
-          },
-        }
-      },
-    })
-  }
+  //       return {
+  //         undo() {
+  //           controller.undo()
+  //         },
+  //         redo() {
+  //           controller.redo()
+  //         },
+  //       }
+  //     },
+  //   })
+  // }
 }

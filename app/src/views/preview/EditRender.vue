@@ -2,25 +2,26 @@
 import { AliothRenderer, Internal, Scope } from 'alioth-vue'
 import { useR, useV } from 'phecda-vue'
 
-const { activePage } = $(useV(SelectionModel))
+const { selectedPage } = $(useV(SelectionModel))
+const { insert, createNode } = $(useV(DocModel))
+
 const { store } = $(useV(Internal))
 const scope = new Scope(store('state').data)
-watch(() => scope, () => {
-  console.log('update')
-})
 
 setTimeout(() => {
-  store('state').set('a', 2)
-}, 1000)
+  console.log('add Node')
+
+  insert(createNode({ key: 'test', msg: '11' }), selectedPage)
+}, 5000)
 </script>
 
 <template>
   {{ scope.data }}
   <div flex justify-center items-center w-full h-full>
-    <section v-if="!!activePage" class="al-window">
-      <!-- <IframeCanvas>
-      </IframeCanvas> -->
-      <AliothRenderer :node="activePage" renderer="development" :scope="scope" />
+    <section v-if="!!selectedPage" class="al-window">
+      <IframeCanvas>
+        <AliothRenderer :node="selectedPage" renderer="development" :scope="scope" />
+      </IframeCanvas>
     </section>
   </div>
 </template>
