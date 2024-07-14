@@ -1,4 +1,5 @@
 import type {
+  AppContext,
   Component,
   VNode,
   VNodeProps,
@@ -6,10 +7,10 @@ import type {
 import {
   h,
   render,
-  watch,
 } from 'vue'
 import type { Scope, VirtualDocument, VirtualNode } from 'alioth-lib'
 
+export type Renderer = (data: ConstructorParameters<typeof BaseRenderer>[0]) => VNode
 export type CompList<RegisterBlock> = Map<string, RegisterBlock>
 
 interface Widget {
@@ -21,32 +22,39 @@ export class BaseRenderer<
   NodeAttrs extends Record<string, any>,
 > {
   protected vnode: VNode | any
-  public doc: VirtualDocument<NodeAttrs>
-  public node: VirtualNode<NodeAttrs>
-  public widget: Widget
-  public scope: Scope
-  public mode: string
+  doc: VirtualDocument<NodeAttrs>
+  node: VirtualNode<NodeAttrs>
+  widget: Widget
+  scope: Scope
+  environment: string
+  renderer: string
+  protected appContext: AppContext
   constructor(
     data: {
       node: VirtualNode<NodeAttrs>
       widget: Widget
-      mode: string
+      environment: string
       scope: Scope
+      renderer: string
+      appContext: AppContext
     },
   ) {
     this.node = data.node
     this.widget = data.widget
-    this.mode = data.mode
+    this.environment = data.environment
     this.scope = data.scope
+    this.renderer = data.renderer
+    this.appContext = data.appContext
     this.doc = this.node.doc
-  }
-
-  wrap<P extends VNodeProps>(comp: Component<P>, props: P) {
-    this.vnode = h(comp as any, props, this.vnode)
   }
 
   exec() {
     return this.vnode as VNode
+  }
+
+  wrap<P extends VNodeProps>(comp: Component<P>, props: P) {
+    this.vnode = h(comp as any, props, this.vnode)
+    return this
   }
 
   slot(
@@ -62,14 +70,14 @@ export class BaseRenderer<
       slots[templateName] = (props: any) =>
         // eslint-disable-next-line array-callback-return
         childs.map((node: VirtualNode<any>) => {
-          if ((node.attrs.slot || 'default') === templateName) {
-            const key = node.attrs.key
-            const widget = window.__ALIOTH__.store('widget').getData(key)
-            // node.scope = this.scope.extend(props)
-            if (!widget)
-              throw new Error(`miss widget "${key}"`)
-            return window.__ALIOTH__.store('renderer').getData('development')({ node, widget, mode: this.mode, scope: this.scope.extend(props) })
-          }
+          if ((node.attrs.slot || 'default') === templateName)
+          //   const key = node.attrs.key
+          // const rendererKey = node.attrs.renderer || this.renderer
+          // const widget = window.__ALIOTH__.store('widget').getData(key)
+
+            // const renderer: Renderer = window.__ALIOTH__.store('renderer').getData(rendererKey)
+            // return renderer({ node, environment: this.environment, scope: this.scope.extend(props), renderer: rendererKey, widget })
+            return h(this.appContext.components.AliothRenderer, { node, environment: this.environment, scope: this.scope.extend(props), renderer: node.attrs.renderer || this.renderer })
         })
     })
 
@@ -106,7 +114,7 @@ export class BaseRenderer<
     return this
   }
 
-  useClass(className: string) {
+  setClass(className: string) {
     (this.vnode as any).props.class = className
     return this
   }
@@ -123,18 +131,22 @@ export class BaseRenderer<
     return this
   }
 
-  useStyle(style: Partial<CSSStyleDeclaration>) {
+  setStyle(style: Partial<CSSStyleDeclaration>) {
     (this.vnode as any).props.style = style
     return this
   }
 
-  useID(id: string) {
+  setID(id: string) {
     (this.vnode as any).props.id = id
     return this
   }
 
-  box() {
-    this.vnode = h('div', { default: () => this.vnode })
+  main() {
+    this.vnode = h(
+      this.widget,
+      { ...this.scope.parse(this.node.attrs) },
+      this.vnode)
+
     return this
   }
 }

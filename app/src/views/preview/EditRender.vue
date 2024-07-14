@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AliothRenderer, Internal, Scope } from 'alioth-vue'
+import { Internal, Scope } from 'alioth-vue'
 import { useR, useV } from 'phecda-vue'
 
 const { selectedPage } = $(useV(SelectionModel))
@@ -20,7 +20,7 @@ setTimeout(() => {
   <div flex justify-center items-center w-full h-full>
     <section v-if="!!selectedPage" class="al-window">
       <IframeCanvas>
-        <AliothRenderer :node="selectedPage" renderer="development" :scope="scope" />
+        <AliothRenderer :node="selectedPage" renderer="development" :scope="scope" environment="edit" />
       </IframeCanvas>
     </section>
   </div>

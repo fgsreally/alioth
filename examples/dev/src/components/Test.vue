@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { inject } from 'vue'
+
 defineProps<{ msg: number }>()
+
+console.log(inject('alioth'))
 </script>
 
 <template>

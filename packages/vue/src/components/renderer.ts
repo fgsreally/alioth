@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, getCurrentInstance, provide } from 'vue'
 import type { PropType } from 'vue'
 import type { Scope, VirtualNode } from 'alioth-lib'
 import { Internal } from 'alioth-lib'
@@ -17,6 +17,10 @@ export const AliothRenderer = defineComponent({
       type: String,
       required: true,
     },
+    environment: {
+      type: String,
+      required: true,
+    },
     scope: {
       type: Object as PropType<Scope>,
       required: true,
@@ -24,16 +28,16 @@ export const AliothRenderer = defineComponent({
     },
   },
   setup(props) {
-    // props.node.scope = props.scope
-
+    provide('alioth', props)
     const internal = useR(Internal)
-    const key = props.node.attrs.key
-
-    const widget = internal.store('widget').getData(key)
-
-    const renderer = internal.store('renderer').getData(props.renderer)
+    const appContext = getCurrentInstance()!.appContext
     return () => {
-      return renderer({ node: props.node, widget, scope: props.scope })
+      const key = props.node.attrs.key
+
+      const widget = internal.store('widget').getData(key)
+
+      const renderer = internal.store('renderer').getData(props.renderer)
+      return renderer({ node: props.node, widget, scope: props.scope, renderer: props.renderer, environment: props.environment, appContext })
     }
   },
 })

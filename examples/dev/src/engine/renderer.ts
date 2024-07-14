@@ -6,16 +6,6 @@ import GridstackItem from './GridstackItem.vue'
 export class Renderer extends BaseRenderer<any> {
   propsData: any
 
-  main() {
-    const component = this.widget
-    this.vnode = h(
-      component,
-      { ...this.scope.parse(this.node.attrs) },
-      this.vnode)
-
-    return this
-  }
-
   gridstack() {
     this.wrap(GridstackItem)
 

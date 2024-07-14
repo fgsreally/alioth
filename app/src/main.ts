@@ -7,6 +7,7 @@ import { routes } from 'vue-router/auto-routes'
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Vue3Toasity from 'vue3-toastify'
+import { AliothRenderer } from 'alioth-vue'
 import App from './App.vue'
 import '@/style/common.scss'
 import 'vue3-toastify/dist/index.css'
@@ -23,7 +24,7 @@ async function start() {
   // getR(internal.registerImporter('plugin', ({ data, meta }) => {
   //   app.use(data, meta)
   // })
-
+  app.component('AliothRenderer', AliothRenderer)
   app.use(await createPhecda([EventModel, ImportModel, ZoneModel, DragModel, DocModel, FeedbackModel, SelectionModel, CmdModel]))
   app.config.warnHandler = () => null
 

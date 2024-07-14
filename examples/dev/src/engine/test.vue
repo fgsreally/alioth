@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { GridStack } from 'gridstack'
 import 'gridstack/dist/gridstack.css'
-import { onMounted } from 'vue'
+import { inject, onMounted } from 'vue'
 onMounted(() => {
   GridStack.init()
 })
+console.log(inject('alioth'))
 </script>
 
 <template>

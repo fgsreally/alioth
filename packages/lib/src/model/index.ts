@@ -1,6 +1,6 @@
 export * from './baseDocModel'
 export * from './baseDragModel'
-export * from './baseEventModel'
+export * from './baseCommandModel'
 export * from './baseImportModel'
 export * from './baseSelectionModel'
 export * from './baseFeedbackModel'
