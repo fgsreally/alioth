@@ -1,6 +1,7 @@
 import { Global, Init, Tag } from 'phecda-core'
+import { Internal } from './internal'
 
-export interface DefaultEvent {
+export interface DefaultCommand {
   /** 命令名 */
 
   name: string
@@ -20,23 +21,23 @@ export interface DefaultEvent {
   pushQueue?: boolean
 }
 
-interface EventState<Event> {
+interface CommandState<Command> {
   isActive: boolean
   // 索引、指针
   current: number
   // 记录栈
   queue: { redo: any; undo: any }[]
   commands: { [key in string]: () => void } // 命令
-  commandArray: Event[]// 所有命令
+  commandArray: Command[]// 所有命令
   destroyArray: Function[]// 销毁任务
 }
 
 @Global
-@Tag('event')
-export abstract class BaseEventModel<Event extends DefaultEvent = DefaultEvent> {
+@Tag('command')
+export abstract class BaseCommandModel<Command extends DefaultCommand = DefaultCommand> {
   initialized = false
 
-  state: EventState<Event> = {
+  state: CommandState<Command> = {
     isActive: true,
     current: -1,
     queue: [],
@@ -49,7 +50,7 @@ export abstract class BaseEventModel<Event extends DefaultEvent = DefaultEvent> 
 
   undo = true
 
-  constructor() {
+  constructor(protected internal: Internal) {
     const { state } = this
     if (this.redo) {
       this.register({
@@ -62,7 +63,7 @@ export abstract class BaseEventModel<Event extends DefaultEvent = DefaultEvent> 
             state.current++
           }
         },
-      } as Event)
+      } as Command)
     }
 
     if (this.undo) {
@@ -78,7 +79,7 @@ export abstract class BaseEventModel<Event extends DefaultEvent = DefaultEvent> 
             state.current--
           }
         },
-      } as Event)
+      } as Command)
     }
 
     const keyboardEvent = (() => {
@@ -117,6 +118,10 @@ export abstract class BaseEventModel<Event extends DefaultEvent = DefaultEvent> 
     })()
 
     state.destroyArray.push(keyboardEvent())
+
+    internal.registerImporter('command', ({ key, data }) => {
+      this.register({ ...data, name: key })
+    })
   }
 
   @Init
@@ -131,7 +136,7 @@ export abstract class BaseEventModel<Event extends DefaultEvent = DefaultEvent> 
     )
   }
 
-  register(command: Event) {
+  register(command: Command) {
     const { state } = this
 
     if (command.name in state.commands)
