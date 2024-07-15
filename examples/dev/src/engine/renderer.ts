@@ -1,5 +1,5 @@
 // import { cloneDeep, isSymbol } from 'lodash-es'
-import { BaseRenderer } from 'alioth-dev/client'
+import { BaseRenderer } from 'alioth-vue'
 import { h, toRaw } from 'vue'
 import { getV, useV } from 'phecda-vue'
 import GridstackItem from './GridstackItem.vue'

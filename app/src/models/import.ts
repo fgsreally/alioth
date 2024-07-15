@@ -1,32 +1,20 @@
 import { Init } from 'phecda-vue'
-import { BaseImportModel } from 'alioth-vue'
-export class ImportModel extends BaseImportModel {
+import { BaseConnectModel } from 'alioth-vue'
+export class ImportModel extends BaseConnectModel {
   info: Record<string, any> = {}
   presets: string[]
   viteUrl: string
   @Init
-  async init() {
-    const { url, presets } = this.getParams()
-    if (url) {
-      this.viteUrl = url
-      await this.connectVite(url)
-    }
-    this.presets = presets
-    await this.connectPresets(presets)
-  }
-
-  getParams() {
+  private async init() {
     const config = new URLSearchParams(location.hash.slice(1))
     const url = decodeURIComponent(config.get('url') || '')
 
     const presets: string[] = JSON.parse(config.get('presets') || '[]')
-    return {
-      url, presets,
-    }
-  }
 
-  // setState = ({ key, meta, value }: { key: string; meta: any; value: any }) => {
-  //   this.info[key] = meta
-  //   internal.scope.add(key, { value })
-  // }
+    if (url)
+      await this.connectVite(url)
+
+    if (presets.length)
+      await this.connectPresets(presets)
+  }
 }

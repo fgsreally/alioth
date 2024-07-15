@@ -1,5 +1,6 @@
 import { Global, Init, Tag } from 'phecda-core'
 import { Store } from '../core/store'
+import { VirtualDocument } from '../core'
 
 @Global
 @Tag('internal')
@@ -8,6 +9,7 @@ export class Internal {
   // function that import those exports from sub app
   methods: Record<string, (...arg: any) => void> = {}
   importer: Record<string, (arg: Export) => void> = {}
+
   @Init
   private _init() {
     window.__ALIOTH__ = this
@@ -39,8 +41,6 @@ export class Internal {
     this.importer[name] = importer
   }
 }
-
-// export const internal = new Internal()
 
 export interface Export {
   // alioth: string

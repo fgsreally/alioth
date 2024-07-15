@@ -4,17 +4,21 @@ import { loadStyleOrScript } from '../utils/load'
 import { Internal } from './internal'
 
 export const { connect, dynamicImport, urlMap, projectMap } = createViteConnector()
+/**
+ * connect client and vite dev server
+ */
 @Global
-@Tag('import')
-export class BaseImportModel {
+@Tag('connect')
+export class BaseConnectModel {
   record: Record<string, any> = {}
-
+  viteUrl: string
+  presets: string[]
   constructor(protected internal: Internal) {
 
   }
 
   @Init
-  private _init() {
+  private async _init() {
     this.internal.registerMethod('hmr', (url: string, module: any) => {
       // vite hmr will cause xx?t=xx
       this.record[url.split('?')[0]] = this.importModule(module)
@@ -22,6 +26,9 @@ export class BaseImportModel {
   }
 
   async connectVite(url: string) {
+    if (this.viteUrl)
+      return
+    this.viteUrl = url
     await connect(url)
     for (const [project, entries] of projectMap.entries()) {
       for (const entry in entries) {
@@ -33,8 +40,11 @@ export class BaseImportModel {
   }
 
   async connectPresets(presets: string[]) {
-    presets.forEach(async (url) => {
+    return Promise.all(presets.map(async (url) => {
       try {
+        if (this.presets.includes(url))
+          return
+        this.presets.push(url)
         const module = await loadStyleOrScript(url)
         if (!url.endsWith('.css'))
           this.record[url] = this.importModule(module)
@@ -43,7 +53,7 @@ export class BaseImportModel {
       catch (e) {
         this.internal.invoke('error', `load dependence "${url}" failed`)
       }
-    })
+    }))
   }
 
   importModule(module: Record<string, any>) {
@@ -58,5 +68,28 @@ export class BaseImportModel {
     return exportsMap
   }
 
+  async generateFiles(files: Record<string, string>) {
+    if (!this.viteUrl)
+      throw new Error('must connect vite dev server before generateFile')
+    await fetch(new URL('/alioth/action', this.viteUrl).href, {
+      method: 'POST',
+      body: JSON.stringify({
+        type: 'geneateFiles',
+        files,
+      }),
+    })
+  }
+
+  async bundleFiles(entry: Record<string, string>) {
+    if (!this.viteUrl)
+      throw new Error('must connect vite dev server before bundleFiles')
+    await fetch(new URL('/alioth/action', this.viteUrl).href, {
+      method: 'POST',
+      body: JSON.stringify({
+        type: 'bundle',
+        entry,
+      }),
+    })
+  }
   // setState: (param: { key: string; value: any; meta: any }) => void
 }

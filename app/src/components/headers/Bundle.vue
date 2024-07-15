@@ -2,10 +2,10 @@
 import axios from 'axios'
 import { createEntryFileCode } from 'alioth-vue'
 import IconBookDown from '~icons/lucide/book-down'
-import { ImportModel } from '@/models/import'
+import { ConnectModel } from '@/models/import'
 import { DocModel } from '@/models/doc'
 async function download() {
-  const { record, viteUrl } = getR(ImportModel)
+  const { record, viteUrl } = getR(ConnectModel)
 
   try {
     await axios.post(new URL('/alioth/action', viteUrl).href, {

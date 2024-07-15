@@ -161,7 +161,9 @@ function injectHMR() {
   }`
 }
 
-// create importmap from hash
+/**
+ * create importmap from hash
+ */
 export function DynamicImportmap(imports: Record<string, string> = {}): PluginOption {
   return {
     name: 'alioth-dynamic-importmap',

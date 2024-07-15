@@ -138,9 +138,6 @@ importers:
       vite:
         specifier: ^4.3.5
         version: 4.4.6(@types/node@18.16.8)(sass@1.66.1)
-      vite-plugin-alioth:
-        specifier: workspace:0.0.1-beta.1
-        version: link:../packages/vite-plugin
       vue-tsc:
         specifier: ^1.6.4
         version: 1.8.6(typescript@5.0.4)
@@ -150,6 +147,9 @@ importers:
       '@primevue/themes':
         specifier: ^4.0.0
         version: 4.0.0(@primeuix/styled@0.0.5)
+      alioth-vue:
+        specifier: workspace:0.1.0-beta.1
+        version: link:../../packages/vue
       gridstack:
         specifier: ^10.3.0
         version: 10.3.0
@@ -184,9 +184,6 @@ importers:
       vite:
         specifier: ^5.0.0
         version: registry.npmmirror.com/vite@5.0.5
-      vite-plugin-alioth:
-        specifier: workspace:0.0.1-beta.1
-        version: link:../../packages/vite-plugin
       vite-plugin-compression:
         specifier: ^0.5.1
         version: 0.5.1(vite@5.0.5)
@@ -406,9 +403,6 @@ importers:
       '@codemirror/view':
         specifier: ^6.21.3
         version: 6.21.3
-      '@vueuse/core':
-        specifier: ^10.1.2
-        version: 10.2.1(vue@3.3.4)
       alioth-lib:
         specifier: workspace:*
         version: link:../lib
@@ -3228,7 +3222,7 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 3.4.21
       '@vue/shared': 3.4.21
-      vue: 3.4.21(typescript@5.5.3)
+      vue: 3.4.21(typescript@5.0.4)
 
   /@vue/shared@3.3.4:
     resolution: {integrity: sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==}
@@ -9876,6 +9870,7 @@ packages:
       '@vue/server-renderer': 3.4.21(vue@3.4.21)
       '@vue/shared': 3.4.21
       typescript: 5.5.3
+    dev: true
 
   /vuedraggable-es@4.1.1(vue@3.3.4):
     resolution: {integrity: sha512-F35pjSwC8HS/lnaOd+B59nYR4FZmwuhWAzccK9xftRuWds8SU1TZh5myKVM86j5dFOI7S26O64Kwe7LUHnXjlA==}

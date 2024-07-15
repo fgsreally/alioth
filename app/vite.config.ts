@@ -3,7 +3,7 @@ import { URL, fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import Icons from 'unplugin-icons/vite'
 
-import { DynamicImportmap, External } from 'alioth-dev'
+import { DynamicImportmap, External } from 'alioth-vue/vite'
 import Vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/vite'
 import UnoCSS from 'unocss/vite'

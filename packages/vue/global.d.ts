@@ -1,4 +1,4 @@
-import type { Store, BaseDocModel, BaseDragModel, BaseErrorModel, BaseEventModel, BaseImportModel, BaseSelectionModel, BaseErrorModel, Internal } from "alioth-lib"
+import type { Store, BaseDocModel, BaseDragModel, BaseErrorModel, BaseEventModel, BaseConnectModel, BaseSelectionModel, BaseErrorModel, Internal } from "alioth-lib"
 import { Alioth } from "../dev/dist/client"
 import { UnwrapNestedRefs } from 'vue'
 declare global {
@@ -9,7 +9,7 @@ declare global {
             drag: typeof BaseDragModel
             error: typeof BaseErrorModel
             event: typeof BaseEventModel
-            import: typeof BaseImportModel
+            import: typeof BaseConnectModel
             selection: typeof BaseSelectionModel
             error: typeof BaseErrorModel
         }

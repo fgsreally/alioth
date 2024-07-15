@@ -10,12 +10,8 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
   currentEventId: string | undefined
   seed = 0
 
-  constructor(public mode = 'default') {
+  constructor() {
     super()
-  }
-
-  setMode(mode: string) {
-    this.mode = mode
   }
 
   createNode(attrs: A) {

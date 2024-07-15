@@ -12,7 +12,6 @@ export const AliothRenderer = defineComponent({
       type: Object as PropType<VirtualNode<any>>,
       required: true,
     },
-
     renderer: {
       type: String,
       required: true,
@@ -24,7 +23,6 @@ export const AliothRenderer = defineComponent({
     scope: {
       type: Object as PropType<Scope>,
       required: true,
-
     },
   },
   setup(props) {
@@ -33,9 +31,7 @@ export const AliothRenderer = defineComponent({
     const appContext = getCurrentInstance()!.appContext
     return () => {
       const key = props.node.attrs.key
-
       const widget = internal.store('widget').getData(key)
-
       const renderer = internal.store('renderer').getData(props.renderer)
       return renderer({ node: props.node, widget, scope: props.scope, renderer: props.renderer, environment: props.environment, appContext })
     }
