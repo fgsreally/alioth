@@ -9,6 +9,7 @@ import {
   render,
 } from 'vue'
 import type { Scope, VirtualDocument, VirtualNode } from 'alioth-lib'
+import { AliothRenderer } from '../components/renderer'
 
 export type Renderer = (data: ConstructorParameters<typeof BaseRenderer>[0]) => VNode
 export type CompList<RegisterBlock> = Map<string, RegisterBlock>
@@ -71,13 +72,8 @@ export class BaseRenderer<
         // eslint-disable-next-line array-callback-return
         childs.map((node: VirtualNode<any>) => {
           if ((node.attrs.slot || 'default') === templateName)
-          //   const key = node.attrs.key
-          // const rendererKey = node.attrs.renderer || this.renderer
-          // const widget = window.__ALIOTH__.store('widget').getData(key)
 
-            // const renderer: Renderer = window.__ALIOTH__.store('renderer').getData(rendererKey)
-            // return renderer({ node, environment: this.environment, scope: this.scope.extend(props), renderer: rendererKey, widget })
-            return h(this.appContext.components.AliothRenderer, { node, environment: this.environment, scope: this.scope.extend(props), renderer: node.attrs.renderer || this.renderer })
+            return h(AliothRenderer, { node, environment: this.environment, scope: this.scope.extend(props), renderer: node.attrs.renderer || this.renderer })
         })
     })
 

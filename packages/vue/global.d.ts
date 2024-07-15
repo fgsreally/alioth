@@ -1,5 +1,5 @@
 import type { Store, BaseDocModel, BaseDragModel, BaseErrorModel, BaseEventModel, BaseImportModel, BaseSelectionModel, BaseErrorModel, Internal } from "alioth-lib"
-import { Alioth } from "./dist/client"
+import { Alioth } from "../dev/dist/client"
 import { UnwrapNestedRefs } from 'vue'
 declare global {
     interface Window {

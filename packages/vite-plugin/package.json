@@ -1,33 +1,17 @@
 {
-  "name": "alioth-dev",
+  "name": "vite-plugin-alioth",
   "version": "0.0.1-beta.1",
   "description": "",
   "author": "fgsreally",
   "license": "MIT",
   "keywords": ["alioth", "vite", "vue"],
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
-    },
-    "./client": {
-      "require": "./dist/client/index.js",
-      "import": "./dist/client/index.mjs"
-    }
-  },
+
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "client": [
-        "dist/client/index.d.ts"
-      ]
-    }
-  },
+
   "files": [
-    "dist",
-    "global.d.ts"
+    "dist"
   ],
   "scripts": {
     "dev": "tsup --watch",

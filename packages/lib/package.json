@@ -40,7 +40,7 @@
     "eventemitter3": "^5.0.1",
     "lodash-es": "^4.17.21",
     "nanoid": "^4.0.0",
-    "phecda-core": "^3.0.2"
+    "phecda-core": "^3.1.1"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.7",

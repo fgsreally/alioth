@@ -1,41 +1,29 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { h } from 'vue'
-import { AliothRenderer, Scope, VirtualDocument, VirtualNode, initAlioth, internal } from '../src'
+import { getR } from 'phecda-vue'
+import { AliothRenderer, Internal, Scope, VirtualDocument, VirtualNode } from '../src'
+import { BaseRenderer, Renderer } from '../src/core/renderer'
 import { Comp1, Comp2 } from './fixtures/components'
-import { BaseRenderer } from './renderer'
 describe('renderer', () => {
-  initAlioth(['test'])
-  class Renderer extends BaseRenderer<any> {
+  class TestRenderer extends BaseRenderer<any> {
     test() {
-      expect(this.scope.variable).toMatchSnapshot()
-      expect(this.mode).toBe('test')
-      return this
-    }
-
-    main() {
-      const { component } = this.widget
-
-      this.vnode = h(
-        component,
-        { msg: this.node.attrs.key },
-        this.vnode,
-      )
-
+      expect(this.scope.values).toMatchSnapshot()
+      expect(this.environment).toBe('test')
       return this
     }
   }
 
   it('scope', () => {
-    const renderer = ({ node, widget, mode }) => {
-      const renderer = new Renderer({ node, widget, mode })
+    const renderer: Renderer = (data) => {
+      const renderer = new TestRenderer(data)
       return renderer.slot(['default']).main().test().exec()
     }
-    internal.mode = 'test'
-    internal.import('renderer', renderer)
 
-    internal.import('widget', { mode: 'test', key: 'Comp1', data: Comp1 })
-    internal.import('widget', { mode: 'test', key: 'Comp2', data: Comp2 })
+    const internal = getR(Internal)
+
+    internal.store('renderer').set('test', renderer)
+    internal.store('widget').set('Comp1', Comp1)
+    internal.store('widget').set('Comp2', Comp2)
 
     const doc = new VirtualDocument()
     const node1 = new VirtualNode({ key: 'Comp1' })
@@ -46,14 +34,14 @@ describe('renderer', () => {
 
     const wrapper = mount(AliothRenderer, {
       props: {
-        mode: 'test',
-        doc,
-        scope: new Scope(),
+        environment: 'test',
+        renderer: 'test',
+        scope: new Scope({ test: true }),
         node: node1,
       },
     })
 
     expect(wrapper.html()).toContain('Comp1')
-    // expect(wrapper.text()).toContain('Comp2')
+    expect(wrapper.text()).toContain('Comp2')
   })
 })
