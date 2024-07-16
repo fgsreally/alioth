@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { getR } from 'phecda-vue'
-import { AliothRenderer, Internal, Scope, VirtualDocument, VirtualNode } from '../src'
+import { AliothRenderer, Internal, VirtualDocument, VirtualNode } from '../src'
 import { BaseRenderer, Renderer } from '../src/core/renderer'
 import { Comp1, Comp2 } from './fixtures/components'
 describe('renderer', () => {

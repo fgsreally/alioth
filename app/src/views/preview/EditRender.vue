@@ -17,9 +17,8 @@ onMounted(() => {
   })
 })
 setTimeout(() => {
-  console.log('add Node')
-
   insert(createNode({ key: 'test', msg: '11' }), selectedPage)
+  insert(createNode({ key: 'btn', click: '{{changeLabel}}' }), selectedPage)
 }, 5000)
 </script>
 

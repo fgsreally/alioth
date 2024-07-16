@@ -29,11 +29,11 @@ const _nodes=${JSON.stringify(nodes.map(item => item.toJSON()))}
 
  export default defineComponent({
  setup(){
- const internal=user(Internal)
+ const internal=useR(Internal)
  internal.document.load(_nodes)
  const state={}
  __INTERNAL_IMPORT__
- return ()=>h(AliothRenderer,{node:_nodes[0],state,renderer:'development'})
+ return ()=>h(AliothRenderer,{node:internal.document.findById(_nodes[0].id),state,renderer:'development'})
  }
  })
  
@@ -47,7 +47,7 @@ const _nodes=${JSON.stringify(nodes.map(item => item.toJSON()))}
       return `
         [${Object.values(dependences).flat().join(',')}].forEach((data)=>{
         internal.import(data.alioth,data)
-       if(alioth==='state') state[data.key]=data.value
+       if(data.alioth==='state') state[data.key]=data.value
         })
         
         `

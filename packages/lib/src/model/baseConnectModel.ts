@@ -5,7 +5,7 @@ import { loadStyleOrScript } from '../utils/load'
 import { STATE_REGEX } from '../common'
 import { VirtualNode } from '../core'
 import { Export, Internal } from './internal'
-function extractVariables(code: string) {
+export function extractVariables(code: string) {
   const ast = acorn.parse(code, { ecmaVersion: 'latest' })
   const variables = new Set()
 
@@ -95,13 +95,12 @@ export class BaseConnectModel {
         exportsMap[exports] = module[exports]
       }
     }
-    console.log(exportsMap)
     return exportsMap
   }
 
   async execWriteFiles(files: Record<string, string>) {
     if (!this.viteUrl)
-      throw new Error('must connect vite dev server before generateFile')
+      throw new Error('must connect vite dev server before execWriteFiles')
     await fetch(new URL('/alioth/action', this.viteUrl).href, {
       method: 'POST',
       body: JSON.stringify({
@@ -113,7 +112,7 @@ export class BaseConnectModel {
 
   async execBundle(entry: Record<string, string>) {
     if (!this.viteUrl)
-      throw new Error('must connect vite dev server before bundleFiles')
+      throw new Error('must connect vite dev server before execBundle')
     await fetch(new URL('/alioth/action', this.viteUrl).href, {
       method: 'POST',
       body: JSON.stringify({
@@ -163,8 +162,8 @@ export class BaseConnectModel {
         const exports = this.record[url][key]
 
         if (typeof exports === 'object' && exports.alioth) {
-          // if (!filter(exports))
-          //   continue
+          if (!filter(exports))
+            continue
 
           if (exports.alioth === 'renderer')
             dependences[relativePath].push(key)
@@ -179,11 +178,5 @@ export class BaseConnectModel {
     }
 
     return { dependences, effects }
-    // return Object.entries(dependences).reduce((p, [url, exports]) => {
-    //   if (exports.length === 0)
-    //     return p
-    //   return `${p}export {${exports.join(',')}} from '.${url.replace(this.viteUrl, '')}'\n`
-    // }, '') + effects.map(url => `import '${url.replace(this.viteUrl, '')}'`).join('\n')
   }
-  // setState: (param: { key: string; value: any; meta: any }) => void
 }
