@@ -1,8 +1,9 @@
 import { defineComponent, getCurrentInstance, provide } from 'vue'
 import type { PropType } from 'vue'
-import type { Scope, VirtualNode } from 'alioth-lib'
-import { Internal } from 'alioth-lib'
+import { Internal, Scope, VirtualNode } from 'alioth-lib'
+
 import { useR } from 'phecda-vue'
+import { Renderer } from '../core'
 
 export const AliothRenderer = defineComponent({
   name: 'AliothRenderer',
@@ -12,28 +13,28 @@ export const AliothRenderer = defineComponent({
       type: Object as PropType<VirtualNode<any>>,
       required: true,
     },
+
     renderer: {
       type: String,
       required: true,
     },
+    state: {
+      type: Object as PropType<Record<string, any>>,
+    },
     environment: {
       type: String,
-      required: true,
-    },
-    scope: {
-      type: Object as PropType<Scope>,
-      required: true,
+      default: 'production',
     },
   },
   setup(props) {
     provide('alioth', props)
-    const internal = useR(Internal)
+    const { store } = useR(Internal)
     const appContext = getCurrentInstance()!.appContext
     return () => {
       const key = props.node.attrs.key
-      const widget = internal.store('widget').getData(key)
-      const renderer = internal.store('renderer').getData(props.renderer)
-      return renderer({ node: props.node, widget, scope: props.scope, renderer: props.renderer, environment: props.environment, appContext })
+      const widget = store('widget').getData(key)
+      const renderer = store('renderer').getData(props.renderer) as Renderer
+      return renderer({ node: props.node, widget, scope: new Scope(props.state || store('state').data), renderer: props.renderer, environment: props.environment, appContext })
     }
   },
 })

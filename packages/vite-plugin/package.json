@@ -1,15 +1,13 @@
 {
   "name": "vite-plugin-alioth",
+  "type": "module",
   "version": "0.0.1-beta.1",
   "description": "",
   "author": "fgsreally",
   "license": "MIT",
-  "keywords": ["alioth", "vite", "vue"],
-
+  "keywords": ["alioth", "vite"],
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-
   "files": [
     "dist"
   ],

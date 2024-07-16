@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { Internal, Scope } from 'alioth-vue'
+import { BaseCodeModel, Internal } from 'alioth-vue'
 import { useR, useV } from 'phecda-vue'
 
 const { selectedPage } = $(useV(SelectionModel))
 const { insert, createNode, findAllChildrens } = $(useV(DocModel))
-const { generateCode } = $(useV(ConnectModel))
+const { generateComponent, generateCode } = $(useV(BaseCodeModel))
 
 const { store } = $(useV(Internal))
-const scope = new Scope(store('state').data)
 onMounted(() => {
   document.addEventListener('keydown', async (e) => {
     if (e.shiftKey) {
       console.log('go')
-      console.log(await generateCode([selectedPage, ...findAllChildrens(selectedPage)]))
+
+      console.log(await generateComponent(selectedPage))
     }
   })
 })
@@ -24,11 +24,10 @@ setTimeout(() => {
 </script>
 
 <template>
-  {{ scope.data }}
   <div flex justify-center items-center w-full h-full>
     <section v-if="!!selectedPage" class="al-window">
       <IframeCanvas>
-        <AliothRenderer :node="selectedPage" renderer="development" :scope="scope" environment="edit" />
+        <AliothRenderer :node="selectedPage" renderer="development" environment="edit" />
       </IframeCanvas>
     </section>
   </div>

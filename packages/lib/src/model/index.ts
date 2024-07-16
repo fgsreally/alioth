@@ -1,4 +1,5 @@
 export * from './baseDocModel'
+export * from './baseCodeModel'
 export * from './baseDragModel'
 export * from './baseCommandModel'
 export * from './baseConnectModel'

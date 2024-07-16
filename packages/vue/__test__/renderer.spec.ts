@@ -36,7 +36,7 @@ describe('renderer', () => {
       props: {
         environment: 'test',
         renderer: 'test',
-        scope: new Scope({ test: true }),
+        scope: { test: true },
         node: node1,
       },
     })

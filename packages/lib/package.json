@@ -1,5 +1,6 @@
 {
   "name": "alioth-lib",
+  "type": "module",
   "version": "0.1.0-beta.1",
   "description": "",
   "author": "",
@@ -7,12 +8,10 @@
   "keywords": [],
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.js"
     },
     "./server": {
-      "require": "./dist/server.js",
-      "import": "./dist/server.mjs"
+      "import": "./dist/server.js"
     }
   },
   "main": "./dist/index.js",
@@ -40,6 +39,7 @@
     "eventemitter3": "^5.0.1",
     "lodash-es": "^4.17.21",
     "nanoid": "^4.0.0",
+    "path-browserify": "^1.0.1",
     "phecda-core": "^3.1.1"
   },
   "devDependencies": {

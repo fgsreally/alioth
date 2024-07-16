@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import X from '../.alioth/a'
 import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
+  <X />
   <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo">

@@ -36,13 +36,14 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
   }
 
   load(data: DocData) {
-    this.nodeSet.clear()
+    // this.nodeSet.clear()
     // this.nodeSet.add(this.root)
 
     data.forEach(({ id, attrs, index, parent }) => {
       const node = new VirtualNode(attrs, id)
       node.index = index
       node.parent = parent
+      node.doc = this
       this.nodeSet.add(node)
     })
   }
@@ -75,7 +76,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
   }
 
   findAllChildrens(node: VirtualNode<A>) {
-    const nodes = new Set()
+    const nodes = new Set<VirtualNode>()
     const traverse = (node: VirtualNode<A>) => {
       this.findChildrens(node).forEach((node) => {
         nodes.add(node)

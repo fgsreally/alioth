@@ -9,7 +9,9 @@ export class Internal {
   // function that import those exports from sub app
   methods: Record<string, (...arg: any) => void> = {}
   importer: Record<string, (arg: Export) => void> = {}
-
+  private readonly _importSet = new WeakSet()
+  // only work for prod
+  document = new VirtualDocument()
   @Init
   private _init() {
     window.__ALIOTH__ = this
@@ -30,11 +32,17 @@ export class Internal {
     return this.methods[name] && this.methods[name](...args)
   }
 
-  import(name: string, { key, data, meta }: Export) {
-    if (this.importer[name])
-      return this.importer[name]({ key, data, meta })
+  import(name: string, item: Export) {
+    if (this._importSet.has(item))
+      return
 
-    return this.store(name).set(key, data, meta)
+    this._importSet.add(item)
+    const { key, data, meta } = item
+    if (this.importer[name]) {
+      this.importer[name]({ key, data, meta })
+      return
+    }
+    this.store(name).set(key, data, meta)
   }
 
   registerImporter(name: string, importer: (arg: Export) => void) {

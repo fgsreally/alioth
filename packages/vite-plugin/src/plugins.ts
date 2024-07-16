@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { dirname, join, resolve } from 'path'
+import { dirname, resolve } from 'path'
 import { Worker } from 'worker_threads'
 import { fileURLToPath } from 'url'
 import fse from 'fs-extra'
@@ -8,7 +8,6 @@ import type { PluginOption } from 'vite'
 import colors from 'colors'
 import axios from 'axios'
 import { log } from './utils'
-import { OUTPUT_DIR } from './common'
 interface ConnectorOpts {
   website: string | Record<string, string>
   project: string
@@ -132,7 +131,7 @@ export function Connector(options: ConnectorOpts): PluginOption {
           if (type === 'writeFiles') {
             await Promise.all(Object.entries(data).map(([path, content]) => {
               log(`write file -- ${path}`)
-              return fse.outputFile(join(OUTPUT_DIR, path), content)
+              return fse.outputFile(path, content)
             }))
             res.end('')
           }

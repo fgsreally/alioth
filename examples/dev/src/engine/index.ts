@@ -17,7 +17,7 @@ export const engine = {
   key: 'development',
   data: (data) => {
     console.log('renderer', data.node.attrs.key)
-    return new Renderer(data).slot(['default']).main().editAction().gridstack().exec()
+    return new Renderer(data).slot(['default']).main().gridstack().exec()
   },
   meta: {
     environment: 'editor',

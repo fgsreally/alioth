@@ -95,6 +95,7 @@ export class BaseConnectModel {
         exportsMap[exports] = module[exports]
       }
     }
+    console.log(exportsMap)
     return exportsMap
   }
 
@@ -122,7 +123,7 @@ export class BaseConnectModel {
     })
   }
 
-  async generateCode(nodes: VirtualNode[], filter: (item: Export) => boolean = () => true) {
+  async analyseImport(nodes: VirtualNode[], filter: (item: Export) => boolean = () => true) {
     const widgetSet = new Set()
     const stateSet = new Set()
     const dependences = {} as Record<string, string[]>
@@ -148,35 +149,41 @@ export class BaseConnectModel {
     })
 
     for (const url in this.record) {
+      const relativePath = url.replace(this.viteUrl, '')
+
       if (url.endsWith('.css')) {
         effects.push(url)
         continue
       }
-      if (!dependences[url])
-        dependences[url] = []
+
+      if (!dependences[relativePath])
+        dependences[relativePath] = []
+
       for (const key in this.record[url]) {
         const exports = this.record[url][key]
 
         if (typeof exports === 'object' && exports.alioth) {
-          if (!filter(exports))
-            continue
+          // if (!filter(exports))
+          //   continue
 
           if (exports.alioth === 'renderer')
-            dependences[url].push(key)
+            dependences[relativePath].push(key)
 
           if (exports.alioth === 'widget' && widgetSet.has(exports.key))
-            dependences[url].push(key)
+            dependences[relativePath].push(key)
 
           if (exports.alioth === 'state' && stateSet.has(exports.key))
-            dependences[url].push(key)
+            dependences[relativePath].push(key)
         }
       }
     }
-    return Object.entries(dependences).reduce((p, [url, exports]) => {
-      if (exports.length === 0)
-        return p
-      return `${p}export {${exports.join(',')}} from '.${url.replace(this.viteUrl, '')}'\n`
-    }, '') + effects.map(url => `import '${url.replace(this.viteUrl, '')}'`).join('\n')
+
+    return { dependences, effects }
+    // return Object.entries(dependences).reduce((p, [url, exports]) => {
+    //   if (exports.length === 0)
+    //     return p
+    //   return `${p}export {${exports.join(',')}} from '.${url.replace(this.viteUrl, '')}'\n`
+    // }, '') + effects.map(url => `import '${url.replace(this.viteUrl, '')}'`).join('\n')
   }
   // setState: (param: { key: string; value: any; meta: any }) => void
 }

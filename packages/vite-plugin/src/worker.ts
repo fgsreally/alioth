@@ -1,15 +1,13 @@
 import { parentPort } from 'worker_threads'
 import { build } from 'vite'
-import { OUTPUT_DIR } from './common'
 parentPort!.once('message', async (message) => {
   const ret = await build(
     {
       // configFile: 'vite.config.ts',
       build: {
         emptyOutDir: true,
-        outDir: OUTPUT_DIR,
         lib: {
-          entry: message,
+          entry: JSON.parse(message),
           fileName: 'index',
           formats: ['es'],
         },

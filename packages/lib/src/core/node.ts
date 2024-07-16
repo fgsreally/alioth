@@ -2,12 +2,10 @@ import { cloneDeep } from 'lodash-es'
 import { nanoid } from 'nanoid'
 
 import { VirtualDocument } from './document'
-import { Scope } from './scope'
 
 export class VirtualNode<A extends Record<string, any> = any> {
   parent: string
   index: number
-  scope = new Scope()
 
   doc: VirtualDocument<A>
   readonly oldAttrs: A
