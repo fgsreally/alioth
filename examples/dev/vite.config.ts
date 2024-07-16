@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { Alioth } from 'alioth-vue/vite'
+import { Alioth } from 'vite-plugin-alioth'
 // import { visualizer } from 'rollup-plugin-visualizer'
 // import Inspect from 'vite-plugin-inspect'
 // import Compress from 'vite-plugin-compression'

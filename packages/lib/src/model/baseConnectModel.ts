@@ -98,26 +98,26 @@ export class BaseConnectModel {
     return exportsMap
   }
 
-  async generateFiles(files: Record<string, string>) {
+  async execWriteFiles(files: Record<string, string>) {
     if (!this.viteUrl)
       throw new Error('must connect vite dev server before generateFile')
     await fetch(new URL('/alioth/action', this.viteUrl).href, {
       method: 'POST',
       body: JSON.stringify({
         type: 'geneateFiles',
-        files,
+        data: files,
       }),
     })
   }
 
-  async bundleFiles(entry: Record<string, string>) {
+  async execBundle(entry: Record<string, string>) {
     if (!this.viteUrl)
       throw new Error('must connect vite dev server before bundleFiles')
     await fetch(new URL('/alioth/action', this.viteUrl).href, {
       method: 'POST',
       body: JSON.stringify({
         type: 'bundle',
-        entry,
+        data: entry,
       }),
     })
   }

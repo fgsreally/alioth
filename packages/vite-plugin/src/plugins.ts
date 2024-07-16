@@ -3,8 +3,8 @@ import { dirname, join, resolve } from 'path'
 import { Worker } from 'worker_threads'
 import { fileURLToPath } from 'url'
 import fse from 'fs-extra'
-import { createFilter, normalizePath } from 'vite'
-import type { FilterPattern, PluginOption } from 'vite'
+import { normalizePath } from 'vite'
+import type { PluginOption } from 'vite'
 import colors from 'colors'
 import axios from 'axios'
 import { log } from './utils'
@@ -104,18 +104,17 @@ export function Connector(options: ConnectorOpts): PluginOption {
         if (req?.url === '/alioth' && req.method === 'GET')
           return res.end(JSON.stringify({ entry, project }))
 
-        if (req?.url === '/alioth/file' && req.method === 'POST') {
-          const { file, content } = await reqToJSON(req)
-          await fse.outputFile(join(OUTPUT_DIR, file), content)
-          log(`create file ${file}`)
-          res.end('0')
+        // if (req?.url === '/alioth/file' && req.method === 'POST') {
+        //   const { file, content } = await reqToJSON(req)
+        //   await fse.outputFile(join(OUTPUT_DIR, file), content)
+        //   log(`create file ${file}`)
+        //   res.end('0')
 
-          return
-        }
+        //   return
+        // }
         if (req?.url === '/alioth/action' && req.method === 'POST') {
-          const { type, content, entry = 'entry.js' } = await reqToJSON(req)
+          const { type, data } = await reqToJSON(req)
           if (type === 'bundle') {
-            await fse.outputFile(entry, content)
             const worker = new Worker(resolve(__dirname, './worker.js'), {
               env: {
                 ...process.env,
@@ -124,12 +123,18 @@ export function Connector(options: ConnectorOpts): PluginOption {
               },
             })
 
-            worker.postMessage('entry.js')
+            worker.postMessage(data)
             worker.once('message', (msg) => {
               log('bundle success!!')
-              fse.remove(entry)
               res.end(msg)
             })
+          }
+          if (type === 'writeFiles') {
+            await Promise.all(Object.entries(data).map(([path, content]) => {
+              log(`write file -- ${path}`)
+              return fse.outputFile(join(OUTPUT_DIR, path), content)
+            }))
+            res.end('')
           }
           return
         }
@@ -234,21 +239,4 @@ function reqToJSON(req: any) {
       resolve(JSON.parse(data))
     })
   })
-}
-
-export function SandBox(pattern: FilterPattern, opts: {
-  nativeVars?: string[]
-  globalVar?: string
-} = {}): PluginOption {
-  const filter = createFilter(pattern)
-  const { nativeVars = ['document', 'window'], globalVar = '$alioth_sandbox' } = opts
-  return {
-
-    name: 'alioth-sandbox',
-
-    transform(code, id) {
-      if (filter(id))
-        return `const {${nativeVars.join(',')}}=${globalVar}\n${code}`
-    },
-  }
 }

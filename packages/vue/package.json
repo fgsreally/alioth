@@ -8,30 +8,11 @@
     "alioth",
     "vue"
   ],
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "node": "./dist/index.js"
-    },
-    "./vite": {
-      "require": "./dist/vite.js",
-      "import": "./dist/vite.mjs"
-    }
-  },
+
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      ".": [
-        "dist/index.d.ts"
-      ],
-      "vite": [
-        "dist/vite.d.ts"
-      ]
-    }
-  },
+
   "files": [
     "dist"
   ],
