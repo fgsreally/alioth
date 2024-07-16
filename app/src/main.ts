@@ -25,7 +25,7 @@ async function start() {
   //   app.use(data, meta)
   // })
   app.component('AliothRenderer', AliothRenderer)
-  app.use(await createPhecda([EventModel, ImportModel, ZoneModel, DragModel, DocModel, FeedbackModel, SelectionModel, CmdModel]))
+  app.use(await createPhecda([CommandModel, ConnectModel, ZoneModel, DragModel, DocModel, FeedbackModel, SelectionModel, CmdModel]))
   app.config.warnHandler = () => null
 
   app.mount('#al-root')

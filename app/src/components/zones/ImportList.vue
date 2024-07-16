@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useV } from 'phecda-vue'
-import { ImportModel } from '@/models/import'
+import { ConnectModel } from '@/models/connect'
 import { DragModel } from '@/models/drag'
-const { info } = useV(ImportModel)
+const { info } = useV(ConnectModel)
 const { dragStart, dragEnd } = useV(DragModel)
 
 function dragstart(key: any) {

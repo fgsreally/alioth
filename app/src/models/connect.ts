@@ -1,9 +1,6 @@
 import { Init } from 'phecda-vue'
 import { BaseConnectModel } from 'alioth-vue'
-export class ImportModel extends BaseConnectModel {
-  info: Record<string, any> = {}
-  presets: string[]
-  viteUrl: string
+export class ConnectModel extends BaseConnectModel {
   @Init
   private async init() {
     const config = new URLSearchParams(location.hash.slice(1))

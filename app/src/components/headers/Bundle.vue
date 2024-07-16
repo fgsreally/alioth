@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { createEntryFileCode } from 'alioth-vue'
 import IconBookDown from '~icons/lucide/book-down'
-import { ConnectModel } from '@/models/import'
+import { ConnectModel } from '@/models/connect'
 import { DocModel } from '@/models/doc'
 async function download() {
   const { record, viteUrl } = getR(ConnectModel)

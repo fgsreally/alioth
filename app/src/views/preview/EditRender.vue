@@ -3,11 +3,19 @@ import { Internal, Scope } from 'alioth-vue'
 import { useR, useV } from 'phecda-vue'
 
 const { selectedPage } = $(useV(SelectionModel))
-const { insert, createNode } = $(useV(DocModel))
+const { insert, createNode, findAllChildrens } = $(useV(DocModel))
+const { generateCode } = $(useV(ConnectModel))
 
 const { store } = $(useV(Internal))
 const scope = new Scope(store('state').data)
-
+onMounted(() => {
+  document.addEventListener('keydown', async (e) => {
+    if (e.shiftKey) {
+      console.log('go')
+      console.log(await generateCode([selectedPage, ...findAllChildrens(selectedPage)]))
+    }
+  })
+})
 setTimeout(() => {
   console.log('add Node')
 

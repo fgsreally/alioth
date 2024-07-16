@@ -1,4 +1,4 @@
-import type { EventModel } from "@/models/event"
+import type { CommandModel } from "../models/command"
 import type { ZoneModel } from "@/models/zone"
 import { DocModel } from "@/models/doc"
 
@@ -7,7 +7,7 @@ declare global {
         __PHECDA__:{
             doc:DocModel
             config:ZoneModel
-            command:EventModel
+            command:CommandModel
         }
     
     }

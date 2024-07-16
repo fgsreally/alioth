@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import axios from 'axios'
 import IconDownload from '~icons/lucide/download'
-import { ImportModel } from '@/models/import'
+import { ConnectModel } from '@/models/connect'
 import { DocModel } from '@/models/doc'
 async function download() {
-  const { presets, viteUrl } = getR(ImportModel)
+  const { presets, viteUrl } = getR(ConnectModel)
   const { store } = getR(DocModel)
 
   try {

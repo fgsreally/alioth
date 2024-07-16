@@ -2,12 +2,12 @@
 export {}
 declare global {
   const CmdModel: typeof import('./src/models/cmd')['CmdModel']
+  const CommandModel: typeof import('./src/models/command')['CommandModel']
+  const ConnectModel: typeof import('./src/models/connect')['ConnectModel']
   const DocModel: typeof import('./src/models/doc')['DocModel']
   const DragModel: typeof import('./src/models/drag')['DragModel']
   const EffectScope: typeof import('vue')['EffectScope']
-  const EventModel: typeof import('./src/models/event')['EventModel']
   const FeedbackModel: typeof import('./src/models/feedback')['FeedbackModel']
-  const ImportModel: typeof import('./src/models/import')['ImportModel']
   const SelectionModel: typeof import('./src/models/selection')['SelectionModel']
   const ZoneModel: typeof import('./src/models/zone')['ZoneModel']
   const computed: typeof import('vue')['computed']

@@ -16,7 +16,7 @@ import { onClickOutside, useDebounceFn } from '@vueuse/core'
 import { useR } from 'phecda-vue'
 import { internal } from 'alioth-vue'
 import { VariablePlugin, inputTheme } from '@/utils/codemirror'
-import { ImportModel } from '@/models/import'
+import { ConnectModel } from '@/models/connect'
 
 const props = withDefaults(
   defineProps<{

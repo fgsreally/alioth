@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { cloneDeep } from 'lodash-es'
-import { Controller, VirtualDocument, VirtualNode, diff } from '../src/document'
+import { Controller, VirtualDocument, VirtualNode, diff } from '../src'
 
 describe('controller', () => {
   it('undo/redo', () => {

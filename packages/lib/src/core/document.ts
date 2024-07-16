@@ -74,6 +74,18 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     return this.nodes.filter(item => item.parent === node.id).sort((n1, n2) => n1.index - n2.index)
   }
 
+  findAllChildrens(node: VirtualNode<A>) {
+    const nodes = new Set()
+    const traverse = (node: VirtualNode<A>) => {
+      this.findChildrens(node).forEach((node) => {
+        nodes.add(node)
+        traverse(node)
+      })
+    }
+    traverse(node)
+    return [...nodes]
+  }
+
   findParent(node: VirtualNode<A>) {
     return this.nodes.find(item => item.id === node.parent)
   }
