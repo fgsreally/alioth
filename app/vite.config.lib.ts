@@ -2,12 +2,12 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   define: {
-    'process.env.NODE_ENV': '"production"',
+    'process.env.NODE_ENV': '"development"',
   },
   build: {
     lib: {
       formats: ['es'],
-      entry: ['src/libs/phecda-vue.ts', 'src/libs/vue.ts'],
+      entry: ['src/share-deps/phecda-vue.ts', 'src/share-deps/vue.ts', 'src/share-deps/alioth-vue'],
     },
     outDir: './public',
   },

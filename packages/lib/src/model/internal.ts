@@ -9,7 +9,7 @@ export class Internal {
   // function that import those exports from sub app
   methods: Record<string, (...arg: any) => void> = {}
   importer: Record<string, (arg: Export) => void> = {}
-  private readonly _importSet = new WeakSet()
+  private readonly __importSet = new WeakSet()
   // only work for prod
   document = new VirtualDocument()
   @Init
@@ -33,10 +33,10 @@ export class Internal {
   }
 
   import(name: string, item: Export) {
-    if (this._importSet.has(item))
+    if (this.__importSet.has(item))
       return
 
-    this._importSet.add(item)
+    this.__importSet.add(item)
     const { key, data, meta } = item
     if (this.importer[name]) {
       this.importer[name]({ key, data, meta })

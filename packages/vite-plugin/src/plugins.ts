@@ -7,6 +7,7 @@ import { normalizePath } from 'vite'
 import type { PluginOption } from 'vite'
 import colors from 'colors'
 import axios from 'axios'
+import externalize from 'vite-plugin-externalize-dependencies'
 import { log } from './utils'
 interface ConnectorOpts {
   website: string | Record<string, string>
@@ -19,26 +20,44 @@ interface ConnectorOpts {
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-interface ExternalMapOpts {
+interface ExternalOpts {
   externals?: Record<string, string>
-  importmap?: boolean
 }
-// external vue、phecda-vue
-export function External(options: ExternalMapOpts = {}): PluginOption {
-  const {
-    externals = {}, importmap = true,
+// external vue、phecda-vue、alioth-vue
+export function External(options: ExternalOpts = {}): PluginOption {
+  let {
+    externals = {},
   } = options
   let isDev: boolean
+  externals = Object.assign({
+    'phecda-vue': 'phecda-vue',
+    'phecda-core': 'phecda-core',
+    'vue': 'vue',
+    'alitoh-vue': 'alioth-vue',
+  }, externals)
+  const importmap: string[] = []
+  const resolveMap: Record<string, string> = {}
+  for (const key in externals) {
+    if (externals[key] === key)
+      importmap.push(key)
+
+    else
+      resolveMap[key] = externals[key]
+  }
+
   return {
     name: 'alioth-external-map',
     enforce: 'pre',
 
     config(_, { command }) {
       isDev = command === 'serve'
-      if (isDev || !importmap) {
+      if (isDev) {
         return {
+          plugins: [importmap.length && externalize({
+            externals: importmap,
+          })],
           resolve: {
-            alias: externals as any,
+            alias: resolveMap,
           },
         }
       }
@@ -149,7 +168,7 @@ export function Connector(options: ConnectorOpts): PluginOption {
   }
 }
 
-export function Alioth(options: ConnectorOpts & ExternalMapOpts) {
+export function Alioth(options: ConnectorOpts & ExternalOpts) {
   return [
     Connector(options),
     External(options),

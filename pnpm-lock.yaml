@@ -393,6 +393,9 @@ importers:
       vite:
         specifier: ^4.0.0||^5.0.0
         version: 5.0.5
+      vite-plugin-externalize-dependencies:
+        specifier: ^0.13.0
+        version: 0.13.0
     devDependencies:
       alioth-lib:
         specifier: workspace:^
@@ -436,7 +439,7 @@ importers:
         version: 24.0.0
       tsup:
         specifier: ^6.5.0
-        version: 6.5.0
+        version: 6.5.0(typescript@4.9.4)
       vitest:
         specifier: ^0.34.1
         version: 0.34.1(jsdom@24.0.0)
@@ -8711,41 +8714,6 @@ packages:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
     dev: false
 
-  /tsup@6.5.0:
-    resolution: {integrity: sha512-36u82r7rYqRHFkD15R20Cd4ercPkbYmuvRkz3Q1LCm5BsiFNUgpo36zbjVhCOgvjyxNBWNKHsaD5Rl8SykfzNA==}
-    engines: {node: '>=14'}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': ^1
-      postcss: ^8.4.12
-      typescript: ^4.1.0
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      postcss:
-        optional: true
-      typescript:
-        optional: true
-    dependencies:
-      bundle-require: 3.1.2(esbuild@0.15.18)
-      cac: 6.7.14
-      chokidar: 3.5.3
-      debug: 4.3.4
-      esbuild: 0.15.18
-      execa: 5.1.1
-      globby: 11.1.0
-      joycon: 3.1.1
-      postcss-load-config: 3.1.4
-      resolve-from: 5.0.0
-      rollup: 3.29.0
-      source-map: 0.8.0-beta.0
-      sucrase: 3.32.0
-      tree-kill: 1.2.2
-    transitivePeerDependencies:
-      - supports-color
-      - ts-node
-    dev: true
-
   /tsup@6.5.0(@swc/core@1.6.13)(typescript@5.3.3):
     resolution: {integrity: sha512-36u82r7rYqRHFkD15R20Cd4ercPkbYmuvRkz3Q1LCm5BsiFNUgpo36zbjVhCOgvjyxNBWNKHsaD5Rl8SykfzNA==}
     engines: {node: '>=14'}
@@ -9481,6 +9449,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /vite-plugin-externalize-dependencies@0.13.0:
+    resolution: {integrity: sha512-rcVPrv9AgVItjLyBg5jcmbj6wcNaNpbBYmfW6XnA9cIpegSr29xU8pt8YF/uVCpaUE7vc2f5fcuSObtpB7MtSg==}
+    dev: false
 
   /vite-plugin-inspect@0.7.41(vite@5.0.5):
     resolution: {integrity: sha512-gASdFRO4CHDQF8qAk9LZEJyzlIJM4bFvDn7hz0e2r1PS6uq+yukd8+jHctOAbvCceQoTS5iDAgd4/mWcGWYoMw==}

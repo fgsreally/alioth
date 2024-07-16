@@ -32,9 +32,10 @@ export default defineConfig({
       },
     }),
     DynamicImportmap({
-      'vue': 'http://localhost:4010/vue.js',
-      'phecda-core': 'http://localhost:4010/phecda-vue.js',
-      'phecda-vue': 'http://localhost:4010/phecda-vue.js',
+      'vue': '/vue.js',
+      'phecda-core': '/phecda-vue.js',
+      'phecda-vue': '/phecda-vue.js',
+      'alioth-vue': '/alioth-vue.js',
     }),
     VueMacros({
       setupBlock: true,
