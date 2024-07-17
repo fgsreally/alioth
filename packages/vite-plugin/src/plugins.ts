@@ -3,10 +3,10 @@ import { dirname, resolve } from 'path'
 import { Worker } from 'worker_threads'
 import { fileURLToPath } from 'url'
 import fse from 'fs-extra'
-import { normalizePath } from 'vite'
-import type { PluginOption } from 'vite'
+import { createFilter, normalizePath } from 'vite'
+import type { FilterPattern, PluginOption } from 'vite'
 import colors from 'colors'
-import axios from 'axios'
+import fetch from 'node-fetch'
 import externalize from 'vite-plugin-externalize-dependencies'
 import { log } from './utils'
 interface ConnectorOpts {
@@ -212,14 +212,15 @@ function generateQuery(obj: Record<string, string>) {
 const urlReg = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/
 const pathReg = /^(\/|\.{1,2}\/).+$/
 
-// bundle remote File
-export function RemoteLoader(RE = /.*/): PluginOption {
+// resolve remote file using http(like http://localhost:3000/index.js)
+export function RemoteLoader({ include, exclude }: { include?: FilterPattern; exclude?: FilterPattern }): PluginOption {
+  const filter = createFilter(include, exclude)
   return {
     name: 'alioth-remote-loader',
     enforce: 'pre',
     resolveId(source, importer) {
       if (urlReg.test(source)) {
-        if (RE.test(source))
+        if (filter(source))
           return source
 
         else
@@ -231,8 +232,8 @@ export function RemoteLoader(RE = /.*/): PluginOption {
     },
     async load(id) {
       if (urlReg.test(id)) {
-        const { data } = await axios.get(id)
-        return { code: data }
+        const ret = await fetch(id)
+        return { code: await ret.text() }
       }
     },
   }
