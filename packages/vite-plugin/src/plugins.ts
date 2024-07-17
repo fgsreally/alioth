@@ -13,7 +13,6 @@ interface ConnectorOpts {
   website: string | Record<string, string>
   project: string
   query?: Record<string, string>
-  externals?: Record<string, string>
   presets?: string[]
   entry: Record<string, string>
 }
@@ -74,7 +73,7 @@ export function External(options: ExternalOpts = {}): PluginOption {
 }
 // connect platform and vite
 export function Connector(options: ConnectorOpts): PluginOption {
-  const { project, externals = {}, entry, presets = [], website, query = {} } = options
+  const { project, entry, presets = [], website, query = {} } = options
   const entryFiles = Object.values(options.entry).map(item => normalizePath(resolve(process.cwd(), item)))
   return {
     name: 'alioth-connector',
@@ -96,7 +95,7 @@ export function Connector(options: ConnectorOpts): PluginOption {
         printUrls()
         const hash = generateQuery({
           url: host,
-          externals: JSON.stringify(externals),
+          // externals: JSON.stringify(externals),
           presets: JSON.stringify(presets),
           ...query,
         })
@@ -122,14 +121,6 @@ export function Connector(options: ConnectorOpts): PluginOption {
         if (req?.url === '/alioth' && req.method === 'GET')
           return res.end(JSON.stringify({ entry, project }))
 
-        // if (req?.url === '/alioth/file' && req.method === 'POST') {
-        //   const { file, content } = await reqToJSON(req)
-        //   await fse.outputFile(join(OUTPUT_DIR, file), content)
-        //   log(`create file ${file}`)
-        //   res.end('0')
-
-        //   return
-        // }
         if (req?.url === '/alioth/action' && req.method === 'POST') {
           const { type, data } = await reqToJSON(req)
           if (type === 'bundle') {
@@ -187,30 +178,30 @@ function injectHMR() {
 /**
  * create importmap from hash
  */
-export function DynamicImportmap(imports: Record<string, string> = {}): PluginOption {
-  return {
-    name: 'alioth-dynamic-importmap',
-    enforce: 'post',
-    // apply: 'build',
-    transformIndexHtml(html) {
-      return {
-        html,
-        tags: [
-          {
-            tag: 'script',
-            injectTo: 'head-prepend',
-            children: `function getConfig(key) {
-              return new URLSearchParams(location.hash.slice(1)).get(key)
-             }
-            const script = document.createElement('script');script.type = 'importmap';const imports = getConfig('externals');script.innerHTML = JSON.stringify(Object.assign(${JSON.stringify(
-              { imports },
-            )}, imports?JSON.parse(decodeURIComponent(imports)):{}));document.head.append(script);`,
-          },
-        ],
-      }
-    },
-  }
-}
+// export function DynamicImportmap(imports: Record<string, string> = {}): PluginOption {
+//   return {
+//     name: 'alioth-dynamic-importmap',
+//     enforce: 'post',
+//     // apply: 'build',
+//     transformIndexHtml(html) {
+//       return {
+//         html,
+//         tags: [
+//           {
+//             tag: 'script',
+//             injectTo: 'head-prepend',
+//             children: `function getConfig(key) {
+//               return new URLSearchParams(location.hash.slice(1)).get(key)
+//              }
+//             const script = document.createElement('script');script.type = 'importmap';const imports = getConfig('externals');script.innerHTML = JSON.stringify(Object.assign(${JSON.stringify(
+//               { imports },
+//             )}, imports?{imports:JSON.parse(decodeURIComponent(imports))}:{}));document.head.append(script);`,
+//           },
+//         ],
+//       }
+//     },
+//   }
+// }
 
 function generateQuery(obj: Record<string, string>) {
   return Object.entries(obj).map(([key, value]) => {
