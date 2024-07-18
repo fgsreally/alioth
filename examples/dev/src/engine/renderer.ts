@@ -1,13 +1,13 @@
 // import { cloneDeep, isSymbol } from 'lodash-es'
-import { BaseRenderer } from 'alioth-vue'
-import { h, toRaw } from 'vue'
-import { getV, useV } from 'phecda-vue'
+import { BaseRenderer, BaseSelectionModel } from 'alioth-vue'
+import { toRaw } from 'vue'
+import { getV } from 'phecda-vue'
 import GridstackItem from './GridstackItem.vue'
 export class Renderer extends BaseRenderer<any> {
   propsData: any
 
   gridstack() {
-    this.wrap(GridstackItem)
+    this.wrap(GridstackItem, {})
 
     return this
   }
@@ -15,7 +15,7 @@ export class Renderer extends BaseRenderer<any> {
   editAction() {
     if (!this.vnode)
       return this
-    const { selectNode } = getV(__PHECDA__.selection)
+    const { selectNode } = getV(BaseSelectionModel)
 
     this.vnode.props.onMousedown = (e) => {
       e.stopPropagation()

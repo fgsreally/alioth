@@ -13,7 +13,7 @@ export class BaseSelectionModel<T extends Record<string, any>> {
   }
 
   switchPage(page: VirtualNode<T>) {
-    if (page.parent !== 'root')
+    if (page.parentId !== 'root')
       throw new Error('page parent should be \'root\' ')
     this.selectedPage = page
   }

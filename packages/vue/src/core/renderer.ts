@@ -10,22 +10,16 @@ import {
 } from 'vue'
 import type { Scope, VirtualDocument, VirtualNode } from 'alioth-lib'
 import { AliothRenderer } from '../components/renderer'
+export type RendererContext = ConstructorParameters<typeof BaseRenderer>[0]
 
-export type Renderer = (data: ConstructorParameters<typeof BaseRenderer>[0]) => VNode
-export type CompList<RegisterBlock> = Map<string, RegisterBlock>
-
-interface Widget {
-  component: Component
-  meta: any
-  key: string
-}
-export class BaseRenderer<
-  NodeAttrs extends Record<string, any>,
+export type Renderer = (data: RendererContext) => VNode
+export abstract class BaseRenderer<
+  NodeAttrs extends Record<string, any> = any,
 > {
   protected vnode: VNode | any
   doc: VirtualDocument<NodeAttrs>
   node: VirtualNode<NodeAttrs>
-  widget: Widget
+  widget: Component
   scope: Scope
   environment: string
   renderer: string
@@ -33,7 +27,7 @@ export class BaseRenderer<
   constructor(
     data: {
       node: VirtualNode<NodeAttrs>
-      widget: Widget
+      widget: Component
       environment: string
       scope: Scope
       renderer: string
@@ -49,15 +43,12 @@ export class BaseRenderer<
     this.doc = this.node.doc
   }
 
-  exec() {
-    return this.vnode as VNode
-  }
+  abstract exec(): void
+}
 
-  wrap<P extends VNodeProps>(comp: Component<P>, props: P) {
-    this.vnode = h(comp as any, props, this.vnode)
-    return this
-  }
-
+export abstract class ComponentRenderer<
+  NodeAttrs extends Record<string, any> = any,
+> extends BaseRenderer<NodeAttrs> {
   slot(
     slotNames: string[],
   ) {
@@ -81,7 +72,12 @@ export class BaseRenderer<
     return this
   }
 
-  mount(dom: HTMLElement = document.body) {
+  wrap<P extends VNodeProps>(comp: Component<P>, props: P) {
+    this.vnode = h(comp as any, props, this.vnode)
+    return this
+  }
+
+  teleport(dom: HTMLElement = document.body) {
     if (!this.vnode)
       return this
 
@@ -89,6 +85,19 @@ export class BaseRenderer<
     return this
   }
 
+  main() {
+    this.vnode = h(
+      this.widget,
+      { ...this.scope.parse(this.node.attrs) },
+      this.vnode)
+
+    return this
+  }
+}
+
+export abstract class DomRenderer<
+NodeAttrs extends Record<string, any> = any,
+> extends BaseRenderer<NodeAttrs> {
   useDragger(
     dragEnter: (e: DragEvent, VirtualNode: VirtualNode<NodeAttrs>) => void,
     dragOver: (e: DragEvent, VirtualNode: VirtualNode<NodeAttrs>) => void,
@@ -134,15 +143,6 @@ export class BaseRenderer<
 
   setID(id: string) {
     (this.vnode as any).props.id = id
-    return this
-  }
-
-  main() {
-    this.vnode = h(
-      this.widget,
-      { ...this.scope.parse(this.node.attrs) },
-      this.vnode)
-
     return this
   }
 }

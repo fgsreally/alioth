@@ -3,7 +3,7 @@ import { URL, fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import Icons from 'unplugin-icons/vite'
 
-import { DynamicImportmap, External } from 'vite-plugin-alioth'
+import { External } from 'vite-plugin-alioth'
 import Vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/vite'
 import UnoCSS from 'unocss/vite'
@@ -31,12 +31,7 @@ export default defineConfig({
         'phecda-vue': 'http://localhost:4010/phecda-vue.js',
       },
     }),
-    DynamicImportmap({
-      'vue': 'http://localhost:4010/vue.js',
-      'phecda-core': 'http://localhost:4010/phecda-vue.js',
-      'phecda-vue': 'http://localhost:4010/phecda-vue.js',
-      'alioth-vue': 'http://localhost:4010/alioth-vue.js',
-    }),
+
     VueMacros({
       setupBlock: true,
       plugins: {

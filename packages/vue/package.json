@@ -26,6 +26,7 @@
     "alioth-lib": "workspace:*",
     "lodash-es": "^4.17.21",
     "phecda-vue": "^4.0.7",
+    "ts-mixer": "^6.0.4",
     "vue": "^3.3.4"
   },
   "devDependencies": {

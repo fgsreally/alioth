@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import Input from './components/Input.vue'
 import Test from './components/Test.vue'
 import Button from './components/Button.vue'
-export { container, engine, engine_prod } from './engine'
+export { container, engine } from './engine'
 
 export const InputZone = {
   alioth: 'zone',
