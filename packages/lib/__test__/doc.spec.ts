@@ -16,8 +16,7 @@ describe('doc and node', () => {
     expect(node1.attrs.id).toBe(3)
 
     doc.insert(node2, node1)
-
-    expect(node2.parent).toBe(node1.id)
+    expect(node2.parentId).toBe(node1.id)
 
     doc.remove(node1)
 

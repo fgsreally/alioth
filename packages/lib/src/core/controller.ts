@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid'
 import { cloneDeep, isEqual } from 'lodash-es'
 import EventEmitter from 'eventemitter3'
 import { VirtualNode } from './node'
-import type { VirtualDocument } from './document'
+import type { DocData, VirtualDocument } from './document'
 
 interface Options {
   length: number
@@ -18,6 +18,7 @@ export class Controller extends EventEmitter {
     super()
     this.options = {
       length: 300,
+      // debounce: 300,
       ...options,
     }
 
@@ -34,6 +35,8 @@ export class Controller extends EventEmitter {
         }),
         type: 'insert',
         eventId: this.currentEventId || nanoid(),
+        mode: -1,
+
       })
     })
 
@@ -47,12 +50,26 @@ export class Controller extends EventEmitter {
         lastIndex,
         nodeId: node.id,
         eventId: this.currentEventId || nanoid(),
+        mode: -1,
+
+      })
+    })
+
+    doc.on('load', (data: DocData) => {
+      this.redoStack = []
+      this.addEvent({
+        data,
+        type: 'load',
+        eventId: this.currentEventId || nanoid(),
+        mode: -1,
       })
     })
 
     doc.on('remove', ({ node }: any) => {
       this.redoStack = []
       this.addEvent({
+        mode: -1,
+
         type: 'remove',
         eventId: this.currentEventId || nanoid(),
         records: doc.flat(node).map(({ attrs, id, parentId, index }) => {
@@ -69,6 +86,7 @@ export class Controller extends EventEmitter {
     doc.on('set', ({ node, key, value, oldValue }: any) => {
       this.redoStack = []
       this.addEvent({
+        mode: -1,
         key,
         value: cloneDeep(value),
         type: 'set',
@@ -99,7 +117,7 @@ export class Controller extends EventEmitter {
     if (this[stack].length >= this.options.length)
       this[stack].shift()
 
-    this.invokeBridge(event)
+    this.invokeBridge({ ...event, mode: -event.mode as 1 | -1 })
     this[stack].push(event)
   }
 
@@ -135,60 +153,72 @@ export class Controller extends EventEmitter {
   }
 
   applyEvent(event: NodeEvent) {
-    if (!applyEventToNode(this.doc, event))
-      this.emit('error', event)
-    else this.emit('success', event)
+    return applyEventToNode(this.doc, event)
   }
 
   handleUndoEvent(event: NodeEvent) {
-    switch (event.type) {
-      case 'insert':
-        event = {
-          type: 'remove',
-          eventId: event.eventId,
-          records: event.records,
-        }
-        break
+    // switch (event.type) {
+    //   case 'insert':
+    //     event = {
+    //       type: 'remove',
+    //       eventId: event.eventId,
+    //       records: event.records,
+    //     }
+    //     break
 
-      case 'remove':
-        event = {
-          type: 'insert',
-          eventId: event.eventId,
-          records: event.records,
-        }
-        break
-      case 'swap':
-        event = {
-          type: 'swap',
-          eventId: event.eventId,
-          index: event.lastIndex,
-          lastIndex: event.index,
-          lastParentId: event.parentId,
-          parentId: event.lastParentId,
-          nodeId: event.nodeId,
-        }
-        break
-      case 'set':
-        event = {
-          type: 'set',
-          eventId: event.eventId,
-          nodeId: event.nodeId,
-          key: event.key,
-          value: event.oldValue,
-          oldValue: event.value,
+    //   case 'remove':
+    //     event = {
+    //       type: 'insert',
+    //       eventId: event.eventId,
+    //       records: event.records,
+    //     }
+    //     break
+    //   case 'swap':
+    //     event = {
+    //       type: 'swap',
+    //       eventId: event.eventId,
+    //       index: event.lastIndex,
+    //       lastIndex: event.index,
+    //       lastParentId: event.parentId,
+    //       parentId: event.lastParentId,
+    //       nodeId: event.nodeId,
+    //     }
+    //     break
+    //   case 'set':
+    //     event = {
+    //       type: 'set',
+    //       eventId: event.eventId,
+    //       nodeId: event.nodeId,
+    //       key: event.key,
+    //       value: event.oldValue,
+    //       oldValue: event.value,
 
-        }
-    }
+    //     }
+    //     break
+    //   case 'load':
+    //     event = {
+    //       type: 'load',
+    //       eventId: event.eventId,
+    //       data: event.data,
+
+    //     }
+    // }
+    const isWork = this.applyEvent(event)!
+
+    this.emit(isWork ? 'success' : 'fail', event)
 
     return {
-      isWork: this.applyEvent(event)!,
-      event,
+      isWork,
+      event: {
+        ...event,
+        mode: -event.mode as 1 | -1,
+      },
     }
   }
 }
 
 export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
-  if (event.type === 'insert') {
+  if ((event.type === 'insert' && event.mode === 1) || (event.type === 'remove' && event.mode === -1)) {
     const parentNode = doc.findById(event.records[0].parentId)
 
     if (!parentNode)
@@ -204,7 +234,7 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
     return true
   }
 
-  if (event.type === 'remove') {
+  if ((event.type === 'remove' && event.mode === 1) || (event.type === 'insert' && event.mode === -1)) {
     const parentNode = doc.findById(event.records[0].parentId)
 
     if (!parentNode)
@@ -227,14 +257,19 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
     if (!newNode || !parentNode)
       return false
 
-    if (newNode.parentId !== event.lastParentId)
-      event.lastParentId = newNode.parentId
+    // if (newNode.parentId !== event.lastParentId)
+    //   event.lastParentId = newNode.parentId
 
-    if (newNode.index !== event.lastIndex)
-      event.lastIndex = newNode.index
-
-    newNode.parentId = event.parentId
-    newNode.index = event.index
+    // if (newNode.index !== event.lastIndex)
+    //   event.lastIndex = newNode.index
+    if (event.mode > 0) {
+      newNode.parentId = event.parentId
+      newNode.index = event.index
+    }
+    else {
+      newNode.parentId = event.lastParentId
+      newNode.index = event.lastIndex
+    }
 
     return true
   }
@@ -245,10 +280,29 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
     if (!newNode)
       return false
 
-    const currentAttr = newNode.attrs[event.key]
-    if (!isEqual(currentAttr, event.oldValue))
-      event.oldValue = cloneDeep(currentAttr)
-    newNode.attrs[event.key] = event.value
+    newNode.attrs[event.key] = event.mode > 0 ? event.value : event.oldValue
+
+    return true
+  }
+
+  if (event.type === 'load') {
+    event.data.forEach(({ id, attrs, index, parentId }) => {
+      if (event.mode > 0) {
+        const node = new VirtualNode(attrs, id)
+        node.index = index
+        node.parentId = parentId
+        node.doc = doc
+        doc.nodeSet.add(node)
+      }
+      else {
+        const node = doc.findById(id)
+        if (node) {
+          doc.nodeSet.delete(node)
+          // @ts-expect-error todo
+          doc.removeChilds(node)
+        }
+      }
+    })
 
     return true
   }
@@ -258,6 +312,7 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
 
 interface BaseEvent {
   eventId: string
+  mode: -1 | 1
 }
 
 interface NodeRecord {
@@ -265,6 +320,11 @@ interface NodeRecord {
   parentId: string
   attrs: any
   index: number
+}
+
+export interface LoadEvent extends BaseEvent {
+  type: 'load'
+  data: DocData
 }
 
 export interface SwapEvent extends BaseEvent {
@@ -298,78 +358,7 @@ export interface SetEvent extends BaseEvent {
   value: any
 }
 
-export type NodeEvent = SetEvent | InsertEvent | RemoveEvent | SwapEvent
-
-// export function diff(nodes1: VirtualNode[], nodes2: VirtualNode[]): NodeEvent[] {
-//   const events = [] as NodeEvent[]
-//   const oldNodes1 = [] as VirtualNode[]
-//   const oldNodes2 = [] as VirtualNode[]
-//   if (node1.id !== node2.id)
-//     throw new Error('node1 and node2 should have the same id to diff')
-
-//   for (const n of node1.children) {
-//     const node = node2.children.find(item => item.id === n.id)
-//     if (!node) {
-//       events.push({
-//         ...traverseNode(n),
-//         parentId: node1.id,
-//         type: 'remove',
-//         index: n.index,
-//         eventId: nanoid(),
-//       } as RemoveEvent)
-//     }
-//     else {
-//       oldNodes1.push(n)
-//     }
-//   }
-
-//   for (const n of node2.children) {
-//     const node = node1.children.find(item => item.id === n.id)
-
-//     if (!node) {
-//       events.push({
-//         ...traverseNode(n),
-//         parentId: node1.id,
-//         type: 'insert',
-//         index: n.index,
-//         eventId: nanoid(),
-//       } as InsertEvent)
-//     }
-//     else {
-//       oldNodes2.push(n)
-//     }
-//   }
-
-//   oldNodes1.forEach((n, i) => {
-//     const index = oldNodes2.findIndex(n2 => n2.id === n.id)!
-//     if (index !== i) {
-//       events.push({
-//         type: 'swap',
-//         from: i,
-//         to: index,
-//         nodeId: n.id,
-//         eventId: nanoid(),
-//         parentId: node1.id,
-//       })
-//     }
-//     const n2 = oldNodes2[index]
-//     for (const key in n.attrs) {
-//       if (!isEqual(n.attrs[key], n2.attrs[key])) {
-//         events.push({
-//           nodeId: n.id,
-//           eventId: nanoid(),
-//           type: 'set',
-//           key,
-//           oldValue: n.attrs[key],
-//           value: n2.attrs[key],
-//         })
-//       }
-//     }
-//     events.push(...diff(n, n2))
-//   })
-
-//   return events
-// }
+export type NodeEvent = SetEvent | InsertEvent | RemoveEvent | SwapEvent | LoadEvent
 
 export function diff(nodes1: VirtualNode[], nodes2: VirtualNode[]) {
   const removeRecords = [] as NodeRecord[]

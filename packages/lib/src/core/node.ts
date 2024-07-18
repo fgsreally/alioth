@@ -20,6 +20,10 @@ export class VirtualNode<A extends Record<string, any> = any> {
       return this.doc.findById(this.parentId)
   }
 
+  set parent(value: VirtualNode<A>) {
+    this.parentId = value.id
+  }
+
   get layer(): number {
     if (this.id === 'root')
       return 0
@@ -32,7 +36,7 @@ export class VirtualNode<A extends Record<string, any> = any> {
       id: this.id,
       attrs: this.attrs,
       index: this.index,
-      parent: this.parent,
+      parentId: this.parentId,
     }
   }
 }

@@ -23,8 +23,7 @@ function createSuite() {
   }
   bridge2.send = (e) => {
     setTimeout(() => {
-      bridge1.handle(cloneDeep(e))// fast
-      // slow
+      bridge1.handle(cloneDeep(e))// slow
     }, 20)
   }
 
@@ -114,18 +113,18 @@ describe('bridge', () => {
 
     vi.runAllTimers()
 
-    expect(remoteNode3.parent).toBe('1')
+    expect(remoteNode3.parentId).toBe('1')
     controller1.undo()
     vi.runAllTimers()
 
-    expect(remoteNode3.parent).toBe('root')
+    expect(remoteNode3.parentId).toBe('root')
     controller2.undo()
-    expect(remoteNode3.parent).toBe('root')
+    expect(remoteNode3.parentId).toBe('root')
     controller2.redo()
-    expect(remoteNode3.parent).toBe('root')
+    expect(remoteNode3.parentId).toBe('2')
 
     controller1.redo()
     vi.runAllTimers()
-    expect(remoteNode3.parent).toBe('1')
+    expect(remoteNode3.parentId).toBe('1')
   })
 })

@@ -8,7 +8,7 @@ exports[`doc and node > base action 1`] = `
     },
     "id": "1",
     "index": 0.5,
-    "parent": "root",
+    "parentId": "root",
   },
   {
     "attrs": {
@@ -16,7 +16,7 @@ exports[`doc and node > base action 1`] = `
     },
     "id": "2",
     "index": 0.25,
-    "parent": "root",
+    "parentId": "root",
   },
 ]
 `;

@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid'
 import { cloneDeep } from 'lodash-es'
 import EventEmitter from 'eventemitter3'
 import { VirtualNode } from './node'
-export type DocData = { id: string; attrs: any; index: number; parent: string }[]
+export type DocData = { id: string; attrs: any; index: number; parentId: string }[]
 
 export class VirtualDocument<A extends Record<string, any> = any> extends EventEmitter {
   nodeSet = new Set<VirtualNode<A>>()
@@ -36,13 +36,12 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
   }
 
   load(data: DocData) {
-    // this.nodeSet.clear()
-    // this.nodeSet.add(this.root)
+    this.emit('load', data)
 
-    data.forEach(({ id, attrs, index, parent }) => {
+    data.forEach(({ id, attrs, index, parentId }) => {
       const node = new VirtualNode(attrs, id)
       node.index = index
-      node.parentId = parent
+      node.parentId = parentId
       node.doc = this
       this.nodeSet.add(node)
     })
@@ -103,7 +102,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     const childs = this.findChildrens(parent)
     const index1 = childs[index - 1]?.index || 0
     const index2 = childs[index]?.index || 1
-    const { parent: lastParent, index: lastIndex } = node
+    const { parentId: lastParentId, index: lastIndex } = node
     node.parentId = parent.id
     node.index = (index2 + index1) / 2 + this.seed
 
@@ -118,7 +117,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     else {
       this.emit('swap', {
         node,
-        lastParentId: lastParent,
+        lastParentId,
         lastIndex,
 
       })

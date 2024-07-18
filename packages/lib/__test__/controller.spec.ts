@@ -16,6 +16,17 @@ describe('controller', () => {
 
     doc.set(node1, 'id', 'test1')
 
+    // load
+    const doc2 = new VirtualDocument()
+
+    const c2 = new Controller(doc2)
+    doc2.load(cloneDeep(doc.store()))
+
+    c2.undo()
+    expect(doc2.nodeSet.size).toBe(0)
+    c2.redo()
+    expect(doc2.nodeSet.size).toBe(3)
+
     expect(doc.nodeSet.size).toBe(3)
 
     doc.remove(node1)
@@ -23,6 +34,7 @@ describe('controller', () => {
     expect(doc.findChildrens(doc.root).length).toBe(0)
 
     c.undo()
+
     expect(doc.nodes.length).toBe(3)
 
     c.undo()
@@ -100,7 +112,9 @@ describe('controller', () => {
     }
 
     // doc1 action
+
     doc.insert(node5, doc.root)
+
     expect(doc2.findChildrens(doc2.root).length).toBe(4)
     doc.insert(node2, node1)
 
