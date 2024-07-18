@@ -6,25 +6,28 @@ import type { DocData, VirtualDocument } from './document'
 
 interface Options {
   length: number
+  timeout: number
 }
 
 export class Controller extends EventEmitter {
   options: Options
   undoStack: NodeEvent[] = []
   redoStack: NodeEvent[] = []
-
+  currentEvent: NodeEventData | undefined
   currentEventId: string | undefined
+  protected timer: NodeJS.Timeout | undefined
   constructor(public doc: VirtualDocument<any>, options: Partial<Options> = {}) {
     super()
     this.options = {
       length: 300,
-      // debounce: 300,
+      timeout: 300,
+
       ...options,
     }
 
     doc.on('insert', ({ node }: any) => {
       this.redoStack = []
-      this.addEvent({
+      this.initEvent({
         records: doc.flat(node).map(({ attrs, id, parentId, index }) => {
           return {
             attrs,
@@ -34,44 +37,35 @@ export class Controller extends EventEmitter {
           }
         }),
         type: 'insert',
-        eventId: this.currentEventId || nanoid(),
-        mode: -1,
 
       })
     })
 
     doc.on('swap', ({ node, lastParentId, lastIndex }: any) => {
       this.redoStack = []
-      this.addEvent({
+      this.initEvent({
         parentId: node.parentId,
         type: 'swap',
         lastParentId,
         index: node.index,
         lastIndex,
         nodeId: node.id,
-        eventId: this.currentEventId || nanoid(),
-        mode: -1,
-
       })
     })
 
     doc.on('load', (data: DocData) => {
       this.redoStack = []
-      this.addEvent({
+      this.initEvent({
         data,
         type: 'load',
-        eventId: this.currentEventId || nanoid(),
-        mode: -1,
       })
     })
 
     doc.on('remove', ({ node }: any) => {
       this.redoStack = []
-      this.addEvent({
-        mode: -1,
+      this.initEvent({
 
         type: 'remove',
-        eventId: this.currentEventId || nanoid(),
         records: doc.flat(node).map(({ attrs, id, parentId, index }) => {
           return {
             attrs,
@@ -85,16 +79,48 @@ export class Controller extends EventEmitter {
 
     doc.on('set', ({ node, key, value, oldValue }: any) => {
       this.redoStack = []
-      this.addEvent({
-        mode: -1,
+      this.initEvent({
         key,
         value: cloneDeep(value),
         type: 'set',
         oldValue: cloneDeep(oldValue),
         nodeId: node.id,
-        eventId: this.currentEventId || nanoid(),
+        // eventId: this.currentEventId || nanoid(),
       })
     })
+  }
+
+  initEvent(event: NodeEventData) {
+    if (this.timer) {
+      clearTimeout(this.timer)
+
+      if (!this.isSameEvent(event))
+        this.addEvent({ ...this.currentEvent!, mode: -1, eventId: this.currentEventId || nanoid() })
+    }
+
+    this.currentEvent = event
+
+    this.timer = setTimeout(() => {
+      this.addEvent({ ...this.currentEvent!, mode: -1, eventId: this.currentEventId || nanoid() })
+
+      this.timer = this.currentEvent = undefined
+    }, this.options.timeout)
+
+    this.emit('init', event)
+  }
+
+  isSameEvent(event: NodeEventData) {
+    if (!this.currentEvent)
+      return false
+
+    if (event.type === 'set' && this.currentEvent.type === 'set') {
+      if (event.nodeId === this.currentEvent.nodeId && this.currentEvent.key === event.key) {
+        event.oldValue = this.currentEvent.oldValue
+        return true
+      }
+    }
+
+    return false
   }
 
   invokeBridge(_event: NodeEvent) {
@@ -104,7 +130,7 @@ export class Controller extends EventEmitter {
   refresh() {
     this.redoStack = []
     this.undoStack = []
-    this.currentEventId = undefined
+    this.timer = this.currentEventId = this.currentEvent = undefined
   }
 
   transact(cb: () => void) {
@@ -157,52 +183,6 @@ export class Controller extends EventEmitter {
   }
 
   handleUndoEvent(event: NodeEvent) {
-    // switch (event.type) {
-    //   case 'insert':
-    //     event = {
-    //       type: 'remove',
-    //       eventId: event.eventId,
-    //       records: event.records,
-    //     }
-    //     break
-
-    //   case 'remove':
-    //     event = {
-    //       type: 'insert',
-    //       eventId: event.eventId,
-    //       records: event.records,
-    //     }
-    //     break
-    //   case 'swap':
-    //     event = {
-    //       type: 'swap',
-    //       eventId: event.eventId,
-    //       index: event.lastIndex,
-    //       lastIndex: event.index,
-    //       lastParentId: event.parentId,
-    //       parentId: event.lastParentId,
-    //       nodeId: event.nodeId,
-    //     }
-    //     break
-    //   case 'set':
-    //     event = {
-    //       type: 'set',
-    //       eventId: event.eventId,
-    //       nodeId: event.nodeId,
-    //       key: event.key,
-    //       value: event.oldValue,
-    //       oldValue: event.value,
-
-    //     }
-    //     break
-    //   case 'load':
-    //     event = {
-    //       type: 'load',
-    //       eventId: event.eventId,
-    //       data: event.data,
-
-    //     }
-    // }
     const isWork = this.applyEvent(event)!
 
     this.emit(isWork ? 'success' : 'fail', event)
@@ -310,7 +290,7 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
   return false
 }
 
-interface BaseEvent {
+export interface EventBase {
   eventId: string
   mode: -1 | 1
 }
@@ -322,34 +302,33 @@ interface NodeRecord {
   index: number
 }
 
-export interface LoadEvent extends BaseEvent {
+export interface LoadEvent {
   type: 'load'
   data: DocData
 }
 
-export interface SwapEvent extends BaseEvent {
+export interface SwapEvent {
   type: 'swap'
   nodeId: string
-
   lastParentId: string
   lastIndex: number
   index: number
   parentId: string
 }
 
-export interface InsertEvent extends BaseEvent {
+export interface InsertEvent {
   type: 'insert'
   records: NodeRecord[]
 
 }
 
-export interface RemoveEvent extends BaseEvent {
+export interface RemoveEvent {
   type: 'remove'
 
   records: NodeRecord[]
 }
 
-export interface SetEvent extends BaseEvent {
+export interface SetEvent {
   type: 'set'
   nodeId: string
 
@@ -358,8 +337,9 @@ export interface SetEvent extends BaseEvent {
   value: any
 }
 
-export type NodeEvent = SetEvent | InsertEvent | RemoveEvent | SwapEvent | LoadEvent
+export type NodeEventData = SetEvent | InsertEvent | RemoveEvent | SwapEvent | LoadEvent
 
+export type NodeEvent = NodeEventData & EventBase
 export function diff(nodes1: VirtualNode[], nodes2: VirtualNode[]) {
   const removeRecords = [] as NodeRecord[]
   const insertRecords = [] as NodeRecord[]

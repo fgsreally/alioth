@@ -1,12 +1,19 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cloneDeep } from 'lodash-es'
 import { Controller, VirtualDocument, VirtualNode, diff } from '../src'
 
 describe('controller', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
   it('undo/redo', () => {
     const doc = new VirtualDocument()
 
     const c = new Controller(doc)
+
     const node1 = new VirtualNode({ id: '1' }, '1')
     const node2 = new VirtualNode({ id: '2' }, '2')
     const node3 = new VirtualNode({ id: '3' }, '3')
@@ -14,13 +21,17 @@ describe('controller', () => {
     doc.insert(node2, node1)
     doc.insert(node3, node1)
 
+    doc.set(node1, 'id', '2')// throttle
     doc.set(node1, 'id', 'test1')
+
+    vi.runAllTimers()
 
     // load
     const doc2 = new VirtualDocument()
 
     const c2 = new Controller(doc2)
     doc2.load(cloneDeep(doc.store()))
+    vi.runAllTimers()
 
     c2.undo()
     expect(doc2.nodeSet.size).toBe(0)
@@ -30,6 +41,7 @@ describe('controller', () => {
     expect(doc.nodeSet.size).toBe(3)
 
     doc.remove(node1)
+    vi.runAllTimers()
 
     expect(doc.findChildrens(doc.root).length).toBe(0)
 
@@ -114,22 +126,29 @@ describe('controller', () => {
     // doc1 action
 
     doc.insert(node5, doc.root)
+    vi.runAllTimers()
 
     expect(doc2.findChildrens(doc2.root).length).toBe(4)
     doc.insert(node2, node1)
+    vi.runAllTimers()
 
     expect(doc2.findChildrens(doc2.root).length).toBe(3)
     // console.log(doc2.nodes)
     expect(doc2.findChildrens(doc2.findById('1')!).length).toBe(1)
 
     doc.set(node1, 'id', 'test1')
+    vi.runAllTimers()
+
     expect(doc2.findById('1')!.attrs.id).toBe('test1')
 
     doc.remove(node3)
+    vi.runAllTimers()
+
     expect(doc2.nodes.length).toBe(3)
 
     // doc2 action
     doc2.insert(node6, doc2.root)
+    vi.runAllTimers()
 
     expect(doc.findChildrens(doc.root).length).toBe(3)
 
@@ -160,6 +179,7 @@ describe('controller', () => {
     c.transact(() => {
       doc.insert(node1, doc.root)
       doc.set(node1, 'id', 'test1')
+      vi.runAllTimers()
     })
 
     c.undo()
