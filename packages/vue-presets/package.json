@@ -1,14 +1,15 @@
 {
-  "name": "vue-presets",
+  "name": "alioth-vue-presets",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
   "author": "",
   "license": "ISC",
+  "keywords": [],
+  "main": "index.js",
+  "scripts": {
+    "type-check": "vue-tsc --noEmit ",
+    "dts": "vue-tsc --declaration --emitDeclarationOnly"
+  },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/tsconfig": "^0.4.0",
