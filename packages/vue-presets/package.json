@@ -8,11 +8,19 @@
   "main": "index.js",
   "scripts": {
     "type-check": "vue-tsc --noEmit ",
-    "dts": "vue-tsc --declaration --emitDeclarationOnly"
+    "dts": "vue-tsc --declaration --emitDeclarationOnly",
+    "build": "npm run dts && vite build"
+  },
+  "dependencies": {
+    "alioth-vue": "workspace:0.1.0-beta.1",
+    "grid-layout-plus": "^1.0.5",
+    "gridstack": "^10.3.0",
+    "vue": "^3.4.32"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/tsconfig": "^0.4.0",
-    "vite": "^5.3.4"
+    "vite": "^5.3.4",
+    "vue-tsc": "^2.0.26"
   }
 }
