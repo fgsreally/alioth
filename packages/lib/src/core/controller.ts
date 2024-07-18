@@ -24,10 +24,10 @@ export class Controller extends EventEmitter {
     doc.on('insert', ({ node }: any) => {
       this.redoStack = []
       this.addEvent({
-        records: doc.flat(node).map(({ attrs, id, parent, index }) => {
+        records: doc.flat(node).map(({ attrs, id, parentId, index }) => {
           return {
             attrs,
-            parentId: parent,
+            parentId,
             index,
             nodeId: id,
           }
@@ -40,7 +40,7 @@ export class Controller extends EventEmitter {
     doc.on('swap', ({ node, lastParentId, lastIndex }: any) => {
       this.redoStack = []
       this.addEvent({
-        parentId: node.parent,
+        parentId: node.parentId,
         type: 'swap',
         lastParentId,
         index: node.index,
@@ -55,10 +55,10 @@ export class Controller extends EventEmitter {
       this.addEvent({
         type: 'remove',
         eventId: this.currentEventId || nanoid(),
-        records: doc.flat(node).map(({ attrs, id, parent, index }) => {
+        records: doc.flat(node).map(({ attrs, id, parentId, index }) => {
           return {
             attrs,
-            parentId: parent,
+            parentId,
             index,
             nodeId: id,
           }
@@ -196,7 +196,7 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
 
     event.records.forEach(({ attrs, nodeId, parentId, index }) => {
       const node = new VirtualNode(attrs, nodeId)
-      node.parent = parentId
+      node.parentId = parentId
       node.index = index
       doc.nodeSet.add(node)
     })
@@ -227,13 +227,13 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
     if (!newNode || !parentNode)
       return false
 
-    if (newNode.parent !== event.lastParentId)
-      event.lastParentId = newNode.parent
+    if (newNode.parentId !== event.lastParentId)
+      event.lastParentId = newNode.parentId
 
     if (newNode.index !== event.lastIndex)
       event.lastIndex = newNode.index
 
-    newNode.parent = event.parentId
+    newNode.parentId = event.parentId
     newNode.index = event.index
 
     return true
@@ -394,19 +394,19 @@ export function diff(nodes1: VirtualNode[], nodes2: VirtualNode[]) {
     if (!node) {
       removeRecords.push({
         nodeId: n.id,
-        parentId: n.parent,
+        parentId: n.parentId,
         attrs: n.attrs,
         index: n.index,
       })
     }
     else {
-      if (node.index !== n.index || node.parent !== n.parent) {
+      if (node.index !== n.index || node.parentId !== n.parentId) {
         swapRecords.push({
           nodeId: n.id,
-          lastParentId: n.parent,
+          lastParentId: n.parentId,
           lastIndex: n.index,
           index: node.index,
-          parentId: node.parent,
+          parentId: node.parentId,
         })
       }
 
@@ -427,7 +427,7 @@ export function diff(nodes1: VirtualNode[], nodes2: VirtualNode[]) {
     if (!node) {
       insertRecords.push({
         nodeId: n.id,
-        parentId: n.parent,
+        parentId: n.parentId,
         attrs: n.attrs,
         index: n.index,
       })
@@ -475,11 +475,7 @@ export function merge(base: VirtualNode[], branch1: VirtualNode[], branch2: Virt
   swapRecords.forEach(({ nodeId, parentId, index }) => {
     const node = newBranch.find(node => node.id === nodeId)!
 
-    //     const parent = newBranch.find(item => item.id === parentId)
-    // if(!parent){
-    //   conf
-    // }
-    node.parent = parentId
+    node.parentId = parentId
     node.index = index
   })
 

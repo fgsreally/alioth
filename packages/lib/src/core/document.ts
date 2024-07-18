@@ -42,7 +42,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     data.forEach(({ id, attrs, index, parent }) => {
       const node = new VirtualNode(attrs, id)
       node.index = index
-      node.parent = parent
+      node.parentId = parent
       node.doc = this
       this.nodeSet.add(node)
     })
@@ -72,7 +72,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
   }
 
   findChildrens(node: VirtualNode<A>) {
-    return this.nodes.filter(item => item.parent === node.id).sort((n1, n2) => n1.index - n2.index)
+    return this.nodes.filter(item => item.parentId === node.id).sort((n1, n2) => n1.index - n2.index)
   }
 
   findAllChildrens(node: VirtualNode<A>) {
@@ -88,7 +88,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
   }
 
   findParent(node: VirtualNode<A>) {
-    return this.nodes.find(item => item.id === node.parent)
+    return this.nodes.find(item => item.id === node.parentId)
   }
 
   findBrothers(node: VirtualNode<A>) {
@@ -104,7 +104,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     const index1 = childs[index - 1]?.index || 0
     const index2 = childs[index]?.index || 1
     const { parent: lastParent, index: lastIndex } = node
-    node.parent = parent.id
+    node.parentId = parent.id
     node.index = (index2 + index1) / 2 + this.seed
 
     if (!this.findById(node.id)) {
@@ -136,7 +136,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
 
   protected removeChilds(node: VirtualNode<A>) {
     this.nodes.forEach((n) => {
-      if (n.parent === node.id) {
+      if (n.parentId === node.id) {
         this.nodeSet.delete(n)
         this.removeChilds(n)
       }
