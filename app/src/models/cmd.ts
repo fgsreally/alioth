@@ -38,7 +38,7 @@ export class CmdModel {
       description: '页面节点',
       usage: 'container',
       exec: () => {
-        return this.selection.selectedPage
+        return this.selection.se
       },
     },
     {

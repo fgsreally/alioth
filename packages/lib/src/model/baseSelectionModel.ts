@@ -8,9 +8,6 @@ export class BaseSelectionModel<T extends Record<string, any> = any> {
   hoverNode: VirtualNode<T> | undefined
   selectedPage: VirtualNode<T>
   selectedScope: Scope
-  selectNode(node: VirtualNode<T>) {
-    this.selectedNode = node
-  }
 
   switchPage(page: VirtualNode<T>) {
     if (page.parentId !== 'root')

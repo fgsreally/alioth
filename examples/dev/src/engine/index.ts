@@ -1,6 +1,6 @@
-import { ComponentRenderer, Mixin, createRenderer } from 'alioth-vue'
+import { ComponentRenderer } from 'alioth-vue'
+import { Mixin } from 'phecda-vue'
 import component from './test.vue'
-
 import { Renderer } from './renderer'
 export const container = {
   alioth: 'widget',

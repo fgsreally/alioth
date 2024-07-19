@@ -2,9 +2,10 @@ import type { Options } from 'tsup'
 
 export const tsup: Options = {
   entry: ['src/index.ts'],
-  format: [ 'esm'],
+  format: ['esm'],
   dts: true,
-  splitting: false,
+  splitting: true,
   shims: false,
+  clean: true,
   sourcemap: !process.env.CI,
 }

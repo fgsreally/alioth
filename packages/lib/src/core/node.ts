@@ -15,9 +15,8 @@ export class VirtualNode<A extends Record<string, any> = any> {
     this.oldAttrs = cloneDeep(attrs)
   }
 
-  get parent(): VirtualNode<A> | undefined {
-    if (this.doc)
-      return this.doc.findById(this.parentId)
+  get parent(): VirtualNode<A> {
+    return this.doc.findById(this.parentId)!
   }
 
   set parent(value: VirtualNode<A>) {

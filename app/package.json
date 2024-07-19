@@ -5,12 +5,10 @@
   "private": true,
   "scripts": {
     "dev": "vite --port 4010",
-    "share-lib": "vite build -c vite.config.lib.ts",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
-    "server": "y-websocket-server"
+    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
     "@codemirror/commands": "^6.3.0",
@@ -26,8 +24,9 @@
     "axios": "^1.5.0",
     "codemirror": "^6.0.1",
     "lodash-es": "^4.17.21",
-    "phecda-vue": "4.0.7",
-    "vue": "^3.3.2",
+    "phecda-vue": "4.0.8",
+    "radix-vue": "^1.9.1",
+    "vue": "^3.4.32",
     "vue-codemirror": "^6.1.1",
     "vue-router": "^4.2.0",
     "vue3-toastify": "^0.2.2"
@@ -42,7 +41,7 @@
     "npm-run-all": "^4.1.5",
     "sass": "^1.62.1",
     "typescript": "~5.0.4",
-    "unocss": "^0.52.3",
+    "unocss": "^0.61.5",
     "unplugin-auto-import": "^0.13.0",
     "unplugin-icons": "^0.16.3",
     "unplugin-swc": "^1.5.1",

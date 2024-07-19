@@ -94,19 +94,22 @@ export class Controller extends EventEmitter {
     if (this.timer) {
       clearTimeout(this.timer)
 
-      if (!this.isSameEvent(event))
-        this.addEvent({ ...this.currentEvent!, mode: -1, eventId: this.currentEventId || nanoid() })
+      if (!this.isSameEvent(event)) {
+        const e = { ...this.currentEvent!, mode: -1, eventId: this.currentEventId || nanoid() } as NodeEvent
+        this.emit('init', e)
+        this.addEvent(e)
+      }
     }
 
     this.currentEvent = event
 
     this.timer = setTimeout(() => {
-      this.addEvent({ ...this.currentEvent!, mode: -1, eventId: this.currentEventId || nanoid() })
+      const e = { ...this.currentEvent!, mode: -1, eventId: this.currentEventId || nanoid() } as NodeEvent
+      this.addEvent(e)
+      this.emit('init', e)
 
       this.timer = this.currentEvent = undefined
     }, this.options.timeout)
-
-    this.emit('init', event)
   }
 
   isSameEvent(event: NodeEventData) {
@@ -207,6 +210,7 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
     event.records.forEach(({ attrs, nodeId, parentId, index }) => {
       const node = new VirtualNode(attrs, nodeId)
       node.parentId = parentId
+      node.doc = doc
       node.index = index
       doc.nodeSet.add(node)
     })

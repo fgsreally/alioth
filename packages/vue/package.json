@@ -22,9 +22,8 @@
   "dependencies": {
     "alioth-lib": "workspace:*",
     "lodash-es": "^4.17.21",
-    "phecda-vue": "^4.0.7",
-    "ts-mixer": "^6.0.4",
-    "vue": "^3.3.4"
+    "phecda-vue": "^4.0.8",
+    "vue": "^3.4.32"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.7",

@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Attr: typeof import('./src/components/zones/Attr.vue')['default']
     Bundle: typeof import('./src/components/headers/Bundle.vue')['default']
+    Button: typeof import('./src/components/ui/button/Button.vue')['default']
     Dialog: typeof import('./src/components/base/Dialog.vue')['default']
     Download: typeof import('./src/components/headers/Download.vue')['default']
     DragBox: typeof import('./src/components/wrappers/DragBox.vue')['default']

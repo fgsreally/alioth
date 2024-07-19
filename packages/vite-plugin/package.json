@@ -30,6 +30,6 @@
   },
   "devDependencies": {
     "alioth-lib": "workspace:^",
-    "vue": "^3.3.2"
+    "vue": "^3.4.32"
   }
 }
