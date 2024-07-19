@@ -3,7 +3,7 @@ import type { Scope, VirtualNode } from '../core'
 
 @Global
 @Tag('selection')
-export class BaseSelectionModel<T extends Record<string, any>> {
+export class BaseSelectionModel<T extends Record<string, any> = any> {
   selectedNode: VirtualNode<T> | undefined
   hoverNode: VirtualNode<T> | undefined
   selectedPage: VirtualNode<T>

@@ -406,15 +406,6 @@ importers:
 
   packages/vue:
     dependencies:
-      '@codemirror/commands':
-        specifier: ^6.3.0
-        version: 6.3.0
-      '@codemirror/state':
-        specifier: ^6.3.1
-        version: 6.3.1
-      '@codemirror/view':
-        specifier: ^6.21.3
-        version: 6.21.3
       alioth-lib:
         specifier: workspace:*
         version: link:../lib
@@ -423,7 +414,7 @@ importers:
         version: 4.17.21
       phecda-vue:
         specifier: ^4.0.7
-        version: 4.0.7(typescript@4.9.4)
+        version: 4.0.7
       ts-mixer:
         specifier: ^6.0.4
         version: 6.0.4
@@ -442,7 +433,7 @@ importers:
         version: 24.0.0
       tsup:
         specifier: ^6.5.0
-        version: 6.5.0(typescript@4.9.4)
+        version: 6.5.0
       vitest:
         specifier: ^0.34.1
         version: 0.34.1(jsdom@24.0.0)
@@ -3746,7 +3737,7 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 3.4.21
       '@vue/shared': 3.4.21
-      vue: 3.4.21(typescript@5.5.3)
+      vue: 3.4.21
 
   /@vue/server-renderer@3.4.32(vue@3.4.32):
     resolution: {integrity: sha512-3c4rd0522Ao8hKjzgmUAbcjv2mBnvnw0Ld2f8HOMCuWJZjYie/p8cpIoYJbeP0VV2JYmrJJMwGQDO5RH4iQ30A==}
@@ -8124,12 +8115,12 @@ packages:
       - supports-color
     dev: false
 
-  /phecda-vue@4.0.7(typescript@4.9.4):
+  /phecda-vue@4.0.7:
     resolution: {integrity: sha512-jGKeAYtwj9Ct4J1OO3NnqqpRewDY4agT6ldioeyQIwwu86Yg8VDZey+wGsKHpbYj/CHEY5HY3VyBekn/5ntjiQ==}
     dependencies:
       '@vue/devtools-api': 6.6.3
       phecda-web: 2.0.7
-      vue: 3.4.21(typescript@4.9.4)
+      vue: 3.4.21
     transitivePeerDependencies:
       - typescript
     dev: false
@@ -9372,6 +9363,41 @@ packages:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
     dev: false
 
+  /tsup@6.5.0:
+    resolution: {integrity: sha512-36u82r7rYqRHFkD15R20Cd4ercPkbYmuvRkz3Q1LCm5BsiFNUgpo36zbjVhCOgvjyxNBWNKHsaD5Rl8SykfzNA==}
+    engines: {node: '>=14'}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': ^1
+      postcss: ^8.4.12
+      typescript: ^4.1.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      postcss:
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      bundle-require: 3.1.2(esbuild@0.15.18)
+      cac: 6.7.14
+      chokidar: 3.5.3
+      debug: 4.3.4
+      esbuild: 0.15.18
+      execa: 5.1.1
+      globby: 11.1.0
+      joycon: 3.1.1
+      postcss-load-config: 3.1.4
+      resolve-from: 5.0.0
+      rollup: 3.29.0
+      source-map: 0.8.0-beta.0
+      sucrase: 3.32.0
+      tree-kill: 1.2.2
+    transitivePeerDependencies:
+      - supports-color
+      - ts-node
+    dev: true
+
   /tsup@6.5.0(@swc/core@1.6.13)(typescript@5.3.3):
     resolution: {integrity: sha512-36u82r7rYqRHFkD15R20Cd4ercPkbYmuvRkz3Q1LCm5BsiFNUgpo36zbjVhCOgvjyxNBWNKHsaD5Rl8SykfzNA==}
     engines: {node: '>=14'}
@@ -9662,6 +9688,7 @@ packages:
     resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
+    dev: true
 
   /typescript@5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
@@ -10550,6 +10577,20 @@ packages:
       '@vue/server-renderer': 3.3.4(vue@3.3.4)
       '@vue/shared': 3.3.4
 
+  /vue@3.4.21:
+    resolution: {integrity: sha512-5hjyV/jLEIKD/jYl4cavMcnzKwjMKohureP8ejn3hhEjwhWIhWeuzL2kJAjzl/WyVsgPY56Sy4Z40C3lVshxXA==}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/compiler-dom': 3.4.21
+      '@vue/compiler-sfc': 3.4.21
+      '@vue/runtime-dom': 3.4.21
+      '@vue/server-renderer': 3.4.21(vue@3.4.21)
+      '@vue/shared': 3.4.21
+
   /vue@3.4.21(typescript@4.9.4):
     resolution: {integrity: sha512-5hjyV/jLEIKD/jYl4cavMcnzKwjMKohureP8ejn3hhEjwhWIhWeuzL2kJAjzl/WyVsgPY56Sy4Z40C3lVshxXA==}
     peerDependencies:
@@ -10564,6 +10605,7 @@ packages:
       '@vue/server-renderer': 3.4.21(vue@3.4.21)
       '@vue/shared': 3.4.21
       typescript: 4.9.4
+    dev: true
 
   /vue@3.4.21(typescript@5.0.4):
     resolution: {integrity: sha512-5hjyV/jLEIKD/jYl4cavMcnzKwjMKohureP8ejn3hhEjwhWIhWeuzL2kJAjzl/WyVsgPY56Sy4Z40C3lVshxXA==}
@@ -10594,6 +10636,7 @@ packages:
       '@vue/server-renderer': 3.4.21(vue@3.4.21)
       '@vue/shared': 3.4.21
       typescript: 5.5.3
+    dev: true
 
   /vue@3.4.32(typescript@5.5.3):
     resolution: {integrity: sha512-9mCGIAi/CAq7GtaLLLp2J92pEic+HArstG+pq6F+H7+/jB9a0Z7576n4Bh4k79/50L1cKMIhZC3MC0iGpl+1IA==}
