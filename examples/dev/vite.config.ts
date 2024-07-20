@@ -24,10 +24,7 @@ export default defineConfig({
 
       },
       externals: {
-        'vue': 'http://localhost:4010/vue.js',
-        'phecda-core': 'http://localhost:4010/phecda-vue.js',
-        'phecda-vue': 'http://localhost:4010/phecda-vue.js',
-        'alioth-vue': 'http://localhost:4010/alioth-vue.js',
+
       },
     }),
 

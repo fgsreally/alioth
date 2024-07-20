@@ -3,7 +3,7 @@ import { URL, fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import Icons from 'unplugin-icons/vite'
 
-import { External } from 'vite-plugin-alioth'
+import { External, Importmap } from 'vite-plugin-alioth'
 import Vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -27,12 +27,14 @@ export default defineConfig({
         },
       },
     }),
-    External({
-      externals: {
-        'vue': 'http://localhost:4010/vue.js',
-        'phecda-core': 'http://localhost:4010/phecda-vue.js',
-        'phecda-vue': 'http://localhost:4010/phecda-vue.js',
-        'alioth-vue': 'http://localhost:4010/alioth-vue.js',
+    External(),
+    Importmap({
+      imports: {
+        'phecda-vue': '/phecda-vue.js',
+        'phecda-core': '/phecda-vue.js',
+
+        'alioth-vue': '/alioth-vue.js',
+        'vue': '/vue.js',
 
       },
     }),

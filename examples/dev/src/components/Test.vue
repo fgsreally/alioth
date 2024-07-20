@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { test } = defineProps<{ test: any }>()
+console.log(test)
 </script>
 
 <template>

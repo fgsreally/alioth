@@ -1,4 +1,4 @@
-import { Global, Tag } from 'phecda-core'
+import { Global, Init, Tag } from 'phecda-core'
 import { Controller, VirtualDocument } from '../core'
 
 @Global
@@ -9,7 +9,10 @@ export class BaseDocModel<T extends Record<string, any> = any> extends VirtualDo
 
   constructor() {
     super()
+  }
 
+  @Init
+  private init() {
     this.controller = new Controller(this)
   }
 

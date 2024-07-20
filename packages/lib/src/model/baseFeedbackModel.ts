@@ -16,7 +16,7 @@ export class BaseFeedbackModel {
 
   @Init
 
-  private _init() {
+  private init() {
     (['error', 'warn', 'debug', 'log', 'info'] as const).forEach((item) => {
       this.internal.registerMethod(item, (...arg) => {
         // @ts-expect-error can overwrite method , to support flexible parameters

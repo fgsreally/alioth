@@ -10,6 +10,7 @@ const { store } = $(useV(Internal))
 
 setTimeout(() => {
   insert(createNode({ key: 'test', msg: '11', test: { a: 'a', b: 'b' } }), selectedPage)
+
   // insert(createNode({ key: 'btn', click: '{{changeLabel}}' }), selectedPage)
 }, 5000)
 </script>

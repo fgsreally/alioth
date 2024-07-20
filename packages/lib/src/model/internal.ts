@@ -13,7 +13,7 @@ export class Internal {
   // only work for prod
   document = new VirtualDocument()
   @Init
-  private _init() {
+  private init() {
     window.__ALIOTH__ = this
   }
 

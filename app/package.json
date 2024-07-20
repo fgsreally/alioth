@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --port 4010",
     "build": "run-p type-check build-only",
+    "build:share-dep": "node ./scripts/build-share-dep",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"

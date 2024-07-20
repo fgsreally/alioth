@@ -43,7 +43,7 @@ export class BaseConnectModel {
   }
 
   @Init
-  private async _init() {
+  private async init() {
     this.internal.registerMethod('hmr', (url: string, module: any) => {
       // vite hmr will cause xx?t=xx
       this.record[url.split('?')[0]] = this.importModule(module)
