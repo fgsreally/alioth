@@ -1,44 +1,81 @@
 import { Global, Tag } from 'phecda-core'
 import type { Scope, VirtualNode } from '../core'
+import { BaseDocModel } from './baseDocModel'
 
 @Global
 @Tag('selection')
-export class BaseSelectionModel<T extends Record<string, any> = any> {
-  selectedNode: VirtualNode<T> | undefined
-  hoverNode: VirtualNode<T> | undefined
-  selectedPage: VirtualNode<T>
+export class BaseSelectionModel<NodeAttrs extends Record<string, any> = any> {
   selectedScope: Scope
 
-  switchPage(page: VirtualNode<T>) {
-    if (page.parentId !== 'root')
-      throw new Error('page parent should be \'root\' ')
-    this.selectedPage = page
+  constructor(protected doc: BaseDocModel<NodeAttrs>) {
+
   }
 
-  protected readonly activeNodeSet = new Set<VirtualNode<T>>()
+  protected _selectedPageId: string | undefined
+
+  get selectedPage(): VirtualNode | undefined {
+    return this._selectedPageId ? this.doc.findById(this._selectedPageId) : undefined
+  }
+
+  set selectedPage(page: VirtualNode) {
+    if (page.parentId !== 'root')
+      throw new Error('page parent should be \'root\' ')
+    this._selectedPageId = page.id
+  }
+
+  protected _selectedNodeId: string | undefined
+
+  get selectedNode(): VirtualNode | undefined {
+    return this._selectedNodeId ? this.doc.findById(this._selectedNodeId) : undefined
+  }
+
+  set selectedNode(node: VirtualNode) {
+    this._selectedNodeId = node.id
+  }
+
+  protected _hoverNodeId: string | undefined
+
+  get hoverNode(): VirtualNode | undefined {
+    return this._hoverNodeId ? this.doc.findById(this._hoverNodeId) : undefined
+  }
+
+  set hoverNode(node: VirtualNode) {
+    this._hoverNodeId = node.id
+  }
+
+  protected readonly _activeNodeSet = new Set<string>()
 
   get activeNodes() {
-    return [...this.activeNodeSet]
+    const nodes: VirtualNode<NodeAttrs>[] = []
+    for (const i of this._activeNodeSet) {
+      const node = this.doc.findById(i)
+      if (!node)
+        this._activeNodeSet.delete(i)
+      else
+        nodes.push(node)
+    }
+
+    return nodes
   }
 
   clearActiveNodes() {
-    this.activeNodeSet.clear()
+    this._activeNodeSet.clear()
   }
 
-  deactiveNode(node: VirtualNode<T>) {
-    this.activeNodeSet.delete(node)
+  deactiveNode(node: VirtualNode<NodeAttrs>) {
+    this._activeNodeSet.delete(node.id)
   }
 
-  activeNode(node: VirtualNode<T>) {
-    this.activeNodeSet.add(node)
+  activeNode(node: VirtualNode<NodeAttrs>) {
+    this._activeNodeSet.add(node.id)
   }
 
-  toggleNode(node: VirtualNode<T>) {
+  toggleNode(node: VirtualNode<NodeAttrs>) {
     this.isActiveNode(node) ? this.deactiveNode(node) : this.activeNode(node)
   }
 
-  isActiveNode(node: VirtualNode<T>) {
-    return this.activeNodeSet.has(node)
+  isActiveNode(node: VirtualNode<NodeAttrs>) {
+    return this._activeNodeSet.has(node.id)
   }
 
   protected readonly scopeSet = new Set<Scope>()
@@ -48,7 +85,7 @@ export class BaseSelectionModel<T extends Record<string, any> = any> {
   }
 
   clearActiveScopes() {
-    this.activeNodeSet.clear()
+    this._activeNodeSet.clear()
   }
 
   deactiveScope(scope: Scope) {

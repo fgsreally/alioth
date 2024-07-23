@@ -3,7 +3,7 @@ import { Controller, VirtualDocument } from '../core'
 
 @Global
 @Tag('doc')
-export class BaseDocModel<T extends Record<string, any> = any> extends VirtualDocument<T> {
+export class BaseDocModel<NodeAttrs extends Record<string, any> = any> extends VirtualDocument<NodeAttrs> {
   activeId: string
   controller: Controller
 

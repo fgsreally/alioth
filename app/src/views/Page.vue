@@ -2,7 +2,7 @@
 import { useV } from 'phecda-vue'
 import { DocModel } from '@/models/doc'
 const { remove, addPage, pages } = $(useV(DocModel))
-const { switchPage, selectedPage } = $(useV(SelectionModel))
+const { selectedPage } = useV(SelectionModel)
 </script>
 
 <template>
@@ -12,7 +12,7 @@ const { switchPage, selectedPage } = $(useV(SelectionModel))
       border-font-t relative :class="{
         'border-b-none border-p color-on-p': item.id === selectedPage?.id,
 
-      }" @click="switchPage(item)"
+      }" @click="selectedPage = item"
     >
       <Editable v-model="item.attrs.title" class="m-x-2" />
       <IconClose absolute right-1 w-3 h-3 rd-2 hover:bg-on-b color-p @click.stop="remove(item)" />
