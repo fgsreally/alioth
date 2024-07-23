@@ -13,7 +13,6 @@
     "@primevue/themes": "^4.0.0",
     "alioth-vue": "workspace:0.1.0-beta.1",
     "gridstack": "^10.3.0",
-    "lodash-es": "^4.17.21",
     "phecda-vue": "^4.0.8",
     "primevue": "^4.0.0",
     "rollup-plugin-visualizer": "^5.9.2",

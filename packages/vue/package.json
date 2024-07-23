@@ -21,12 +21,10 @@
   },
   "dependencies": {
     "alioth-lib": "workspace:*",
-    "lodash-es": "^4.17.21",
     "phecda-vue": "^4.0.8",
     "vue": "^3.4.32"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.7",
     "@vue/test-utils": "^2.4.5",
     "jsdom": "^24.0.0",
     "tsup": "^6.5.0",

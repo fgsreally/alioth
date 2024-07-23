@@ -1,5 +1,5 @@
-import { cloneDeep } from 'lodash-es'
 import { nanoid } from 'nanoid'
+import { cloneDeep } from '../utils'
 
 import { VirtualDocument } from './document'
 

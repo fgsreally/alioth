@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
-import { cloneDeep, isEqual } from 'lodash-es'
 import EventEmitter from 'eventemitter3'
+import { cloneDeep, isEqual } from '../utils'
 import { VirtualNode } from './node'
 import type { DocData, VirtualDocument } from './document'
 

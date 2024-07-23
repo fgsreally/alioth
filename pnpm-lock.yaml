@@ -50,9 +50,6 @@ importers:
       '@iconify-json/lucide':
         specifier: ^1.1.96
         version: 1.1.96
-      '@types/lodash-es':
-        specifier: ^4.17.7
-        version: 4.17.7
       '@unocss/preset-icons':
         specifier: ^0.53.1
         version: 0.53.6
@@ -68,9 +65,6 @@ importers:
       codemirror:
         specifier: ^6.0.1
         version: 6.0.1(@lezer/common@1.2.1)
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
       phecda-vue:
         specifier: 4.0.8
         version: 4.0.8(typescript@5.0.4)
@@ -159,9 +153,6 @@ importers:
       gridstack:
         specifier: ^10.3.0
         version: 10.3.0
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
       phecda-vue:
         specifier: ^4.0.8
         version: 4.0.8(typescript@5.0.4)
@@ -261,8 +252,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       phecda-server:
-        specifier: 5.0.0-beta.26
-        version: 5.0.0-beta.26
+        specifier: 5.3.2
+        version: 5.3.2(@swc/core@1.7.0)
       ws:
         specifier: ^8.16.0
         version: 8.16.0
@@ -292,8 +283,8 @@ importers:
         specifier: ^6.3.0
         version: 6.3.0
       phecda-server:
-        specifier: 5.0.0-alpha.5
-        version: 5.0.0-alpha.5
+        specifier: 5.3.2
+        version: 5.3.2(@swc/core@1.7.0)
     devDependencies:
       typescript:
         specifier: ^5.3.3
@@ -307,9 +298,6 @@ importers:
       eventemitter3:
         specifier: ^5.0.1
         version: 5.0.1
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
       nanoid:
         specifier: ^4.0.0
         version: 4.0.0
@@ -320,9 +308,6 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
     devDependencies:
-      '@types/lodash-es':
-        specifier: ^4.17.7
-        version: 4.17.7
       '@types/node':
         specifier: ^18.16.8
         version: 18.16.8
@@ -357,8 +342,8 @@ importers:
         specifier: ^0.9.7
         version: 0.9.7
       phecda-server:
-        specifier: 5.0.0-alpha.4
-        version: 5.0.0-alpha.4
+        specifier: 5.3.2
+        version: 5.3.2(@swc/core@1.7.0)
       ws:
         specifier: ^8.16.0
         version: 8.16.0
@@ -412,9 +397,6 @@ importers:
       alioth-lib:
         specifier: workspace:*
         version: link:../lib
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
       phecda-vue:
         specifier: ^4.0.8
         version: 4.0.8(typescript@4.9.4)
@@ -422,9 +404,6 @@ importers:
         specifier: ^3.4.32
         version: 3.4.32(typescript@4.9.4)
     devDependencies:
-      '@types/lodash-es':
-        specifier: ^4.17.7
-        version: 4.17.7
       '@vue/test-utils':
         specifier: ^2.4.5
         version: 2.4.5
@@ -2269,7 +2248,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.5
+      debug: 4.3.4
       espree: 9.5.2
       globals: 13.20.0
       ignore: 5.2.4
@@ -2323,7 +2302,7 @@ packages:
     engines: {node: '>=10.10.0'}
     dependencies:
       '@humanwhocodes/object-schema': 1.2.1
-      debug: 4.3.5
+      debug: 4.3.4
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -2373,7 +2352,7 @@ packages:
       '@antfu/install-pkg': 0.1.1
       '@antfu/utils': 0.7.6
       '@iconify/types': 2.0.0
-      debug: 4.3.5
+      debug: 4.3.4
       kolorist: 1.8.0
       local-pkg: 0.4.3
     transitivePeerDependencies:
@@ -2862,7 +2841,6 @@ packages:
       '@swc/core': '>= 1.3'
     dependencies:
       '@swc/core': 1.7.0
-    dev: true
 
   /@swc/core-darwin-arm64@1.7.0:
     resolution: {integrity: sha512-2ylhM7f0HwUwLrFYZAe/dse8PCbPsYcJS3Dt7Q8NT3PUn7vy6QOMxNcOPPuDrnmaXqQQO3oxdmRapguTxaat9g==}
@@ -2870,7 +2848,6 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-darwin-x64@1.7.0:
@@ -2879,7 +2856,6 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-arm-gnueabihf@1.7.0:
@@ -2888,7 +2864,6 @@ packages:
     cpu: [arm]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-arm64-gnu@1.7.0:
@@ -2897,7 +2872,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-arm64-musl@1.7.0:
@@ -2906,7 +2880,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-x64-gnu@1.7.0:
@@ -2915,7 +2888,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-x64-musl@1.7.0:
@@ -2924,7 +2896,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-win32-arm64-msvc@1.7.0:
@@ -2933,7 +2904,6 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-win32-ia32-msvc@1.7.0:
@@ -2942,7 +2912,6 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-win32-x64-msvc@1.7.0:
@@ -2951,7 +2920,6 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core@1.7.0:
@@ -2977,11 +2945,9 @@ packages:
       '@swc/core-win32-arm64-msvc': 1.7.0
       '@swc/core-win32-ia32-msvc': 1.7.0
       '@swc/core-win32-x64-msvc': 1.7.0
-    dev: true
 
   /@swc/counter@0.1.3:
     resolution: {integrity: sha512-e2BR4lsJkkRlKZ/qCHPw9ZaSxc0MVUd7gtbtaB7aMvHeJVYe8sOB8DBZkP2DtISHGSku9sCK6T6cnY0CtXrOCQ==}
-    dev: true
 
   /@swc/helpers@0.5.12:
     resolution: {integrity: sha512-KMZNXiGibsW9kvZAO1Pam2JPTDBm+KSHMMHWdsyI/1DbIZjT2A6Gy3hblVXUMEDvUAKq+e0vL0X0o54owWji7g==}
@@ -2993,7 +2959,6 @@ packages:
     resolution: {integrity: sha512-qKnCno++jzcJ4lM4NTfYifm1EFSCeIfKiAHAfkENZAV5Kl9PjJIyd2yeeVv6c/2CckuLyv2NmRC5pv6pm2WQBg==}
     dependencies:
       '@swc/counter': 0.1.3
-    dev: true
 
   /@tanstack/virtual-core@3.8.3:
     resolution: {integrity: sha512-vd2A2TnM5lbnWZnHi9B+L2gPtkSeOtJOAw358JqokIH1+v2J7vUAzFVPwB/wrye12RFOurffXu33plm4uQ+JBQ==}
@@ -3114,14 +3079,6 @@ packages:
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
-
-  /@types/lodash-es@4.17.7:
-    resolution: {integrity: sha512-z0ptr6UI10VlU6l5MYhGwS4mC8DZyYer2mCoyysZtSF7p26zOX8UpbrV0YpNYLGS8K4PUFIyEr62IMFFjveSiQ==}
-    dependencies:
-      '@types/lodash': 4.14.194
-
-  /@types/lodash@4.14.194:
-    resolution: {integrity: sha512-r22s9tAS7imvBt2lyHC9B8AGwWnXaYb1tY09oyLkXDs4vArpYJzw09nj8MLx5VfciBPGIb+ZwG0ssYnEPJxn/g==}
 
   /@types/mdast@3.0.11:
     resolution: {integrity: sha512-Y/uImid8aAwrEA24/1tcRZwpxX3pIFTSilcNDKSPn+Y2iDywSEachzRuvgAYYLR3wpGXAsMbv5lvKLDZLeYPAw==}
@@ -4745,8 +4702,8 @@ packages:
     engines: {node: '>=0.6'}
     dev: true
 
-  /binary-extensions@2.2.0:
-    resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
+  /binary-extensions@2.3.0:
+    resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
     engines: {node: '>=8'}
 
   /bl@4.1.0:
@@ -4803,11 +4760,11 @@ packages:
     dependencies:
       balanced-match: 1.0.2
 
-  /braces@3.0.2:
-    resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
+  /braces@3.0.3:
+    resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
     dependencies:
-      fill-range: 7.0.1
+      fill-range: 7.1.1
 
   /breakword@1.0.5:
     resolution: {integrity: sha512-ex5W9DoOQ/LUEU3PMdLs9ua/CYZl1678NUkKOdUSi8Aw5F1idieaiRURCBFJCwVcrD1J8Iy3vfWSloaMwO2qFg==}
@@ -4984,7 +4941,7 @@ packages:
     engines: {node: '>= 8.10.0'}
     dependencies:
       anymatch: 3.1.3
-      braces: 3.0.2
+      braces: 3.0.3
       glob-parent: 5.1.2
       is-binary-path: 2.1.0
       is-glob: 4.0.3
@@ -4998,7 +4955,7 @@ packages:
     engines: {node: '>= 8.10.0'}
     dependencies:
       anymatch: 3.1.3
-      braces: 3.0.2
+      braces: 3.0.3
       glob-parent: 5.1.2
       is-binary-path: 2.1.0
       is-glob: 4.0.3
@@ -6591,8 +6548,8 @@ packages:
       flat-cache: 3.0.4
     dev: true
 
-  /fill-range@7.0.1:
-    resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
+  /fill-range@7.1.1:
+    resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
     engines: {node: '>=8'}
     dependencies:
       to-regex-range: 5.0.1
@@ -7282,7 +7239,7 @@ packages:
     resolution: {integrity: sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==}
     engines: {node: '>=8'}
     dependencies:
-      binary-extensions: 2.2.0
+      binary-extensions: 2.3.0
 
   /is-boolean-object@1.1.2:
     resolution: {integrity: sha512-gDYaKHJmnj4aWxyj6YHyXVpdQawtVLHU5cb+eztPGczf6cjuTdwve5ZIEfgXqH4e57An1D1AKf8CZ3kYrQRqYA==}
@@ -7786,10 +7743,6 @@ packages:
     dependencies:
       p-locate: 5.0.0
 
-  /lodash-es@4.17.21:
-    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
-    dev: false
-
   /lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
     dev: true
@@ -7980,7 +7933,7 @@ packages:
     resolution: {integrity: sha512-DMy+ERcEW2q8Z2Po+WNXuw3c5YaUSFjAO5GsJqfEl7UjvtIuFKO6ZrKvcItdy98dwFI2N1tg3zNIdKaQT+aNdA==}
     engines: {node: '>=8.6'}
     dependencies:
-      braces: 3.0.2
+      braces: 3.0.3
       picomatch: 2.3.1
 
   /mime-db@1.52.0:
@@ -8684,51 +8637,25 @@ packages:
     resolution: {integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==}
     dev: false
 
-  /phecda-core@3.0.0-alpha.1:
-    resolution: {integrity: sha512-PYkQuWo6ByzJ0eMDsagbK0vKYfr0+bbvZ3SF2AeqUGSDW8Kv1pZYmmlTaRr83/6li0Le0Ewruf5+BXFNAGN36w==}
-    dev: false
-
-  /phecda-core@3.0.0-beta.16:
-    resolution: {integrity: sha512-VbM9HjcP5BXZuRGWNj0zCMLGCFVYoTqHRqfLV6Huzw/0wJaYJctcBO+jAOMHCSqg6FcmHA+lPjkTPKMALwZMeg==}
-    dev: false
-
   /phecda-core@3.1.1:
     resolution: {integrity: sha512-x3+4EO/7g4G5wVNgHxQQquch+9RHfBNYkslFOYxMr3HTzFVg7VFcxC5OO+FTe98Bh75EW1q6KekM03uErf8e0Q==}
     dev: false
 
-  /phecda-server@5.0.0-alpha.4:
-    resolution: {integrity: sha512-nIZFDDo7wrCdV+QaTkDwArBOap3RiFOOsUQS55Rq+ewoHy3NhdW05WmHAYJiIH3MESKR4Xy9QpGKoqqIqXt3sA==}
+  /phecda-server@5.3.2(@swc/core@1.7.0):
+    resolution: {integrity: sha512-VRuDW4hdgCTtd5ZKdpEeahx2wFjR7dP/8y0u235lQ6w12hK9QZlNm5bWAjS2h44Sjid49aak1G1jhPIzSHrqEQ==}
     hasBin: true
     dependencies:
-      debug: 4.3.4
-      phecda-core: 3.0.0-alpha.1
-      picocolors: 1.0.0
+      '@swc-node/core': 1.10.6(@swc/core@1.7.0)
+      cac: 6.7.14
+      chokidar: 3.6.0
+      debug: 4.3.5
+      fs-extra: 11.2.0
+      phecda-core: 3.1.1
+      picocolors: 1.0.1
       reflect-metadata: 0.1.14
+      ts-mixer: 6.0.4
     transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /phecda-server@5.0.0-alpha.5:
-    resolution: {integrity: sha512-7IDd0mEAPLqWtrL3yKmRt1ZPmis8T4yBTHPBhgE33O1/5Uq58WnP/M2p8oLMtyLWQ7E3o5NPSNRh+q2ZRqpApQ==}
-    hasBin: true
-    dependencies:
-      debug: 4.3.4
-      phecda-core: 3.0.0-alpha.1
-      picocolors: 1.0.0
-      reflect-metadata: 0.1.14
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /phecda-server@5.0.0-beta.26:
-    resolution: {integrity: sha512-ODnw9TmTE4jccKp8J2P0OWDJrOPURgTr+Tp3rYEN4DSgWhGNmhcIliSuG5kEBtO2gnSaGSd2Az+CtEz8gP8flA==}
-    hasBin: true
-    dependencies:
-      debug: 4.3.4
-      phecda-core: 3.0.0-beta.16
-      picocolors: 1.0.0
-      reflect-metadata: 0.1.14
-    transitivePeerDependencies:
+      - '@swc/core'
       - supports-color
     dev: false
 
@@ -8763,6 +8690,7 @@ packages:
 
   /picocolors@1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
+    dev: true
 
   /picocolors@1.0.1:
     resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
@@ -10743,10 +10671,10 @@ packages:
     hasBin: true
     dependencies:
       cac: 6.7.14
-      debug: 4.3.5
+      debug: 4.3.4
       mlly: 1.7.1
       pathe: 1.1.2
-      picocolors: 1.0.1
+      picocolors: 1.0.0
       vite: 4.5.0(@types/node@18.16.8)
     transitivePeerDependencies:
       - '@types/node'

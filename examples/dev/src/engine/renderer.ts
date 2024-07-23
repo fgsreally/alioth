@@ -1,4 +1,3 @@
-// import { cloneDeep, isSymbol } from 'lodash-es'
 import { BaseSelectionModel, ComponentRenderer } from 'alioth-vue'
 import { getV } from 'phecda-vue'
 import GridstackItem from './GridstackItem.vue'

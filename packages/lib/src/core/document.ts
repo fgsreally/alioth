@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
-import { cloneDeep } from 'lodash-es'
 import EventEmitter from 'eventemitter3'
+import { cloneDeep } from '../utils'
 import { VirtualNode } from './node'
 export type DocData = { id: string; attrs: any; index: number; parentId: string }[]
 
@@ -156,5 +156,9 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
   _set<K extends keyof A>(node: VirtualNode<A>, key: K, value: A[K]) {
     node.oldAttrs[key] = cloneDeep(value)
     node.attrs[key] = value
+  }
+
+  cloneNode(node: VirtualNode<A>) {
+    return new VirtualNode(cloneDeep(node.attrs))
   }
 }

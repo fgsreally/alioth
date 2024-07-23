@@ -1,5 +1,4 @@
-import { BaseDocModel, BaseSelectionModel, type VirtualNode } from 'alioth-lib'
-import { cloneDeep } from 'lodash-es'
+import { BaseDocModel, BaseSelectionModel, type VirtualNode, cloneDeep } from 'alioth-lib'
 
 import { useR, useV } from 'phecda-vue'
 import { Ref, ref, watch } from 'vue'

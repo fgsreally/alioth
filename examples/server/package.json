@@ -26,7 +26,7 @@
     "http-proxy-middleware": "^2.0.6",
     "mongodb": "^6.3.0",
     "nanoid": "^4.0.0",
-    "phecda-server": "5.0.0-beta.26",
+    "phecda-server": "5.3.2",
     "ws": "^8.16.0"
   },
   "devDependencies": {
