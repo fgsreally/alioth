@@ -23,6 +23,7 @@ export abstract class Renderer extends ComponentRenderer<any> {
       else
         selectedNode.value = this.node
     }
+
     return this
   }
 }

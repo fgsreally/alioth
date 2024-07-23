@@ -41,6 +41,7 @@ export abstract class BaseRenderer<
     this.renderer = data.renderer
     this.appContext = data.appContext
     this.doc = this.node.doc
+    this.doc.setScope(this.node, this.scope)
   }
 
   abstract exec(): void

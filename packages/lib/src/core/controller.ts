@@ -120,6 +120,7 @@ export class Controller extends EventEmitter {
     if (event.type === 'set' && this.currentEvent.type === 'set') {
       if (event.nodeId === this.currentEvent.nodeId && this.currentEvent.key === event.key) {
         event.oldValue = this.currentEvent.oldValue
+        console.log('old', JSON.stringify(event.oldValue), JSON.stringify(event.value))
         return true
       }
     }
@@ -146,7 +147,6 @@ export class Controller extends EventEmitter {
   addEvent(event: NodeEvent, stack: 'undoStack' | 'redoStack' = 'undoStack') {
     if (this[stack].length >= this.options.length)
       this[stack].shift()
-
     this.invokeBridge({ ...event, mode: -event.mode as 1 | -1 })
     this[stack].push(event)
   }

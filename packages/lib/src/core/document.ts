@@ -2,19 +2,22 @@ import { nanoid } from 'nanoid'
 import EventEmitter from 'eventemitter3'
 import { cloneDeep } from '../utils'
 import { NodeData, VirtualNode } from './node'
+import { Scope } from './scope'
 
-export class VirtualDocument<A extends Record<string, any> = any> extends EventEmitter {
-  nodeSet = new Set<VirtualNode<A>>()
-  root = new VirtualNode({} as A, 'root')
+export class VirtualDocument<NodeAttrs extends Record<string, any> = any> extends EventEmitter {
+  nodeSet = new Set<VirtualNode<NodeAttrs>>()
+  root = new VirtualNode({} as NodeAttrs, 'root')
   currentEventId: string | undefined
   seed = 0
+
+  protected _scopeMap = new WeakMap<VirtualNode<NodeAttrs>, Scope>()
 
   constructor() {
     super()
   }
 
-  createNode(attrs: A) {
-    const node = new VirtualNode<A>(attrs)
+  createNode(attrs: NodeAttrs) {
+    const node = new VirtualNode<NodeAttrs>(attrs)
     node.doc = this
     return node
   }
@@ -50,10 +53,10 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     return this.nodes.map(item => item.toJSON())
   }
 
-  flat(node: VirtualNode<A>) {
+  flat(node: VirtualNode<NodeAttrs>) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
-    const traverse = (node: VirtualNode<any>, arr: VirtualNode<A>[] = []) => {
+    const traverse = (node: VirtualNode<any>, arr: VirtualNode<NodeAttrs>[] = []) => {
       arr.push(node)
 
       that.findChildren(node).map(n => traverse(n, arr))
@@ -69,13 +72,13 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     return this.nodes.find(item => item.id === id)
   }
 
-  findChildren(node: VirtualNode<A>) {
+  findChildren(node: VirtualNode<NodeAttrs>) {
     return this.nodes.filter(item => item.parentId === node.id).sort((n1, n2) => n1._i - n2._i)
   }
 
-  findDescendants(node: VirtualNode<A>) {
+  findDescendants(node: VirtualNode<NodeAttrs>) {
     const nodes = new Set<VirtualNode>()
-    const traverse = (node: VirtualNode<A>) => {
+    const traverse = (node: VirtualNode<NodeAttrs>) => {
       this.findChildren(node).forEach((node) => {
         nodes.add(node)
         traverse(node)
@@ -85,11 +88,11 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     return [...nodes]
   }
 
-  index(node: VirtualNode<A>) {
+  index(node: VirtualNode<NodeAttrs>) {
     return this.findChildren(node.parent).findIndex(item => item.id === node.id)!
   }
 
-  insert(node: VirtualNode<A>, parent: VirtualNode<A>, index = 0) {
+  insert(node: VirtualNode<NodeAttrs>, parent: VirtualNode<NodeAttrs>, index = 0) {
     const childs = this.findChildren(parent)
     const index1 = childs[index - 1]?._i || 0
     const index2 = childs[index]?._i || 1
@@ -117,7 +120,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     }
   }
 
-  remove(node: VirtualNode<A>) {
+  remove(node: VirtualNode<NodeAttrs>) {
     this.emit('remove', {
       node,
 
@@ -126,7 +129,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     this.removeChilds(node)
   }
 
-  protected removeChilds(node: VirtualNode<A>) {
+  protected removeChilds(node: VirtualNode<NodeAttrs>) {
     this.nodes.forEach((n) => {
       if (n.parentId === node.id) {
         this.nodeSet.delete(n)
@@ -135,7 +138,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     })
   }
 
-  public set<K extends keyof A>(node: VirtualNode<A>, key: K, value: A[K]) {
+  public set<K extends keyof NodeAttrs>(node: VirtualNode<NodeAttrs>, key: K, value: NodeAttrs[K]) {
     this.emit('set', {
       node,
       key,
@@ -146,7 +149,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     this._set(node, key, value)
   }
 
-  _set<K extends keyof A>(node: VirtualNode<A>, key: K, value: A[K]) {
+  _set<K extends keyof NodeAttrs>(node: VirtualNode<NodeAttrs>, key: K, value: NodeAttrs[K]) {
     node.attrs[key] = value
   }
 
@@ -154,7 +157,19 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     return this.findChildren(node.parent).filter(item => item !== node)
   }
 
-  cloneNode(node: VirtualNode<A>) {
+  cloneNode(node: VirtualNode<NodeAttrs>) {
     return new VirtualNode(cloneDeep(node.attrs))
+  }
+
+  // one node, one scope
+  setScope(node: VirtualNode<NodeAttrs>, scope: Scope) {
+    this._scopeMap.set(node, scope)
+  }
+
+  getScope(node: VirtualNode<NodeAttrs>) {
+    if (!this.findById(node.id))
+      return undefined
+
+    return this._scopeMap.get(node)
   }
 }

@@ -44,6 +44,10 @@ export class VirtualNode<A extends Record<string, any> = any> {
     return this.doc.index(this)
   }
 
+  get scope() {
+    return this.doc.getScope(this)
+  }
+
   toJSON(): NodeData {
     return {
       id: this.id,

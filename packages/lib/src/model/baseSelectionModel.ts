@@ -1,12 +1,10 @@
 import { Global, Tag } from 'phecda-core'
-import type { Scope, VirtualNode } from '../core'
+import type { VirtualNode } from '../core'
 import { BaseDocModel } from './baseDocModel'
 
 @Global
 @Tag('selection')
 export class BaseSelectionModel<NodeAttrs extends Record<string, any> = any> {
-  selectedScope: Scope
-
   constructor(protected doc: BaseDocModel<NodeAttrs>) {
 
   }
@@ -17,10 +15,8 @@ export class BaseSelectionModel<NodeAttrs extends Record<string, any> = any> {
     return this._selectedPageId ? this.doc.findById(this._selectedPageId) : undefined
   }
 
-  set selectedPage(page: VirtualNode) {
-    if (page.parentId !== 'root')
-      throw new Error('page parent should be \'root\' ')
-    this._selectedPageId = page.id
+  set selectedPage(value: VirtualNode | undefined) {
+    this._selectedPageId = value?.id
   }
 
   protected _selectedNodeId: string | undefined
@@ -29,8 +25,8 @@ export class BaseSelectionModel<NodeAttrs extends Record<string, any> = any> {
     return this._selectedNodeId ? this.doc.findById(this._selectedNodeId) : undefined
   }
 
-  set selectedNode(node: VirtualNode) {
-    this._selectedNodeId = node.id
+  set selectedNode(value: VirtualNode | undefined) {
+    this._selectedNodeId = value?.id
   }
 
   protected _hoverNodeId: string | undefined
@@ -39,8 +35,8 @@ export class BaseSelectionModel<NodeAttrs extends Record<string, any> = any> {
     return this._hoverNodeId ? this.doc.findById(this._hoverNodeId) : undefined
   }
 
-  set hoverNode(node: VirtualNode) {
-    this._hoverNodeId = node.id
+  set hoverNode(value: VirtualNode | undefined) {
+    this._hoverNodeId = value?.id
   }
 
   protected readonly _activeNodeSet = new Set<string>()
@@ -76,31 +72,5 @@ export class BaseSelectionModel<NodeAttrs extends Record<string, any> = any> {
 
   isActiveNode(node: VirtualNode<NodeAttrs>) {
     return this._activeNodeSet.has(node.id)
-  }
-
-  protected readonly scopeSet = new Set<Scope>()
-
-  get activeScopes() {
-    return [...this.scopeSet]
-  }
-
-  clearActiveScopes() {
-    this._activeNodeSet.clear()
-  }
-
-  deactiveScope(scope: Scope) {
-    this.scopeSet.delete(scope)
-  }
-
-  activeScope(scope: Scope) {
-    this.scopeSet.add(scope)
-  }
-
-  toggleScope(scope: Scope) {
-    this.isActiveScope(scope) ? this.deactiveScope(scope) : this.activeScope(scope)
-  }
-
-  isActiveScope(scope: Scope) {
-    return this.scopeSet.has(scope)
   }
 }

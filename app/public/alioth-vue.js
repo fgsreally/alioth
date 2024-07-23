@@ -3637,6 +3637,9 @@ var ee = class {
   get index() {
     return this.doc.index(this);
   }
+  get scope() {
+    return this.doc.getScope(this);
+  }
   toJSON() {
     return {
       id: this.id,
@@ -3654,6 +3657,7 @@ var Te = class extends ni {
     b(this, "root", new ee({}, "root"));
     b(this, "currentEventId");
     b(this, "seed", 0);
+    b(this, "_scopeMap", /* @__PURE__ */ new WeakMap());
   }
   createNode(t) {
     const i = new ee(t);
@@ -3745,6 +3749,13 @@ var Te = class extends ni {
   cloneNode(t) {
     return new ee(G(t.attrs));
   }
+  setScope(t, i) {
+    this._scopeMap.set(t, i);
+  }
+  getScope(t) {
+    if (this.findById(t.id))
+      return this._scopeMap.get(t);
+  }
 };
 m(Te, "VirtualDocument");
 var fi = class extends ni {
@@ -3761,7 +3772,7 @@ var fi = class extends ni {
       length: 300,
       timeout: 300,
       ...i
-    }, t.on("insert", ({ node: r }) => {
+    }, this.on("init", console.log), t.on("insert", ({ node: r }) => {
       this.redoStack = [], this.initEvent({
         records: t.flat(r).map(({ attrs: s, id: a, parentId: o, _i: u }) => ({
           attrs: s,
@@ -3797,7 +3808,7 @@ var fi = class extends ni {
         }))
       });
     }), t.on("set", ({ node: r, key: s, value: a, oldValue: o }) => {
-      this.redoStack = [], this.initEvent({
+      this.redoStack = [], console.log(a, o), this.initEvent({
         key: s,
         value: a,
         type: "set",
@@ -3825,7 +3836,7 @@ var fi = class extends ni {
     }, this.options.timeout);
   }
   isSameEvent(t) {
-    return this.currentEvent && t.type === "set" && this.currentEvent.type === "set" && t.nodeId === this.currentEvent.nodeId && this.currentEvent.key === t.key ? (t.oldValue = this.currentEvent.oldValue, !0) : !1;
+    return this.currentEvent && t.type === "set" && this.currentEvent.type === "set" && t.nodeId === this.currentEvent.nodeId && this.currentEvent.key === t.key ? (t.oldValue = this.currentEvent.oldValue, console.log("old", JSON.stringify(t.oldValue), JSON.stringify(t.value)), !0) : !1;
   }
   invokeBridge(t) {
   }
@@ -4573,33 +4584,29 @@ m(ze, "_ts_metadata");
 var Ie = class {
   constructor(e) {
     b(this, "doc");
-    b(this, "selectedScope");
     b(this, "_selectedPageId");
     b(this, "_selectedNodeId");
     b(this, "_hoverNodeId");
     b(this, "_activeNodeSet");
-    b(this, "scopeSet");
-    this.doc = e, this._activeNodeSet = /* @__PURE__ */ new Set(), this.scopeSet = /* @__PURE__ */ new Set();
+    this.doc = e, this._activeNodeSet = /* @__PURE__ */ new Set();
   }
   get selectedPage() {
     return this._selectedPageId ? this.doc.findById(this._selectedPageId) : void 0;
   }
   set selectedPage(e) {
-    if (e.parentId !== "root")
-      throw new Error("page parent should be 'root' ");
-    this._selectedPageId = e.id;
+    this._selectedPageId = e == null ? void 0 : e.id;
   }
   get selectedNode() {
     return this._selectedNodeId ? this.doc.findById(this._selectedNodeId) : void 0;
   }
   set selectedNode(e) {
-    this._selectedNodeId = e.id;
+    this._selectedNodeId = e == null ? void 0 : e.id;
   }
   get hoverNode() {
     return this._hoverNodeId ? this.doc.findById(this._hoverNodeId) : void 0;
   }
   set hoverNode(e) {
-    this._hoverNodeId = e.id;
+    this._hoverNodeId = e == null ? void 0 : e.id;
   }
   get activeNodes() {
     const e = [];
@@ -4623,26 +4630,6 @@ var Ie = class {
   }
   isActiveNode(e) {
     return this._activeNodeSet.has(e.id);
-  }
-  get activeScopes() {
-    return [
-      ...this.scopeSet
-    ];
-  }
-  clearActiveScopes() {
-    this._activeNodeSet.clear();
-  }
-  deactiveScope(e) {
-    this.scopeSet.delete(e);
-  }
-  activeScope(e) {
-    this.scopeSet.add(e);
-  }
-  toggleScope(e) {
-    this.isActiveScope(e) ? this.deactiveScope(e) : this.activeScope(e);
-  }
-  isActiveScope(e) {
-    return this.scopeSet.has(e);
   }
 };
 m(Ie, "BaseSelectionModel");
@@ -4783,7 +4770,7 @@ var Dr = Xe({
   }
 }), bi = class {
   constructor(e) {
-    this.node = e.node, this.widget = e.widget, this.environment = e.environment, this.scope = e.scope, this.renderer = e.renderer, this.appContext = e.appContext, this.doc = this.node.doc;
+    this.node = e.node, this.widget = e.widget, this.environment = e.environment, this.scope = e.scope, this.renderer = e.renderer, this.appContext = e.appContext, this.doc = this.node.doc, this.doc.setScope(this.node, this.scope);
   }
 }, Jr = class extends bi {
   slot(e) {
