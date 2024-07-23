@@ -12,8 +12,8 @@ export class CommandModel extends BaseCommandModel {
     super(internal)
   }
 
-  @Init
   init() {
+    super.init()
     this.register({
       name: 'nodeAction',
       pushQueue: true,

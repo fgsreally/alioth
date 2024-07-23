@@ -17,7 +17,7 @@ export class BaseCodeModel {
   }
 
   async generateComponent(node: VirtualNode, filter: (e: Export) => boolean = () => true) {
-    const nodes = [node, ...this.doc.findAllChildrens(node)]
+    const nodes = [node, ...this.doc.findDescendants(node)]
 
     const { dependences, effects } = await this.connect.analyseImport(nodes, filter)
     let code = `

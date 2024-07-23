@@ -12,12 +12,12 @@ export class BaseDocModel<T extends Record<string, any> = any> extends VirtualDo
   }
 
   @Init
-  private init() {
+  init() {
     this.controller = new Controller(this)
   }
 
   get pages() {
-    return this.findChildrens(this.root)
+    return this.findChildren(this.root)
   }
 
   addPage() {

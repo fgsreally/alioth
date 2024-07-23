@@ -5,7 +5,7 @@ import ImportList from '@/components/zones/ImportList.vue'
 
 export class ZoneModel extends BaseZoneModel {
   @Init
-  private init() {
+  init() {
     const zoneStore = this.internal.store('zone')
     zoneStore.set(
       'ImportList', ImportList, {

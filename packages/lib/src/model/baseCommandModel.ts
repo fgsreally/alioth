@@ -125,7 +125,7 @@ export abstract class BaseCommandModel<Command extends DefaultCommand = DefaultC
   }
 
   @Init
-  private init() {
+  init() {
     if (this.initialized)
       return
     this.initialized = true

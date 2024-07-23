@@ -52,7 +52,7 @@ export abstract class ComponentRenderer<
   slot(
     slotNames: string[],
   ) {
-    const childs = this.doc.findChildrens(this.node)
+    const childs = this.doc.findChildren(this.node)
 
     if (!childs.length)
       return this

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { BaseDocModel, BaseSelectionModel, VirtualNode } from 'alioth-vue'
+import { BaseDocModel, BaseSelectionModel, VirtualNode, cloneDeep } from 'alioth-vue'
 import { type Ref, computed, ref, watch } from 'vue'
-import { cloneDeep } from 'lodash-es'
 import { useR, useV } from 'phecda-vue'
 function useNodeAttr<Attr = any>(node: Ref<VirtualNode | undefined>, attr: string) {
   const doc = useR(BaseDocModel)

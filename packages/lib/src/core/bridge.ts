@@ -1,8 +1,8 @@
-import type { DocData } from './document'
 import { VirtualDocument } from './document'
 import { type Controller, type NodeEvent, applyEventToNode } from './controller'
+import { NodeData } from './node'
 
-export interface InitEvent { type: 'init';data: DocData }
+export interface InitEvent { type: 'init';data: NodeData[] }
 
 export type CommitEvent = (NodeEvent & { time: number }) | InitEvent
 

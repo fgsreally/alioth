@@ -43,7 +43,7 @@ describe('controller', () => {
     doc.remove(node1)
     vi.runAllTimers()
 
-    expect(doc.findChildrens(doc.root).length).toBe(0)
+    expect(doc.findChildren(doc.root).length).toBe(0)
 
     c.undo()
 
@@ -53,12 +53,12 @@ describe('controller', () => {
     expect(node1.attrs.id).toBe('1')
 
     c.undo()
-    expect(doc.findChildrens(node1).length).toBe(1)
+    expect(doc.findChildren(node1).length).toBe(1)
 
     expect(c.redoStack.length).toBe(3)
 
     c.redo()
-    expect(doc.findChildrens(node1).length).toBe(2)
+    expect(doc.findChildren(node1).length).toBe(2)
 
     c.redo()
     expect(node1.attrs.id).toBe('test1')
@@ -128,13 +128,13 @@ describe('controller', () => {
     doc.insert(node5, doc.root)
     vi.runAllTimers()
 
-    expect(doc2.findChildrens(doc2.root).length).toBe(4)
+    expect(doc2.findChildren(doc2.root).length).toBe(4)
     doc.insert(node2, node1)
     vi.runAllTimers()
 
-    expect(doc2.findChildrens(doc2.root).length).toBe(3)
+    expect(doc2.findChildren(doc2.root).length).toBe(3)
     // console.log(doc2.nodes)
-    expect(doc2.findChildrens(doc2.findById('1')!).length).toBe(1)
+    expect(doc2.findChildren(doc2.findById('1')!).length).toBe(1)
 
     doc.set(node1, 'id', 'test1')
     vi.runAllTimers()
@@ -150,7 +150,7 @@ describe('controller', () => {
     doc2.insert(node6, doc2.root)
     vi.runAllTimers()
 
-    expect(doc.findChildrens(doc.root).length).toBe(3)
+    expect(doc.findChildren(doc.root).length).toBe(3)
 
     c1.undo()
 
@@ -160,8 +160,8 @@ describe('controller', () => {
 
     expect(doc2.findById('1')!.attrs.id).toBe('1')
     c1.undo()
-    expect(doc2.findChildrens(node1).length).toBe(0)
-    expect(doc2.findChildrens(doc2.root).length).toBe(5)
+    expect(doc2.findChildren(node1).length).toBe(0)
+    expect(doc2.findChildren(doc2.root).length).toBe(5)
 
     c1.undo()
     expect(doc2.findById('5')).toBeUndefined()

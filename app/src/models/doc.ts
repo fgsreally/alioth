@@ -1,4 +1,4 @@
-import { Init, emitter } from 'phecda-vue'
+import { emitter } from 'phecda-vue'
 import { BaseDocModel, WsClientBridge } from 'alioth-vue'
 export class DocModel extends BaseDocModel {
   containerAttrs = markRaw(
@@ -24,16 +24,16 @@ export class DocModel extends BaseDocModel {
     },
   )
 
-  @Init
   init() {
+    super.init()
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const ws = new WsClientBridge(this.controller
       , 'ws://localhost:4000?id=1')
 
-    const rawEmit = this.emit.bind(this)
-    this.emit = (...args) => {
-      emitter.emit('alioth:node-action', null)
-      return rawEmit(...args)
-    }
+    // const rawEmit = this.emit.bind(this)
+    // this.emit = (...args) => {
+    //   emitter.emit('alioth:node-action', null)
+    //   return rawEmit(...args)
+    // }
   }
 }

@@ -1,8 +1,7 @@
 import { nanoid } from 'nanoid'
 import EventEmitter from 'eventemitter3'
 import { cloneDeep } from '../utils'
-import { VirtualNode } from './node'
-export type DocData = { id: string; attrs: any; index: number; parentId: string }[]
+import { NodeData, VirtualNode } from './node'
 
 export class VirtualDocument<A extends Record<string, any> = any> extends EventEmitter {
   nodeSet = new Set<VirtualNode<A>>()
@@ -35,12 +34,12 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     this.seed = seed
   }
 
-  load(data: DocData) {
+  load(data: NodeData[]) {
     this.emit('load', data)
 
-    data.forEach(({ id, attrs, index, parentId }) => {
+    data.forEach(({ id, attrs, _i, parentId }) => {
       const node = new VirtualNode(attrs, id)
-      node.index = index
+      node._i = _i
       node.parentId = parentId
       node.doc = this
       this.nodeSet.add(node)
@@ -57,7 +56,7 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     const traverse = (node: VirtualNode<any>, arr: VirtualNode<A>[] = []) => {
       arr.push(node)
 
-      that.findChildrens(node).map(n => traverse(n, arr))
+      that.findChildren(node).map(n => traverse(n, arr))
       return arr
     }
 
@@ -70,14 +69,14 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     return this.nodes.find(item => item.id === id)
   }
 
-  findChildrens(node: VirtualNode<A>) {
-    return this.nodes.filter(item => item.parentId === node.id).sort((n1, n2) => n1.index - n2.index)
+  findChildren(node: VirtualNode<A>) {
+    return this.nodes.filter(item => item.parentId === node.id).sort((n1, n2) => n1._i - n2._i)
   }
 
-  findAllChildrens(node: VirtualNode<A>) {
+  findDescendants(node: VirtualNode<A>) {
     const nodes = new Set<VirtualNode>()
     const traverse = (node: VirtualNode<A>) => {
-      this.findChildrens(node).forEach((node) => {
+      this.findChildren(node).forEach((node) => {
         nodes.add(node)
         traverse(node)
       })
@@ -86,39 +85,33 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
     return [...nodes]
   }
 
-  findParent(node: VirtualNode<A>) {
-    return this.nodes.find(item => item.id === node.parentId)
-  }
-
-  findBrothers(node: VirtualNode<A>) {
-    return this.nodes.filter(n => node.parent === n.parent)
-  }
-
   index(node: VirtualNode<A>) {
-    return this.findBrothers(node).findIndex(item => item.id === node.id)!
+    return this.findChildren(node.parent).findIndex(item => item.id === node.id)!
   }
 
   insert(node: VirtualNode<A>, parent: VirtualNode<A>, index = 0) {
-    const childs = this.findChildrens(parent)
-    const index1 = childs[index - 1]?.index || 0
-    const index2 = childs[index]?.index || 1
-    const { parentId: lastParentId, index: lastIndex } = node
+    const childs = this.findChildren(parent)
+    const index1 = childs[index - 1]?._i || 0
+    const index2 = childs[index]?._i || 1
+    const { parentId, _i } = node
     node.parentId = parent.id
-    node.index = (index2 + index1) / 2 + this.seed
+    node._i = (index2 + index1) / 2 + this.seed
 
     if (!this.findById(node.id)) {
       this.nodeSet.add(node)
 
       this.emit('insert', {
         node,
-        index: node.index,
+        index: node._i,
       })
     }
     else {
       this.emit('swap', {
         node,
-        lastParentId,
-        lastIndex,
+        before: {
+          parentId,
+          _i,
+        },
 
       })
     }
@@ -147,15 +140,18 @@ export class VirtualDocument<A extends Record<string, any> = any> extends EventE
       node,
       key,
       value,
-      oldValue: node.oldAttrs[key], // work for v-model
+      oldValue: node.attrs[key], // work for v-model
     })
 
     this._set(node, key, value)
   }
 
   _set<K extends keyof A>(node: VirtualNode<A>, key: K, value: A[K]) {
-    node.oldAttrs[key] = cloneDeep(value)
     node.attrs[key] = value
+  }
+
+  findSiblings(node: VirtualNode) {
+    return this.findChildren(node.parent).filter(item => item !== node)
   }
 
   cloneNode(node: VirtualNode<A>) {
