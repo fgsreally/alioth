@@ -1,1 +1,1 @@
-export * from './useNodeAttr'
+export * from './useNodeAttrs'

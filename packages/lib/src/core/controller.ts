@@ -80,6 +80,7 @@ export class Controller extends EventEmitter {
 
     doc.on('set', ({ node, key, value, oldValue }: any) => {
       this.redoStack = []
+
       this.initEvent({
         key,
         value,
@@ -120,7 +121,6 @@ export class Controller extends EventEmitter {
     if (event.type === 'set' && this.currentEvent.type === 'set') {
       if (event.nodeId === this.currentEvent.nodeId && this.currentEvent.key === event.key) {
         event.oldValue = this.currentEvent.oldValue
-        console.log('old', JSON.stringify(event.oldValue), JSON.stringify(event.value))
         return true
       }
     }

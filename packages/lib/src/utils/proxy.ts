@@ -1,10 +1,10 @@
 export function createDeepProxy(target: any, handler: {
-  get?: (target: any, prop: string, receiver: any, fullPath: string) => any
-  set?: (target: any, prop: string, value: any, receiver: any, fullPath: string) => any
-}, path = '') {
+  get?: (target: any, prop: string, receiver: any, fullPath: string[]) => any
+  set?: (target: any, prop: string, value: any, receiver: any, fullPath: string[]) => any
+}, path: string[] = []) {
   const recursiveHandler: ProxyHandler<any> = {
     get(target, prop: string, receiver) {
-      const fullPath = path ? `${path}.${prop}` : prop
+      const fullPath = [...path, prop]
       const value = Reflect.get(target, prop, receiver)
 
       if (typeof value === 'object' && value !== null)
@@ -16,7 +16,7 @@ export function createDeepProxy(target: any, handler: {
       return value
     },
     set(target, prop: string, value, receiver) {
-      const fullPath = path ? `${path}.${prop}` : prop
+      const fullPath = [...path, prop]
 
       if (handler.set)
         return handler.set(target, prop, value, receiver, fullPath)
@@ -27,7 +27,6 @@ export function createDeepProxy(target: any, handler: {
 
   return new Proxy(target, recursiveHandler)
 }
-export const STATE_REGEX = /{{(.*)}}/
 // array won't be filtered
 
 // export function reflectData(
