@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { inject, onMounted, provide, shallowRef } from 'vue'
-
+import { type Ref, inject, onMounted, shallowRef } from 'vue'
+import type { RendererContext } from 'alioth-vue'
+import type { GridStack } from 'gridstack'
 const el = shallowRef()
-const gridstack = inject('gridstack')
-const { node } = inject('alioth')
+const gridstack = inject('gridstack') as Ref<GridStack>
+const { node } = inject('alioth') as RendererContext
 onMounted(() => {
-  if (gridstack)
+  if (gridstack.value)
     gridstack.value.makeWidget(el.value)
 })
 </script>

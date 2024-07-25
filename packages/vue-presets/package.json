@@ -1,15 +1,26 @@
 {
   "name": "alioth-vue-presets",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "keywords": [],
+  "exports": {
+    "./gridstack": {
+      "types": "./dist/src/gridstack/index.d.ts",
+      "import": "./dist/gridstack.js"
+    },
+    "./grid-layout-plus": {
+      "types": "./dist/src/grid-layout-plus/index.d.ts",
+      "import": "./dist/grid-layout-plus.js"
+    }
+  },
   "main": "index.js",
   "scripts": {
     "type-check": "vue-tsc --noEmit ",
     "dts": "vue-tsc --declaration --emitDeclarationOnly",
-    "build": "npm run dts && vite build"
+    "build": " vite build && npm run dts "
   },
   "dependencies": {
     "alioth-vue": "workspace:0.1.0-beta.1",

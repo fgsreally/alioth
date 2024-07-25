@@ -1,9 +1,15 @@
 import { defineConfig } from 'vite'
+import Vue from '@vitejs/plugin-vue'
 import pkg from './package.json'
+
 export default defineConfig({
   build: {
     lib: {
-      entry: ['gridstack/index.ts', 'grid-layout-plus/index.ts'],
+      entry: {
+        'gridstack': './src/gridstack/index.ts',
+
+        'grid-layout-plus': './src/grid-layout-plus/index.ts',
+      },
       formats: ['es'],
     },
     cssCodeSplit: true,
@@ -11,4 +17,6 @@ export default defineConfig({
       external: Object.keys(pkg.dependencies),
     },
   },
+
+  plugins: [Vue()],
 })

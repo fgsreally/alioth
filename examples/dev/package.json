@@ -12,6 +12,7 @@
   "dependencies": {
     "@primevue/themes": "^4.0.0",
     "alioth-vue": "workspace:0.1.0-beta.1",
+    "alioth-vue-presets": "workspace:^",
     "gridstack": "^10.3.0",
     "phecda-vue": "^4.0.8",
     "primevue": "^4.0.0",
@@ -23,7 +24,7 @@
     "@vitejs/plugin-vue": "^4.1.0",
     "http-server": "^14.1.1",
     "typescript": "^5.0.2",
-    "vite": "^5.0.0",
+    "vite": "^5.3.4",
     "vite-plugin-alioth": "workspace:0.0.1-beta.1",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-inspect": "^0.7.41",

@@ -1,22 +1,16 @@
 import { ComponentRenderer } from 'alioth-vue'
 import { Mixin } from 'phecda-vue'
-import component from './test.vue'
+import { Container, Item } from 'alioth-vue-presets/gridstack'
 import { Renderer } from './renderer'
 export const container = {
   alioth: 'widget',
   key: 'page',
-  data: component,
+  data: Container,
 }
-
-// export const container2 = {
-//   alioth: 'widget',
-//   key: 'page',
-//   data: component2,
-// }
 
 class R extends Mixin(Renderer, ComponentRenderer) {
   exec() {
-    this.slot(['default']).main().editAction().gridstack()
+    this.slot(['default']).main().wrap(Item, {}).editAction().gridstack()
   }
 }
 

@@ -1,8 +1,11 @@
 {
   "name": "alioth",
   "version": "1.0.0",
-  "description": "",
   "packageManager": "pnpm@7.33.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "main": "index.js",
   "scripts": {
     "dev": "turbo run dev --filter=./packages/* ",
@@ -16,9 +19,6 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@antfu/eslint-config": "^0.34.1",
     "@changesets/cli": "^2.26.0",

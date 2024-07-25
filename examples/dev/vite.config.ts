@@ -9,12 +9,16 @@ export default defineConfig({
   define: {
 
   },
+  // optimizeDeps: {
+  //   include: ['vue', 'phecda-vue', 'alioth-vue'],
+  // },
   plugins: [vue(),
-  // Compress(),
-  // Inspect({
-  //   build: true,
-  // }),
-  // visualizer(),
+
+    // Compress(),
+    // Inspect({
+    //   build: true,
+    // }),
+    // visualizer(),
     Alioth({
       website: 'http://localhost:4010/',
       project: 'alioth',
@@ -23,9 +27,7 @@ export default defineConfig({
         // runtime: './src/entry.runtime.ts',
 
       },
-      externals: {
 
-      },
     }),
 
     // RemoteLoader(/http:\/\/localhost:4010\/(.*)/),

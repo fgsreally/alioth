@@ -3,7 +3,6 @@
   "include": [
     "src/**/*",
     "src/**/*.vue"
-
   ],
   "exclude": [
     "src/**/__tests__/*"
@@ -15,11 +14,11 @@
     "strictPropertyInitialization": false,
     "composite": true,
     "baseUrl": ".",
+    "outDir": "dist",
     "paths": {
       "@/*": [
         "./src/*"
       ]
     }
   }
-
 }

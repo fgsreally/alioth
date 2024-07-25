@@ -5,7 +5,8 @@ const pkgs = ['alioth-vue', 'vue', 'phecda-vue']
 for (const pkg of pkgs) {
   await build({
     define: {
-      'process.env.NODE_ENV': '\'production\'',
+      'process.env.NODE_ENV':
+        pkg === 'phecda-vue' ? '\'development\'' : '\'production\'',
     },
     build: {
       lib: {
