@@ -15,7 +15,10 @@
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
+    "outDir": "dist",
+    "emitDeclarationOnly": true,
+    "declaration": true,
     "jsx": "preserve",
     /* Linting */
     "strict": true,

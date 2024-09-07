@@ -1,16 +1,17 @@
-import { Global, Init, Tag } from 'phecda-core'
+import { Global, Init, Tag, Unmount } from 'phecda-core'
 import { Internal } from './internal'
 
+export interface Action {
+  /** 前进时执行的操作 */
+  redo?(): void
+  /** 撤回时执行的操作 */
+  undo?(): void
+}
 export interface DefaultCommand {
   /** 命令名 */
 
   name: string
-  execute: () => {
-    /** 前进时执行的操作 */
-    redo?(): void
-    /** 撤回时执行的操作 */
-    undo?(): void
-  } | void
+  execute: () => Action | void
   /** 键盘 如 shift+y */
 
   keyboard?: string
@@ -26,7 +27,7 @@ interface CommandState<Command> {
   // 索引、指针
   current: number
   // 记录栈
-  queue: { redo: any; undo: any }[]
+  queue: Action[]
   commands: { [key in string]: () => void } // 命令
   commandArray: Command[]// 所有命令
   destroyArray: Function[]// 销毁任务
@@ -37,7 +38,7 @@ interface CommandState<Command> {
 export abstract class BaseCommandModel<Command extends DefaultCommand = DefaultCommand> {
   initialized = false
 
-  state: CommandState<Command> = {
+  protected state: CommandState<Command> = {
     isActive: true,
     current: -1,
     queue: [],
@@ -51,6 +52,14 @@ export abstract class BaseCommandModel<Command extends DefaultCommand = DefaultC
   undo = true
 
   constructor(protected internal: Internal) {
+
+  }
+
+  @Init
+  init() {
+    if (this.initialized)
+      return
+
     const { state } = this
     if (this.redo) {
       this.register({
@@ -119,18 +128,11 @@ export abstract class BaseCommandModel<Command extends DefaultCommand = DefaultC
 
     state.destroyArray.push(keyboardEvent())
 
-    internal.registerImporter('command', ({ key, data }) => {
+    this.internal.registerImporter('command', ({ key, data }) => {
       this.register({ ...data, name: key })
     })
-  }
-
-  @Init
-  init() {
-    if (this.initialized)
-      return
     this.initialized = true
 
-    const { state } = this
     this.state.commandArray.forEach(
       command => command.init && state.destroyArray.push(command.init()),
     )
@@ -143,7 +145,6 @@ export abstract class BaseCommandModel<Command extends DefaultCommand = DefaultC
       return
 
     if (this.initialized && command.init)
-
       state.destroyArray.push(command.init())
 
     state.commandArray.push(command)
@@ -166,6 +167,14 @@ export abstract class BaseCommandModel<Command extends DefaultCommand = DefaultC
     }
   }
 
+  // 如果有些操作不希望注册为一个命令，但希望能撤销重做，可以手动添加
+  addAction(action: Action) {
+    const { state } = this
+    state.queue.push(action)
+    state.current = state.current + 1
+  }
+
+  @Unmount
   destroy() {
     const { state } = this
     state.isActive && state.destroyArray.forEach(fn => fn && fn())
