@@ -1,6 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cloneDeep } from 'lodash-es'
-import { Controller, VirtualDocument, VirtualNode, diff } from '../src'
+import { Controller, VirtualDocument, VirtualNode, cloneDeep, diff } from '../src'
+
+function stop(time = 1000) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time)
+  })
+}
 
 describe('controller', () => {
   beforeEach(() => {
@@ -14,7 +19,7 @@ describe('controller', () => {
 
     const c = new Controller(doc)
 
-    const node1 = new VirtualNode({ id: '1' }, '1')
+    let node1 = new VirtualNode({ id: '1' }, '1')
     const node2 = new VirtualNode({ id: '2' }, '2')
     const node3 = new VirtualNode({ id: '3' }, '3')
     doc.insert(node1, doc.root)
@@ -49,6 +54,7 @@ describe('controller', () => {
 
     expect(doc.nodes.length).toBe(3)
 
+    node1 = doc.findById('1')!
     c.undo()
     expect(node1.attrs.id).toBe('1')
 
@@ -174,7 +180,7 @@ describe('controller', () => {
     const doc = new VirtualDocument()
     const c = new Controller(doc)
 
-    const node1 = new VirtualNode({ id: '1' }, '1')
+    let node1 = new VirtualNode({ id: '1' }, '1')
 
     c.transact(() => {
       doc.insert(node1, doc.root)
@@ -188,8 +194,34 @@ describe('controller', () => {
     expect(doc.nodes.length).toBe(0)
 
     c.redo()
-
+    node1 = doc.findById('1')!
     expect(doc.nodes.length).toBe(1)
     expect(node1.attrs.id).toBe('test1')
+  })
+
+  it('lock', () => {
+    const doc = new VirtualDocument()
+
+    const c = new Controller(doc)
+
+    const node1 = new VirtualNode({ id: '1' }, '1')
+    const node2 = new VirtualNode({ id: '2' }, '2')
+
+    c.lock()
+    doc.insert(node1, doc.root)
+    doc.insert(node2, node1)
+
+    doc.set(node1, 'id', '11')
+    doc.set(node1, 'id', '111')
+    doc.set(node2, 'id', '22')
+    doc.set(node2, 'id', '222')
+    expect(node1.attrs.id).toBe('111')
+    expect(node2.attrs.id).toBe('222')
+
+    c.unlock()
+
+    c.undo()
+    expect(node1.attrs.id).toBe('1')
+    expect(node2.attrs.id).toBe('2')
   })
 })

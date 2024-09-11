@@ -3,19 +3,19 @@
 exports[`doc and node > base action 1`] = `
 [
   {
+    "_i": 0.5,
     "attrs": {
       "id": 1,
     },
     "id": "1",
-    "index": 0.5,
     "parentId": "root",
   },
   {
+    "_i": 0.25,
     "attrs": {
       "id": 2,
     },
     "id": "2",
-    "index": 0.25,
     "parentId": "root",
   },
 ]

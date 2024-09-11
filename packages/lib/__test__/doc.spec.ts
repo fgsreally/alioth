@@ -23,17 +23,17 @@ describe('doc and node', () => {
     expect(doc.nodes.length).toBe(0)
   })
 
-  it('swap', () => {
+  it('internal index when inserting/swapping', () => {
     const doc = new VirtualDocument()
 
     const node1 = new VirtualNode({ id: 1 }, '1')
     const node2 = new VirtualNode({ id: 2 }, '2')
     doc.insert(node1, doc.root)
     doc.insert(node2, doc.root)
-    expect(node1.index).toBe(0.5)
-    expect(node2.index).toBe(0.25)
+    expect(node1._i).toBe(0.5)
+    expect(node2._i).toBe(0.25)
     doc.insert(node2, node1)
 
-    expect(node2.index).toBe(0.5)
+    expect(node2._i).toBe(0.5)
   })
 })

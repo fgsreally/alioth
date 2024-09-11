@@ -53,7 +53,8 @@ export class VirtualDocument<NodeAttrs extends Record<string, any> = any> extend
     return this.nodes.map(item => item.toJSON())
   }
 
-  flat(node: VirtualNode<NodeAttrs>) {
+  flat(nodeOrId: VirtualNode<NodeAttrs> | string) {
+    const node = this.get(nodeOrId)
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
     const traverse = (node: VirtualNode<any>, arr: VirtualNode<NodeAttrs>[] = []) => {
@@ -72,11 +73,15 @@ export class VirtualDocument<NodeAttrs extends Record<string, any> = any> extend
     return this.nodes.find(item => item.id === id)
   }
 
-  findChildren(node: VirtualNode<NodeAttrs>) {
+  findChildren(nodeOrId: VirtualNode<NodeAttrs> | string) {
+    const node = this.get(nodeOrId)
+
     return this.nodes.filter(item => item.parentId === node.id).sort((n1, n2) => n1._i - n2._i)
   }
 
-  findDescendants(node: VirtualNode<NodeAttrs>) {
+  findDescendants(nodeOrId: VirtualNode<NodeAttrs> | string) {
+    const node = this.get(nodeOrId)
+
     const nodes = new Set<VirtualNode>()
     const traverse = (node: VirtualNode<NodeAttrs>) => {
       this.findChildren(node).forEach((node) => {
@@ -88,11 +93,23 @@ export class VirtualDocument<NodeAttrs extends Record<string, any> = any> extend
     return [...nodes]
   }
 
-  index(node: VirtualNode<NodeAttrs>) {
+  index(nodeOrId: VirtualNode<NodeAttrs> | string) {
+    const node = this.get(nodeOrId)
+
     return this.findChildren(node.parent).findIndex(item => item.id === node.id)!
   }
 
-  insert(node: VirtualNode<NodeAttrs>, parent: VirtualNode<NodeAttrs>, index = 0) {
+  get(nodeOrId: VirtualNode<NodeAttrs> | string): VirtualNode {
+    const node = typeof nodeOrId === 'string' ? this.findById(nodeOrId) : nodeOrId
+    if (!node)
+      throw new Error(`node ${typeof nodeOrId === 'string' ? nodeOrId : nodeOrId?.id} doesn't exist on doc`)
+    return node
+  }
+
+  insert(nodeOrId: VirtualNode<NodeAttrs> | string, parentOrId: VirtualNode<NodeAttrs> | string, index = 0) {
+    const parent = this.get(parentOrId)
+    const node = this.get(nodeOrId)
+
     const childs = this.findChildren(parent)
     const index1 = childs[index - 1]?._i || 0
     const index2 = childs[index]?._i || 1
@@ -102,7 +119,7 @@ export class VirtualDocument<NodeAttrs extends Record<string, any> = any> extend
 
     if (!this.findById(node.id)) {
       this.nodeSet.add(node)
-
+      node.doc = this
       this.emit('insert', {
         node,
         index: node._i,
@@ -120,13 +137,18 @@ export class VirtualDocument<NodeAttrs extends Record<string, any> = any> extend
     }
   }
 
-  remove(node: VirtualNode<NodeAttrs>) {
+  remove(nodeOrId: VirtualNode<NodeAttrs> | string) {
+    const node = this.get(nodeOrId)
     this.emit('remove', {
       node,
 
     })
     this.nodeSet.delete(node)
     this.removeChilds(node)
+  }
+
+  has(node: VirtualNode<NodeAttrs>) {
+    return this.nodeSet.has(node)
   }
 
   protected removeChilds(node: VirtualNode<NodeAttrs>) {
@@ -138,7 +160,9 @@ export class VirtualDocument<NodeAttrs extends Record<string, any> = any> extend
     })
   }
 
-  public set<K extends keyof NodeAttrs>(node: VirtualNode<NodeAttrs>, key: K, value: NodeAttrs[K]) {
+  public set<K extends keyof NodeAttrs>(nodeOrId: VirtualNode<NodeAttrs> | string, key: K, value: NodeAttrs[K]) {
+    const node = this.get(nodeOrId)
+
     this.emit('set', {
       node,
       key,
@@ -153,22 +177,27 @@ export class VirtualDocument<NodeAttrs extends Record<string, any> = any> extend
     node.attrs[key] = value
   }
 
-  findSiblings(node: VirtualNode) {
+  findSiblings(nodeOrId: VirtualNode<NodeAttrs> | string) {
+    const node = this.get(nodeOrId)
+
     return this.findChildren(node.parent).filter(item => item !== node)
   }
 
-  cloneNode(node: VirtualNode<NodeAttrs>) {
+  cloneNode(nodeOrId: VirtualNode<NodeAttrs> | string) {
+    const node = this.get(nodeOrId)
+
     return new VirtualNode(cloneDeep(node.attrs))
   }
 
   // one node, one scope
-  setScope(node: VirtualNode<NodeAttrs>, scope: Scope) {
+  setScope(nodeOrId: VirtualNode<NodeAttrs> | string, scope: Scope) {
+    const node = this.get(nodeOrId)
+
     this._scopeMap.set(node, scope)
   }
 
-  getScope(node: VirtualNode<NodeAttrs>) {
-    if (!this.findById(node.id))
-      return undefined
+  getScope(nodeOrId: VirtualNode<NodeAttrs> | string) {
+    const node = this.get(nodeOrId)
 
     return this._scopeMap.get(node)
   }

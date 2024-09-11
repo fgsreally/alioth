@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cloneDeep } from 'lodash-es'
-import { ClientBridge, Controller, VirtualDocument, VirtualNode } from '../src'
+import { ClientBridge, Controller, VirtualDocument, VirtualNode, cloneDeep } from '../src'
 
 function createSuite() {
   const doc1 = new VirtualDocument()

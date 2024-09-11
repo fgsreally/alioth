@@ -15,7 +15,10 @@ export class Controller extends EventEmitter {
   redoStack: NodeEvent[] = []
   currentEvent: NodeEventData | undefined
   currentEventId: string | undefined
+  timeout: number
   protected timer: NodeJS.Timeout | undefined
+  protected isLock = false
+  lockEvents: NodeEventData[] = []
   constructor(public doc: VirtualDocument<any>, options: Partial<Options> = {}) {
     super()
     this.options = {
@@ -24,6 +27,7 @@ export class Controller extends EventEmitter {
 
       ...options,
     }
+    this.timeout = this.options.timeout
 
     doc.on('insert', ({ node }: any) => {
       this.redoStack = []
@@ -62,7 +66,7 @@ export class Controller extends EventEmitter {
       })
     })
 
-    doc.on('remove', ({ node }: any) => {
+    doc.on('remove', ({ node }: { node: VirtualNode }) => {
       this.redoStack = []
       this.initEvent({
 
@@ -91,11 +95,41 @@ export class Controller extends EventEmitter {
     })
   }
 
+  lock() {
+    if (!this.isLock) {
+      this.isLock = true
+      this.lockEvents = []
+    }
+  }
+
+  unlock() {
+    if (this.isLock) {
+      const eventId = nanoid()
+      const events = this.lockEvents.map((item) => {
+        return { ...item, mode: -1, eventId }
+      }) as NodeEvent[]
+
+      events.forEach((e) => {
+        this.emit('init', e)
+        this.addEvent(e)
+      })
+      this.isLock = false
+
+      this.lockEvents = []
+    }
+  }
+
   initEvent(event: NodeEventData) {
+    if (this.isLock) {
+      if (!this.lockEvents.some(item => this.isSameEvent(event, item)))
+        this.lockEvents.push(cloneDeep(event))
+      return
+    }
+
     if (this.timer) {
       clearTimeout(this.timer)
 
-      if (!this.isSameEvent(event)) {
+      if (!(this.currentEvent && this.isSameEvent(event, this.currentEvent))) {
         const e = { ...this.currentEvent!, mode: -1, eventId: this.currentEventId || nanoid() } as NodeEvent
         this.emit('init', e)
         this.addEvent(e)
@@ -111,16 +145,14 @@ export class Controller extends EventEmitter {
       this.emit('init', e)
 
       this.timer = this.currentEvent = undefined
-    }, this.options.timeout)
+    }, this.timeout)
   }
 
-  isSameEvent(event: NodeEventData) {
-    if (!this.currentEvent)
-      return false
-
-    if (event.type === 'set' && this.currentEvent.type === 'set') {
-      if (event.nodeId === this.currentEvent.nodeId && this.currentEvent.key === event.key) {
-        event.oldValue = this.currentEvent.oldValue
+  isSameEvent(e1: NodeEventData, e2: NodeEventData) {
+    if (e1.type === 'set' && e2.type === 'set') {
+      if (e1.nodeId === e2.nodeId && e2.key === e1.key) {
+        console.log(e1.oldValue, e2.oldValue)
+        e1.oldValue = e2.oldValue
         return true
       }
     }
@@ -153,7 +185,7 @@ export class Controller extends EventEmitter {
 
   undo() {
     const event = this.undoStack.pop()
-
+    console.log(event)
     if (event) {
       const { event: newEvent, isWork } = this.handleUndoEvent(event)
 
@@ -188,7 +220,6 @@ export class Controller extends EventEmitter {
 
   handleUndoEvent(event: NodeEvent) {
     const isWork = this.applyEvent(event)!
-
     this.emit(isWork ? 'success' : 'fail', event)
 
     return {
@@ -224,8 +255,8 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
 
     if (!parentNode)
       return false
-    const newNode = doc.findById(event.records[0].nodeId)
-    if (!newNode)
+    const node = doc.findById(event.records[0].nodeId)
+    if (!node)
       return false
 
     event.records.forEach(({ nodeId }) => {
@@ -261,12 +292,12 @@ export function applyEventToNode(doc: VirtualDocument, event: NodeEvent) {
   }
 
   if (event.type === 'set') {
-    const newNode = doc.findById(event.nodeId)
+    const node = doc.findById(event.nodeId)
 
-    if (!newNode)
+    if (!node)
       return false
 
-    newNode.attrs[event.key] = cloneDeep(event.mode > 0 ? event.value : event.oldValue,
+    node.attrs[event.key] = cloneDeep(event.mode > 0 ? event.value : event.oldValue,
     )
     return true
   }

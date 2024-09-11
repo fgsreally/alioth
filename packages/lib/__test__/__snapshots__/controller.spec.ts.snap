@@ -4,28 +4,28 @@ exports[`controller > diff 1`] = `
 {
   "insertRecords": [
     {
+      "_i": 0.5,
       "attrs": {
         "id": "5",
       },
-      "index": 0.5,
       "nodeId": "5",
       "parentId": "1",
     },
   ],
   "removeRecords": [
     {
+      "_i": 0.125,
       "attrs": {
         "id": "3",
       },
-      "index": 0.125,
       "nodeId": "3",
       "parentId": "root",
     },
     {
+      "_i": 0.5,
       "attrs": {
         "id": "4",
       },
-      "index": 0.5,
       "nodeId": "4",
       "parentId": "3",
     },
@@ -40,11 +40,15 @@ exports[`controller > diff 1`] = `
   ],
   "swapRecords": [
     {
-      "index": 0.25,
-      "lastIndex": 0.25,
-      "lastParentId": "root",
+      "after": {
+        "_i": 0.25,
+        "parentId": "1",
+      },
+      "before": {
+        "_i": 0.25,
+        "parentId": "root",
+      },
       "nodeId": "2",
-      "parentId": "1",
     },
   ],
 }
