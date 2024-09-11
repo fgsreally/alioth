@@ -1,12 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { Controller, VirtualDocument, VirtualNode, cloneDeep, diff } from '../src'
 
-function stop(time = 1000) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, time)
-  })
-}
-
 describe('controller', () => {
   beforeEach(() => {
     vi.useFakeTimers()

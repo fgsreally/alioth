@@ -121,18 +121,30 @@ export class Controller extends EventEmitter {
 
   initEvent(event: NodeEventData) {
     if (this.isLock) {
-      if (!this.lockEvents.some(item => this.isSameEvent(event, item)))
+      const oldEvent = this.lockEvents.find(item => this.isSameEvent(event, item))
+      if (!oldEvent)
         this.lockEvents.push(cloneDeep(event))
+      else
+        this.mergeSameEvent(oldEvent, event)
       return
     }
 
+    const addEvent = () => {
+      const e = { ...this.currentEvent!, mode: -1, eventId: this.currentEventId || nanoid() } as NodeEvent
+      this.emit('init', e)
+      this.addEvent(e)
+    }
     if (this.timer) {
       clearTimeout(this.timer)
 
-      if (!(this.currentEvent && this.isSameEvent(event, this.currentEvent))) {
-        const e = { ...this.currentEvent!, mode: -1, eventId: this.currentEventId || nanoid() } as NodeEvent
-        this.emit('init', e)
-        this.addEvent(e)
+      if (!this.currentEvent) {
+        addEvent()
+      }
+      else {
+        if (this.isSameEvent(this.currentEvent, event))
+          this.mergeSameEvent(this.currentEvent, event)
+        else
+          addEvent()
       }
     }
 
@@ -140,9 +152,7 @@ export class Controller extends EventEmitter {
     this.currentEvent = cloneDeep(event) // create a copy
 
     this.timer = setTimeout(() => {
-      const e = { ...this.currentEvent!, mode: -1, eventId: this.currentEventId || nanoid() } as NodeEvent
-      this.addEvent(e)
-      this.emit('init', e)
+      addEvent()
 
       this.timer = this.currentEvent = undefined
     }, this.timeout)
@@ -150,14 +160,15 @@ export class Controller extends EventEmitter {
 
   isSameEvent(e1: NodeEventData, e2: NodeEventData) {
     if (e1.type === 'set' && e2.type === 'set') {
-      if (e1.nodeId === e2.nodeId && e2.key === e1.key) {
-        console.log(e1.oldValue, e2.oldValue)
-        e1.oldValue = e2.oldValue
+      if (e1.nodeId === e2.nodeId && e2.key === e1.key)
         return true
-      }
     }
 
     return false
+  }
+
+  mergeSameEvent(oldEvent: NodeEventData, newEvent: NodeEventData) {
+    (newEvent as SetEvent).oldValue = (oldEvent as SetEvent).oldValue
   }
 
   invokeBridge(_event: NodeEvent) {
@@ -185,7 +196,6 @@ export class Controller extends EventEmitter {
 
   undo() {
     const event = this.undoStack.pop()
-    console.log(event)
     if (event) {
       const { event: newEvent, isWork } = this.handleUndoEvent(event)
 
